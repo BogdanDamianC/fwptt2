@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:Conversion="urn:Conversion" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DAE8C2F7-FB86-41C8-B500-3662F961D987}</ProjectGuid>
+    <RootNamespace>fwptt.Desktop.DefaultPlugIns</RootNamespace>
+    <AssemblyName>fwptt.Desktop.DefaultPlugIns</AssemblyName>
+    <OutputType>Library</OutputType>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <NoConfig>false</NoConfig>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NoWin32Manifest>False</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugType>Full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Private />
+    </Reference>
+    <Reference Include="System.Data">
+      <Private />
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml">
+      <Private />
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private />
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TimeLine\ucStepTimeLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeLine\ucStepTimeLine.Designer.cs">
+      <DependentUpon>ucStepTimeLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeLine\ucTimeBasedTimeLine.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeLine\ucTimeBasedTimeLine.Designer.cs">
+      <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
+    </Compile>
+    <Content Include="App.ico" />
+    <Content Include="ResultsViewer\Simple.xsl" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="General.cs" />
+    <Compile Include="RequestsCounter\FrmCounterViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RequestsCounter\ReqCounterPlugIn.cs" />
+    <Compile Include="ResultsViewer\FrmResultsViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultsViewer\PageViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultsViewer\RVPlugIn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
+      <Project>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</Project>
+      <Name>fwptt.TestProject</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TimeLine\ucStepTimeLine.resx">
+      <DependentUpon>ucStepTimeLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLine.resx">
+      <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).pdb"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

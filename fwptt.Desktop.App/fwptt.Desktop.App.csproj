@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:Conversion="urn:Conversion" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C202C444-15DC-45E9-9445-58EFBC372752}</ProjectGuid>
+    <RootNamespace>fwptt.Desktop.App</RootNamespace>
+    <AssemblyName>fwptt2</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
+    <PreBuildEvent />
+    <PostBuildEvent>copy "$(ProjectDir)License.txt" "$(SolutionDir)$(OutDir)"
+copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
+    <NoConfig>false</NoConfig>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <ApplicationIcon>html_go.ico</ApplicationIcon>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NoWin32Manifest>False</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugType>Full</DebugType>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <NoStdLib>false</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>false</DebugSymbols>
+    <Optimize>true</Optimize>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>fwptt.Desktop.App.UI.MainClass</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="MentalisProxy, Version=1.0.0.29727, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DLLs\MentalisProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing">
+      <Private />
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="UI\frmTestRunDefinition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmTestRunDefinition.Designer.cs">
+      <DependentUpon>frmTestRunDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ucExploreTestProject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ucExploreTestProject.Designer.cs">
+      <DependentUpon>ucExploreTestProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UI_Util.cs" />
+    <Content Include="App.ico" />
+    <Compile Include="Proxy\ProxyHttpRecorder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\frmTestDefinitionSourceCodeEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmTestDefinitionSourceCodeEditor.Designer.cs">
+      <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\frmDORequestsRecording.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmModifyRequests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmModifyRequests.Designer.cs">
+      <DependentUpon>frmModifyRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FrmRunTests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Content Include="html_go.ico" />
+    <Content Include="License.txt" />
+    <Compile Include="MainClass.cs" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Properties\packages.config" />
+    <None Include="Properties\DataSources\fwptt.Data.Request.datasource" />
+    <None Include="Properties\DataSources\RequestsPlayer.RequestInfo.datasource" />
+    <None Include="Properties\DataSources\RequestsPlayer.RequestParam.datasource" />
+    <Compile Include="UI\frmTestProjectDefinition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmTestProjectDefinition.Designer.cs">
+      <DependentUpon>frmTestProjectDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\frmTestDefinitionGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
+      <Project>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</Project>
+      <Name>fwptt.TestProject</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\frmTestDefinitionSourceCodeEditor.resx">
+      <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmDORequestsRecording.resx">
+      <DependentUpon>frmDORequestsRecording.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FrmRunTests.resx">
+      <DependentUpon>FrmRunTests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmTestDefinitionGenerator.resx">
+      <DependentUpon>frmTestDefinitionGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmTestProjectDefinition.resx">
+      <DependentUpon>frmTestProjectDefinition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\frmTestRunDefinition.resx">
+      <DependentUpon>frmTestRunDefinition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ucExploreTestProject.resx">
+      <DependentUpon>ucExploreTestProject.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

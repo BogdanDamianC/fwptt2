@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="fwptt.Desktop.App.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DefaultStartupMode" Type="System.Windows.Forms.FormWindowState" Scope="Application">
+      <Value Profile="(Default)">Normal</Value>
+    </Setting>
+    <Setting Name="InnerWindowWindowMode" Type="System.Windows.Forms.FormWindowState" Scope="User">
+      <Value Profile="(Default)">Maximized</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
