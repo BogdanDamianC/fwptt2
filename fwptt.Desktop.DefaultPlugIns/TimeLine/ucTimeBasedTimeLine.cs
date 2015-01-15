@@ -43,34 +43,6 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
             InitializeComponent();
         }
 
-        private void SetDisplayProperties()
-        {
-            txtDurationHour.Enabled = txtDurationMinute.Enabled = rbDurationHourAndMinutes.Checked;
-            txtDurationNoOfSeconds.Enabled = rbDurationSeconds.Checked;
-            txtRampUpMinutes.Enabled = txtRampUpSeconds.Enabled = rbRampUpTimeMinutesAndSeconds.Checked;
-        }
-
-        private void rbDurationHourAndMinutes_CheckedChanged(object sender, EventArgs e)
-        {
-            SetDisplayProperties();
-        }
-
-        private void rbDurationSeconds_CheckedChanged(object sender, EventArgs e)
-        {
-            SetDisplayProperties();
-        }
-
-        private void rbRampUpTimeMinutesAndSeconds_CheckedChanged(object sender, EventArgs e)
-        {
-            SetDisplayProperties();
-        }
-
-        private void rdRampUpTimeNoRampUpTime_CheckedChanged(object sender, EventArgs e)
-        {
-            SetDisplayProperties();
-        }
-
-
         public ExtendableData NewConfiguration()
         {
             return new TimeBasedTimeLine(100);
@@ -80,6 +52,15 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
         {
             var stepTL = timeLine as TimeBasedTimeLine;
             CurrentTimeLine = stepTL != null ? stepTL : (TimeBasedTimeLine)NewConfiguration();
+            txtDurationHour.DataBindings.Add("Text", CurrentTimeLine, "Hours");
+            txtDurationMinute.DataBindings.Add("Text", CurrentTimeLine, "Minutes");
+
+            txtNumberOfThreads.DataBindings.Add("Text", CurrentTimeLine, "NoOfThreads");
+            txtTimeBetweenRequests.DataBindings.Add("Text", CurrentTimeLine, "PauseBetweenRequests");
+
+
+            txtRampUpMinutes.DataBindings.Add("Text", CurrentTimeLine, "RampUpMinutes");
+            txtRampUpSeconds.DataBindings.Add("Text", CurrentTimeLine, "RampUpSeconds");
         }
 
         public bool IsValid()
@@ -91,6 +72,5 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
         {
             return CurrentTimeLine;
         }
-        
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using fwptt.TestProject.Project.Interfaces;
 
-namespace fwptt.TestProject.Project.TimeLine
+namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
 {
 	/// <summary>
 	/// Summary description for SteppingTimeLine.

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
@@ -22,6 +23,7 @@ namespace fwptt.TestProject.Project.Interfaces
     /// <summary>
     /// this abstract class is used for identifying all the data classes used by the plugins
     /// </summary>
+    [JsonConverter(typeof(ExtendableDataJSONConverter))]
     public abstract class ExtendableData
     {
         public abstract string UniqueName { get; }

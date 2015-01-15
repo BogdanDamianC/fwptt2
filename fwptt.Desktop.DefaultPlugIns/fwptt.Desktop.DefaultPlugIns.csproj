@@ -82,6 +82,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TimeLine\SteppingTimeLine.cs" />
+    <Compile Include="TimeLine\SteppingTimeLineController.cs" />
+    <Compile Include="TimeLine\TimeBasedTimeLine.cs" />
+    <Compile Include="TimeLine\TimeBasedTimeLineController.cs" />
     <Compile Include="TimeLine\ucStepTimeLine.cs">
       <SubType>UserControl</SubType>
     </Compile>

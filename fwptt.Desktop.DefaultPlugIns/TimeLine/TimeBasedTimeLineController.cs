@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using fwptt.TestProject.Project.TimeLine;
 
-namespace fwptt.TestProject.Project.TimeLine
+namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
 {
     public class TimeBasedTimeLineController : BaseTimeLineController
     {
@@ -19,7 +19,6 @@ namespace fwptt.TestProject.Project.TimeLine
             base.StartTimeLine();
             EndTime = StartTime.AddHours(timeline.Hours);
             EndTime = EndTime.AddMinutes(timeline.Minutes);
-            EndTime = EndTime.AddSeconds(timeline.Seconds);
         }
 
         public override void OnStepExecuted()

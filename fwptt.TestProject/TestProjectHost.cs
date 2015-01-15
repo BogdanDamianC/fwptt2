@@ -100,8 +100,7 @@ namespace fwptt.TestProject
         {
             var newTR = new TestRunDefinition
             {
-                TestDefinitionId = Project.TestDefinitions[0].Id,
-                TimeLine = new fwptt.TestProject.Project.TimeLine.SteppingTimeLine(1)
+                TestDefinitionId = Project.TestDefinitions[0].Id
             };
             Project.TestRunDefinitions.Add(newTR);
             return newTR;
@@ -149,27 +148,25 @@ namespace fwptt.TestProject
             var pluginTypes = new List<ExpandableSetting>();
 
             var dirinfo = new DirectoryInfo(PluginsPath);
-            if (dirinfo.Exists)
-                foreach (var dll in dirinfo.GetFiles("*.dll"))
-                {
-                    Assembly asmb = null;
-                    try
-                    {
-                        asmb = Assembly.LoadFile(dll.FullName);
-                    }
-                    catch
-                    {
-                        continue;
-                    }
-                    foreach (var type in asmb.GetTypes())
-                        SearchAndAddPlugIns(type, pluginTypes);
-                }
+            if (!dirinfo.Exists)
+                throw new ApplicationException("The Plugins folder is missing => " + PluginsPath);
+
+            var pluginAssemblies = dirinfo.GetFiles("*.dll");
+            if(!pluginAssemblies.Any())
+                throw new ApplicationException("There are no plugin assemblies in the plugin folder => " + PluginsPath);
+
+            foreach (var dll in pluginAssemblies)
+            {
+                Assembly asmb = Assembly.LoadFile(dll.FullName);
+                foreach (var type in asmb.GetTypes())
+                    SearchAndAddPlugIns(type, pluginTypes);
+            }
             this.PluginTypes = pluginTypes.ToArray();
         }
 
         private void SearchAndAddPlugIns(Type possiblePluginType, List<ExpandableSetting> pluginTypes)
         {
-            if (possiblePluginType.GetInterfaces().Contains(typeof(ExtendableData)))
+            if (possiblePluginType.IsSubclassOf(typeof(ExtendableData)))
             {
                 ExpandableData.Add(((ExtendableData)Activator.CreateInstance(possiblePluginType)).UniqueName, possiblePluginType);
                 return;

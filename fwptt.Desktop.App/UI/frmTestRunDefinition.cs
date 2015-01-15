@@ -85,9 +85,9 @@ namespace fwptt.Desktop.App.UI
             }
             cboTimeLines.DisplayMember = "DisplayName";
             cboTimeLines.ValueMember = "UniqueName";
+            cboTimeLines.DataSource = timeLineConfigurationPlugins;
             if (trd.TimeLine != null)
                 cboTimeLines.SelectedValue = trd.TimeLine.UniqueName;
-            cboTimeLines.DataSource = timeLineConfigurationPlugins;
         }
 
         private void SetUpRunPlugins(TestRunDefinition trd)

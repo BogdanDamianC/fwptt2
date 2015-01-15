@@ -529,7 +529,7 @@ namespace fwptt.Desktop.App.UI
 			{
 				try
 				{
-					tl = new TimeBasedTimeLine(int.Parse(txtNoOfSeconds.Text.Trim()));
+                    tl = null;// new TimeBasedTimeLine(int.Parse(txtNoOfSeconds.Text.Trim()));
 				}
 				catch
 				{
@@ -543,7 +543,7 @@ namespace fwptt.Desktop.App.UI
 				{
 					int Hour = txtHour.Text.Trim().Length > 0?int.Parse(txtHour.Text.Trim()):0;
 					int Minute = txtMinute.Text.Trim().Length > 0?int.Parse(txtMinute.Text.Trim()):0;
-					tl = new TimeBasedTimeLine(Hour, Minute,0);
+                    tl = null;// new TimeBasedTimeLine(Hour, Minute, 0);
 				}
 				catch
 				{
@@ -555,7 +555,7 @@ namespace fwptt.Desktop.App.UI
 			{
 				try
 				{
-					tl = new SteppingTimeLine(int.Parse(txtNoOfSteps.Text.Trim()));
+                    tl = null;// new SteppingTimeLine(int.Parse(txtNoOfSteps.Text.Trim()));
 				}
 				catch
 				{

@@ -112,10 +112,6 @@
     <Compile Include="HTMLContent\HTMLControl.cs" />
     <Compile Include="HTMLContent\HTMLForm.cs" />
     <Compile Include="Project\TimeLine\BaseTimeLineController.cs" />
-    <Compile Include="Project\TimeLine\SteppingTimeLineController.cs" />
-    <Compile Include="Project\TimeLine\TimeBasedTimeLine.cs" />
-    <Compile Include="Project\TimeLine\SteppingTimeLine.cs" />
-    <Compile Include="Project\TimeLine\TimeBasedTimeLineController.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
