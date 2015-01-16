@@ -69,7 +69,6 @@ namespace fwptt.Desktop.App.UI
                                                    orderby pl.DisplayName
                                                    select pl).ToList();
             
-            
             foreach(var confPL in timeLineConfigurationPlugins)
             {
                 var tlpl = Activator.CreateInstance(confPL.PluginType) as Control;
@@ -77,8 +76,12 @@ namespace fwptt.Desktop.App.UI
                     throw new ApplicationException(confPL.PluginType.ToString() + " type is not supported as a desktop application plugin, the type must be a user control or some type derived from the Control class");
 
                 timeLinePlugins[confPL.UniqueName] = (ITestRunConfigurationComponent)tlpl;
-                tlpl.Dock = DockStyle.Top;
-                pluginsPanel.Controls.Add(tlpl, 0, 0);
+                tlpl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                tlpl.Left = cboTimeLines.Left;
+                tlpl.Top = cboTimeLines.Bottom + 10;
+                tlpl.Width = cboTimeLines.Width;
+                tlpl.Visible = false;
+                grpTimeLine.Controls.Add(tlpl);
 
                 if (trd.TimeLine != null && trd.TimeLine.UniqueName == confPL.UniqueName)
                     ((ITestRunConfigurationComponent)tlpl).SetConfiguration(trd.TimeLine);
@@ -134,11 +137,14 @@ namespace fwptt.Desktop.App.UI
 
         private void SetDisplaySettings()
         {
-            foreach (Control control in pluginsPanel.Controls)
-                control.Visible = false;
+            var visibleControl = grpTimeLine.Controls.Cast<Control>().FirstOrDefault(c => c.Visible && c!= cboTimeLines);
             var selectedTimeline = (Control)timeLinePlugins[(string)cboTimeLines.SelectedValue];
+            if (visibleControl != null && visibleControl != selectedTimeline)
+                visibleControl.Visible = false;
             selectedTimeline.Visible =true;
-            selectedTimeline.BringToFront();
+            
+            grpTimeLine.Height = selectedTimeline.Bottom + 5;
+            ckListPlugins.Top = grpTimeLine.Bottom + 5;
         }
 
         private void cboTimeLines_SelectedIndexChanged(object sender, EventArgs e)

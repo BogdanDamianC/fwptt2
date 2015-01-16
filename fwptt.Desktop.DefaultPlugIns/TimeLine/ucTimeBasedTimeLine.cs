@@ -50,6 +50,13 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
 
         public void SetConfiguration(ExtendableData timeLine)
         {
+            txtDurationHour.DataBindings.Clear();
+            txtDurationMinute.DataBindings.Clear();
+            txtNumberOfThreads.DataBindings.Clear();
+            txtTimeBetweenRequests.DataBindings.Clear();
+            txtRampUpMinutes.DataBindings.Clear();
+            txtRampUpSeconds.DataBindings.Clear();
+ 
             var stepTL = timeLine as TimeBasedTimeLine;
             CurrentTimeLine = stepTL != null ? stepTL : (TimeBasedTimeLine)NewConfiguration();
             txtDurationHour.DataBindings.Add("Text", CurrentTimeLine, "Hours");
