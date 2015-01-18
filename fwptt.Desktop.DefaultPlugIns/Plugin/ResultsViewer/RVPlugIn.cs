@@ -26,7 +26,7 @@ using System.Linq;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
+namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
 {
 	/// <summary>
 	/// Summary description for ResultsViewer.

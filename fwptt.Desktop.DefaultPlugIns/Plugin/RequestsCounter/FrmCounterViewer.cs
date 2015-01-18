@@ -26,7 +26,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.RequestsCounter
+namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
 	/// <summary>
 	/// Summary description for FrmCounterViewer.

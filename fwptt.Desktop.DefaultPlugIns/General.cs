@@ -22,7 +22,7 @@
 
 using System;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns
+namespace fwptt.Desktop.DefaultPlugIns
 {
 	public enum TestStatuses {NotRunning = 0, Running = 1, Stopped = 2};
     public static class Util

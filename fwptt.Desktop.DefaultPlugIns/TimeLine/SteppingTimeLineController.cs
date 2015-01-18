@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using fwptt.TestProject.Project.TimeLine;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
+namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     public class SteppingTimeLineController : BaseTimeLineController
     {

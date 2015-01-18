@@ -26,7 +26,7 @@ using System.Linq;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.RequestsCounter
+namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
 	/// <summary>
 	/// Summary description for ReqCounterPlugIn.

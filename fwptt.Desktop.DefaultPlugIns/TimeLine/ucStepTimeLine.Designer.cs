@@ -1,4 +1,4 @@
-﻿namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
+﻿namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     partial class ucStepTimeLine
     {

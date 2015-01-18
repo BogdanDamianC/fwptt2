@@ -32,29 +32,22 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project.TimeLine;
 using fwptt.TestProject.Project.Interfaces;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
+namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     [ExpandableSettings(SteppingTimeLine.PublicName, "Finite Number of Runs (runs all the requests a specific number of times)", ExpandableComponentType.TimeLineConfiguration)]
-    public partial class ucStepTimeLine : UserControl, ITestRunConfigurationComponent
+    public partial class ucStepTimeLine : BaseTestRunConfigurationComponent<SteppingTimeLine>
     {
-        private SteppingTimeLine CurrentTimeLine;
         public ucStepTimeLine()
         {
             InitializeComponent();
         }
 
-        public ExtendableData NewConfiguration()
+        public override void SetConfiguration(ExtendableData data)
         {
-            return new SteppingTimeLine(1);
+            base.SetConfiguration(data);
         }
 
-        public void SetConfiguration(ExtendableData timeLine)
-        {
-            var stepTL = timeLine as SteppingTimeLine;
-            CurrentTimeLine = stepTL != null ? stepTL : (SteppingTimeLine)NewConfiguration();
-        }
-
-        public bool IsValid()
+        public override bool IsValid()
         {
             int val;
             return int.TryParse(txtNumberOfThreads.Text, out val);
@@ -64,8 +57,8 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
         {
             int val;
             if (int.TryParse(txtNumberOfThreads.Text, out val))
-                CurrentTimeLine.MaxSteps = val;
-            return CurrentTimeLine;
+                CurrentData.MaxSteps = val;
+            return CurrentData;
         }
     }
 }

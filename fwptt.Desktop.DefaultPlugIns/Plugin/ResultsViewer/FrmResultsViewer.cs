@@ -38,7 +38,7 @@ using System.Text;
 using fwptt.TestProject.Run.Data;
 
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
+namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
 {
 	/// <summary>
 	/// Summary description for FrmResultsViewer.
@@ -47,11 +47,7 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
 	{
 		private System.Windows.Forms.DataGrid dataGrid1;
 		private System.Windows.Forms.Button btnExportResponses;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.TextBox txtMaxResponseSize;
-		private System.Windows.Forms.Label lblNumberOfThreads;
-		private System.Windows.Forms.TextBox txtMaxNumberOfRequests;
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel panel1;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -67,13 +63,16 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
         private System.Windows.Forms.Button btnViewPage;
         private int RequestsToDelete = 0;
         private int TotalRemoved = 0;
-        private NumericUpDown txtRefreshTime;
-        private Label label2;
         private DataGridTextBoxColumn dataGridTextBoxColumn6;
         private DataGridTextBoxColumn dataGridTextBoxColumn7;
         private Button btnExportData;
         private ContextMenuStrip menuExportData;
         private EventHandler ExportData_Click_handler;
+        private DataGridTextBoxColumn dataGridTextBoxColumn1;
+        private DataGridTextBoxColumn dataGridTextBoxColumn2;
+        private DataGridTextBoxColumn dataGridTextBoxColumn3;
+        private DataGridTextBoxColumn dataGridTextBoxColumn4;
+        private DataGridTextBoxColumn dataGridTextBoxColumn5;
 	
 
 		private TestStatuses TestStatus = TestStatuses.NotRunning;
@@ -116,79 +115,67 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn1;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn2;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn3;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn5;
+            this.dataGridTextBoxColumn1 = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dataGridTextBoxColumn2 = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dataGridTextBoxColumn5 = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dataGrid1 = new System.Windows.Forms.DataGrid();
             this.dataGridTableStyle1 = new System.Windows.Forms.DataGridTableStyle();
             this.dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
             this.dataGridTextBoxColumn6 = new System.Windows.Forms.DataGridTextBoxColumn();
             this.btnExportResponses = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.txtRefreshTime = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btnExportData = new System.Windows.Forms.Button();
             this.btnViewPage = new System.Windows.Forms.Button();
             this.btnSaveXmlLogFile = new System.Windows.Forms.Button();
-            this.txtMaxNumberOfRequests = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtMaxResponseSize = new System.Windows.Forms.TextBox();
-            this.lblNumberOfThreads = new System.Windows.Forms.Label();
             this.timer1 = new System.Timers.Timer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnExportData = new System.Windows.Forms.Button();
             this.menuExportData = new System.Windows.Forms.ContextMenuStrip(this.components);
-            dataGridTextBoxColumn1 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn2 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn5 = new System.Windows.Forms.DataGridTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRefreshTime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridTextBoxColumn1
             // 
-            dataGridTextBoxColumn1.Format = "";
-            dataGridTextBoxColumn1.FormatInfo = null;
-            dataGridTextBoxColumn1.HeaderText = "RequestAddress";
-            dataGridTextBoxColumn1.MappingName = "RequestAddress";
-            dataGridTextBoxColumn1.Width = 200;
+            this.dataGridTextBoxColumn1.Format = "";
+            this.dataGridTextBoxColumn1.FormatInfo = null;
+            this.dataGridTextBoxColumn1.HeaderText = "RequestAddress";
+            this.dataGridTextBoxColumn1.MappingName = "RequestAddress";
+            this.dataGridTextBoxColumn1.Width = 200;
             // 
             // dataGridTextBoxColumn2
             // 
-            dataGridTextBoxColumn2.Format = "";
-            dataGridTextBoxColumn2.FormatInfo = null;
-            dataGridTextBoxColumn2.HeaderText = "ResponseCode";
-            dataGridTextBoxColumn2.MappingName = "ResponseCode";
-            dataGridTextBoxColumn2.Width = 75;
+            this.dataGridTextBoxColumn2.Format = "";
+            this.dataGridTextBoxColumn2.FormatInfo = null;
+            this.dataGridTextBoxColumn2.HeaderText = "ResponseCode";
+            this.dataGridTextBoxColumn2.MappingName = "ResponseCode";
+            this.dataGridTextBoxColumn2.Width = 75;
             // 
             // dataGridTextBoxColumn3
             // 
-            dataGridTextBoxColumn3.Format = "";
-            dataGridTextBoxColumn3.FormatInfo = null;
-            dataGridTextBoxColumn3.HeaderText = "Duration(sec)";
-            dataGridTextBoxColumn3.MappingName = "Http_ActionDuration";
-            dataGridTextBoxColumn3.Width = 110;
+            this.dataGridTextBoxColumn3.Format = "";
+            this.dataGridTextBoxColumn3.FormatInfo = null;
+            this.dataGridTextBoxColumn3.HeaderText = "Duration(sec)";
+            this.dataGridTextBoxColumn3.MappingName = "Http_ActionDuration";
+            this.dataGridTextBoxColumn3.Width = 110;
             // 
             // dataGridTextBoxColumn4
             // 
-            dataGridTextBoxColumn4.Format = "";
-            dataGridTextBoxColumn4.FormatInfo = null;
-            dataGridTextBoxColumn4.HeaderText = "Page Size";
-            dataGridTextBoxColumn4.MappingName = "Http_PageSize";
-            dataGridTextBoxColumn4.Width = 90;
+            this.dataGridTextBoxColumn4.Format = "";
+            this.dataGridTextBoxColumn4.FormatInfo = null;
+            this.dataGridTextBoxColumn4.HeaderText = "Page Size";
+            this.dataGridTextBoxColumn4.MappingName = "Http_PageSize";
+            this.dataGridTextBoxColumn4.Width = 90;
             // 
             // dataGridTextBoxColumn5
             // 
-            dataGridTextBoxColumn5.Format = "";
-            dataGridTextBoxColumn5.FormatInfo = null;
-            dataGridTextBoxColumn5.MappingName = "Http_ActionIndex";
-            dataGridTextBoxColumn5.ReadOnly = true;
-            dataGridTextBoxColumn5.Width = 75;
+            this.dataGridTextBoxColumn5.Format = "";
+            this.dataGridTextBoxColumn5.FormatInfo = null;
+            this.dataGridTextBoxColumn5.MappingName = "Http_ActionIndex";
+            this.dataGridTextBoxColumn5.ReadOnly = true;
+            this.dataGridTextBoxColumn5.Width = 75;
             // 
             // dataGrid1
             // 
@@ -207,13 +194,13 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
             // 
             this.dataGridTableStyle1.DataGrid = this.dataGrid1;
             this.dataGridTableStyle1.GridColumnStyles.AddRange(new System.Windows.Forms.DataGridColumnStyle[] {
-            dataGridTextBoxColumn5,
-            dataGridTextBoxColumn1,
+            this.dataGridTextBoxColumn5,
+            this.dataGridTextBoxColumn1,
             this.dataGridTextBoxColumn7,
-            dataGridTextBoxColumn2,
+            this.dataGridTextBoxColumn2,
             this.dataGridTextBoxColumn6,
-            dataGridTextBoxColumn3,
-            dataGridTextBoxColumn4});
+            this.dataGridTextBoxColumn3,
+            this.dataGridTextBoxColumn4});
             this.dataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
             this.dataGridTableStyle1.ReadOnly = true;
             // 
@@ -247,14 +234,8 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
             // panel1
             // 
             this.panel1.Controls.Add(this.btnExportData);
-            this.panel1.Controls.Add(this.txtRefreshTime);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnViewPage);
             this.panel1.Controls.Add(this.btnSaveXmlLogFile);
-            this.panel1.Controls.Add(this.txtMaxNumberOfRequests);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.txtMaxResponseSize);
-            this.panel1.Controls.Add(this.lblNumberOfThreads);
             this.panel1.Controls.Add(this.btnExportResponses);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -262,38 +243,16 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
             this.panel1.Size = new System.Drawing.Size(926, 134);
             this.panel1.TabIndex = 16;
             // 
-            // txtRefreshTime
+            // btnExportData
             // 
-            this.txtRefreshTime.Location = new System.Drawing.Point(136, 58);
-            this.txtRefreshTime.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.txtRefreshTime.Minimum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.txtRefreshTime.Name = "txtRefreshTime";
-            this.txtRefreshTime.Size = new System.Drawing.Size(100, 20);
-            this.txtRefreshTime.TabIndex = 23;
-            this.toolTip1.SetToolTip(this.txtRefreshTime, "Refresh Interval in miliseconds");
-            this.txtRefreshTime.Value = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.txtRefreshTime.ValueChanged += new System.EventHandler(this.txtRefreshTime_ValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(8, 62);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 25);
-            this.label2.TabIndex = 22;
-            this.label2.Text = "Refresh Interval in miliseconds";
-            this.toolTip1.SetToolTip(this.label2, "Sets how often ");
+            this.btnExportData.Enabled = false;
+            this.btnExportData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExportData.Location = new System.Drawing.Point(486, 33);
+            this.btnExportData.Name = "btnExportData";
+            this.btnExportData.Size = new System.Drawing.Size(224, 23);
+            this.btnExportData.TabIndex = 24;
+            this.btnExportData.Text = "Export Data";
+            this.btnExportData.Click += new System.EventHandler(this.btnExportData_Click);
             // 
             // btnViewPage
             // 
@@ -316,63 +275,17 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
             this.btnSaveXmlLogFile.Text = "Save XML Log File";
             this.btnSaveXmlLogFile.Click += new System.EventHandler(this.btnSaveXmlLogFile_Click);
             // 
-            // txtMaxNumberOfRequests
-            // 
-            this.txtMaxNumberOfRequests.Location = new System.Drawing.Point(136, 32);
-            this.txtMaxNumberOfRequests.Name = "txtMaxNumberOfRequests";
-            this.txtMaxNumberOfRequests.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxNumberOfRequests.TabIndex = 18;
-            this.txtMaxNumberOfRequests.Text = "100";
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(8, 31);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 32);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Max Number of recorded requests";
-            this.toolTip1.SetToolTip(this.label1, "Tells the program the maximum nummber of requests \r\nto record. After the number i" +
-                    "s passed the older requests\r\nwill be removed to make space for the new ones.");
-            // 
-            // txtMaxResponseSize
-            // 
-            this.txtMaxResponseSize.Location = new System.Drawing.Point(136, 8);
-            this.txtMaxResponseSize.Name = "txtMaxResponseSize";
-            this.txtMaxResponseSize.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxResponseSize.TabIndex = 16;
-            this.txtMaxResponseSize.Text = "1000";
-            this.toolTip1.SetToolTip(this.txtMaxResponseSize, "txtMaxResponseSize.ToolTip");
-            // 
-            // lblNumberOfThreads
-            // 
-            this.lblNumberOfThreads.Location = new System.Drawing.Point(8, 8);
-            this.lblNumberOfThreads.Name = "lblNumberOfThreads";
-            this.lblNumberOfThreads.Size = new System.Drawing.Size(120, 23);
-            this.lblNumberOfThreads.TabIndex = 17;
-            this.lblNumberOfThreads.Text = "Max response Size";
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 1000;
+            this.timer1.Interval = 1000D;
             this.timer1.SynchronizingObject = this;
             this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
-            // 
-            // btnExportData
-            // 
-            this.btnExportData.Enabled = false;
-            this.btnExportData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportData.Location = new System.Drawing.Point(486, 33);
-            this.btnExportData.Name = "btnExportData";
-            this.btnExportData.Size = new System.Drawing.Size(224, 23);
-            this.btnExportData.TabIndex = 24;
-            this.btnExportData.Text = "Export Data";
-            this.btnExportData.Click += new System.EventHandler(this.btnExportData_Click);
             // 
             // menuExportData
             // 
             this.menuExportData.Name = "menuExportData";
-            this.menuExportData.Size = new System.Drawing.Size(153, 26);
+            this.menuExportData.Size = new System.Drawing.Size(61, 4);
             // 
             // FrmResultsViewer
             // 
@@ -384,8 +297,6 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
             this.Text = "Results Viewer";
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.txtRefreshTime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
             this.ResumeLayout(false);
 
@@ -403,14 +314,6 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
             btnExportResponses.Enabled = false;
             btnSaveXmlLogFile.Enabled = false;
             btnExportData.Enabled = false;
-            txtMaxNumberOfRequests.ReadOnly = true;
-            txtMaxResponseSize.ReadOnly = true;
-            txtRefreshTime.Enabled = false;
-            if(!int.TryParse(txtMaxNumberOfRequests.Text, out MaxNrOfRequests))
-                txtMaxNumberOfRequests.Text = MaxNrOfRequests.ToString();
-            if(!int.TryParse(txtMaxResponseSize.Text, out MaxResponseSize))
-                txtMaxResponseSize.Text = MaxResponseSize.ToString();
-
             dataGrid1.DataSource = SetDataTable();
             Application.DoEvents();
             TestStatus = TestStatuses.Running;
@@ -433,9 +336,6 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
 			btnExportResponses.Enabled = true;
 			btnSaveXmlLogFile.Enabled = true;
             btnExportData.Enabled = true;
-			txtMaxNumberOfRequests.ReadOnly = false;
-			txtMaxResponseSize.ReadOnly = false;
-            txtRefreshTime.Enabled = true;
 			TestStatus = TestStatuses.Stopped;
             timer1.Stop();
             dataGrid1.DataSource = SetDataTable();
@@ -597,7 +497,7 @@ namespace fwptt.Desktop.RequestPlayerPlugIns.ResultsViewer
 
         private void txtRefreshTime_ValueChanged(object sender, EventArgs e)
         {
-            timer1.Interval = Convert.ToDouble(txtRefreshTime.Value);
+            //timer1.Interval = Convert.ToDouble(txtRefreshTime.Value);
         }
 
         private void btnExportData_Click(object sender, EventArgs e)

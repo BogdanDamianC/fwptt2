@@ -32,7 +32,7 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project.TimeLine;
 using fwptt.TestProject.Project.Interfaces;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
+namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     [ExpandableSettings(TimeBasedTimeLine.PublicName, "Time Based (runs all the requests for a specific time with a specific number of parallel users)", ExpandableComponentType.TimeLineConfiguration)]
     public partial class ucTimeBasedTimeLine : UserControl, ITestRunConfigurationComponent

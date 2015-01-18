@@ -82,6 +82,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTestRunConfigurationComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Plugin\RequestsCounter\RequestCounterConfiguration.cs" />
+    <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.Designer.cs">
+      <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plugin\ResultsViewer\ResultsViewerConfiguration.cs" />
+    <Compile Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.Designer.cs">
+      <DependentUpon>ucRequestViewerConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimeLine\SteppingTimeLine.cs" />
     <Compile Include="TimeLine\SteppingTimeLineController.cs" />
     <Compile Include="TimeLine\TimeBasedTimeLine.cs" />
@@ -99,20 +116,20 @@
       <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
     </Compile>
     <Content Include="App.ico" />
-    <Content Include="ResultsViewer\Simple.xsl" />
+    <Content Include="Plugin\ResultsViewer\Simple.xsl" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="General.cs" />
-    <Compile Include="RequestsCounter\FrmCounterViewer.cs">
+    <Compile Include="Plugin\RequestsCounter\FrmCounterViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RequestsCounter\ReqCounterPlugIn.cs" />
-    <Compile Include="ResultsViewer\FrmResultsViewer.cs">
+    <Compile Include="Plugin\RequestsCounter\ReqCounterPlugIn.cs" />
+    <Compile Include="Plugin\ResultsViewer\FrmResultsViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ResultsViewer\PageViewer.cs">
+    <Compile Include="Plugin\ResultsViewer\PageViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ResultsViewer\RVPlugIn.cs" />
+    <Compile Include="Plugin\ResultsViewer\RVPlugIn.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -141,6 +158,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.resx">
+      <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Plugin\ResultsViewer\FrmResultsViewer.resx">
+      <DependentUpon>FrmResultsViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.resx">
+      <DependentUpon>ucRequestViewerConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TimeLine\ucStepTimeLine.resx">
       <DependentUpon>ucStepTimeLine.cs</DependentUpon>
     </EmbeddedResource>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using fwptt.TestProject.Project.TimeLine;
 
-namespace fwptt.Desktop.RequestPlayerPlugIns.TimeLine
+namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     public class TimeBasedTimeLineController : BaseTimeLineController
     {
