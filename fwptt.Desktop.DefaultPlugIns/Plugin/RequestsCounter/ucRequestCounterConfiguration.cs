@@ -12,7 +12,7 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
     [ExpandableSettings(RequestCounterConfiguration.PublicName, "Request Counter", ExpandableComponentType.PluginConfiguration)]
-    public partial class ucRequestCounterConfiguration : BaseTestRunConfigurationComponent<RequestCounterConfiguration>
+    public partial class ucRequestCounterConfiguration : BaseTestRunConfigurationComponent
     {
         public ucRequestCounterConfiguration()
         {
@@ -23,11 +23,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
         {
             base.SetConfiguration(data);
             //txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
-        }
-
-        public override bool IsValid()
-        {
-            return true;
         }
     }
 }

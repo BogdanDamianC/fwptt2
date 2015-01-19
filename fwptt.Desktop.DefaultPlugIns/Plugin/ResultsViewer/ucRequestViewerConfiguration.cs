@@ -10,9 +10,9 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
-{
+{    
     [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer", ExpandableComponentType.PluginConfiguration)]
-    public partial class ucRequestViewerConfiguration : BaseTestRunConfigurationComponent<ResultsViewerConfiguration>
+    public partial class ucRequestViewerConfiguration : BaseTestRunConfigurationComponent
     {
         public ucRequestViewerConfiguration()
         {
@@ -24,14 +24,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             base.SetConfiguration(data);
             txtMaxNumberOfRequests.DataBindings.Add("Text", CurrentData, "MaxNumberOfRequestsRecorded");
             txtMaxResponseSize.DataBindings.Add("Text", CurrentData, "MaxResponseSizeRecorded");
-            if (CurrentData.RefreshInterval < 500)
-                CurrentData.RefreshInterval = 500;
+            if (((ResultsViewerConfiguration)CurrentData).RefreshInterval < 500)
+                ((ResultsViewerConfiguration)CurrentData).RefreshInterval = 500;
             txtRefreshTime.DataBindings.Add("Value", CurrentData, "RefreshInterval");
-        }
-
-        public override bool IsValid()
-        {
-            return true;
         }
     }
 }

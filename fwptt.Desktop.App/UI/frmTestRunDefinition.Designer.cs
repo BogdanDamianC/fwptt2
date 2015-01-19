@@ -1,4 +1,5 @@
-﻿namespace fwptt.Desktop.App.UI
+﻿using fwptt.Desktop.Util;
+namespace fwptt.Desktop.App.UI
 {
     partial class frmTestRunDefinition
     {
@@ -36,7 +37,7 @@
             this.ckListPlugins = new System.Windows.Forms.CheckedListBox();
             this.grpTimeLine = new System.Windows.Forms.GroupBox();
             this.grpPlugins = new System.Windows.Forms.GroupBox();
-            this.accordionPlugins = new fwptt.Desktop.App.Util.AccordionControl();
+            this.accordionPlugins = new AccordionControl();
             this.grpTimeLine.SuspendLayout();
             this.grpPlugins.SuspendLayout();
             this.SuspendLayout();
@@ -156,7 +157,6 @@
             this.Name = "frmTestRunDefinition";
             this.ShowInTaskbar = false;
             this.Text = "frmTestRunDefinition";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.grpTimeLine.ResumeLayout(false);
             this.grpPlugins.ResumeLayout(false);
             this.ResumeLayout(false);

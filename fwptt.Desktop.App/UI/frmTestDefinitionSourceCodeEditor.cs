@@ -28,8 +28,9 @@ using System.CodeDom.Compiler;
 using System.Reflection;
 using System.IO;
 using System.Linq;
-using Microsoft.CSharp;
 using System.ComponentModel;
+using Microsoft.CSharp;
+using fwptt.Desktop.Util;
 using fwptt.TestProject.Project;
 using fwptt.TestProject;
 
@@ -38,7 +39,7 @@ namespace fwptt.Desktop.App.UI
 	/// <summary>
 	/// Description of frmCompileAssembly.
 	/// </summary>
-    public partial class frmTestDefinitionSourceCodeEditor : Form, UI.IItemEditor<TestDefinition>
+    public partial class frmTestDefinitionSourceCodeEditor : Form, IItemEditor<TestDefinition>
 	{
         private BindingList<string> assembliesBindingList;
 		public frmTestDefinitionSourceCodeEditor()
@@ -60,6 +61,11 @@ namespace fwptt.Desktop.App.UI
         }
 
         public event EventHandler<TestDefinition> onNameChanged;
+
+        public void OnBeforeTestProjectSave()
+        {
+            btnSaveSourceCode_Click(this, EventArgs.Empty);
+        }
 
         protected override void OnLoad(EventArgs e)
         {

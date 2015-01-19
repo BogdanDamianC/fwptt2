@@ -48,17 +48,17 @@
             // 
             // label3
             // 
-            label3.Location = new System.Drawing.Point(13, 109);
+            label3.Location = new System.Drawing.Point(13, 69);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(177, 23);
+            label3.Size = new System.Drawing.Size(207, 13);
             label3.TabIndex = 20;
             label3.Text = "Pause between requests(milisec)";
             // 
             // lblNumberOfThreads
             // 
-            lblNumberOfThreads.Location = new System.Drawing.Point(13, 83);
+            lblNumberOfThreads.Location = new System.Drawing.Point(13, 46);
             lblNumberOfThreads.Name = "lblNumberOfThreads";
-            lblNumberOfThreads.Size = new System.Drawing.Size(187, 23);
+            lblNumberOfThreads.Size = new System.Drawing.Size(207, 13);
             lblNumberOfThreads.TabIndex = 19;
             lblNumberOfThreads.Text = "Number Of Threads(concurrent users)";
             // 
@@ -67,9 +67,9 @@
             this.grpRampUpTime.Controls.Add(this.label1);
             this.grpRampUpTime.Controls.Add(this.txtRampUpSeconds);
             this.grpRampUpTime.Controls.Add(this.txtRampUpMinutes);
-            this.grpRampUpTime.Location = new System.Drawing.Point(3, 140);
+            this.grpRampUpTime.Location = new System.Drawing.Point(3, 88);
             this.grpRampUpTime.Name = "grpRampUpTime";
-            this.grpRampUpTime.Size = new System.Drawing.Size(479, 47);
+            this.grpRampUpTime.Size = new System.Drawing.Size(394, 45);
             this.grpRampUpTime.TabIndex = 22;
             this.grpRampUpTime.TabStop = false;
             this.grpRampUpTime.Text = "Ramp up Time (the time the test will take to get from 0 to No of Threads)";
@@ -77,7 +77,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 16);
+            this.label1.Location = new System.Drawing.Point(25, 23);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(110, 13);
             this.label1.TabIndex = 5;
@@ -99,7 +99,7 @@
             // 
             // txtTimeBetweenRequests
             // 
-            this.txtTimeBetweenRequests.Location = new System.Drawing.Point(198, 109);
+            this.txtTimeBetweenRequests.Location = new System.Drawing.Point(226, 65);
             this.txtTimeBetweenRequests.Name = "txtTimeBetweenRequests";
             this.txtTimeBetweenRequests.Size = new System.Drawing.Size(68, 20);
             this.txtTimeBetweenRequests.TabIndex = 21;
@@ -107,7 +107,7 @@
             // 
             // txtNumberOfThreads
             // 
-            this.txtNumberOfThreads.Location = new System.Drawing.Point(198, 80);
+            this.txtNumberOfThreads.Location = new System.Drawing.Point(226, 42);
             this.txtNumberOfThreads.Name = "txtNumberOfThreads";
             this.txtNumberOfThreads.Size = new System.Drawing.Size(68, 20);
             this.txtNumberOfThreads.TabIndex = 18;
@@ -120,7 +120,7 @@
             this.grpTimeBasedTimelineDuration.Controls.Add(this.txtDurationHour);
             this.grpTimeBasedTimelineDuration.Location = new System.Drawing.Point(3, 1);
             this.grpTimeBasedTimelineDuration.Name = "grpTimeBasedTimelineDuration";
-            this.grpTimeBasedTimelineDuration.Size = new System.Drawing.Size(479, 69);
+            this.grpTimeBasedTimelineDuration.Size = new System.Drawing.Size(394, 41);
             this.grpTimeBasedTimelineDuration.TabIndex = 17;
             this.grpTimeBasedTimelineDuration.TabStop = false;
             this.grpTimeBasedTimelineDuration.Text = "Test Duration";
@@ -159,7 +159,8 @@
             this.Controls.Add(lblNumberOfThreads);
             this.Controls.Add(this.grpTimeBasedTimelineDuration);
             this.Name = "ucTimeBasedTimeLine";
-            this.Size = new System.Drawing.Size(509, 194);
+            this.Size = new System.Drawing.Size(398, 136);
+            this.Load += new System.EventHandler(this.ucTimeBasedTimeLine_Load);
             this.grpRampUpTime.ResumeLayout(false);
             this.grpRampUpTime.PerformLayout();
             this.grpTimeBasedTimelineDuration.ResumeLayout(false);

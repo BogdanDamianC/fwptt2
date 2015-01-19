@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace fwptt.Desktop.App.UI
+namespace fwptt.Desktop.Util
 {
     public static class UI_Util
     {
@@ -101,9 +101,15 @@ namespace fwptt.Desktop.App.UI
         }
     }
 
-    public interface IItemEditor<T>
+    public interface IItemEditor
+    {
+        void OnBeforeTestProjectSave();
+    }
+
+    public interface IItemEditor<T> : IItemEditor
     {
         T CurrentItem { get; }
         event EventHandler<T> onNameChanged;
+        void OnBeforeTestProjectSave();
     }
 }

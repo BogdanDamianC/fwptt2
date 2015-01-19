@@ -27,10 +27,9 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Net;
 using System.Data;
-using fwptt.Desktop.App.Proxy;
 using fwptt.TestProject.Run.Data;
 
-namespace fwptt.Desktop.App.UI
+namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
 	/// <summary>
 	/// Summary description for frmDORequestsRecording.

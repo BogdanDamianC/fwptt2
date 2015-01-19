@@ -54,6 +54,7 @@ namespace fwptt.Desktop.App.UI
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnAddAssembly = new System.Windows.Forms.Button();
             this.btnDeleteAssembly = new System.Windows.Forms.Button();
+            this.btnSaveSourceCode2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageCode.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -145,7 +146,7 @@ namespace fwptt.Desktop.App.UI
             this.btnSaveSourceCode.Name = "btnSaveSourceCode";
             this.btnSaveSourceCode.Size = new System.Drawing.Size(209, 23);
             this.btnSaveSourceCode.TabIndex = 2;
-            this.btnSaveSourceCode.Text = "Save";
+            this.btnSaveSourceCode.Text = "Save C# Source Code ";
             this.btnSaveSourceCode.UseVisualStyleBackColor = true;
             this.btnSaveSourceCode.Click += new System.EventHandler(this.btnSaveSourceCode_Click);
             // 
@@ -174,6 +175,7 @@ namespace fwptt.Desktop.App.UI
             // 
             // pnlActionButtons
             // 
+            this.pnlActionButtons.Controls.Add(this.btnSaveSourceCode2);
             this.pnlActionButtons.Controls.Add(this.btnCompileCode);
             this.pnlActionButtons.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlActionButtons.Location = new System.Drawing.Point(3, 255);
@@ -256,6 +258,16 @@ namespace fwptt.Desktop.App.UI
             this.btnDeleteAssembly.UseVisualStyleBackColor = true;
             this.btnDeleteAssembly.Click += new System.EventHandler(this.BtnDeleteAssemblyClick);
             // 
+            // btnSaveSourceCode2
+            // 
+            this.btnSaveSourceCode2.Location = new System.Drawing.Point(135, 3);
+            this.btnSaveSourceCode2.Name = "btnSaveSourceCode2";
+            this.btnSaveSourceCode2.Size = new System.Drawing.Size(209, 23);
+            this.btnSaveSourceCode2.TabIndex = 7;
+            this.btnSaveSourceCode2.Text = "Save C# Source Code ";
+            this.btnSaveSourceCode2.UseVisualStyleBackColor = true;
+            this.btnSaveSourceCode2.Click += new System.EventHandler(this.btnSaveSourceCode_Click);
+            // 
             // frmTestDefinitionSourceCodeEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -298,5 +310,6 @@ namespace fwptt.Desktop.App.UI
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel Statuslabel;
+        private System.Windows.Forms.Button btnSaveSourceCode2;
 	}
 }

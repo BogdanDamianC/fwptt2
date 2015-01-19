@@ -30,7 +30,8 @@ using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Run;
 
 
-namespace fwptt.Desktop.App.Proxy {
+namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
+{
 	/// <summary>
 	/// Summary description for ProxyHttpRecorder.
 	/// </summary>

@@ -1,4 +1,4 @@
-namespace fwptt.Desktop.App.UI
+namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
     partial class frmModifyRequests
     {

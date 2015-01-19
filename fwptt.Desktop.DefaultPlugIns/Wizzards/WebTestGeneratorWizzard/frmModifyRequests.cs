@@ -28,10 +28,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using fwptt.Desktop.App.Proxy;
 using fwptt.TestProject.Run.Data;
 
-namespace fwptt.Desktop.App.UI
+namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
     public partial class frmModifyRequests : Form
     {

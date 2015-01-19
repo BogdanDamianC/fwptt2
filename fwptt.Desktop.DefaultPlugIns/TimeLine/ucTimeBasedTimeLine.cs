@@ -35,7 +35,7 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     [ExpandableSettings(TimeBasedTimeLine.PublicName, "Time Based (runs all the requests for a specific time with a specific number of parallel users)", ExpandableComponentType.TimeLineConfiguration)]
-    public partial class ucTimeBasedTimeLine : BaseTestRunConfigurationComponent<TimeBasedTimeLine>
+    public partial class ucTimeBasedTimeLine : BaseTestRunConfigurationComponent
     {
         public ucTimeBasedTimeLine()
         {
@@ -45,12 +45,6 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         public override void SetConfiguration(ExtendableData data)
         {
             base.SetConfiguration(data);
-            //txtDurationHour.DataBindings.Clear();
-            //txtDurationMinute.DataBindings.Clear();
-            //txtNumberOfThreads.DataBindings.Clear();
-            //txtTimeBetweenRequests.DataBindings.Clear();
-            //txtRampUpMinutes.DataBindings.Clear();
-            //txtRampUpSeconds.DataBindings.Clear();
  
             txtDurationHour.DataBindings.Add("Text", CurrentData, "Hours");
             txtDurationMinute.DataBindings.Add("Text", CurrentData, "Minutes");
@@ -62,9 +56,9 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             txtRampUpSeconds.DataBindings.Add("Text", CurrentData, "RampUpSeconds");
         }
 
-        public override bool IsValid()
+        private void ucTimeBasedTimeLine_Load(object sender, EventArgs e)
         {
-            return true;
+
         }
     }
 }

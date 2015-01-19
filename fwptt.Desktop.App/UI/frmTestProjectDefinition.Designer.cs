@@ -120,13 +120,13 @@
             this.exploreTestProject.Location = new System.Drawing.Point(0, 24);
             this.exploreTestProject.Margin = new System.Windows.Forms.Padding(8);
             this.exploreTestProject.Name = "exploreTestProject";
-            this.exploreTestProject.Size = new System.Drawing.Size(166, 610);
+            this.exploreTestProject.Size = new System.Drawing.Size(221, 610);
             this.exploreTestProject.TabIndex = 3;
             // 
             // splitterExplorer
             // 
             this.splitterExplorer.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.splitterExplorer.Location = new System.Drawing.Point(166, 24);
+            this.splitterExplorer.Location = new System.Drawing.Point(221, 24);
             this.splitterExplorer.Name = "splitterExplorer";
             this.splitterExplorer.Size = new System.Drawing.Size(10, 610);
             this.splitterExplorer.TabIndex = 4;

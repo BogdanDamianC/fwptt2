@@ -37,20 +37,22 @@ using System.IO;
 using System.Data;
 using System.Text;
 using System.Reflection;
-using Ionic.Zip;
-using fwptt.Desktop.App.Proxy;
 using fwptt.TestProject.Run.Data;
+using fwptt.Desktop.Util;
+using Ionic.Zip;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using fwptt.TestProject.Project.Interfaces;
 
 
 
-namespace fwptt.Desktop.App.UI
+namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
 	/// <summary>
 	/// Summary description for RecordIERequests.
 	/// </summary>
-	public class frmTestDefinitionGenerator : System.Windows.Forms.Form
+    [Description("Web Test Wizzard")]
+    public class frmTestDefinitionGenerator : System.Windows.Forms.Form, ITestDefinitionGeneratorWizzard
 	{
 		private System.Windows.Forms.Button btnStartRecording;
 		private System.Windows.Forms.Button btnSaveRecordingData;

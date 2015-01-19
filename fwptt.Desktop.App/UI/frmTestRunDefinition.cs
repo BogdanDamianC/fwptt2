@@ -32,12 +32,12 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject;
-using fwptt.Desktop.App.Util;
+using fwptt.Desktop.Util;
 
 
 namespace fwptt.Desktop.App.UI
 {
-    public partial class frmTestRunDefinition : Form, UI.IItemEditor<TestRunDefinition>
+    public partial class frmTestRunDefinition : Form, IItemEditor<TestRunDefinition>
     {
         public frmTestRunDefinition()
         {
@@ -125,6 +125,7 @@ namespace fwptt.Desktop.App.UI
             grpPlugins.Top = grpTimeLine.Bottom + 5;
         }
 
+        #region Plugins
         private ExpanderControl AddPlugin(ExpandableSetting setting, ExtendableData data)
         {
             var newPluginControl = new ExpanderControl();            
@@ -176,6 +177,12 @@ namespace fwptt.Desktop.App.UI
             };
         }
 
+        private void accordionPlugins_Resize(object sender, EventArgs e)
+        {
+            grpPlugins.Height = accordionPlugins.Bottom + 5;
+        }
+        #endregion
+
         private void SetTitle()
         {
             this.Text = "Test Run Definition => " + (string.IsNullOrWhiteSpace(CurrentItem.Name) ? "[NEW]" : CurrentItem.Name);
@@ -197,11 +204,9 @@ namespace fwptt.Desktop.App.UI
 
         public TestRunDefinition CurrentItem { get; private set; }
 
-        private void accordionPlugins_Resize(object sender, EventArgs e)
+        public void OnBeforeTestProjectSave()
         {
-            grpPlugins.Height = accordionPlugins.Bottom + 5;
+            //TODO
         }
-
-      
     }
 }

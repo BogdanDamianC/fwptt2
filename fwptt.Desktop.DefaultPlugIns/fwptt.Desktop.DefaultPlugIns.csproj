@@ -33,6 +33,8 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <NoWin32Manifest>False</NoWin32Manifest>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <NoStdLib>false</NoStdLib>
@@ -67,12 +69,23 @@
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.3\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="MentalisProxy">
+      <HintPath>..\DLLs\MentalisProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private />
     </Reference>
     <Reference Include="System.Data">
       <Private />
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private />
@@ -115,6 +128,25 @@
     <Compile Include="TimeLine\ucTimeBasedTimeLine.Designer.cs">
       <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
     </Compile>
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmDORequestsRecording.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmModifyRequests.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmModifyRequests.Designer.cs">
+      <DependentUpon>frmModifyRequests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmTestDefinitionGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\ProxyHttpRecorder.cs" />
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.cs">
+      <DependentUpon>TestCSharpCodeGenerator.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.mapp.cs" />
     <Content Include="App.ico" />
     <Content Include="Plugin\ResultsViewer\Simple.xsl" />
     <Compile Include="AssemblyInfo.cs" />
@@ -152,6 +184,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\fwptt.Desktop.Util\fwptt.Desktop.Util.csproj">
+      <Project>{df4c994c-a662-4e6f-a1bd-282d0bcc7dc6}</Project>
+      <Name>fwptt.Desktop.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
       <Project>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</Project>
       <Name>fwptt.TestProject</Name>
@@ -173,10 +209,34 @@
     <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLine.resx">
       <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizzards\WebTestGeneratorWizzard\frmDORequestsRecording.resx">
+      <DependentUpon>frmDORequestsRecording.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizzards\WebTestGeneratorWizzard\frmTestDefinitionGenerator.resx">
+      <DependentUpon>frmTestDefinitionGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>TestCSharpCodeGenerator.cs</LastGenOutput>
+      <CustomToolNamespace>fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).dll"
 copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).pdb"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
 </Project>

@@ -86,17 +86,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Project\Interfaces\ITestDefinitionGeneratorWizzard.cs" />
     <Compile Include="Run\BaseTemplateExecuteClass.cs" />
     <Compile Include="Project\JsonCreationConverter.cs" />
     <Compile Include="Run\Data\Request.cs" />
     <Compile Include="Run\Data\RequestInfo.cs" />
     <Compile Include="Run\Data\RequestParam.cs" />
-    <Compile Include="Run\Data\TestCSharpCodeGenerator.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestCSharpCodeGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Run\Data\TestCSharpCodeGenerator.mapp.cs" />
     <Compile Include="Project\RecordedTestDefinition.cs" />
     <Compile Include="Project\Interfaces\IExtendableComponent.cs" />
     <Compile Include="Project\Interfaces\IRequestPlayerPlugIn.cs" />
@@ -131,12 +126,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Run\Data\TestCSharpCodeGenerator.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>TestCSharpCodeGenerator.cs</LastGenOutput>
-      <CustomToolNamespace>fwptt.TestProject.Run.Data</CustomToolNamespace>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

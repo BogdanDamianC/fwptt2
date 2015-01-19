@@ -31,6 +31,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using fwptt.TestProject.Project;
 using fwptt.TestProject;
+using fwptt.Desktop.Util;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -94,6 +95,9 @@ namespace fwptt.Desktop.App.UI
 
         private void saveTestProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            foreach (IItemEditor c in this.MdiChildren)
+                c.OnBeforeTestProjectSave();
+             
             SaveTestProject(string.IsNullOrWhiteSpace(TestProjectHost.Current.ProjectPath));
         }
 

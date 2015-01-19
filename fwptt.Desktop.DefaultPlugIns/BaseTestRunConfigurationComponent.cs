@@ -1,28 +1,34 @@
 ﻿using fwptt.TestProject.Project.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using fwptt.TestProject;
 
 namespace fwptt.Desktop.DefaultPlugIns
 {
-    public abstract class BaseTestRunConfigurationComponent<T> : UserControl, ITestRunConfigurationComponent where T : ExtendableData, new()
+    public class BaseTestRunConfigurationComponent : UserControl, ITestRunConfigurationComponent
     {
-        protected T CurrentData;
-        public ExtendableData NewConfiguration()
+        private Type configurationDataType = null;
+        public BaseTestRunConfigurationComponent():base()
         {
-            return new T();
+            if(DesignMode)
+                return;
+            var attributes = this.GetType().GetCustomAttributes(typeof(ExpandableSettingsAttribute), true);
+            if (attributes.Length == 0)
+                return;//still in design mode
+            configurationDataType = TestProjectHost.Current.GetExpandableDataType(((ExpandableSettingsAttribute)attributes[0]).UniqueName);
         }
+
+        protected ExtendableData CurrentData;
 
         public virtual void SetConfiguration(ExtendableData data)
         {
-            var tmpData = data as T;
-            CurrentData = tmpData != null ? tmpData : (T)NewConfiguration(); ;
+            CurrentData = data.GetType() == configurationDataType ? data : (ExtendableData)Activator.CreateInstance(configurationDataType);
         }
-
-        public abstract bool IsValid();
 
         public ExtendableData GetConfiguration()
         {

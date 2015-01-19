@@ -28,18 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label lblNumberOfThreads;
             this.txtRefreshTime = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtMaxNumberOfRequests = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtMaxResponseSize = new System.Windows.Forms.TextBox();
-            this.lblNumberOfThreads = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
+            lblNumberOfThreads = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.txtRefreshTime)).BeginInit();
             this.SuspendLayout();
             // 
+            // label2
+            // 
+            label2.Location = new System.Drawing.Point(5, 28);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(153, 16);
+            label2.TabIndex = 28;
+            label2.Text = "Refresh Interval in miliseconds";
+            // 
+            // label1
+            // 
+            label1.Location = new System.Drawing.Point(262, 3);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(184, 16);
+            label1.TabIndex = 27;
+            label1.Text = "Max Number of recorded requests";
+            // 
+            // lblNumberOfThreads
+            // 
+            lblNumberOfThreads.Location = new System.Drawing.Point(5, 3);
+            lblNumberOfThreads.Name = "lblNumberOfThreads";
+            lblNumberOfThreads.Size = new System.Drawing.Size(120, 16);
+            lblNumberOfThreads.TabIndex = 25;
+            lblNumberOfThreads.Text = "Max response Size";
+            // 
             // txtRefreshTime
             // 
-            this.txtRefreshTime.Location = new System.Drawing.Point(140, 42);
+            this.txtRefreshTime.Location = new System.Drawing.Point(156, 26);
             this.txtRefreshTime.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -59,58 +86,34 @@
             0,
             0});
             // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(12, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(112, 25);
-            this.label2.TabIndex = 28;
-            this.label2.Text = "Refresh Interval in miliseconds";
-            // 
             // txtMaxNumberOfRequests
             // 
-            this.txtMaxNumberOfRequests.Location = new System.Drawing.Point(445, 12);
+            this.txtMaxNumberOfRequests.Location = new System.Drawing.Point(441, 1);
             this.txtMaxNumberOfRequests.Name = "txtMaxNumberOfRequests";
             this.txtMaxNumberOfRequests.Size = new System.Drawing.Size(100, 20);
             this.txtMaxNumberOfRequests.TabIndex = 26;
             this.txtMaxNumberOfRequests.Text = "100";
             // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(266, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(184, 20);
-            this.label1.TabIndex = 27;
-            this.label1.Text = "Max Number of recorded requests";
-            // 
             // txtMaxResponseSize
             // 
-            this.txtMaxResponseSize.Location = new System.Drawing.Point(140, 12);
+            this.txtMaxResponseSize.Location = new System.Drawing.Point(156, 1);
             this.txtMaxResponseSize.Name = "txtMaxResponseSize";
             this.txtMaxResponseSize.Size = new System.Drawing.Size(100, 20);
             this.txtMaxResponseSize.TabIndex = 24;
             this.txtMaxResponseSize.Text = "1000";
-            // 
-            // lblNumberOfThreads
-            // 
-            this.lblNumberOfThreads.Location = new System.Drawing.Point(12, 12);
-            this.lblNumberOfThreads.Name = "lblNumberOfThreads";
-            this.lblNumberOfThreads.Size = new System.Drawing.Size(120, 23);
-            this.lblNumberOfThreads.TabIndex = 25;
-            this.lblNumberOfThreads.Text = "Max response Size";
             // 
             // ucRequestViewerConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.txtRefreshTime);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(label2);
             this.Controls.Add(this.txtMaxNumberOfRequests);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(label1);
             this.Controls.Add(this.txtMaxResponseSize);
-            this.Controls.Add(this.lblNumberOfThreads);
+            this.Controls.Add(lblNumberOfThreads);
             this.Name = "ucRequestViewerConfiguration";
-            this.Size = new System.Drawing.Size(568, 74);
+            this.Size = new System.Drawing.Size(554, 50);
             ((System.ComponentModel.ISupportInitialize)(this.txtRefreshTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -120,10 +123,7 @@
         #endregion
 
         private System.Windows.Forms.NumericUpDown txtRefreshTime;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtMaxNumberOfRequests;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtMaxResponseSize;
-        private System.Windows.Forms.Label lblNumberOfThreads;
     }
 }

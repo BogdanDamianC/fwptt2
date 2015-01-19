@@ -35,7 +35,7 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     [ExpandableSettings(SteppingTimeLine.PublicName, "Finite Number of Runs (runs all the requests a specific number of times)", ExpandableComponentType.TimeLineConfiguration)]
-    public partial class ucStepTimeLine : BaseTestRunConfigurationComponent<SteppingTimeLine>
+    public partial class ucStepTimeLine : BaseTestRunConfigurationComponent
     {
         public ucStepTimeLine()
         {
@@ -46,11 +46,6 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         {
             base.SetConfiguration(data);
             txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
-        }
-
-        public override bool IsValid()
-        {
-            return true;
         }
     }
 }

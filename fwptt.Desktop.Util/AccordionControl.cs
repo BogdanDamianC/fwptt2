@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace fwptt.Desktop.App.Util
+namespace fwptt.Desktop.Util
 {
     public class AccordionControl : Panel
     {

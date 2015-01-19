@@ -30,8 +30,10 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using fwptt.Desktop.Util;
 using fwptt.TestProject;
 using fwptt.TestProject.Project;
+using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -41,6 +43,23 @@ namespace fwptt.Desktop.App.UI
         public ucExploreTestProject()
         {
             InitializeComponent();
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (DesignMode)
+                return;
+
+            foreach(var wizzType in TestProjectHost.Current.TestDefinitionGeneratorWizzardTypes)
+            {
+                var descriptionAttr = wizzType.GetCustomAttributes(typeof(DescriptionAttribute), true);
+                string description = descriptionAttr.Length > 0?((DescriptionAttribute)descriptionAttr[0]).Description:wizzType.ToString();
+                var menuItem = new ToolStripMenuItem(description) { Tag = wizzType };
+                menuItem.Click += tstripNewTestDefinition_Click;
+                tstripNewTestDefinition.DropDownItems.Add(menuItem);
+            }
+            
         }
 
         private TreeNode AddTestDefinition(TestDefinition testDefinition)
@@ -77,7 +96,7 @@ namespace fwptt.Desktop.App.UI
         }
 
         private void TryOpenCreateItem<T, I>(I item, Func<I, T> createFunction, EventHandler<I> onNameChanged = null)
-            where T : Form, UI.IItemEditor<I>
+            where T : Form, IItemEditor<I>
             where I : class
         {
             if (item == null)
@@ -122,15 +141,16 @@ namespace fwptt.Desktop.App.UI
         {
             if (!CanCreateNewItem())
                 return;
-            TestDefinition newTD;
-            using(var generator = new frmTestDefinitionGenerator())
+            TestDefinition newTD = null;
+            using (var generator = (Form)Activator.CreateInstance((Type)((ToolStripMenuItem)sender).Tag))
             {
                 generator.ShowDialog(this);
-                if (string.IsNullOrWhiteSpace(generator.GeneratedTestDefinitionClassCode)
-                    || string.IsNullOrWhiteSpace(generator.GeneratedTestDefinitionClassName))
+                var ret = (ITestDefinitionGeneratorWizzard)generator;
+                if (string.IsNullOrWhiteSpace(ret.GeneratedTestDefinitionClassCode)
+                    || string.IsNullOrWhiteSpace(ret.GeneratedTestDefinitionClassName))
                     return;
-                string codeFileName = generator.GeneratedTestDefinitionClassName + ".cs";
-                newTD = TestProjectHost.Current.AddTestProjectDefinitionCSharpCode(codeFileName, generator.GeneratedTestDefinitionClassCode);
+                string codeFileName = ret.GeneratedTestDefinitionClassName + ".cs";
+                newTD = TestProjectHost.Current.AddTestProjectDefinitionCSharpCode(codeFileName, ret.GeneratedTestDefinitionClassCode);
             }
             AddTestDefinition(newTD);
             TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(newTD, (td) => new frmTestDefinitionSourceCodeEditor(td));

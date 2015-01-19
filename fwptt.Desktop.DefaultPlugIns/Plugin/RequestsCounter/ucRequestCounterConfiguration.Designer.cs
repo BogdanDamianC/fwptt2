@@ -34,7 +34,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 4);
+            this.label1.Location = new System.Drawing.Point(0, 4);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(205, 13);
             this.label1.TabIndex = 0;
@@ -46,7 +46,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
             this.Name = "ucRequestCounterConfiguration";
-            this.Size = new System.Drawing.Size(466, 35);
+            this.Size = new System.Drawing.Size(325, 22);
             this.ResumeLayout(false);
             this.PerformLayout();
 

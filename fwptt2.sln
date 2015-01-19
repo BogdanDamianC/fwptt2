@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AF7974
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fwptt.Desktop.Util", "fwptt.Desktop.Util\fwptt.Desktop.Util.csproj", "{DF4C994C-A662-4E6F-A1BD-282D0BCC7DC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{DAE8C2F7-FB86-41C8-B500-3662F961D987}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAE8C2F7-FB86-41C8-B500-3662F961D987}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAE8C2F7-FB86-41C8-B500-3662F961D987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4C994C-A662-4E6F-A1BD-282D0BCC7DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4C994C-A662-4E6F-A1BD-282D0BCC7DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4C994C-A662-4E6F-A1BD-282D0BCC7DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4C994C-A662-4E6F-A1BD-282D0BCC7DC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -113,30 +113,13 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <Compile Include="UI\ucExploreTestProject.Designer.cs">
       <DependentUpon>ucExploreTestProject.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\UI_Util.cs" />
-    <Compile Include="Util\AccordionControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Util\ExpanderControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Content Include="App.ico" />
-    <Compile Include="Proxy\ProxyHttpRecorder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\frmTestDefinitionSourceCodeEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\frmTestDefinitionSourceCodeEditor.Designer.cs">
       <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\frmDORequestsRecording.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\frmModifyRequests.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\frmModifyRequests.Designer.cs">
-      <DependentUpon>frmModifyRequests.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\FrmRunTests.cs">
       <SubType>Form</SubType>
@@ -155,9 +138,6 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     </Compile>
     <Compile Include="UI\frmTestProjectDefinition.Designer.cs">
       <DependentUpon>frmTestProjectDefinition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\frmTestDefinitionGenerator.cs">
-      <SubType>Form</SubType>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -182,6 +162,10 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\fwptt.Desktop.Util\fwptt.Desktop.Util.csproj">
+      <Project>{df4c994c-a662-4e6f-a1bd-282d0bcc7dc6}</Project>
+      <Name>fwptt.Desktop.Util</Name>
+    </ProjectReference>
     <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
       <Project>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</Project>
       <Name>fwptt.TestProject</Name>
@@ -194,14 +178,8 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <EmbeddedResource Include="UI\frmTestDefinitionSourceCodeEditor.resx">
       <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\frmDORequestsRecording.resx">
-      <DependentUpon>frmDORequestsRecording.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\FrmRunTests.resx">
       <DependentUpon>FrmRunTests.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\frmTestDefinitionGenerator.resx">
-      <DependentUpon>frmTestDefinitionGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\frmTestProjectDefinition.resx">
       <DependentUpon>frmTestProjectDefinition.cs</DependentUpon>

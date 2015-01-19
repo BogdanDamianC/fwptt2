@@ -12,7 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace fwptt.Desktop.App.Util
+namespace fwptt.Desktop.Util
 {
     public class ExpanderControl : UserControl
     {

@@ -27,6 +27,7 @@ namespace fwptt.TestProject
         private string ApplicationStartupPath;
         private string PluginsPath;
 
+        public Type[] TestDefinitionGeneratorWizzardTypes { get; private set; }
         public ExpandableSetting[] PluginTypes { get; private set; }
         internal Dictionary<string, Type> ExpandableData = new Dictionary<string, Type>();
 
@@ -65,6 +66,11 @@ namespace fwptt.TestProject
                 new KeyValuePair<string,string>(TestProjectDefinition.ApplicationStartupPathIdentifier,ApplicationStartupPath + Path.DirectorySeparatorChar),
                 new KeyValuePair<string,string>(TestProjectDefinition.ProjectPathIdentifier,GetProjectRelatedFilePath(string.Empty))
             };
+        }
+
+        public Type GetExpandableDataType(string uniqueName)
+        {
+            return ExpandableData[uniqueName];
         }
 
         private string GetProjectRelatedFilePath(string fileName)
@@ -146,6 +152,7 @@ namespace fwptt.TestProject
         private void SearchForPlugInTypes()
         {
             var pluginTypes = new List<ExpandableSetting>();
+            var testDefinitionGeneratorWizzardTypes = new List<Type>();
 
             var dirinfo = new DirectoryInfo(PluginsPath);
             if (!dirinfo.Exists)
@@ -159,12 +166,13 @@ namespace fwptt.TestProject
             {
                 Assembly asmb = Assembly.LoadFile(dll.FullName);
                 foreach (var type in asmb.GetTypes())
-                    SearchAndAddPlugIns(type, pluginTypes);
+                    SearchAndAddPlugIns(type, pluginTypes, testDefinitionGeneratorWizzardTypes);
             }
+            this.TestDefinitionGeneratorWizzardTypes = testDefinitionGeneratorWizzardTypes.ToArray();
             this.PluginTypes = pluginTypes.ToArray();
         }
 
-        private void SearchAndAddPlugIns(Type possiblePluginType, List<ExpandableSetting> pluginTypes)
+        private void SearchAndAddPlugIns(Type possiblePluginType, List<ExpandableSetting> pluginTypes, List<Type> testDefinitionGeneratorWizzardTypes)
         {
             if (possiblePluginType.IsSubclassOf(typeof(ExtendableData)))
             {
@@ -172,9 +180,10 @@ namespace fwptt.TestProject
                 return;
             }
             var expandableattrib = possiblePluginType.GetCustomAttribute<ExpandableSettingsAttribute>(true);
-            if(expandableattrib != null)
+            if (expandableattrib != null)
                 pluginTypes.Add(expandableattrib.GetSetting(possiblePluginType));
-            
+            else if (possiblePluginType.GetInterfaces().Any(i => i == typeof(ITestDefinitionGeneratorWizzard)))
+                testDefinitionGeneratorWizzardTypes.Add(possiblePluginType);
         }
     }
    

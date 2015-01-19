@@ -1,5 +1,6 @@
 ﻿
-namespace fwptt.TestProject.Run.Data
+using fwptt.TestProject.Run.Data;
+namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
     public partial class TestCSharpCodeGenerator
     {

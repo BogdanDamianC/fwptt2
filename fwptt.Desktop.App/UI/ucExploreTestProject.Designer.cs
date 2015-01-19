@@ -74,14 +74,13 @@
             this.tstripNewTestDefinition,
             this.tsiNewBlankCSFile});
             this.ctxTestDefinition.Name = "ctxTestDefinition";
-            this.ctxTestDefinition.Size = new System.Drawing.Size(179, 48);
+            this.ctxTestDefinition.Size = new System.Drawing.Size(179, 70);
             // 
             // tstripNewTestDefinition
             // 
             this.tstripNewTestDefinition.Name = "tstripNewTestDefinition";
             this.tstripNewTestDefinition.Size = new System.Drawing.Size(178, 22);
             this.tstripNewTestDefinition.Text = "New Test Definition";
-            this.tstripNewTestDefinition.Click += new System.EventHandler(this.tstripNewTestDefinition_Click);
             // 
             // tsiNewBlankCSFile
             // 

@@ -33,21 +33,21 @@
             lblNumberOfThreads = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
+            // lblNumberOfThreads
+            // 
+            lblNumberOfThreads.Location = new System.Drawing.Point(4, 5);
+            lblNumberOfThreads.Name = "lblNumberOfThreads";
+            lblNumberOfThreads.Size = new System.Drawing.Size(162, 14);
+            lblNumberOfThreads.TabIndex = 10;
+            lblNumberOfThreads.Text = "Number of Steps";
+            // 
             // txtNumberOfThreads
             // 
-            this.txtNumberOfThreads.Location = new System.Drawing.Point(172, 7);
+            this.txtNumberOfThreads.Location = new System.Drawing.Point(172, 2);
             this.txtNumberOfThreads.Name = "txtNumberOfThreads";
             this.txtNumberOfThreads.Size = new System.Drawing.Size(68, 20);
             this.txtNumberOfThreads.TabIndex = 9;
             this.txtNumberOfThreads.Text = "10";
-            // 
-            // lblNumberOfThreads
-            // 
-            lblNumberOfThreads.Location = new System.Drawing.Point(4, 4);
-            lblNumberOfThreads.Name = "lblNumberOfThreads";
-            lblNumberOfThreads.Size = new System.Drawing.Size(162, 23);
-            lblNumberOfThreads.TabIndex = 10;
-            lblNumberOfThreads.Text = "Number of Steps";
             // 
             // ucStepTimeLine
             // 
@@ -56,7 +56,7 @@
             this.Controls.Add(this.txtNumberOfThreads);
             this.Controls.Add(lblNumberOfThreads);
             this.Name = "ucStepTimeLine";
-            this.Size = new System.Drawing.Size(667, 35);
+            this.Size = new System.Drawing.Size(418, 27);
             this.ResumeLayout(false);
             this.PerformLayout();
 
