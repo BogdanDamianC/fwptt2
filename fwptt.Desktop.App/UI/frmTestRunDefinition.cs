@@ -32,6 +32,7 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject;
+using fwptt.Desktop.App.Util;
 
 
 namespace fwptt.Desktop.App.UI
@@ -45,7 +46,6 @@ namespace fwptt.Desktop.App.UI
 
         public event EventHandler<TestRunDefinition> onNameChanged;
 
-        Dictionary<string, ITestRunConfigurationComponent> timeLinePlugins = new Dictionary<string,ITestRunConfigurationComponent>();
         public frmTestRunDefinition(TestRunDefinition  trd):this()
         {
             SetUpTimeLinePlugins(trd);
@@ -62,35 +62,79 @@ namespace fwptt.Desktop.App.UI
             SetTitle();
         }
 
+        private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
+        {
+            var tlpl = Activator.CreateInstance(setting.PluginType) as Control;
+            if (tlpl == null)
+                throw new ApplicationException(setting.PluginType.ToString() + " type is not supported as a desktop application plugin, the type must be a user control or some type derived from the Control class");
+            ((ITestRunConfigurationComponent)tlpl).SetConfiguration(data);
+            return tlpl;
+        }
+
+        private Control CreateAndPositionNewControl(ExpandableSetting setting, ExtendableData data, Control parent, Point topLeft, int width)
+        {
+            var tlpl = CreateNewControlAndData(setting, data)  as Control;
+
+            tlpl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+            tlpl.Left = topLeft.X;
+            tlpl.Top = topLeft.Y;
+            tlpl.Width = width;
+            tlpl.Visible = true;
+            parent.Controls.Add(tlpl);
+            parent.Height = tlpl.Bottom + 5;
+            return tlpl;
+        }
+
+        #region TimeLine
+        private void SetUpTimeLineConfigurationControl()
+        {
+            var selectedTimelineConfiguration = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
+                                                && pl.UniqueName == (string)cboTimeLines.SelectedValue);
+            foreach(var ctrl in grpTimeLine.Controls.Cast<Control>().Where(c => c != cboTimeLines))
+            {
+                grpTimeLine.Controls.Remove(ctrl);
+                ctrl.Dispose();
+            }
+            var newTimelineConfigControl = (ITestRunConfigurationComponent)CreateAndPositionNewControl(selectedTimelineConfiguration, CurrentItem.TimeLine, grpTimeLine, new Point(cboTimeLines.Left, cboTimeLines.Bottom + 10), cboTimeLines.Width);
+            CurrentItem.TimeLine = (BaseTestRunTimeLine)newTimelineConfigControl.GetConfiguration();
+        }
+
         private void SetUpTimeLinePlugins(TestRunDefinition trd)
         {
             var timeLineConfigurationPlugins = (from pl in TestProjectHost.Current.PluginTypes
                                                    where pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
                                                    orderby pl.DisplayName
                                                    select pl).ToList();
-            
-            foreach(var confPL in timeLineConfigurationPlugins)
-            {
-                var tlpl = Activator.CreateInstance(confPL.PluginType) as Control;
-                if (tlpl == null)
-                    throw new ApplicationException(confPL.PluginType.ToString() + " type is not supported as a desktop application plugin, the type must be a user control or some type derived from the Control class");
-
-                timeLinePlugins[confPL.UniqueName] = (ITestRunConfigurationComponent)tlpl;
-                tlpl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
-                tlpl.Left = cboTimeLines.Left;
-                tlpl.Top = cboTimeLines.Bottom + 10;
-                tlpl.Width = cboTimeLines.Width;
-                tlpl.Visible = false;
-                grpTimeLine.Controls.Add(tlpl);
-
-                if (trd.TimeLine != null && trd.TimeLine.UniqueName == confPL.UniqueName)
-                    ((ITestRunConfigurationComponent)tlpl).SetConfiguration(trd.TimeLine);
-            }
             cboTimeLines.DisplayMember = "DisplayName";
             cboTimeLines.ValueMember = "UniqueName";
             cboTimeLines.DataSource = timeLineConfigurationPlugins;
             if (trd.TimeLine != null)
                 cboTimeLines.SelectedValue = trd.TimeLine.UniqueName;
+        }
+        private void cboTimeLines_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CurrentItem == null)
+                return;
+            SetDisplaySettings();
+        }  
+        #endregion
+
+        private void SetDisplaySettings()
+        {
+            SetUpTimeLineConfigurationControl();
+            grpPlugins.Top = grpTimeLine.Bottom + 5;
+        }
+
+        private ExpanderControl AddPlugin(ExpandableSetting setting, ExtendableData data)
+        {
+            var newPluginControl = new ExpanderControl();            
+            newPluginControl.BorderStyle = BorderStyle.FixedSingle;
+            newPluginControl.Width = accordionPlugins.Width = ckListPlugins.Width;
+            ExpanderHelper.CreateLabelHeader(newPluginControl, setting.DisplayName, SystemColors.ActiveBorder);
+            newPluginControl.Content = CreateNewControlAndData(setting, data);
+            accordionPlugins.Add(newPluginControl);            
+            newPluginControl.Expand();
+            return newPluginControl;
         }
 
         private void SetUpRunPlugins(TestRunDefinition trd)
@@ -100,17 +144,35 @@ namespace fwptt.Desktop.App.UI
             var dataSource = (from pl in TestProjectHost.Current.PluginTypes
                               where pl.ComponentType == ExpandableComponentType.PluginConfiguration
                               orderby pl.DisplayName
-                              select new { pl.UniqueName, pl.DisplayName, isChecked = trd.RunPlugins.Any(pg => pg.UniqueName == pl.UniqueName), pl.PluginType }).ToList();
+                              select new { pl.DisplayName, isChecked = trd.RunPlugins.Any(pg => pg.UniqueName == pl.UniqueName), Data = pl}).ToList();
             ((ListBox)ckListPlugins).DataSource = dataSource;
             ((ListBox)ckListPlugins).DisplayMember = "DisplayName";
             ((ListBox)ckListPlugins).ValueMember = "isChecked";
+
+            for (int i = 0; i < ckListPlugins.Items.Count; i++)
+            {
+                if (!dataSource[i].isChecked)
+                    continue;
+                var plugin = dataSource[i];
+                ckListPlugins.SetItemChecked(i, plugin.isChecked);
+                AddPlugin(dataSource[i].Data, trd.RunPlugins.First(pg => pg.UniqueName == plugin.Data.UniqueName));
+            }
+
             ckListPlugins.ItemCheck += (object sender, ItemCheckEventArgs e) =>
             {
-                var selectedType = dataSource[e.Index].UniqueName;
-                //if (e.NewValue == CheckState.Checked && !CurrentItem.RunPlugins.Any(pl => pl.UniqueName == selectedType))
-                //    CurrentItem.RunPlugins.Add(selectedType);
+                var selectedType = dataSource[e.Index].Data.UniqueName;
+                if (e.NewValue == CheckState.Checked && !CurrentItem.RunPlugins.Any(pl => pl.UniqueName == selectedType))
+                    CurrentItem.RunPlugins.Add(((ITestRunConfigurationComponent)AddPlugin(dataSource[e.Index].Data, null).Content).GetConfiguration());
                 if (e.NewValue != CheckState.Checked)
-                    CurrentItem.RunPlugins.RemoveAll(pl=> pl.UniqueName == selectedType);
+                {
+                    CurrentItem.RunPlugins.RemoveAll(pl => pl.UniqueName == selectedType);
+                    foreach (var exp in accordionPlugins.Controls.Cast<ExpanderControl>().ToArray())
+                        if (exp.Content.GetType() == dataSource[e.Index].Data.PluginType)
+                        {
+                            accordionPlugins.Controls.Remove(exp);
+                            exp.Dispose();
+                        }
+                }
             };
         }
 
@@ -135,27 +197,11 @@ namespace fwptt.Desktop.App.UI
 
         public TestRunDefinition CurrentItem { get; private set; }
 
-        private void SetDisplaySettings()
+        private void accordionPlugins_Resize(object sender, EventArgs e)
         {
-            var visibleControl = grpTimeLine.Controls.Cast<Control>().FirstOrDefault(c => c.Visible && c!= cboTimeLines);
-            var selectedTimeline = (Control)timeLinePlugins[(string)cboTimeLines.SelectedValue];
-            if (visibleControl != null && visibleControl != selectedTimeline)
-                visibleControl.Visible = false;
-            selectedTimeline.Visible =true;
-            
-            grpTimeLine.Height = selectedTimeline.Bottom + 5;
-            ckListPlugins.Top = grpTimeLine.Bottom + 5;
+            grpPlugins.Height = accordionPlugins.Bottom + 5;
         }
 
-        private void cboTimeLines_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CurrentItem == null)
-                return;
-
-            var selectedTimeLine = timeLinePlugins[(string)cboTimeLines.SelectedValue];
-            selectedTimeLine.SetConfiguration(CurrentItem.TimeLine);
-            CurrentItem.TimeLine = (BaseTestRunTimeLine)selectedTimeLine.GetConfiguration();
-            SetDisplaySettings();
-        }        
+      
     }
 }

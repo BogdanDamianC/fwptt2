@@ -45,20 +45,12 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         public override void SetConfiguration(ExtendableData data)
         {
             base.SetConfiguration(data);
+            txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
         }
 
         public override bool IsValid()
         {
-            int val;
-            return int.TryParse(txtNumberOfThreads.Text, out val);
-        }
-
-        public ExtendableData GetConfiguration()
-        {
-            int val;
-            if (int.TryParse(txtNumberOfThreads.Text, out val))
-                CurrentData.MaxSteps = val;
-            return CurrentData;
+            return true;
         }
     }
 }

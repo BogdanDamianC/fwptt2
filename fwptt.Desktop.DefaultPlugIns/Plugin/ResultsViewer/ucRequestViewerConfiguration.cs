@@ -11,32 +11,27 @@ using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 {
-    [ExpandableSettings(ResultsViewerConfiguration.PublicName, "....", ExpandableComponentType.PluginConfiguration)]
-    public partial class ucRequestViewerConfiguration : UserControl, ITestRunConfigurationComponent
+    [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer", ExpandableComponentType.PluginConfiguration)]
+    public partial class ucRequestViewerConfiguration : BaseTestRunConfigurationComponent<ResultsViewerConfiguration>
     {
         public ucRequestViewerConfiguration()
         {
             InitializeComponent();
         }
 
-        public ExtendableData NewConfiguration()
+        public override void SetConfiguration(ExtendableData data)
         {
-            throw new NotImplementedException();
+            base.SetConfiguration(data);
+            txtMaxNumberOfRequests.DataBindings.Add("Text", CurrentData, "MaxNumberOfRequestsRecorded");
+            txtMaxResponseSize.DataBindings.Add("Text", CurrentData, "MaxResponseSizeRecorded");
+            if (CurrentData.RefreshInterval < 500)
+                CurrentData.RefreshInterval = 500;
+            txtRefreshTime.DataBindings.Add("Value", CurrentData, "RefreshInterval");
         }
 
-        public void SetConfiguration(ExtendableData timeLine)
+        public override bool IsValid()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool IsValid()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ExtendableData GetConfiguration()
-        {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

@@ -114,6 +114,12 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
       <DependentUpon>ucExploreTestProject.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\UI_Util.cs" />
+    <Compile Include="Util\AccordionControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Util\ExpanderControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Content Include="App.ico" />
     <Compile Include="Proxy\ProxyHttpRecorder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

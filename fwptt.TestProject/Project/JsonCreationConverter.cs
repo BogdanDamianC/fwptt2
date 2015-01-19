@@ -38,15 +38,15 @@ namespace fwptt.TestProject.Util
                                          object existingValue,
                                          JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.Null)
+                return null;
             // Load JObject from stream
             JObject jObject = JObject.Load(reader);
 
             // Create target object based on JObject
             T target = Create(objectType, jObject);
-
             // Populate the object properties
             serializer.Populate(jObject.CreateReader(), target);
-
             return target;
         }
 

@@ -35,49 +35,36 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     [ExpandableSettings(TimeBasedTimeLine.PublicName, "Time Based (runs all the requests for a specific time with a specific number of parallel users)", ExpandableComponentType.TimeLineConfiguration)]
-    public partial class ucTimeBasedTimeLine : UserControl, ITestRunConfigurationComponent
+    public partial class ucTimeBasedTimeLine : BaseTestRunConfigurationComponent<TimeBasedTimeLine>
     {
-        private TimeBasedTimeLine CurrentTimeLine;
         public ucTimeBasedTimeLine()
         {
             InitializeComponent();
         }
 
-        public ExtendableData NewConfiguration()
+        public override void SetConfiguration(ExtendableData data)
         {
-            return new TimeBasedTimeLine(100);
-        }
-
-        public void SetConfiguration(ExtendableData timeLine)
-        {
-            txtDurationHour.DataBindings.Clear();
-            txtDurationMinute.DataBindings.Clear();
-            txtNumberOfThreads.DataBindings.Clear();
-            txtTimeBetweenRequests.DataBindings.Clear();
-            txtRampUpMinutes.DataBindings.Clear();
-            txtRampUpSeconds.DataBindings.Clear();
+            base.SetConfiguration(data);
+            //txtDurationHour.DataBindings.Clear();
+            //txtDurationMinute.DataBindings.Clear();
+            //txtNumberOfThreads.DataBindings.Clear();
+            //txtTimeBetweenRequests.DataBindings.Clear();
+            //txtRampUpMinutes.DataBindings.Clear();
+            //txtRampUpSeconds.DataBindings.Clear();
  
-            var stepTL = timeLine as TimeBasedTimeLine;
-            CurrentTimeLine = stepTL != null ? stepTL : (TimeBasedTimeLine)NewConfiguration();
-            txtDurationHour.DataBindings.Add("Text", CurrentTimeLine, "Hours");
-            txtDurationMinute.DataBindings.Add("Text", CurrentTimeLine, "Minutes");
+            txtDurationHour.DataBindings.Add("Text", CurrentData, "Hours");
+            txtDurationMinute.DataBindings.Add("Text", CurrentData, "Minutes");
 
-            txtNumberOfThreads.DataBindings.Add("Text", CurrentTimeLine, "NoOfThreads");
-            txtTimeBetweenRequests.DataBindings.Add("Text", CurrentTimeLine, "PauseBetweenRequests");
+            txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "NoOfThreads");
+            txtTimeBetweenRequests.DataBindings.Add("Text", CurrentData, "PauseBetweenRequests");
 
-
-            txtRampUpMinutes.DataBindings.Add("Text", CurrentTimeLine, "RampUpMinutes");
-            txtRampUpSeconds.DataBindings.Add("Text", CurrentTimeLine, "RampUpSeconds");
+            txtRampUpMinutes.DataBindings.Add("Text", CurrentData, "RampUpMinutes");
+            txtRampUpSeconds.DataBindings.Add("Text", CurrentData, "RampUpSeconds");
         }
 
-        public bool IsValid()
+        public override bool IsValid()
         {
             return true;
-        }
-
-        public ExtendableData GetConfiguration()
-        {
-            return CurrentTimeLine;
         }
     }
 }

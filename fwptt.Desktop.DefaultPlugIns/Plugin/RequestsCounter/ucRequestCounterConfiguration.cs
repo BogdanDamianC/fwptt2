@@ -12,31 +12,22 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
     [ExpandableSettings(RequestCounterConfiguration.PublicName, "Request Counter", ExpandableComponentType.PluginConfiguration)]
-    public partial class ucRequestCounterConfiguration : UserControl, ITestRunConfigurationComponent
+    public partial class ucRequestCounterConfiguration : BaseTestRunConfigurationComponent<RequestCounterConfiguration>
     {
         public ucRequestCounterConfiguration()
         {
             InitializeComponent();
         }
 
-        public ExtendableData NewConfiguration()
+        public override void SetConfiguration(ExtendableData data)
         {
-            return new RequestCounterConfiguration();
+            base.SetConfiguration(data);
+            //txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
         }
 
-        public void SetConfiguration(ExtendableData timeLine)
+        public override bool IsValid()
         {
-            throw new NotImplementedException();
-        }
-
-        public bool IsValid()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ExtendableData GetConfiguration()
-        {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace fwptt.TestProject.Project.Interfaces
     public interface ITestRunConfigurationComponent
     {
         ExtendableData NewConfiguration();
-        void SetConfiguration(ExtendableData timeLine);
+        void SetConfiguration(ExtendableData data);
         bool IsValid();
         ExtendableData GetConfiguration();
     }
