@@ -30,18 +30,12 @@ namespace fwptt.TestProject.Project.Interfaces
 	/// <summary>
 	/// Summary description for RequestPlayerPlugIn.
 	/// </summary>
-	public interface IRequestPlayerPlugIn:IDisposable
+	public interface IRequestPlayerPlugIn
 	{
-		void Initialize(IRequestPlayer player);
 		void TestStarted();
 		void TestStoped();
 		void RequestStarted(RequestInfo rinfo);
 		void RequestEnded(RequestInfo rinfo);
-		/// <summary>
-		/// the nameof the plugin - it will be displayed in the UI for the users to use
-		/// </summary>
-		string Name{get;}
-		string Description{get;}
 	}
 
 	/// <summary>

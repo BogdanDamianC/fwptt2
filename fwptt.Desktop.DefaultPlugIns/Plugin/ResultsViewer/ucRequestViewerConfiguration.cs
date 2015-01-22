@@ -10,8 +10,8 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
-{    
-    [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer", ExpandableComponentType.PluginConfiguration)]
+{
+    [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer - Provides recording/vizualization and html content view", ExpandableComponentType.PluginConfiguration)]
     public partial class ucRequestViewerConfiguration : BaseTestRunConfigurationComponent
     {
         public ucRequestViewerConfiguration()

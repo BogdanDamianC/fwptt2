@@ -34,10 +34,10 @@ using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
-    [ExpandableSettings(SteppingTimeLine.PublicName, "Finite Number of Runs (runs all the requests a specific number of times)", ExpandableComponentType.TimeLineConfiguration)]
-    public partial class ucStepTimeLine : BaseTestRunConfigurationComponent
+    [ExpandableSettings(TimeBasedTimeLine.PublicName, "Time Based (runs all the requests for a specific time with a specific number of parallel users)", ExpandableComponentType.TimeLineConfiguration)]
+    public partial class ucTimeBasedTimeLineConfiguration : BaseTestRunConfigurationComponent
     {
-        public ucStepTimeLine()
+        public ucTimeBasedTimeLineConfiguration()
         {
             InitializeComponent();
         }
@@ -45,7 +45,20 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         public override void SetConfiguration(ExtendableData data)
         {
             base.SetConfiguration(data);
-            txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
+ 
+            txtDurationHour.DataBindings.Add("Text", CurrentData, "Hours");
+            txtDurationMinute.DataBindings.Add("Text", CurrentData, "Minutes");
+
+            txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "NoOfThreads");
+            txtTimeBetweenRequests.DataBindings.Add("Text", CurrentData, "PauseBetweenRequests");
+
+            txtRampUpMinutes.DataBindings.Add("Text", CurrentData, "RampUpMinutes");
+            txtRampUpSeconds.DataBindings.Add("Text", CurrentData, "RampUpSeconds");
+        }
+
+        private void ucTimeBasedTimeLine_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

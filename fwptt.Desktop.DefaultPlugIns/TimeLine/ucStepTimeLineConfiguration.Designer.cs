@@ -1,6 +1,6 @@
 ﻿namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
-    partial class ucStepTimeLine
+    partial class ucStepTimeLineConfiguration
     {
         /// <summary> 
         /// Required designer variable.

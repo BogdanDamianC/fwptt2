@@ -11,12 +11,13 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns
 {
     /// <summary>
-    /// helper class that implements the basic implementation for the setter and getter actions
+    /// helper class that implements the basic implementation for the setter
     /// </summary>
-    public class BaseTestRunConfigurationComponent : UserControl, ITestRunConfigurationComponent
+    public class BaseTestRunExecutionComponent: UserControl, ITestRunViewerComponent
     {
         private Type configurationDataType = null;
-        public BaseTestRunConfigurationComponent():base()
+        public BaseTestRunExecutionComponent()
+            : base()
         {
             if(DesignMode)
                 return;
@@ -30,12 +31,11 @@ namespace fwptt.Desktop.DefaultPlugIns
 
         public virtual void SetConfiguration(ExtendableData data)
         {
-            CurrentData = data != null && data.GetType() == configurationDataType ? data : (ExtendableData)Activator.CreateInstance(configurationDataType);
-        }
-
-        public ExtendableData GetConfiguration()
-        {
-            return CurrentData;
+            if (data == null)
+                throw new ApplicationException("The "+ this.GetType() + " viewer was started with no data!");
+            else if(data.GetType() != configurationDataType)
+                throw new ApplicationException("The " + this.GetType() + " viewer was started with the wrong data!");
+            CurrentData = data;
         }
     }
 }

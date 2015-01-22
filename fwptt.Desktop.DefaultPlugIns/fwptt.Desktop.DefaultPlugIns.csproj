@@ -112,21 +112,36 @@
     <Compile Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.Designer.cs">
       <DependentUpon>ucRequestViewerConfiguration.cs</DependentUpon>
     </Compile>
+    <Compile Include="BaseTestRunExecutionComponent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="TimeLine\SteppingTimeLine.cs" />
     <Compile Include="TimeLine\SteppingTimeLineController.cs" />
     <Compile Include="TimeLine\TimeBasedTimeLine.cs" />
     <Compile Include="TimeLine\TimeBasedTimeLineController.cs" />
-    <Compile Include="TimeLine\ucStepTimeLine.cs">
+    <Compile Include="TimeLine\ucSetppingTimeLineViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeLine\ucStepTimeLine.Designer.cs">
-      <DependentUpon>ucStepTimeLine.cs</DependentUpon>
+    <Compile Include="TimeLine\ucSetppingTimeLineViewer.Designer.cs">
+      <DependentUpon>ucSetppingTimeLineViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeLine\ucTimeBasedTimeLine.cs">
+    <Compile Include="TimeLine\ucStepTimeLineConfiguration.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeLine\ucTimeBasedTimeLine.Designer.cs">
-      <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
+    <Compile Include="TimeLine\ucStepTimeLineConfiguration.Designer.cs">
+      <DependentUpon>ucStepTimeLineConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeLine\ucTimeBasedTimeLineConfiguration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeLine\ucTimeBasedTimeLineConfiguration.Designer.cs">
+      <DependentUpon>ucTimeBasedTimeLineConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeLine\ucTimeBasedTimeLineViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeLine\ucTimeBasedTimeLineViewer.Designer.cs">
+      <DependentUpon>ucTimeBasedTimeLineViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Wizzards\WebTestGeneratorWizzard\frmDORequestsRecording.cs">
       <SubType>Form</SubType>
@@ -151,17 +166,15 @@
     <Content Include="Plugin\ResultsViewer\Simple.xsl" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="General.cs" />
-    <Compile Include="Plugin\RequestsCounter\FrmCounterViewer.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Plugin\RequestsCounter\ucCounterViewer.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Plugin\RequestsCounter\ReqCounterPlugIn.cs" />
-    <Compile Include="Plugin\ResultsViewer\FrmResultsViewer.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Plugin\ResultsViewer\ucResultsViewer.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Plugin\ResultsViewer\PageViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Plugin\ResultsViewer\RVPlugIn.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -197,17 +210,23 @@
     <EmbeddedResource Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.resx">
       <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\ResultsViewer\FrmResultsViewer.resx">
-      <DependentUpon>FrmResultsViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Plugin\ResultsViewer\ucResultsViewer.resx">
+      <DependentUpon>ucResultsViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.resx">
       <DependentUpon>ucRequestViewerConfiguration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeLine\ucStepTimeLine.resx">
-      <DependentUpon>ucStepTimeLine.cs</DependentUpon>
+    <EmbeddedResource Include="TimeLine\ucSetppingTimeLineViewer.resx">
+      <DependentUpon>ucSetppingTimeLineViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLine.resx">
-      <DependentUpon>ucTimeBasedTimeLine.cs</DependentUpon>
+    <EmbeddedResource Include="TimeLine\ucStepTimeLineConfiguration.resx">
+      <DependentUpon>ucStepTimeLineConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLineConfiguration.resx">
+      <DependentUpon>ucTimeBasedTimeLineConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLineViewer.resx">
+      <DependentUpon>ucTimeBasedTimeLineViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizzards\WebTestGeneratorWizzard\frmDORequestsRecording.resx">
       <DependentUpon>frmDORequestsRecording.cs</DependentUpon>

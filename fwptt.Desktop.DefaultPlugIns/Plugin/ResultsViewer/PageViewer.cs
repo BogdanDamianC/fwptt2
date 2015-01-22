@@ -26,7 +26,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
+namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 {
 	/// <summary>
 	/// Summary description for PageViewer.

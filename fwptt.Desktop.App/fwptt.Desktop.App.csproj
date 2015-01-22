@@ -101,6 +101,9 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="UI\frmTestRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UI\frmTestRunDefinition.cs">
       <SubType>Form</SubType>
     </Compile>

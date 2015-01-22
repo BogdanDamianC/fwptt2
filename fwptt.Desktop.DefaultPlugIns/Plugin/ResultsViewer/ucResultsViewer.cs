@@ -36,14 +36,13 @@ using System.IO;
 using System.Data;
 using System.Text;
 using fwptt.TestProject.Run.Data;
+using fwptt.TestProject.Project.Interfaces;
 
 
-namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
+namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 {
-	/// <summary>
-	/// Summary description for FrmResultsViewer.
-	/// </summary>
-	public class FrmResultsViewer : System.Windows.Forms.Form
+    [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer - Provides recording/vizualization and html content view", ExpandableComponentType.Plugin)]
+    public class ucResultsViewer : BaseTestRunExecutionComponent, IRequestPlayerPlugIn
 	{
 		private System.Windows.Forms.DataGrid dataGrid1;
 		private System.Windows.Forms.Button btnExportResponses;
@@ -77,7 +76,7 @@ namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
 
 		private TestStatuses TestStatus = TestStatuses.NotRunning;
 
-		public FrmResultsViewer()
+		public ucResultsViewer()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -289,8 +288,6 @@ namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
             // 
             // FrmResultsViewer
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(926, 517);
             this.Controls.Add(this.dataGrid1);
             this.Controls.Add(this.panel1);
             this.Name = "FrmResultsViewer";
@@ -342,14 +339,14 @@ namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
 		}
 
         delegate void ThreadSafeAddRequestCallback(RequestInfo rinfo);
-		public void AddRequest(RequestInfo rinfo)
+		public void RequestEnded(RequestInfo rinfo)
 		{
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
             if (this.InvokeRequired)
             {
-                ThreadSafeAddRequestCallback d = new ThreadSafeAddRequestCallback(AddRequest);
+                ThreadSafeAddRequestCallback d = new ThreadSafeAddRequestCallback(RequestEnded);
                 this.Invoke(d, new object[] { rinfo });
                 return;
             }
@@ -481,19 +478,16 @@ namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
 			}
 		}
 
-		private void btnViewPage_Click(object sender, System.EventArgs e)
-		{
-			if(dataGrid1.DataSource == null || BindingContext[dataGrid1.DataSource].Current == null)
-				return;
+        private void btnViewPage_Click(object sender, System.EventArgs e)
+        {
+            if (dataGrid1.DataSource == null || BindingContext[dataGrid1.DataSource].Current == null)
+                return;
 
             int Index = (int)((DataRowView)BindingContext[dataGrid1.DataSource].Current)["Record_Index"];
             if (Index >= 0 && Index < requests.Count)
-            {
-                PageViewer pv = new PageViewer(requests[Index].Response);
-                pv.ShowDialog(this.MdiParent);
-                pv.Dispose();
-            }
-		}
+                using (PageViewer pv = new PageViewer(requests[Index].Response))
+                    pv.ShowDialog(this);
+        }
 
         private void txtRefreshTime_ValueChanged(object sender, EventArgs e)
         {
@@ -563,6 +557,17 @@ namespace fwptt.Desktop.DefaultPlugIns.ResultsViewer
                 MessageBox.Show(ex.Message + ex.StackTrace);
             }
         }
-	}
+
+
+        public void TestStoped()
+        {
+            
+        }
+
+        public void RequestStarted(RequestInfo rinfo)
+        {
+            
+        }
+    }
 }
 

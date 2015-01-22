@@ -29,9 +29,13 @@ using fwptt.TestProject;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
-    public interface ITestRunConfigurationComponent
+    public interface ITestRunViewerComponent
     {
         void SetConfiguration(ExtendableData data);
+    }
+
+    public interface ITestRunConfigurationComponent : ITestRunViewerComponent
+    {
         ExtendableData GetConfiguration();
     }
 }

@@ -29,7 +29,7 @@ namespace fwptt.TestProject.Project.Interfaces
         public abstract string UniqueName { get; }
     }
 
-    public enum ExpandableComponentType { TimeLineConfiguration, PluginConfiguration, Plugin };
+    public enum ExpandableComponentType { TimeLineConfiguration, TimeLineViewer, PluginConfiguration, Plugin };
     public class ExpandableSettingsAttribute : Attribute
     {
         public ExpandableSettingsAttribute(string uniqueName, string DisplayName, ExpandableComponentType type)

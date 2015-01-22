@@ -25,13 +25,12 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
-	/// <summary>
-	/// Summary description for FrmCounterViewer.
-	/// </summary>
-	public class FrmCounterViewer : System.Windows.Forms.Form
+    [ExpandableSettings(RequestCounterConfiguration.PublicName, "Request Counter", ExpandableComponentType.Plugin)]
+    public class ucCounterViewer : BaseTestRunExecutionComponent, IRequestPlayerPlugIn
 	{
 		private System.ComponentModel.IContainer components;
 
@@ -50,7 +49,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		private DateTime StartTime;
 		private DateTime EndTime;
 
-		public FrmCounterViewer()
+		public ucCounterViewer()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -153,41 +152,17 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			// 
 			// FrmCounterViewer
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(250, 80);
 			this.Controls.Add(this.txtTotalNoOfRequests);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.txtAverageRequestsperSecond);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.txtInstantRequestsperSecond);
 			this.Controls.Add(this.label1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Name = "FrmCounterViewer";
-			this.Text = "Counters";
 			this.ResumeLayout(false);
 
 		}
 		#endregion
 
-		public void TestStarted()
-		{
-			TestStatus = TestStatuses.Running;
-			StartTime = DateTime.Now;
-			InstantCount = 0;
-			TotalCount = 0;
-		}
-
-		public void RequestEnded()
-		{
-			InstantCount ++;
-			TotalCount ++;
-			EndTime = DateTime.Now;
-		}
-
-		public void TestEnded()
-		{
-			TestStatus = TestStatuses.Stopped;
-		}
 
 		private void timer1_Tick(object sender, System.EventArgs e)
 		{
@@ -207,5 +182,41 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 				
 			}
 		}
-	}
+
+        public void TestStarted()
+        {
+            TestStatus = TestStatuses.Running;
+            StartTime = DateTime.Now;
+            InstantCount = 0;
+            TotalCount = 0;
+        }
+
+        public void RequestEnded()
+        {
+            InstantCount++;
+            TotalCount++;
+            EndTime = DateTime.Now;
+        }
+
+        public void TestEnded()
+        {
+            TestStatus = TestStatuses.Stopped;
+        }
+
+
+        public void TestStoped()
+        {
+            
+        }
+
+        public void RequestStarted(TestProject.Run.Data.RequestInfo rinfo)
+        {
+            
+        }
+
+        public void RequestEnded(TestProject.Run.Data.RequestInfo rinfo)
+        {
+            
+        }
+    }
 }
