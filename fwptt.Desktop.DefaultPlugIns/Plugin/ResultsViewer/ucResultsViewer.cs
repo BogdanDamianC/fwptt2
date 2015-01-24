@@ -181,10 +181,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.dataGrid1.DataMember = "";
             this.dataGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGrid1.Location = new System.Drawing.Point(0, 134);
+            this.dataGrid1.Location = new System.Drawing.Point(0, 32);
             this.dataGrid1.Name = "dataGrid1";
             this.dataGrid1.ReadOnly = true;
-            this.dataGrid1.Size = new System.Drawing.Size(926, 383);
+            this.dataGrid1.Size = new System.Drawing.Size(934, 430);
             this.dataGrid1.TabIndex = 0;
             this.dataGrid1.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
             this.dataGridTableStyle1});
@@ -223,7 +223,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // 
             this.btnExportResponses.Enabled = false;
             this.btnExportResponses.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportResponses.Location = new System.Drawing.Point(486, 8);
+            this.btnExportResponses.Location = new System.Drawing.Point(230, 1);
             this.btnExportResponses.Name = "btnExportResponses";
             this.btnExportResponses.Size = new System.Drawing.Size(224, 23);
             this.btnExportResponses.TabIndex = 15;
@@ -239,14 +239,14 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(926, 134);
+            this.panel1.Size = new System.Drawing.Size(934, 32);
             this.panel1.TabIndex = 16;
             // 
             // btnExportData
             // 
             this.btnExportData.Enabled = false;
             this.btnExportData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportData.Location = new System.Drawing.Point(486, 33);
+            this.btnExportData.Location = new System.Drawing.Point(690, 1);
             this.btnExportData.Name = "btnExportData";
             this.btnExportData.Size = new System.Drawing.Size(224, 23);
             this.btnExportData.TabIndex = 24;
@@ -256,7 +256,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // btnViewPage
             // 
             this.btnViewPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnViewPage.Location = new System.Drawing.Point(256, 32);
+            this.btnViewPage.Location = new System.Drawing.Point(460, 1);
             this.btnViewPage.Name = "btnViewPage";
             this.btnViewPage.Size = new System.Drawing.Size(224, 24);
             this.btnViewPage.TabIndex = 21;
@@ -267,7 +267,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // 
             this.btnSaveXmlLogFile.Enabled = false;
             this.btnSaveXmlLogFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveXmlLogFile.Location = new System.Drawing.Point(256, 8);
+            this.btnSaveXmlLogFile.Location = new System.Drawing.Point(0, 1);
             this.btnSaveXmlLogFile.Name = "btnSaveXmlLogFile";
             this.btnSaveXmlLogFile.Size = new System.Drawing.Size(224, 23);
             this.btnSaveXmlLogFile.TabIndex = 20;
@@ -286,12 +286,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.menuExportData.Name = "menuExportData";
             this.menuExportData.Size = new System.Drawing.Size(61, 4);
             // 
-            // FrmResultsViewer
+            // ucResultsViewer
             // 
             this.Controls.Add(this.dataGrid1);
             this.Controls.Add(this.panel1);
-            this.Name = "FrmResultsViewer";
-            this.Text = "Results Viewer";
+            this.Name = "ucResultsViewer";
+            this.Size = new System.Drawing.Size(934, 462);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();

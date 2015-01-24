@@ -230,6 +230,16 @@ namespace fwptt.Desktop.App.UI
         {
             if (!CanCreateNewItem())
                 return;
+            var trd = tvProject.SelectedNode.Tag as TestRunDefinition;
+            if (trd == null)
+                MessageBox.Show("Something went wrong the current selected node is not a test run definition.", "Error");
+            var runResults = new TestRunResults{ 
+                Name = trd.Name + DateTime.Now.ToString(),
+                TestRunDefinition = trd,
+            }; //TODO the test run definition must be cloned
+            TestProjectHost.Current.Project.TestRunsResults.Add(runResults);
+            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td));
+
         }
         #endregion
     }

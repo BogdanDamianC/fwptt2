@@ -19,10 +19,12 @@ namespace fwptt.TestProject.Project
         {
             TestDefinitions = new List<TestDefinition>();
             TestRunDefinitions = new List<TestRunDefinition>();
+            TestRunsResults = new List<TestRunResults>();
         }
 
         public List<TestDefinition> TestDefinitions { get; set; }
         public List<TestRunDefinition> TestRunDefinitions { get; set; }
+        public List<TestRunResults> TestRunsResults { get; set; }
 
         public static TestProjectDefinition FromFile(string path)
         {

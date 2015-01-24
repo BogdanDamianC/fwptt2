@@ -25,10 +25,13 @@ namespace fwptt.Desktop.Util
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        public AccordionControl()
+        public bool KeepOnlyOneItemExpanded { get; set; }
+
+        public AccordionControl():base()
         {
             components = new System.ComponentModel.Container();
             this.AutoScroll = this.AutoSize = false;
+            KeepOnlyOneItemExpanded = true;
         }
 
         public void Add(ExpanderControl expander)
@@ -61,14 +64,12 @@ namespace fwptt.Desktop.Util
             disableLayoutUpdate = true;
             try
             {
-                ExpanderControl expander = sender as ExpanderControl;
-                foreach (ExpanderControl ex in Controls)
+                if (KeepOnlyOneItemExpanded)
                 {
-                    if (ex == expander)
-                        continue;
-
-                    if (ex.Expanded)
-                        ex.Collapse();
+                    //ExpanderControl expander = sender as ExpanderControl;
+                    foreach (ExpanderControl ex in Controls)
+                        if (ex != sender && ex.Expanded)
+                            ex.Collapse();
                 }
                 SetHeights();
             }

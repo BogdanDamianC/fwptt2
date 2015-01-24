@@ -74,7 +74,7 @@
             this.tstripNewTestDefinition,
             this.tsiNewBlankCSFile});
             this.ctxTestDefinition.Name = "ctxTestDefinition";
-            this.ctxTestDefinition.Size = new System.Drawing.Size(179, 70);
+            this.ctxTestDefinition.Size = new System.Drawing.Size(179, 48);
             // 
             // tstripNewTestDefinition
             // 
@@ -132,26 +132,26 @@
             this.openTestRunDefinitionStripMenuItem,
             this.deleteTestRunDefinitionStripMenuItem});
             this.ctxTestRunDefinitionItem.Name = "ctxTestRunDefinitionItem";
-            this.ctxTestRunDefinitionItem.Size = new System.Drawing.Size(123, 70);
+            this.ctxTestRunDefinitionItem.Size = new System.Drawing.Size(153, 92);
             // 
             // newRunToolStripMenuItem
             // 
             this.newRunToolStripMenuItem.Name = "newRunToolStripMenuItem";
-            this.newRunToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.newRunToolStripMenuItem.Text = "New Run";
+            this.newRunToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newRunToolStripMenuItem.Text = "Run";
             this.newRunToolStripMenuItem.Click += new System.EventHandler(this.newRunToolStripMenuItem_Click);
             // 
             // openTestRunDefinitionStripMenuItem
             // 
             this.openTestRunDefinitionStripMenuItem.Name = "openTestRunDefinitionStripMenuItem";
-            this.openTestRunDefinitionStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.openTestRunDefinitionStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openTestRunDefinitionStripMenuItem.Text = "Open";
             this.openTestRunDefinitionStripMenuItem.Click += new System.EventHandler(this.openTestRunDefinitionStripMenuItem_Click);
             // 
             // deleteTestRunDefinitionStripMenuItem
             // 
             this.deleteTestRunDefinitionStripMenuItem.Name = "deleteTestRunDefinitionStripMenuItem";
-            this.deleteTestRunDefinitionStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.deleteTestRunDefinitionStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.deleteTestRunDefinitionStripMenuItem.Text = "Delete";
             this.deleteTestRunDefinitionStripMenuItem.Click += new System.EventHandler(this.deleteTestRunDefinitionStripMenuItem_Click);
             // 

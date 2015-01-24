@@ -13,7 +13,7 @@ namespace fwptt.Desktop.DefaultPlugIns
     /// <summary>
     /// helper class that implements the basic implementation for the setter
     /// </summary>
-    public class BaseTestRunExecutionComponent: UserControl, ITestRunViewerComponent
+    public class BaseTestRunExecutionComponent: UserControl, ITestRunExecutionComponent
     {
         private Type configurationDataType = null;
         public BaseTestRunExecutionComponent()
