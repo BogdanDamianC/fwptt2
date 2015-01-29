@@ -136,6 +136,16 @@ namespace fwptt.Desktop.App.UI
             tryOpenCreateItemTestRunDefinition(e.Node.Tag as TestRunDefinition);
         }
 
+        private T GetMenuClickTargetNodeValue<T>(object sender) where T : class
+        {
+            var menu = sender as ToolStripMenuItem;
+            if (menu == null)
+                return null;
+            var hitTest = tvProject.HitTest(tvProject.PointToClient(new Point(menu.GetCurrentParent().Left, menu.GetCurrentParent().Top)));
+            var node = hitTest.Node ?? tvProject.SelectedNode;
+            return node != null ? node.Tag as T : (T)null;
+        }
+
         #region Test Definition
         private void tstripNewTestDefinition_Click(object sender, EventArgs e)
         {
@@ -189,6 +199,15 @@ namespace fwptt.Desktop.App.UI
         #endregion
 
         #region TestRunDefinitions
+
+        private TestRunDefinition GetMenuClickTargetTestRunDefinition(object sender)
+        {
+            var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender);
+            if (trd == null)
+                MessageBox.Show("Something went wrong the current selected node is not a test run definition.", "Error");
+            return trd;
+        }
+
         private void tryOpenCreateItemTestRunDefinition(TestRunDefinition testRunDefinition)
         {
             TryOpenCreateItem<frmTestRunDefinition, TestRunDefinition>(testRunDefinition, (td) => new frmTestRunDefinition(td), testRunDefinitionEditor_onNameChanged);
@@ -217,12 +236,15 @@ namespace fwptt.Desktop.App.UI
 
         private void openTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
-            tryOpenCreateItemTestRunDefinition(tvProject.SelectedNode.Tag as TestRunDefinition);
+            tryOpenCreateItemTestRunDefinition(GetMenuClickTargetTestRunDefinition(sender));
         }
 
         private void deleteTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
-            TestProjectHost.Current.Project.TestRunDefinitions.Remove(tvProject.SelectedNode.Tag as TestRunDefinition);
+            var trd = GetMenuClickTargetTestRunDefinition(sender);
+            if (trd == null)
+                return;
+            TestProjectHost.Current.Project.TestRunDefinitions.Remove(trd);
             testRunDefinitions.Nodes.Remove(tvProject.SelectedNode);
         }
 
@@ -230,9 +252,9 @@ namespace fwptt.Desktop.App.UI
         {
             if (!CanCreateNewItem())
                 return;
-            var trd = tvProject.SelectedNode.Tag as TestRunDefinition;
+            var trd = GetMenuClickTargetTestRunDefinition(sender);
             if (trd == null)
-                MessageBox.Show("Something went wrong the current selected node is not a test run definition.", "Error");
+                return;
             var runResults = new TestRunResults{ 
                 Name = trd.Name + DateTime.Now.ToString(),
                 TestRunDefinition = trd,
