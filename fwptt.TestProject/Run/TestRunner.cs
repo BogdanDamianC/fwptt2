@@ -46,110 +46,85 @@ namespace fwptt.TestProject.Run
 	/// </summary>
 	public class TestRunner:IDisposable
 	{
-		private BaseTemplateExecuteClass [] Instances = null;
 		private List<IRequestPlayerPlugIn> Plugins = new List<IRequestPlayerPlugIn>();
 
 		public event EventHandler TestsHaveFinished;
 		public event EventHandler RequestStarted;
 
-		private Type lRunnedType;
-		EventHandler TestRunner_TestEndedEventHandler;
-		EventHandler TestRunner_RequestStartedEventhandler;
-		EventHandler TestRunner_RequestEndedEventhandler;
+		private Type runningTestType;
+        private EventHandler runnerRequestStartedEventhandler;
+        private EventHandler runnerRequestEndedEventhandler;
 
-        ITimeLineController timelineCtrl;
+		private ITimeLineController timelineCtrl;
 
 		private System.Net.WebProxy l_Proxy = null;
 
-		public TestRunner()
+        public TestRunner(ITimeLineController timeline, Type runningTestType)
 		{
-			TestRunner_TestEndedEventHandler = new EventHandler(TestRunner_TestEnded);
-			TestRunner_RequestStartedEventhandler = new EventHandler(TestRunner_RequestStarted);
-			TestRunner_RequestEndedEventhandler = new EventHandler(TestRunner_RequestEnded);
+            timelineCtrl = timeline;
+            this.runningTestType = runningTestType;
+			runnerRequestStartedEventhandler = new EventHandler(TestRunner_RequestStarted);
+			runnerRequestEndedEventhandler = new EventHandler(TestRunner_RequestEnded);
 		}
 
-        public void StartTests(int ConcurentThreads, BaseTestRunTimeLine p_timeline)
+        private int totalNoOfRunningTests = 0;
+
+        public void StartTests()
         {
-            timelineCtrl = p_timeline.GetNewController();
+            timelineCtrl.StartTimeLine();
             foreach (var plugin in Plugins)
                 plugin.TestStarted();
 
-            Instances = new BaseTemplateExecuteClass[ConcurentThreads];
-            var tasks = new Task[ConcurentThreads];
-            lock (Instances)
+            totalNoOfRunningTests = 0;
+            new Task(() =>
             {
-                for (int i = 0; i < ConcurentThreads; i++)
+                int delayInBetweenChecks = timelineCtrl.MiliSecondsPauseBetweenRequests > 0 ? timelineCtrl.MiliSecondsPauseBetweenRequests : 50;
+                do
                 {
-                    Instances[i] = (BaseTemplateExecuteClass)Activator.CreateInstance(lRunnedType, new object[] { });
-                    Instances[i].RequestStarted += TestRunner_RequestStartedEventhandler;
-                    Instances[i].RequestEnded += TestRunner_RequestEndedEventhandler;
-                    Instances[i].TestEnded += TestRunner_TestEndedEventHandler;
-                    Instances[i].Proxy = this.Proxy;
-                    tasks[i] = Instances[i].StartTest(timelineCtrl, i * timelineCtrl.MiliSecondsPauseBetweenRequests);
-                }
-            }
-            Task.WaitAll(tasks);
+                    if (timelineCtrl.TryStartNewExecutionThread())
+                    {
+                        totalNoOfRunningTests++;
+                        timelineCtrl.OnStepStarted();
+                        var newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
+                        newInstance.RequestStarted += runnerRequestStartedEventhandler;
+                        newInstance.RequestEnded += runnerRequestEndedEventhandler;
+                        //newInstance.Proxy = this.Proxy;
+                        newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a)=>{
+                            await a;
+                            timelineCtrl.OnStepFinished();
+                            TestRunner_TestEnded();
+                        });
+                    }
+                    Task.Delay(delayInBetweenChecks);
+                } while (timelineCtrl.IsRunning);
+            }).Start();
         }
 
-		public async Task StopTests()
-		{
-			if(Instances != null)
-			{
-                timelineCtrl.StopTimeLine(); //this will make the test instances to stop
-                await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests > 1000 ? 1000 : timelineCtrl.MiliSecondsPauseBetweenRequests);//wait for all the instances to stop
-                lock (Instances)
-                {
-                    for (int i = 0; i < Instances.Length; i++)
-                    {
-                        Instances[i].StopTest();
-                        Instances[i] = null;
-                    }
-                }
-				Instances = null;
-			}
+        public void StopTests()
+        {
+            timelineCtrl.StopTimeLine(); //this will make the test instances to stop  
             timelineCtrl = null;
-		}
+            TestRunner_TestEnded();
+        }
 
 		#region PlugIns
-        public void AddPlugIn(IRequestPlayerPlugIn plugin)
-        {
-            lock (this)
-            {
-                Plugins.Add(plugin);
-            }
-        }
+		public void AddPlugIn(IRequestPlayerPlugIn plugin)
+		{
+			lock (this)
+			{
+				Plugins.Add(plugin);
+			}
+		}
 
-        public bool RemovePlugIn(IRequestPlayerPlugIn plugin)
+		public bool RemovePlugIn(IRequestPlayerPlugIn plugin)
 		{
 			lock(this)
 			{
-                return Plugins.Remove(plugin);
+				return Plugins.Remove(plugin);
 			}
 		}
 
 		#endregion
-
-		public Type RunnedType
-		{
-			get{ return lRunnedType;}
-			set{ lRunnedType = value;}
-		}
-
-		public BaseTemplateExecuteClass this[int index]
-		{
-			get{return Instances[index];}
-		}
-
-		public int Count
-		{
-			get
-			{
-				if(Instances != null)
-					return Instances.Length;
-				else
-					return 0;
-			}
-		}
 
 		public System.Net.WebProxy Proxy
 		{
@@ -157,59 +132,44 @@ namespace fwptt.TestProject.Run
 			set{l_Proxy = value;}
 		}
 
-        private void TestRunner_TestEnded(object sender, EventArgs e)
-        {
-            if (Instances != null)
-                lock (Instances)
-                {
-                    if (Instances != null)
-                    {
-                        for (int i = 0; i < Instances.Length; i++)
-                        {
-                            BaseTemplateExecuteClass tmp = Instances[i];
-                            if (tmp != null && tmp.IsRunning)
-                                return;
-                        }
-                    }
-                }
+		private void TestRunner_TestEnded()
+		{
+            totalNoOfRunningTests--;
+            if (totalNoOfRunningTests > 0)
+                return;
+			if (TestsHaveFinished != null)
+				TestsHaveFinished(this, System.EventArgs.Empty);
 
-            if (TestsHaveFinished != null)
-                TestsHaveFinished(this, System.EventArgs.Empty);
-
-            foreach (var plugin in Plugins)
-                plugin.TestStoped();
-
-        }
+			foreach (var plugin in Plugins)
+				plugin.TestStoped();
+		}
 
         private void TestRunner_RequestStarted(object sender, EventArgs e)
         {
             if (RequestStarted != null)
                 RequestStarted(sender, System.EventArgs.Empty);
-            if (Plugins != null)
-            {
-                RequestInfo rinfo = ((BaseTemplateExecuteClass)sender).CurrentRequest;
-                foreach (var plugin in Plugins)
-                    plugin.RequestStarted(rinfo);
-            }
+            if (Plugins == null)
+                return;
+            var rinfo = ((IBaseTest)sender).GetCurrentRequest();
+            foreach (var plugin in Plugins)
+                plugin.RequestStarted(rinfo);
         }
 
-		private void TestRunner_RequestEnded(object sender, EventArgs e)
-		{
-            if (Plugins != null)
-            {
-                RequestInfo rinfo = ((BaseTemplateExecuteClass)sender).CurrentRequest;
-                foreach (var plugin in Plugins)
-                    plugin.RequestEnded(rinfo);
-            }
-		}
+        private void TestRunner_RequestEnded(object sender, EventArgs e)
+        {
+            if (Plugins == null)
+                return;
+            var rinfo = ((IBaseTest)sender).GetCurrentRequest();
+            foreach (var plugin in Plugins)
+                plugin.RequestEnded(rinfo);
+        }
 
 		#region IDisposable Members
 
 		public void Dispose()
 		{
-			Task.WaitAll(StopTests());
-			Instances = null;
-            Plugins.Clear();
+			StopTests();
+			Plugins = null;
 		}
 
 		#endregion

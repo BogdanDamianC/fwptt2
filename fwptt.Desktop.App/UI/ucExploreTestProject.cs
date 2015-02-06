@@ -136,17 +136,21 @@ namespace fwptt.Desktop.App.UI
             tryOpenCreateItemTestRunDefinition(e.Node.Tag as TestRunDefinition);
         }
 
-        private T GetMenuClickTargetNodeValue<T>(object sender) where T : class
+        private T GetMenuClickTargetNodeValue<T>(object sender, string errorMessageWhenEmpty) where T : class
         {
             var menu = sender as ToolStripMenuItem;
             if (menu == null)
                 return null;
             var hitTest = tvProject.HitTest(tvProject.PointToClient(new Point(menu.GetCurrentParent().Left, menu.GetCurrentParent().Top)));
             var node = hitTest.Node ?? tvProject.SelectedNode;
-            return node != null ? node.Tag as T : (T)null;
+            var ret = node != null ? node.Tag as T : (T)null;
+            if (ret == null && !string.IsNullOrWhiteSpace(errorMessageWhenEmpty))
+                MessageBox.Show(errorMessageWhenEmpty, "Error");
+            return ret;
         }
 
         #region Test Definition
+        private const string TestDefininitionTreeviewSelectError = "Something went wrong the current selected node is not a test definition.";
         private void tstripNewTestDefinition_Click(object sender, EventArgs e)
         {
             if (!CanCreateNewItem())
@@ -181,7 +185,7 @@ namespace fwptt.Desktop.App.UI
 
         private void deleteTestDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var td = tvProject.SelectedNode.Tag as TestDefinition;
+            var td = GetMenuClickTargetNodeValue<TestDefinition>(sender, TestDefininitionTreeviewSelectError);
             if (TestProjectHost.Current.Project.TestRunDefinitions.Any(tr=>tr.TestDefinitionId == td.Id))
             {
                 MessageBox.Show("Can't delete the current test definition it is being used by some test runs. Please connect the existing test runs to other test definitions or delete them before trying to delete this test definition.", "Alert");
@@ -194,19 +198,15 @@ namespace fwptt.Desktop.App.UI
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(tvProject.SelectedNode.Tag as TestDefinition, (td) => new frmTestDefinitionSourceCodeEditor(td));
+            TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(
+                GetMenuClickTargetNodeValue<TestDefinition>(sender, TestDefininitionTreeviewSelectError), 
+                (td) => new frmTestDefinitionSourceCodeEditor(td));
         }
         #endregion
 
         #region TestRunDefinitions
+        private const string TestRunDefininitionTreeviewSelectError = "Something went wrong the current selected node is not a test run definition.";
 
-        private TestRunDefinition GetMenuClickTargetTestRunDefinition(object sender)
-        {
-            var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender);
-            if (trd == null)
-                MessageBox.Show("Something went wrong the current selected node is not a test run definition.", "Error");
-            return trd;
-        }
 
         private void tryOpenCreateItemTestRunDefinition(TestRunDefinition testRunDefinition)
         {
@@ -236,12 +236,12 @@ namespace fwptt.Desktop.App.UI
 
         private void openTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
-            tryOpenCreateItemTestRunDefinition(GetMenuClickTargetTestRunDefinition(sender));
+            tryOpenCreateItemTestRunDefinition(GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError));
         }
 
         private void deleteTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
-            var trd = GetMenuClickTargetTestRunDefinition(sender);
+            var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError);
             if (trd == null)
                 return;
             TestProjectHost.Current.Project.TestRunDefinitions.Remove(trd);
@@ -252,7 +252,7 @@ namespace fwptt.Desktop.App.UI
         {
             if (!CanCreateNewItem())
                 return;
-            var trd = GetMenuClickTargetTestRunDefinition(sender);
+            var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError);
             if (trd == null)
                 return;
             var runResults = new TestRunResults{ 

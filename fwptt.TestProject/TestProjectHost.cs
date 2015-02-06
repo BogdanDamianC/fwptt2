@@ -112,6 +112,11 @@ namespace fwptt.TestProject
             return newTR;
         }
 
+        public System.Reflection.Assembly CreateMemoryAssembly(TestDefinition td)
+        {
+            return CreateMemoryAssembly(GetTestProjectDefinitionCSharpCode(td), td.Assemblies);
+        }
+
         public System.Reflection.Assembly CreateMemoryAssembly(string sourceCode, List<string> Assemblies)
         {
             if (sourceCode.Trim().Length == 0)

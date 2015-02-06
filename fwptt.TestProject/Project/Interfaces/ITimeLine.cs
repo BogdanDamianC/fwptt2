@@ -18,8 +18,10 @@ namespace fwptt.TestProject.Project.Interfaces
         DateTime EndTime { get; }
         void StartTimeLine();
         void StopTimeLine();
-        bool TimeLineRunning { get; }
-        void OnStepExecuted();
+        bool IsRunning { get; }
+        void OnStepStarted();
+        void OnStepFinished();
         int MiliSecondsPauseBetweenRequests { get; set; }
+        bool TryStartNewExecutionThread();
     }
 }

@@ -34,8 +34,8 @@ namespace fwptt.TestProject.Project.Interfaces
 	{
 		void TestStarted();
 		void TestStoped();
-		void RequestStarted(RequestInfo rinfo);
-		void RequestEnded(RequestInfo rinfo);
+		void RequestStarted(IRequestInfo rinfo);
+		void RequestEnded(IRequestInfo rinfo);
 	}
 
 	/// <summary>

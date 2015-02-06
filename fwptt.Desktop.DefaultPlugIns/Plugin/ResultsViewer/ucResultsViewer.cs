@@ -57,7 +57,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
 		public int MaxNrOfRequests = 10;
 		private System.Timers.Timer timer1;
-		List<RequestInfo> requests = new List<RequestInfo>();
+		List<IRequestInfo> requests = new List<IRequestInfo>();
 		private System.Windows.Forms.Button btnSaveXmlLogFile;
         private System.Windows.Forms.Button btnViewPage;
         private int RequestsToDelete = 0;
@@ -338,8 +338,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             dataGrid1.DataSource = SetDataTable();
 		}
 
-        delegate void ThreadSafeAddRequestCallback(RequestInfo rinfo);
-		public void RequestEnded(RequestInfo rinfo)
+        delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
+		public void RequestEnded(IRequestInfo rinfo)
 		{
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
@@ -352,7 +352,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             }
 			lock(requests)
 			{
-                var newrinfo = rinfo.Clone();
+                var newrinfo = (WebRequestInfo)rinfo.Clone();
 				if(newrinfo.Response.Length > MaxResponseSize)
 					newrinfo.Response.Substring(0, MaxResponseSize);
 				requests.Add(newrinfo);
@@ -453,7 +453,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
 			if(LogFileName != null)
 			{
-				XmlSerializer ser = new XmlSerializer(typeof(List<RequestInfo>));
+				XmlSerializer ser = new XmlSerializer(typeof(List<WebRequestInfo>));
 				TextWriter twriter = new StreamWriter(LogFileName, false, Encoding.Unicode);
 				ser.Serialize(twriter, requests);
 				twriter.Close();
@@ -473,7 +473,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			for(int j = 0; j < requests.Count; j++)
 			{
 				StreamWriter writer = new StreamWriter(ret + @"\Instance_" + j.ToString() + "_Req_" + j.ToString() + ".html");
-				writer.Write(requests[j].Response);
+				writer.Write(((WebRequestInfo)requests[j]).Response);
 				writer.Close();
 			}
 		}
@@ -485,7 +485,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
             int Index = (int)((DataRowView)BindingContext[dataGrid1.DataSource].Current)["Record_Index"];
             if (Index >= 0 && Index < requests.Count)
-                using (PageViewer pv = new PageViewer(requests[Index].Response))
+                using (PageViewer pv = new PageViewer(((WebRequestInfo)requests[Index]).Response))
                     pv.ShowDialog(this);
         }
 
@@ -564,7 +564,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             
         }
 
-        public void RequestStarted(RequestInfo rinfo)
+        public void RequestStarted(IRequestInfo rinfo)
         {
             
         }

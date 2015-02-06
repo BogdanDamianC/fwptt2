@@ -12,7 +12,7 @@ using fwptt.TestProject.Run.Data;
 
 namespace IETests
 {
-	public class <#= TestDefinition.ClassName #>:BaseTemplateExecuteClass
+	public class <#= TestDefinition.ClassName #>:BaseWebTest
 	{
 		//var actions = new List<Func<Task>>();
 		public <#= TestDefinition.ClassName #>():base("Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)")
@@ -26,7 +26,7 @@ namespace IETests
 	
 		
 		#region Peristor - <#= index #> <#= request.URL #>
-		private async Task Req_<#= index #>()
+		private async Task <#= GetMethodName(index) #>()
 		{
 			await InitializeCurrentRequest();
 			CurrentRequest.Request.URL = @"<#= request.URL #>";
@@ -44,11 +44,7 @@ namespace IETests
 			{ #>CurrentRequest.Request.PostParams.Add(new RequestParam(@"<#=pp.ParamName #>",@"<#=pp.ParamValue??string.Empty #>"));
 			<# }  #>
 
-			UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
-			address.Port = CurrentRequest.Request.Port;
-			address.Query = GetRequestQuery(CurrentRequest.Request.QueryParams);
-			var req = GetRequest(address.Uri, RestSharp.Method.<#= request.RequestMethod??"GET" #>);		
-			//SetRequestData(req);
+			var req = GetRequest();		
 			var resp = await GetResponse(req);
 			
 			//Add response handling stuff here if needed
@@ -58,16 +54,10 @@ namespace IETests
 		
 		protected override async Task RunTest()
 		{			
-			while(IsRunning)
-			{
-				client.CookieContainer = new System.Net.CookieContainer();
-				if(!timeline.RunAnotherTime())
-					break;
-				<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 
-				{ #>await Req_<#= index #>();
-				if(!IsRunning) break;
-				<# } #>		
-			}
+			client.CookieContainer = new System.Net.CookieContainer();
+			<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 
+			{ #>await <#= GetMethodName(index) #>();
+			<# } #>		
 		}
 	}
 }

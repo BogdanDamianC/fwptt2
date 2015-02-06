@@ -124,9 +124,6 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <Compile Include="UI\frmTestDefinitionSourceCodeEditor.Designer.cs">
       <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\FrmRunTests.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Content Include="html_go.ico" />
     <Content Include="License.txt" />
     <Compile Include="MainClass.cs" />
@@ -180,9 +177,6 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
   <ItemGroup>
     <EmbeddedResource Include="UI\frmTestDefinitionSourceCodeEditor.resx">
       <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\FrmRunTests.resx">
-      <DependentUpon>FrmRunTests.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\frmTestProjectDefinition.resx">
       <DependentUpon>frmTestProjectDefinition.cs</DependentUpon>

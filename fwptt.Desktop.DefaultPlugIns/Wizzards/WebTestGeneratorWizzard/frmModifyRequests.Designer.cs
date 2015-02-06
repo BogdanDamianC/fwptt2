@@ -88,7 +88,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         	// 
         	// requestBindingSource
         	// 
-        	this.requestBindingSource.DataSource = typeof(fwptt.TestProject.Run.Data.Request);
+        	this.requestBindingSource.DataSource = typeof(fwptt.TestProject.Run.Data.WebRequest);
         	// 
         	// dataGridTableStyle1
         	// 
@@ -194,7 +194,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         	// requestPostParamBindingSource
         	// 
         	this.requestPostParamBindingSource.DataMember = "PostParams";
-        	this.requestPostParamBindingSource.DataSource = typeof(fwptt.TestProject.Run.Data.Request);
+        	this.requestPostParamBindingSource.DataSource = typeof(fwptt.TestProject.Run.Data.WebRequest);
         	// 
         	// dataGridTableStyle3
         	// 
@@ -270,7 +270,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         	// requestQuerryParamBindingSource
         	// 
         	this.requestQuerryParamBindingSource.DataMember = "QueryParams";
-        	this.requestQuerryParamBindingSource.DataSource = typeof(fwptt.TestProject.Run.Data.Request);
+        	this.requestQuerryParamBindingSource.DataSource = typeof(fwptt.TestProject.Run.Data.WebRequest);
         	// 
         	// dataGridTableStyle2
         	// 

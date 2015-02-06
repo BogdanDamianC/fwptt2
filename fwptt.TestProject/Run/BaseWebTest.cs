@@ -39,91 +39,62 @@ namespace fwptt.TestProject.Run
 	/// <summary>
 	/// Summary description for BaseTemplateExecuteClass.
 	/// </summary>
-	public abstract class BaseTemplateExecuteClass : IDisposable
-	{
-		protected ITimeLineController timelineCtrl = null;
-		private int StartDelay;
-		
+	public abstract class BaseWebTest:BaseTest<WebRequestInfo>	{
 		protected RestClient client {get; private set;}
 
 		public string AcceptedContent = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";
 		
-
-		public event EventHandler RequestStarted;
-		public event EventHandler RequestEnded;
-		public event EventHandler TestEnded;
-
-		
-		protected BaseTemplateExecuteClass(string UserAgent = null)
+		protected BaseWebTest(string UserAgent = null)
 		{
 			client = new RestClient();
-			client.UserAgent = UserAgent??"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";            
-		}
-
-		#region Requests props and functions
-		
-		public RequestInfo CurrentRequest {get; protected set;}
-
-		public async Task InitializeCurrentRequest()
-		{
-			CurrentRequest = new RequestInfo();
-			await DoSleep();
+			client.UserAgent = UserAgent??"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
+            parser = new HTMLContent.ContentParser();
 		}
 
 		public System.Net.WebProxy Proxy {get; set;}
-		#endregion
-
-		private async Task DoSleep()
-		{
-			int tmp = timelineCtrl.MiliSecondsPauseBetweenRequests / 50;
-			if (tmp <= 0)
-				tmp = 1;
-			for(int i = 0; IsRunning && i < tmp; i++)
-				await Task.Delay(50);
-		}
+		
 				
 		#region Util HTTP request/Respons processing functions
-		protected RestRequest GetRequest(Uri address, Method method)
-		{
-				var req = new RestRequest(address, method);
-				if (timelineCtrl.MiliSecondsPauseBetweenRequests > 1000)
-					req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
-				else
-					req.ReadWriteTimeout = req.Timeout = 1000;
-				
-//                if (Proxy != null)
-//                    req.Proxy = Proxy;
-				return req;
-		}
+        protected RestRequest GetRequest()
+        {
+            UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
+            address.Port = CurrentRequest.Request.Port;
+            address.Query = GetRequestQuery(CurrentRequest.Request.QueryParams);
 
-		protected async Task<IRestResponse> GetResponse(RestRequest req)
-		{
-			if (!IsRunning)
-				return null;
-			try
-			{	
+            var req = new RestRequest(address.Uri, (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true));
+            if (timelineCtrl.MiliSecondsPauseBetweenRequests > 1000)
+                req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
+            else
+                req.ReadWriteTimeout = req.Timeout = 1000;
 
-				if(RequestStarted != null)
-					RequestStarted(this, EventArgs.Empty);
-				CurrentRequest.StartTime = DateTime.Now;
-				var resp = await client.ExecuteTaskAsync(req);
-				CurrentRequest.ResponseCode = (int)resp.StatusCode;
-				CurrentRequest.EndTime = DateTime.Now;                
-				CurrentRequest.Response = resp.Content;
-				return resp;
-								  }
-			catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
-			{
-				throw;
-			}
-			catch (Exception ex)
-			{
-				CurrentRequest.EndTime = DateTime.Now;
-				SetException(ex);                
-				return null;
-			}
+            //                if (Proxy != null)
+            //                    req.Proxy = Proxy;
+            return req;
+        }
 
-		}
+        protected async Task<IRestResponse> GetResponse(RestRequest req)
+        {
+            onRequestStarted();
+            try
+            {
+                CurrentRequest.StartTime = DateTime.Now;
+                var resp = await client.ExecuteTaskAsync(req);
+                CurrentRequest.ResponseCode = (int)resp.StatusCode;
+                CurrentRequest.EndTime = DateTime.Now;
+                CurrentRequest.Response = resp.Content;
+                return resp;
+            }
+            catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                CurrentRequest.EndTime = DateTime.Now;
+                SetException(ex);
+                return null;
+            }
+        }
 		
 		protected void ParseCurrentHtmlContent(Uri responseUri)
 		{
@@ -222,42 +193,11 @@ namespace fwptt.TestProject.Run
 		}
 		#endregion
 
-		#region Test Run Functinos
-		protected abstract Task RunTest();
-
-		public bool IsRunning
+		
+		public override void Dispose()
 		{
-			get{return timelineCtrl != null && !timelineCtrl.TimeLineRunning;}
+            parser = null;
+            base.Dispose();
 		}
-
-		public async Task StartTest(ITimeLineController ptimeline, int pStartDelay)
-		{
-			StartDelay = pStartDelay;
-			StopTest();
-			this.timelineCtrl = ptimeline;
-			parser = new HTMLContent.ContentParser();
-			await RunTest();
-		}
-
-		public void StopTest()
-		{
-			timelineCtrl.StopTimeLine();
-			parser = null;
-		}
-
-		#endregion
-
-		#region IDisposable Members
-
-		public void Dispose()
-		{
-			parser = null;
-			timelineCtrl = null;
-			this.RequestStarted = null;
-			this.RequestEnded = null;
-
-		}
-
-		#endregion
 	}
 }

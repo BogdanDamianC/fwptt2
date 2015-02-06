@@ -31,11 +31,11 @@ namespace fwptt.TestProject.Run.Data
 	public class RecordedTestDefinition
 	{
         public RecordedTestDefinition(){
-            Requests = new List<Request>();
+            Requests = new List<WebRequest>();
         }
         public string NameSpace { get; set; }
         public string ClassName { get; set; }
-        public List<Request> Requests { get; set; }
+        public List<WebRequest> Requests { get; set; }
 		
 	}
 }

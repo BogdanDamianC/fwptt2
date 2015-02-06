@@ -29,9 +29,9 @@ using System.Runtime.Serialization;
 namespace fwptt.TestProject.Run.Data
 {
 	[Serializable]	
-	public class Request
+	public class WebRequest
 	{
-        public Request()
+        public WebRequest()
         {
             QueryParams = new List<RequestParam>();
             PostParams = new List<RequestParam>();
@@ -47,9 +47,9 @@ namespace fwptt.TestProject.Run.Data
         
         private static readonly string [] httpMethods = new string[]{"GET","POST","PUT","DELETE","HEAD", "CONNECT"};
         
-        public static Request FromFiddlerLog(string LogContent)
+        public static WebRequest FromFiddlerLog(string LogContent)
 		{
-			var retVal = new Request();
+			var retVal = new WebRequest();
 			bool PayloadNext = false;
 			for(int start = 0, end = LogContent.IndexOf(Environment.NewLine); 0<=start && start < LogContent.Length;start = end+Environment.NewLine.Length, end = LogContent.IndexOf(Environment.NewLine, start))
 			{
@@ -73,7 +73,7 @@ namespace fwptt.TestProject.Run.Data
 					retVal.URL = address.Scheme + "://" + address.Host + address.AbsolutePath;
                     retVal.Port = address.Port;
 					if(!string.IsNullOrWhiteSpace(address.Query))
-						retVal.QueryParams.AddRange(BaseTemplateExecuteClass.ParseRequestData(address.Query.Substring(1)));
+						retVal.QueryParams.AddRange(BaseWebTest.ParseRequestData(address.Query.Substring(1)));
 					continue;
 				}
 				var httpproperty = GetHttpProperty(lineText);
@@ -88,7 +88,7 @@ namespace fwptt.TestProject.Run.Data
 					retVal.Payload = lineText;
 					if(retVal.PayloadContentType == "application/x-www-form-urlencoded")
 					{
-						retVal.PostParams.AddRange(BaseTemplateExecuteClass.ParseRequestData(retVal.Payload));
+						retVal.PostParams.AddRange(BaseWebTest.ParseRequestData(retVal.Payload));
 					}
 					break;
 				}

@@ -9,22 +9,34 @@ namespace fwptt.TestProject.Project.TimeLine
 	/// </summary>
     public abstract class BaseTimeLineController : ITimeLineController
 	{
+        protected int MaxExecutionThreads;
+        private int CurrentExecutionThreads;
 		public DateTime StartTime {get; protected set;}
         public DateTime EndTime { get; protected set; }
 
-        public virtual bool TimeLineRunning { get; protected set; }
+        public virtual bool IsRunning { get; protected set; }
         public virtual void StartTimeLine()
         {
+            CurrentExecutionThreads = 0;
             StartTime = DateTime.Now;
-            TimeLineRunning = true;
+            IsRunning = true;
         }
 
 		public virtual void StopTimeLine()
 		{
             EndTime = DateTime.Now;
-            TimeLineRunning = false;
+            IsRunning = false;
 		}
-        public abstract void OnStepExecuted();
+        public virtual void OnStepStarted() { }
+        public virtual void OnStepFinished() { }
         public int MiliSecondsPauseBetweenRequests {get; set;}
+
+        public bool TryStartNewExecutionThread()
+        {
+            if (CurrentExecutionThreads >= MaxExecutionThreads)
+                return false;
+            CurrentExecutionThreads++;
+            return true;
+        }
 	}
 }

@@ -87,9 +87,10 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Project\Interfaces\ITestDefinitionGeneratorWizzard.cs" />
-    <Compile Include="Run\BaseTemplateExecuteClass.cs" />
+    <Compile Include="Run\BaseTest.cs" />
+    <Compile Include="Run\BaseWebTest.cs" />
     <Compile Include="Project\JsonCreationConverter.cs" />
-    <Compile Include="Run\Data\Request.cs" />
+    <Compile Include="Run\Data\WebRequest.cs" />
     <Compile Include="Run\Data\RequestInfo.cs" />
     <Compile Include="Run\Data\RequestParam.cs" />
     <Compile Include="Project\RecordedTestDefinition.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Project\TestProjectDefinition.cs" />
     <Compile Include="Project\TestRunDefinition.cs" />
     <Compile Include="Project\TestRunResults.cs" />
+    <Compile Include="Run\Data\WebRequestInfo.cs" />
     <Compile Include="TestProjectHost.cs" />
     <Compile Include="Run\TestRunner.cs" />
     <Compile Include="HTMLContent\ContentParser.cs" />

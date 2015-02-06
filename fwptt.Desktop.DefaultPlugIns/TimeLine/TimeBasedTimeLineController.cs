@@ -11,6 +11,7 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         private TimeBasedTimeLine timeline;
         public TimeBasedTimeLineController(TimeBasedTimeLine timeline)
         {
+            MaxExecutionThreads = timeline.NoOfThreads;
             this.timeline = timeline;
         }
 
@@ -21,10 +22,16 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             EndTime = EndTime.AddMinutes(timeline.Minutes);
         }
 
-        public override void OnStepExecuted()
+        public override bool IsRunning
         {
-            TimeLineRunning &= DateTime.Now < EndTime;
+            get
+            {
+                return base.IsRunning && DateTime.Now < EndTime;
+            }
+            protected set
+            {
+                base.IsRunning = value;
+            }
         }
-
     }
 }

@@ -28,23 +28,26 @@ using System.Runtime.Serialization;
 
 namespace fwptt.TestProject.Run.Data
 {
+    public interface IRequestInfo
+    {
+        DateTime StartTime { get; set; }
+        DateTime EndTime { get; set; }
+        string Exception { get; set; }
+        IRequestInfo Clone();
+    }
 	[Serializable]	
-	public class RequestInfo
+	public class RequestInfo<TIn, TOut>:IRequestInfo
 	{
-		public RequestInfo(){
-			this.Request = new Request();
-		}
-		public Request Request  { get; set; }
-        public string Response { get; set; }
+		public TIn Request  { get; set; }
+        public TOut Response { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Exception { get; set; }
-        public Int32 ResponseCode { get; set; }
-        public string LastFormPostDestination { get; set; }
+        
 
-        public RequestInfo Clone()
+        public IRequestInfo Clone()
         {
-            return (RequestInfo)this.MemberwiseClone();
+            return (IRequestInfo)this.MemberwiseClone();
         }
 	}
 }

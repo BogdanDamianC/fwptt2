@@ -10,8 +10,10 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
     public class SteppingTimeLineController : BaseTimeLineController
     {
         private SteppingTimeLine timeline;
+        
         public SteppingTimeLineController(SteppingTimeLine timeline)
         {
+            MaxExecutionThreads = 1;
             this.timeline = timeline;
         }
         public int CurrentStep { get; private set; }
@@ -22,12 +24,19 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             base.StartTimeLine();
         }
 
-        public override void OnStepExecuted()
+        public override void OnStepStarted()
         {
             lock (this)
             {
                 CurrentStep++;
-                TimeLineRunning &= CurrentStep <= timeline. MaxSteps;
+            }
+        }
+
+        public override void OnStepFinished()
+        {
+            lock (this)
+            {
+                IsRunning &= CurrentStep <= timeline. MaxSteps;
             }
         }
     }

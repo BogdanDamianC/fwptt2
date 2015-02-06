@@ -411,7 +411,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                 return;
 			try
 			{
-				var importedRecords = new List<Tuple<int, Request>>();
+				var importedRecords = new List<Tuple<int, WebRequest>>();
                 var unImportedRequests = new List<string>();
                 using (ZipFile zipFile = ZipFile.Read(fileToOpen))
 				{
@@ -425,9 +425,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                         try
                         {
                             RequestMessage = GetZipRequestFileContent(ze);
-                            var newRequest = Request.FromFiddlerLog(RequestMessage);
+                            var newRequest = WebRequest.FromFiddlerLog(RequestMessage);
                             if (newRequest != null && newRequest.RequestMethod.ToUpper() != "CONNECT")
-                                importedRecords.Add(new Tuple<int, Request>(requestIndex, newRequest));
+                                importedRecords.Add(new Tuple<int, WebRequest>(requestIndex, newRequest));
 
                         }
                         catch (Exception ex)

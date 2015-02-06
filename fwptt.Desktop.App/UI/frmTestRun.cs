@@ -1,8 +1,4 @@
-﻿using fwptt.Desktop.Util;
-using fwptt.TestProject;
-using fwptt.TestProject.Project;
-using fwptt.TestProject.Project.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,24 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using fwptt.Desktop.Util;
+using fwptt.TestProject;
+using fwptt.TestProject.Project;
+using fwptt.TestProject.Project.Interfaces;
+using fwptt.TestProject.Run;
 
 namespace fwptt.Desktop.App.UI
 {
     public partial class frmTestRun : Form, IItemEditor<TestRunResults>
     {
+        private TestRunner testRunner;
+        private ITimeLineController timeLineController;
+        private Button btnAction;
         private Label lblTestRunName;
         private TextBox txtTestRunName;
         private Util.AccordionControl mainAccordion;
 
         public frmTestRun()
         {
-            this.MinimumSize = new Size(200, 200);
-            this.lblTestRunName = new Label { Text = "Test Run Name", Top = 10, Left = 10 };
+            this.btnAction = new Button(){Text="Start", Top=5, Left = 10, Width = 100};
+            this.btnAction.Click += btnAction_Click;
+            this.Controls.Add(this.btnAction);
+            this.lblTestRunName = new Label { Text = "Test Run Name", Top = 10, Left = 120 };
             this.Controls.Add(lblTestRunName);
-            txtTestRunName = new TextBox { Top = 8, Left = this.Controls[0].Right + 10, Width = GetNameWidth() };
+            txtTestRunName = new TextBox { Top = 8, Left = lblTestRunName.Right + 10, Width = GetNameWidth() };
             this.Controls.Add(txtTestRunName);
             mainAccordion = new Util.AccordionControl { Top= txtTestRunName.Bottom + 10,  Width = this.ClientSize.Width, KeepOnlyOneItemExpanded=false };
             this.Controls.Add(mainAccordion);
+            this.MinimumSize = new Size(500, 500);
             this.AutoScroll = true;
         }
 
@@ -68,7 +75,61 @@ namespace fwptt.Desktop.App.UI
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            SetupPlugins();
+            if(SetupTestRunner())
+                SetupPlugins();
+        }
+
+        private bool SetupTestRunner()
+        {
+            var testDef = TestProjectHost.Current.Project.TestDefinitions.FirstOrDefault(td => td.Id == CurrentItem.TestRunDefinition.TestDefinitionId);
+            if (testDef == null)
+            {
+                MessageBox.Show("The test definition C# code linked this test run def no longer exists, please update the test run definition before trying to run this test", "Error");
+                return false;
+            }
+            try
+            {
+
+                var testAsmb = TestProjectHost.Current.CreateMemoryAssembly(testDef);
+                var testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t=>t.IsSubclassOf(typeof(BaseWebTest)));
+                if(testExecuteClass == null){
+                    MessageBox.Show("There is no class derived from BaseTemplateExecuteClass in the test C# code, please review the Test C# code","Error");
+                    return false;
+                }
+
+                timeLineController = CurrentItem.TestRunDefinition.TimeLine.GetNewController();
+                this.testRunner = new TestRunner(timeLineController, testExecuteClass);
+                this.testRunner.TestsHaveFinished += testRunner_TestsHaveFinished;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                btnAction.Enabled = false;
+                MessageBox.Show("Error occured while compiling the test, this test can't be run, these are the error details: \r\n" + ex.Message, "Error");
+                return false;
+            }
+        }
+
+        void btnAction_Click(object sender, EventArgs e)
+        {
+            if (timeLineController == null || !timeLineController.IsRunning)
+            {
+                btnAction.Text = "Stop";
+                testRunner.StartTests();
+            }
+            else
+            {
+                btnAction.Enabled = false;
+                btnAction.Text = "Stoping";
+                testRunner.StopTests();
+            }
+        }
+
+
+        void testRunner_TestsHaveFinished(object sender, EventArgs e)
+        {
+            btnAction.Text = "Start";
+            btnAction.Enabled = true;
         }
 
         private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
@@ -80,7 +141,7 @@ namespace fwptt.Desktop.App.UI
             return tlpl;
         }
 
-        private void AddPlugin(ExpandableSetting setting, ExtendableData data)
+        private void AddPlugin(ExpandableSetting setting, ExtendableData data, bool checkIfIsReqPlayer = false)
         {
             var newPluginControl = new ExpanderControl();
             newPluginControl.BorderStyle = BorderStyle.FixedSingle;
@@ -89,6 +150,11 @@ namespace fwptt.Desktop.App.UI
             newPluginControl.Content = CreateNewControlAndData(setting, data);
             mainAccordion.Add(newPluginControl);
             newPluginControl.Expand();
+            var reqPlayerPlugin = newPluginControl.Content as IRequestPlayerPlugIn;
+            if (reqPlayerPlugin != null)
+                testRunner.AddPlugIn(reqPlayerPlugin);
+            else if (checkIfIsReqPlayer)
+                MessageBox.Show(string.Format("{0} ({1}) is not a request player plugin", setting.DisplayName, setting.UniqueName), "Error");
         }
 
 
@@ -101,7 +167,7 @@ namespace fwptt.Desktop.App.UI
             {
                 tmpPluginInfo = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
                                                 && pl.UniqueName == plugin.UniqueName);
-                AddPlugin(tmpPluginInfo, plugin);
+                AddPlugin(tmpPluginInfo, plugin, true);
             }
 
         }

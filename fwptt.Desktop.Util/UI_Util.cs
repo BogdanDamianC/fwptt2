@@ -110,6 +110,5 @@ namespace fwptt.Desktop.Util
     {
         T CurrentItem { get; }
         event EventHandler<T> onNameChanged;
-        void OnBeforeTestProjectSave();
     }
 }

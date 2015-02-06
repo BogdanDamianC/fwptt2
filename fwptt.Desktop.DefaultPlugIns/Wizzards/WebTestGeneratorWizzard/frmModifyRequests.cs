@@ -51,7 +51,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
         private void SelectedRequest_Changed(object sender, EventArgs e)
         {
-            var req = requestBindingSource.Current as Request;
+            var req = requestBindingSource.Current as WebRequest;
             if (req == null)
                 return;
             requestQuerryParamBindingSource.DataSource = req.QueryParams;

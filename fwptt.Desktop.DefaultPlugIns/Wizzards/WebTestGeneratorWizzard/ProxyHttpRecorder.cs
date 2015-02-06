@@ -80,7 +80,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 					return;
 				}
 
-            var newr = new Request
+            var newr = new fwptt.TestProject.Run.Data.WebRequest
             {
                 URL = tmpuri.Scheme + "://" + tmpuri.Host + tmpuri.Path,
                 Port = tmpuri.Port
@@ -91,15 +91,15 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			if(qery.Length > 0)
 			{				
 				if(qery[0] == '?')
-					newr.QueryParams = BaseTemplateExecuteClass.ParseRequestData(qery.Substring(1));
+					newr.QueryParams = BaseWebTest.ParseRequestData(qery.Substring(1));
 				else
-					newr.QueryParams = BaseTemplateExecuteClass.ParseRequestData(qery);
+					newr.QueryParams = BaseWebTest.ParseRequestData(qery);
 			}
 			
 			newr.RequestMethod = Method.ToUpper();
 
 			if(newr.RequestMethod == "POST")
-				newr.PostParams = BaseTemplateExecuteClass.ParseRequestData(System.Web.HttpUtility.UrlDecode(PostData));
+				newr.PostParams = BaseWebTest.ParseRequestData(System.Web.HttpUtility.UrlDecode(PostData));
 
             RequestsMade.Requests.Add(newr);
 		}

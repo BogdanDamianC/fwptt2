@@ -209,12 +209,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             
         }
 
-        public void RequestStarted(TestProject.Run.Data.RequestInfo rinfo)
+        public void RequestStarted(TestProject.Run.Data.IRequestInfo rinfo)
         {
             
         }
 
-        public void RequestEnded(TestProject.Run.Data.RequestInfo rinfo)
+        public void RequestEnded(TestProject.Run.Data.IRequestInfo rinfo)
         {
             
         }
