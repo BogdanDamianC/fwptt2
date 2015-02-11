@@ -37,6 +37,7 @@ namespace fwptt.Desktop.App.UI
 {
     public partial class frmTestProjectDefinition : Form
     {
+        private const string LastAcessedProjectPath="Last Accessed Project Path";
         public frmTestProjectDefinition()
         {
             InitializeComponent();
@@ -58,6 +59,8 @@ namespace fwptt.Desktop.App.UI
             SetTitle();
             this.exploreTestProject.RefreshProjectDetails();
             showExploreTestProjectToolStripMenuItem.Checked = true;
+            if (!string.IsNullOrWhiteSpace(LastAccessedProject))
+                LoadProject(LastAccessedProject);
         }
 
         private void showExploreTestProjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -73,6 +76,33 @@ namespace fwptt.Desktop.App.UI
             this.exploreTestProject.RefreshProjectDetails();
         }
 
+        private string LastAccessedProject
+        {
+            get
+            {
+                return Properties.Settings.Default["LastAcessedProjectPath"] as string;
+            }
+            set
+            {
+                Properties.Settings.Default["LastAcessedProjectPath"] = value;
+            }
+        }
+
+        private bool LoadProject(string projectPath)
+        {
+            try
+            {
+                TestProjectHost.Current.LoadProject(projectPath);
+                SetTitle();
+                this.exploreTestProject.RefreshProjectDetails();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error Loading the Project => " + ex.Message, "Error");
+                return false;
+            }
+        }
         private void openTestProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var projectFileName = UI_Util.PickOpenFile(this, TestProjectDefinition.FileDialogFilter);
@@ -80,17 +110,13 @@ namespace fwptt.Desktop.App.UI
                 return;
 
             foreach (var c in this.MdiChildren)
-                c.Close(); 
-            try
+                c.Close();
+            if (LoadProject(projectFileName))
             {
-                TestProjectHost.Current.LoadProject(projectFileName);
-                SetTitle();
-                this.exploreTestProject.RefreshProjectDetails();
+                LastAccessedProject = projectFileName;
+                Properties.Settings.Default.Save();
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Error Loading the Project => " + ex.Message);
-            }
+
         }
 
         private void saveTestProjectToolStripMenuItem_Click(object sender, EventArgs e)

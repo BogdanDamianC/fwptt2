@@ -136,7 +136,7 @@ namespace fwptt.Desktop.App.UI
             tryOpenCreateItemTestRunDefinition(e.Node.Tag as TestRunDefinition);
         }
 
-        private T GetMenuClickTargetNodeValue<T>(object sender, string errorMessageWhenEmpty) where T : class
+        private Tuple<T,TreeNode> GetMenuClickTargetNodeValue<T>(object sender, string errorMessageWhenEmpty) where T : class
         {
             var menu = sender as ToolStripMenuItem;
             if (menu == null)
@@ -145,8 +145,11 @@ namespace fwptt.Desktop.App.UI
             var node = hitTest.Node ?? tvProject.SelectedNode;
             var ret = node != null ? node.Tag as T : (T)null;
             if (ret == null && !string.IsNullOrWhiteSpace(errorMessageWhenEmpty))
+            {
                 MessageBox.Show(errorMessageWhenEmpty, "Error");
-            return ret;
+                return null;
+            }
+            return new Tuple<T,TreeNode>(ret, node);
         }
 
         #region Test Definition
@@ -186,21 +189,24 @@ namespace fwptt.Desktop.App.UI
         private void deleteTestDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var td = GetMenuClickTargetNodeValue<TestDefinition>(sender, TestDefininitionTreeviewSelectError);
-            if (TestProjectHost.Current.Project.TestRunDefinitions.Any(tr=>tr.TestDefinitionId == td.Id))
+            if (td == null || td.Item1 == null)
+                return;
+            if (TestProjectHost.Current.Project.TestRunDefinitions.Any(tr=>tr.TestDefinitionId == td.Item1.Id))
             {
                 MessageBox.Show("Can't delete the current test definition it is being used by some test runs. Please connect the existing test runs to other test definitions or delete them before trying to delete this test definition.", "Alert");
                 return;
             }
-            TestProjectHost.Current.Project.TestDefinitions.Remove(td);
-            testRunDefinitions.Nodes.Remove(tvProject.SelectedNode);
+            TestProjectHost.Current.Project.TestDefinitions.Remove(td.Item1);
+            testRunDefinitions.Nodes.Remove(td.Item2);
             //TODO delete the file
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(
-                GetMenuClickTargetNodeValue<TestDefinition>(sender, TestDefininitionTreeviewSelectError), 
-                (td) => new frmTestDefinitionSourceCodeEditor(td));
+            var seltd = GetMenuClickTargetNodeValue<TestDefinition>(sender, TestDefininitionTreeviewSelectError);
+            if (seltd == null)
+                return;
+            TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(seltd.Item1, (td) => new frmTestDefinitionSourceCodeEditor(td));
         }
         #endregion
 
@@ -236,7 +242,10 @@ namespace fwptt.Desktop.App.UI
 
         private void openTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
-            tryOpenCreateItemTestRunDefinition(GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError));
+            var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError);
+            if (trd == null)
+                return;
+            tryOpenCreateItemTestRunDefinition(trd.Item1);
         }
 
         private void deleteTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
@@ -244,8 +253,8 @@ namespace fwptt.Desktop.App.UI
             var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError);
             if (trd == null)
                 return;
-            TestProjectHost.Current.Project.TestRunDefinitions.Remove(trd);
-            testRunDefinitions.Nodes.Remove(tvProject.SelectedNode);
+            TestProjectHost.Current.Project.TestRunDefinitions.Remove(trd.Item1);
+            testRunDefinitions.Nodes.Remove(trd.Item2);
         }
 
         private void newRunToolStripMenuItem_Click(object sender, EventArgs e)
@@ -256,8 +265,8 @@ namespace fwptt.Desktop.App.UI
             if (trd == null)
                 return;
             var runResults = new TestRunResults{ 
-                Name = trd.Name + DateTime.Now.ToString(),
-                TestRunDefinition = trd,
+                Name = trd.Item1.Name + DateTime.Now.ToString(),
+                TestRunDefinition = trd.Item1,
             }; //TODO the test run definition must be cloned
             TestProjectHost.Current.Project.TestRunsResults.Add(runResults);
             TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td));

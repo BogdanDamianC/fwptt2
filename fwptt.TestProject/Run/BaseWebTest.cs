@@ -42,12 +42,13 @@ namespace fwptt.TestProject.Run
 	public abstract class BaseWebTest:BaseTest<WebRequestInfo>	{
 		protected RestClient client {get; private set;}
 
-		public string AcceptedContent = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";
-		
-		protected BaseWebTest(string UserAgent = null)
+		private string AcceptedContent;// = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";
+
+        protected BaseWebTest(string baseUrl, string UserAgent, string AcceptedContent)
 		{
-			client = new RestClient();
-			client.UserAgent = UserAgent??"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";
+            client = new RestClient(baseUrl);
+			client.UserAgent = UserAgent;
+            this.AcceptedContent = AcceptedContent;
             parser = new HTMLContent.ContentParser();
 		}
 
@@ -62,10 +63,10 @@ namespace fwptt.TestProject.Run
             address.Query = GetRequestQuery(CurrentRequest.Request.QueryParams);
 
             var req = new RestRequest(address.Uri, (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true));
-            if (timelineCtrl.MiliSecondsPauseBetweenRequests > 1000)
+            if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
                 req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
             else
-                req.ReadWriteTimeout = req.Timeout = 1000;
+                req.ReadWriteTimeout = req.Timeout = 5000;
 
             //                if (Proxy != null)
             //                    req.Proxy = Proxy;
@@ -74,14 +75,15 @@ namespace fwptt.TestProject.Run
 
         protected async Task<IRestResponse> GetResponse(RestRequest req)
         {
+            CurrentRequest.StartTime = DateTime.Now;
             onRequestStarted();
             try
             {
-                CurrentRequest.StartTime = DateTime.Now;
                 var resp = await client.ExecuteTaskAsync(req);
-                CurrentRequest.ResponseCode = (int)resp.StatusCode;
                 CurrentRequest.EndTime = DateTime.Now;
+                CurrentRequest.ResponseCode = (int)resp.StatusCode;
                 CurrentRequest.Response = resp.Content;
+                onRequestEnded();
                 return resp;
             }
             catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
@@ -92,6 +94,7 @@ namespace fwptt.TestProject.Run
             {
                 CurrentRequest.EndTime = DateTime.Now;
                 SetException(ex);
+                onRequestEnded();
                 return null;
             }
         }
@@ -146,7 +149,7 @@ namespace fwptt.TestProject.Run
 
 		protected void SetException(Exception ex)
 		{
-			CurrentRequest.Exception = ex.Message + "   -   Stack   - " + ex.StackTrace;
+			CurrentRequest.Errors.Add(ex.Message + "   -   Stack   - " + ex.StackTrace);
 		}
 
 		#region Params

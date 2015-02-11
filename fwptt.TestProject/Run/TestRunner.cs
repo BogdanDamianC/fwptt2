@@ -48,29 +48,29 @@ namespace fwptt.TestProject.Run
 	{
 		private List<IRequestPlayerPlugIn> Plugins = new List<IRequestPlayerPlugIn>();
 
-		public event EventHandler TestsHaveFinished;
-		public event EventHandler RequestStarted;
+		public event Action<TestRunner> TestRunEnded;
+        public event Action<TestRunner> TestRunStarted;
 
 		private Type runningTestType;
-        private EventHandler runnerRequestStartedEventhandler;
-        private EventHandler runnerRequestEndedEventhandler;
+        private Action<IRequestInfo> runnerRequestStartedEventhandler;
+        private Action<IRequestInfo> runnerRequestEndedEventhandler;
 
 		private ITimeLineController timelineCtrl;
-
-		private System.Net.WebProxy l_Proxy = null;
 
         public TestRunner(ITimeLineController timeline, Type runningTestType)
 		{
             timelineCtrl = timeline;
             this.runningTestType = runningTestType;
-			runnerRequestStartedEventhandler = new EventHandler(TestRunner_RequestStarted);
-			runnerRequestEndedEventhandler = new EventHandler(TestRunner_RequestEnded);
+            runnerRequestStartedEventhandler = new Action<IRequestInfo>(TestRunner_RequestStarted);
+            runnerRequestEndedEventhandler = new Action<IRequestInfo>(TestRunner_RequestEnded);
 		}
 
         private int totalNoOfRunningTests = 0;
 
         public void StartTests()
         {
+            if (TestRunStarted != null)
+                TestRunStarted(this);
             timelineCtrl.StartTimeLine();
             foreach (var plugin in Plugins)
                 plugin.TestStarted();
@@ -103,7 +103,6 @@ namespace fwptt.TestProject.Run
         public void StopTests()
         {
             timelineCtrl.StopTimeLine(); //this will make the test instances to stop  
-            timelineCtrl = null;
             TestRunner_TestEnded();
         }
 
@@ -126,42 +125,34 @@ namespace fwptt.TestProject.Run
 
 		#endregion
 
-		public System.Net.WebProxy Proxy
-		{
-			get{return l_Proxy;}
-			set{l_Proxy = value;}
-		}
+		public System.Net.WebProxy Proxy {get; set;}
 
 		private void TestRunner_TestEnded()
 		{
             totalNoOfRunningTests--;
             if (totalNoOfRunningTests > 0)
                 return;
-			if (TestsHaveFinished != null)
-				TestsHaveFinished(this, System.EventArgs.Empty);
+			if (TestRunEnded != null)
+				TestRunEnded(this);
 
 			foreach (var plugin in Plugins)
 				plugin.TestStoped();
 		}
 
-        private void TestRunner_RequestStarted(object sender, EventArgs e)
+        private void TestRunner_RequestStarted(IRequestInfo currentRequest)
         {
-            if (RequestStarted != null)
-                RequestStarted(sender, System.EventArgs.Empty);
             if (Plugins == null)
                 return;
-            var rinfo = ((IBaseTest)sender).GetCurrentRequest();
             foreach (var plugin in Plugins)
-                plugin.RequestStarted(rinfo);
+                plugin.RequestStarted(currentRequest);
         }
 
-        private void TestRunner_RequestEnded(object sender, EventArgs e)
+        private void TestRunner_RequestEnded(IRequestInfo currentRequest)
         {
             if (Plugins == null)
                 return;
-            var rinfo = ((IBaseTest)sender).GetCurrentRequest();
             foreach (var plugin in Plugins)
-                plugin.RequestEnded(rinfo);
+                plugin.RequestEnded(currentRequest);
         }
 
 		#region IDisposable Members

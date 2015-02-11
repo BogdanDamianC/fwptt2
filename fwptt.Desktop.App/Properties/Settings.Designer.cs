@@ -43,5 +43,17 @@ namespace fwptt.Desktop.App.Properties {
                 this["InnerWindowWindowMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastAcessedProjectPath {
+            get {
+                return ((string)(this["LastAcessedProjectPath"]));
+            }
+            set {
+                this["LastAcessedProjectPath"] = value;
+            }
+        }
     }
 }

@@ -13,5 +13,15 @@ namespace fwptt.TestProject.Run.Data
             this.Request = new WebRequest();
         }
         public Int32 ResponseCode { get; set; }
+
+        public override string ToString()
+        {
+            string ret = Request.RequestMethod + "  -|-  " + Request.URL + "  -|-  ";
+            if (Errors.Any())
+                ret += " Errors:" + string.Join("| ", Errors);
+            else
+                ret += "OK";
+            return ret;
+        }
     }
 }

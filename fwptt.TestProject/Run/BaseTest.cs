@@ -11,8 +11,8 @@ namespace fwptt.TestProject.Run
 {
     public interface IBaseTest: IDisposable
     {
-        event EventHandler RequestStarted;
-        event EventHandler RequestEnded;
+        event Action<IRequestInfo> RequestStarted;
+        event Action<IRequestInfo> RequestEnded;
         Task StartTest(ITimeLineController ptimeline);
         IRequestInfo GetCurrentRequest();
     }
@@ -20,8 +20,8 @@ namespace fwptt.TestProject.Run
     public abstract class BaseTest<RI> : IBaseTest where RI : IRequestInfo, new()
     {
         protected ITimeLineController timelineCtrl = null;
-        public event EventHandler RequestStarted;
-        public event EventHandler RequestEnded;
+        public event Action<IRequestInfo> RequestStarted;
+        public event Action<IRequestInfo> RequestEnded;
 
         public RI CurrentRequest { get; protected set; }
         public IRequestInfo GetCurrentRequest()
@@ -37,10 +37,14 @@ namespace fwptt.TestProject.Run
 
         protected void onRequestStarted()
         {
-            if (!timelineCtrl.IsRunning)
-                throw new ApplicationException("Run has Stopped"); 
-            if (RequestStarted != null)
-                RequestStarted(this, EventArgs.Empty);
+            if (RequestStarted != null && timelineCtrl.IsRunning)
+                RequestStarted(CurrentRequest);
+        }
+
+        protected void onRequestEnded()
+        {
+            if (RequestEnded != null && timelineCtrl.IsRunning)
+                RequestEnded(CurrentRequest);
         }
 
         private async Task DoSleep()

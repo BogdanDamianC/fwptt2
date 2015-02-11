@@ -1,12 +1,22 @@
-﻿using System.Text;
+﻿using System;
+using System.Linq;
+using System.Text;
 using fwptt.TestProject.Run.Data;
-using System;
 
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
     public partial class TestCSharpCodeGenerator
     {
-        public RecordedTestDefinition TestDefinition { get; set; }
+        private RecordedTestDefinition internalTestDefinition;
+        public RecordedTestDefinition TestDefinition
+        {
+            get { return internalTestDefinition; }
+            set
+            {
+                internalTestDefinition = value;
+                PrepExtraData();
+            }
+        }
 
         public string GetMethodName(int index)
         {
@@ -26,6 +36,19 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             return ret.ToString();
 
         }
+
+        public string BaseUrl { get; private set; }
+        private void PrepExtraData()
+        {
+            var url = (from uri in
+                           (from req in internalTestDefinition.Requests
+                            select new Uri(req.URL.ToString()))
+                       select uri.AbsoluteUri).FirstOrDefault();
+            if (url == null)
+                throw new ApplicationException("No Base url can be found");
+            BaseUrl = url;
+        }
+
 
         public static string GenerateCode(RecordedTestDefinition testDefinition)
         {

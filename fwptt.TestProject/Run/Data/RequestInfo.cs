@@ -32,18 +32,25 @@ namespace fwptt.TestProject.Run.Data
     {
         DateTime StartTime { get; set; }
         DateTime EndTime { get; set; }
-        string Exception { get; set; }
+        List<string> Errors { get; }
+        /// <summary>
+        /// Request Duration in Seconds
+        /// </summary>
+        double Duration { get; }
         IRequestInfo Clone();
     }
 	[Serializable]	
-	public class RequestInfo<TIn, TOut>:IRequestInfo
+	public abstract class RequestInfo<TIn, TOut>:IRequestInfo
 	{
+        public RequestInfo() {
+            Errors = new List<string>();
+        }
 		public TIn Request  { get; set; }
         public TOut Response { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public string Exception { get; set; }
-        
+        public List<string> Errors { get; private set; }
+        public double Duration { get { return EndTime.Subtract(StartTime).TotalMilliseconds; } }
 
         public IRequestInfo Clone()
         {

@@ -99,7 +99,7 @@ namespace fwptt.Desktop.App.UI
 
                 timeLineController = CurrentItem.TestRunDefinition.TimeLine.GetNewController();
                 this.testRunner = new TestRunner(timeLineController, testExecuteClass);
-                this.testRunner.TestsHaveFinished += testRunner_TestsHaveFinished;
+                this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace fwptt.Desktop.App.UI
         }
 
 
-        void testRunner_TestsHaveFinished(object sender, EventArgs e)
+        void testRunner_TestsHaveFinished(TestRunner runner)
         {
             btnAction.Text = "Start";
             btnAction.Enabled = true;

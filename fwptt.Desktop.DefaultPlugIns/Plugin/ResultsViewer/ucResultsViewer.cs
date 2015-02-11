@@ -44,36 +44,25 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
     [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer - Provides recording/vizualization and html content view", ExpandableComponentType.Plugin)]
     public class ucResultsViewer : BaseTestRunExecutionComponent, IRequestPlayerPlugIn
 	{
-		private System.Windows.Forms.DataGrid dataGrid1;
+		private System.Windows.Forms.DataGrid dgResults;
 		private System.Windows.Forms.Button btnExportResponses;
         private System.Windows.Forms.Panel panel1;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		private System.ComponentModel.IContainer components;
-
-
-		public int MaxResponseSize = 1000;
-        private System.Windows.Forms.DataGridTableStyle dataGridTableStyle1;
-		public int MaxNrOfRequests = 10;
+        private System.ComponentModel.IContainer components;
+		
 		private System.Timers.Timer timer1;
-		List<IRequestInfo> requests = new List<IRequestInfo>();
+		
 		private System.Windows.Forms.Button btnSaveXmlLogFile;
         private System.Windows.Forms.Button btnViewPage;
-        private int RequestsToDelete = 0;
-        private int TotalRemoved = 0;
-        private DataGridTextBoxColumn dataGridTextBoxColumn6;
-        private DataGridTextBoxColumn dataGridTextBoxColumn7;
         private Button btnExportData;
         private ContextMenuStrip menuExportData;
         private EventHandler ExportData_Click_handler;
-        private DataGridTextBoxColumn dataGridTextBoxColumn1;
-        private DataGridTextBoxColumn dataGridTextBoxColumn2;
-        private DataGridTextBoxColumn dataGridTextBoxColumn3;
-        private DataGridTextBoxColumn dataGridTextBoxColumn4;
-        private DataGridTextBoxColumn dataGridTextBoxColumn5;
-	
 
+
+        private List<IRequestInfo> queuedRequests = new List<IRequestInfo>();
+        private List<Tuple<string, double>> requests = new List<Tuple<string, double>>();
 		private TestStatuses TestStatus = TestStatuses.NotRunning;
 
 		public ucResultsViewer()
@@ -87,7 +76,16 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			// TODO: Add any constructor code after InitializeComponent call
 			//
             ExportData_Click_handler = new EventHandler(ExportData_Click);
+            dgResults.DataSource = requests;
 		}
+
+        protected ResultsViewerConfiguration Configuration
+        {
+            get
+            {
+                return (ResultsViewerConfiguration)CurrentData;
+            }
+        }
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -95,14 +93,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		protected override void Dispose( bool disposing )
 		{
             timer1.Dispose();
-            dataGrid1.DataSource = null;
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
+            dgResults.DataSource = null;
+            requests = null;
+            if (disposing && components != null)
+            {
+                components.Dispose();
+            }
 			base.Dispose( disposing );
 		}
 
@@ -114,15 +110,14 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            this.dataGridTextBoxColumn1 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn2 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn5 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGrid1 = new System.Windows.Forms.DataGrid();
-            this.dataGridTableStyle1 = new System.Windows.Forms.DataGridTableStyle();
-            this.dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
-            this.dataGridTextBoxColumn6 = new System.Windows.Forms.DataGridTextBoxColumn();
+            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn1;
+            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn2;
+            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn3;
+            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
+            System.Windows.Forms.DataGridTableStyle mainGridStyle;
+            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn7;
+            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn6;
+            this.dgResults = new System.Windows.Forms.DataGrid();
             this.btnExportResponses = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnExportData = new System.Windows.Forms.Button();
@@ -131,93 +126,53 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.timer1 = new System.Timers.Timer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuExportData = new System.Windows.Forms.ContextMenuStrip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
+            dataGridTextBoxColumn1 = new System.Windows.Forms.DataGridTextBoxColumn();
+            dataGridTextBoxColumn2 = new System.Windows.Forms.DataGridTextBoxColumn();
+            dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
+            dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
+            mainGridStyle = new System.Windows.Forms.DataGridTableStyle();
+            dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
+            dataGridTextBoxColumn6 = new System.Windows.Forms.DataGridTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridTextBoxColumn1
             // 
-            this.dataGridTextBoxColumn1.Format = "";
-            this.dataGridTextBoxColumn1.FormatInfo = null;
-            this.dataGridTextBoxColumn1.HeaderText = "RequestAddress";
-            this.dataGridTextBoxColumn1.MappingName = "RequestAddress";
-            this.dataGridTextBoxColumn1.Width = 200;
+            dataGridTextBoxColumn1.Format = "";
+            dataGridTextBoxColumn1.FormatInfo = null;
+            dataGridTextBoxColumn1.HeaderText = "RequestDetails";
+            dataGridTextBoxColumn1.MappingName = "Item1";
+            dataGridTextBoxColumn1.Width = 300;
             // 
             // dataGridTextBoxColumn2
             // 
-            this.dataGridTextBoxColumn2.Format = "";
-            this.dataGridTextBoxColumn2.FormatInfo = null;
-            this.dataGridTextBoxColumn2.HeaderText = "ResponseCode";
-            this.dataGridTextBoxColumn2.MappingName = "ResponseCode";
-            this.dataGridTextBoxColumn2.Width = 75;
+            dataGridTextBoxColumn2.Format = "";
+            dataGridTextBoxColumn2.FormatInfo = null;
+            dataGridTextBoxColumn2.HeaderText = "Duration(sec)";
+            dataGridTextBoxColumn2.MappingName = "Item2";
+            dataGridTextBoxColumn2.Width = 75;
+            
+            this.dgResults.DataMember = "";
+            this.dgResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgResults.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            this.dgResults.Location = new System.Drawing.Point(0, 32);
+            this.dgResults.Name = "dgResults";
+            this.dgResults.ReadOnly = true;
+            this.dgResults.Size = new System.Drawing.Size(934, 430);
+            this.dgResults.TabIndex = 0;
+            this.dgResults.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
+            mainGridStyle});
             // 
-            // dataGridTextBoxColumn3
+            // mainGridStyle
             // 
-            this.dataGridTextBoxColumn3.Format = "";
-            this.dataGridTextBoxColumn3.FormatInfo = null;
-            this.dataGridTextBoxColumn3.HeaderText = "Duration(sec)";
-            this.dataGridTextBoxColumn3.MappingName = "Http_ActionDuration";
-            this.dataGridTextBoxColumn3.Width = 110;
-            // 
-            // dataGridTextBoxColumn4
-            // 
-            this.dataGridTextBoxColumn4.Format = "";
-            this.dataGridTextBoxColumn4.FormatInfo = null;
-            this.dataGridTextBoxColumn4.HeaderText = "Page Size";
-            this.dataGridTextBoxColumn4.MappingName = "Http_PageSize";
-            this.dataGridTextBoxColumn4.Width = 90;
-            // 
-            // dataGridTextBoxColumn5
-            // 
-            this.dataGridTextBoxColumn5.Format = "";
-            this.dataGridTextBoxColumn5.FormatInfo = null;
-            this.dataGridTextBoxColumn5.MappingName = "Http_ActionIndex";
-            this.dataGridTextBoxColumn5.ReadOnly = true;
-            this.dataGridTextBoxColumn5.Width = 75;
-            // 
-            // dataGrid1
-            // 
-            this.dataGrid1.DataMember = "";
-            this.dataGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGrid1.Location = new System.Drawing.Point(0, 32);
-            this.dataGrid1.Name = "dataGrid1";
-            this.dataGrid1.ReadOnly = true;
-            this.dataGrid1.Size = new System.Drawing.Size(934, 430);
-            this.dataGrid1.TabIndex = 0;
-            this.dataGrid1.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-            this.dataGridTableStyle1});
-            // 
-            // dataGridTableStyle1
-            // 
-            this.dataGridTableStyle1.DataGrid = this.dataGrid1;
-            this.dataGridTableStyle1.GridColumnStyles.AddRange(new System.Windows.Forms.DataGridColumnStyle[] {
-            this.dataGridTextBoxColumn5,
-            this.dataGridTextBoxColumn1,
-            this.dataGridTextBoxColumn7,
-            this.dataGridTextBoxColumn2,
-            this.dataGridTextBoxColumn6,
-            this.dataGridTextBoxColumn3,
-            this.dataGridTextBoxColumn4});
-            this.dataGridTableStyle1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dataGridTableStyle1.ReadOnly = true;
-            // 
-            // dataGridTextBoxColumn7
-            // 
-            this.dataGridTextBoxColumn7.Format = "";
-            this.dataGridTextBoxColumn7.FormatInfo = null;
-            this.dataGridTextBoxColumn7.HeaderText = "Port";
-            this.dataGridTextBoxColumn7.MappingName = "RequestPort";
-            this.dataGridTextBoxColumn7.Width = 50;
-            // 
-            // dataGridTextBoxColumn6
-            // 
-            this.dataGridTextBoxColumn6.Format = "";
-            this.dataGridTextBoxColumn6.FormatInfo = null;
-            this.dataGridTextBoxColumn6.HeaderText = "Method";
-            this.dataGridTextBoxColumn6.MappingName = "RequestType";
-            this.dataGridTextBoxColumn6.Width = 75;
+            mainGridStyle.DataGrid = this.dgResults;
+            mainGridStyle.GridColumnStyles.AddRange(new System.Windows.Forms.DataGridColumnStyle[] {
+            dataGridTextBoxColumn1,
+            dataGridTextBoxColumn2});
+            mainGridStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+            mainGridStyle.ReadOnly = true;
             // 
             // btnExportResponses
             // 
@@ -288,11 +243,11 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // 
             // ucResultsViewer
             // 
-            this.Controls.Add(this.dataGrid1);
+            this.Controls.Add(this.dgResults);
             this.Controls.Add(this.panel1);
             this.Name = "ucResultsViewer";
             this.Size = new System.Drawing.Size(934, 462);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
             this.ResumeLayout(false);
@@ -305,13 +260,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         public void TestStarted()
         {
             requests.Clear();
-            if(dataGrid1.DataSource != null)
-                dataGrid1.BindingContext[dataGrid1.DataSource].Position = -1;
-            dataGrid1.DataSource = null;
+            if(dgResults.DataSource != null)
+                dgResults.BindingContext[dgResults.DataSource].Position = -1;
+            dgResults.DataSource = null;
             btnExportResponses.Enabled = false;
             btnSaveXmlLogFile.Enabled = false;
             btnExportData.Enabled = false;
-            dataGrid1.DataSource = SetDataTable();
             Application.DoEvents();
             TestStatus = TestStatuses.Running;
             timer1.Start();
@@ -335,7 +289,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             btnExportData.Enabled = true;
 			TestStatus = TestStatuses.Stopped;
             timer1.Stop();
-            dataGrid1.DataSource = SetDataTable();
+            //dgResults.DataSource = SetDataTable();
 		}
 
         delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
@@ -347,21 +301,16 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             if (this.InvokeRequired)
             {
                 ThreadSafeAddRequestCallback d = new ThreadSafeAddRequestCallback(RequestEnded);
-                this.Invoke(d, new object[] { rinfo });
+                this.Invoke(d, new object[] { rinfo.Clone() });
                 return;
             }
-			lock(requests)
+            lock (queuedRequests)
 			{
-                var newrinfo = (WebRequestInfo)rinfo.Clone();
-				if(newrinfo.Response.Length > MaxResponseSize)
-					newrinfo.Response.Substring(0, MaxResponseSize);
-				requests.Add(newrinfo);
-                while (requests.Count > MaxNrOfRequests)
-                {
-                    requests.RemoveAt(0);
-                    RequestsToDelete++;
-                    TotalRemoved++;
-                }
+                queuedRequests.Add(rinfo);
+                //TODO var newrinfo = (WebRequestInfo)rinfo;
+                //if(newrinfo.Response.Length > Configuration.MaxResponseSizeRecorded)
+                //    newrinfo.Response = newrinfo.Response.Substring(0, Configuration.MaxResponseSizeRecorded);
+				
 			}
 		}
 
@@ -371,74 +320,20 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 				return;
 			else if(TestStatus == TestStatuses.Stopped)
 				TestStatus = TestStatuses.NotRunning;            
-            dataGrid1.DataSource = SetDataTable();
+            SetDataTable();
 		}
 
-        private DataTable SetDataTable()
+        private void SetDataTable()
         {
-            DataTable tb = null;
-            lock (requests)
+            lock (queuedRequests)
             {
-                try
+                foreach (var newrinfo in queuedRequests)
+                    requests.Add(new Tuple<string, double>(newrinfo.ToString(), newrinfo.Duration / 1000));
+                requests.Clear();
+                while (requests.Count > Configuration.MaxNumberOfRequestsRecorded)
                 {
-                    if (dataGrid1.DataSource != null)
-                    {
-                        tb = (DataTable)dataGrid1.DataSource;
-                        if (tb.Rows.Count > requests.Count)
-                            tb = null;
-                    }
-
-                    if (tb == null)
-                    {
-                        tb = new DataTable();
-                        tb.TableName = "";
-                        tb.Columns.Add("RequestAddress", typeof(string));
-                        tb.Columns.Add("RequestPort", typeof(int));
-                        tb.Columns.Add("RequestType", typeof(string));
-                        tb.Columns.Add("ResponseCode", typeof(string));
-                        tb.Columns.Add("StartTime", typeof(DateTime));
-                        tb.Columns.Add("Http_ActionIndex", typeof(int));
-                        tb.Columns.Add("Http_ActionDuration", typeof(decimal));
-                        tb.Columns.Add("Http_PageSize", typeof(int));
-                        tb.Columns.Add("Record_Index", typeof(int));
-                    }
-
-                    /* TODO
-                    DataHolder.Containers.Property.PropertyCollection Properties = DataHolder.Containers.GenericData.TCollection.GetProperties(requests.GenericDataType);
-                    int[] mapping = new int[tb.Columns.Count];
-                    for (int i = 0; i < mapping.Length; i++)
-                        if (Properties.Contains(tb.Columns[i].ColumnName))
-                            mapping[i] = Properties.IndexOf(tb.Columns[i].ColumnName);
-                        else
-                            mapping[i] = -1;
-
-                    for (int i = 0; i < RequestsToDelete && tb.Rows.Count > 0; i++)
-                        tb.Rows.RemoveAt(0);
-                    RequestsToDelete = 0;
-                    tb.AcceptChanges();
-
-                    for (int i = tb.Rows.Count; i < requests.Count; i++)
-                    {
-                        DataRow row = tb.NewRow();
-                        RequestsPlayer.RequestInfo tmpge = requests[i];
-                        for (int j = 0; j < mapping.Length; j++)
-                            if (mapping[j] >= 0) //checks is the mapping is valid
-                                row[j] = tmpge[mapping[j]];
-                        row["Http_ActionDuration"] = Convert.ToDecimal(((TimeSpan)tmpge.EndTime.Subtract(tmpge.StartTime)).TotalMilliseconds) / 1000;
-                        row["Http_PageSize"] = tmpge.Response.Length;
-                        row["Http_ActionIndex"] = TotalRemoved + i + 1;
-                        row["Record_Index"] = i;
-                        tb.Rows.Add(row);
-                     
-                    }
-*/
-                    tb.AcceptChanges();
+                    requests.RemoveAt(0);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message + "  --   " + ex.StackTrace, "error");
-                }
-                return tb;
             }
         }
 
@@ -462,31 +357,33 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		
 		private void btnExportResponses_Click(object sender, System.EventArgs e)
 		{
-			string ret = null;
-			FolderBrowserDialog fbd = new FolderBrowserDialog();
-			if(fbd.ShowDialog(this) == DialogResult.OK)
-				ret = fbd.SelectedPath;
-			fbd.Dispose();
-			if(ret == null)
-				return;
+            //TODO
+            //string ret = null;
+            //FolderBrowserDialog fbd = new FolderBrowserDialog();
+            //if(fbd.ShowDialog(this) == DialogResult.OK)
+            //    ret = fbd.SelectedPath;
+            //fbd.Dispose();
+            //if(ret == null)
+            //    return;
 
-			for(int j = 0; j < requests.Count; j++)
-			{
-				StreamWriter writer = new StreamWriter(ret + @"\Instance_" + j.ToString() + "_Req_" + j.ToString() + ".html");
-				writer.Write(((WebRequestInfo)requests[j]).Response);
-				writer.Close();
-			}
+            //for(int j = 0; j < requests.Count; j++)
+            //{
+            //    StreamWriter writer = new StreamWriter(ret + @"\Instance_" + j.ToString() + "_Req_" + j.ToString() + ".html");
+            //    writer.Write(((WebRequestInfo)requests[j]).Response);
+            //    writer.Close();
+            //}
 		}
 
         private void btnViewPage_Click(object sender, System.EventArgs e)
         {
-            if (dataGrid1.DataSource == null || BindingContext[dataGrid1.DataSource].Current == null)
-                return;
+            //TODO
+            //if (dgResults.DataSource == null || BindingContext[dgResults.DataSource].Current == null)
+            //    return;
 
-            int Index = (int)((DataRowView)BindingContext[dataGrid1.DataSource].Current)["Record_Index"];
-            if (Index >= 0 && Index < requests.Count)
-                using (PageViewer pv = new PageViewer(((WebRequestInfo)requests[Index]).Response))
-                    pv.ShowDialog(this);
+            //int Index = (int)((DataRowView)BindingContext[dgResults.DataSource].Current)["Record_Index"];
+            //if (Index >= 0 && Index < requests.Count)
+            //    using (PageViewer pv = new PageViewer(((WebRequestInfo)requests[Index]).Response))
+            //        pv.ShowDialog(this);
         }
 
         private void txtRefreshTime_ValueChanged(object sender, EventArgs e)

@@ -191,13 +191,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             TotalCount = 0;
         }
 
-        public void RequestEnded()
-        {
-            InstantCount++;
-            TotalCount++;
-            EndTime = DateTime.Now;
-        }
-
         public void TestEnded()
         {
             TestStatus = TestStatuses.Stopped;
@@ -216,7 +209,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 
         public void RequestEnded(TestProject.Run.Data.IRequestInfo rinfo)
         {
-            
+            InstantCount++;
+            TotalCount++;
+            EndTime = DateTime.Now;
         }
     }
 }

@@ -52,13 +52,22 @@ namespace IETests
             
             #line default
             #line hidden
-            this.Write(@"():base(""Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"")
+            this.Write("():base(\"");
+            
+            #line 18 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(BaseUrl));
+            
+            #line default
+            #line hidden
+            this.Write(@""",
+			""Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)""
+			,""image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*"")
 		{			
-			AcceptedContent = ""image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*"";
+			
 		}
 		");
             
-            #line 22 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 24 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  for(int index = 0; index < TestDefinition.Requests.Count; index++) 
 		{
 			var request = TestDefinition.Requests[index];
@@ -68,21 +77,21 @@ namespace IETests
             #line hidden
             this.Write("\t\r\n\t\t\r\n\t\t#region Peristor - ");
             
-            #line 28 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 30 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(index));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 28 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 30 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(request.URL));
             
             #line default
             #line hidden
             this.Write("\r\n\t\tprivate async Task ");
             
-            #line 29 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 31 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetMethodName(index)));
             
             #line default
@@ -90,56 +99,56 @@ namespace IETests
             this.Write("()\r\n\t\t{\r\n\t\t\tawait InitializeCurrentRequest();\r\n\t\t\tCurrentRequest.Request.URL = @\"" +
                     "");
             
-            #line 32 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 34 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(request.URL));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\t\tCurrentRequest.Request.Port = ");
             
-            #line 33 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 35 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(request.Port));
             
             #line default
             #line hidden
             this.Write(";\r\n\t\t\tCurrentRequest.Request.RequestMethod = @\"");
             
-            #line 34 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 36 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(request.RequestMethod??"GET"));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\t\t");
             
-            #line 35 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 37 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
 if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") { 
             
             #line default
             #line hidden
             this.Write("\t\t\tCurrentRequest.Request.PayloadContentType = @\"");
             
-            #line 36 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 38 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(request.PayloadContentType??"application/x-www-form-urlencoded"));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\t\tCurrentRequest.Request.Payload = @\"");
             
-            #line 37 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 39 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(request.Payload??string.Empty));
             
             #line default
             #line hidden
             this.Write("\";\r\n\t\t\t");
             
-            #line 38 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 40 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t\t");
             
-            #line 39 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 41 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  foreach(var qp in request.QueryParams) 
 			{ 
             
@@ -147,28 +156,28 @@ if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") {
             #line hidden
             this.Write("CurrentRequest.Request.QueryParams.Add(new RequestParam(@\"");
             
-            #line 40 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 42 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(qp.ParamName));
             
             #line default
             #line hidden
             this.Write("\",@\"");
             
-            #line 40 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 42 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(qp.ParamValue??string.Empty));
             
             #line default
             #line hidden
             this.Write("\"));\r\n\t\t\t");
             
-            #line 41 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 43 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  }  
             
             #line default
             #line hidden
             this.Write("\t\t\t\r\n\t\t\t");
             
-            #line 43 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 45 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  foreach(var pp in request.PostParams) 
 			{ 
             
@@ -176,21 +185,21 @@ if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") {
             #line hidden
             this.Write("CurrentRequest.Request.PostParams.Add(new RequestParam(@\"");
             
-            #line 44 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 46 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pp.ParamName));
             
             #line default
             #line hidden
             this.Write("\",@\"");
             
-            #line 44 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 46 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pp.ParamValue??string.Empty));
             
             #line default
             #line hidden
             this.Write("\"));\r\n\t\t\t");
             
-            #line 45 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 47 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  }  
             
             #line default
@@ -198,7 +207,7 @@ if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") {
             this.Write("\r\n\t\t\tvar req = GetRequest();\t\t\r\n\t\t\tvar resp = await GetResponse(req);\r\n\t\t\t\r\n\t\t\t//" +
                     "Add response handling stuff here if needed\r\n\t\t}\r\n\t\t#endregion\r\n\t\t");
             
-            #line 53 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 55 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  } 
             
             #line default
@@ -206,7 +215,7 @@ if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") {
             this.Write("\t\t\r\n\t\tprotected override async Task RunTest()\r\n\t\t{\t\t\t\r\n\t\t\tclient.CookieContainer " +
                     "= new System.Net.CookieContainer();\r\n\t\t\t");
             
-            #line 58 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 60 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  for(int index = 0; index < TestDefinition.Requests.Count; index++) 
 			{ 
             
@@ -214,14 +223,14 @@ if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") {
             #line hidden
             this.Write("await ");
             
-            #line 59 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 61 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetMethodName(index)));
             
             #line default
             #line hidden
             this.Write("();\r\n\t\t\t");
             
-            #line 60 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
+            #line 62 "E:\Projects\fwptt2\fwptt.Desktop.DefaultPlugIns\Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt"
  } 
             
             #line default
