@@ -207,6 +207,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Plugin\RequestsCounter\ucCounterViewer.resx">
+      <DependentUpon>ucCounterViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.resx">
       <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
     </EmbeddedResource>

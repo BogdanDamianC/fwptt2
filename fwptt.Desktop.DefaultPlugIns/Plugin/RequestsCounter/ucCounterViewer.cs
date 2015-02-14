@@ -34,19 +34,18 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 	{
 		private System.ComponentModel.IContainer components;
 
-		private System.Windows.Forms.Timer timer1;
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer timer1;
 		private System.Windows.Forms.TextBox txtInstantRequestsperSecond;
-		private System.Windows.Forms.TextBox txtAverageRequestsperSecond;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.TextBox txtTotalNoOfRequests;
-		private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtAverageRequestsperSecond;
+        private System.Windows.Forms.TextBox txtTotalNoOfRequests;
 
 		private TestStatuses TestStatus = TestStatuses.NotRunning;
 
 		private int InstantCount = 0;
 		private int TotalCount = 0;
+        private int TotalNoOfErrors = 0;
 		private DateTime StartTime;
+        private TextBox txtNoOfErrors;
 		private DateTime EndTime;
 
 		public ucCounterViewer()
@@ -83,82 +82,106 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.timer1 = new System.Windows.Forms.Timer(this.components);
-			this.label1 = new System.Windows.Forms.Label();
-			this.txtInstantRequestsperSecond = new System.Windows.Forms.TextBox();
-			this.txtAverageRequestsperSecond = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
-			this.txtTotalNoOfRequests = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.SuspendLayout();
-			// 
-			// timer1
-			// 
-			this.timer1.Enabled = true;
-			this.timer1.Interval = 1000;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(8, 8);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(160, 23);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Instant No of requests/second";
-			// 
-			// txtInstantRequestsperSecond
-			// 
-			this.txtInstantRequestsperSecond.Location = new System.Drawing.Point(176, 8);
-			this.txtInstantRequestsperSecond.Name = "txtInstantRequestsperSecond";
-			this.txtInstantRequestsperSecond.ReadOnly = true;
-			this.txtInstantRequestsperSecond.Size = new System.Drawing.Size(64, 20);
-			this.txtInstantRequestsperSecond.TabIndex = 2;
-			this.txtInstantRequestsperSecond.Text = "";
-			// 
-			// txtAverageRequestsperSecond
-			// 
-			this.txtAverageRequestsperSecond.Location = new System.Drawing.Point(176, 32);
-			this.txtAverageRequestsperSecond.Name = "txtAverageRequestsperSecond";
-			this.txtAverageRequestsperSecond.ReadOnly = true;
-			this.txtAverageRequestsperSecond.Size = new System.Drawing.Size(64, 20);
-			this.txtAverageRequestsperSecond.TabIndex = 4;
-			this.txtAverageRequestsperSecond.Text = "";
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(8, 32);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(168, 23);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Average No of requests/second";
-			// 
-			// txtTotalNoOfRequests
-			// 
-			this.txtTotalNoOfRequests.Location = new System.Drawing.Point(176, 56);
-			this.txtTotalNoOfRequests.Name = "txtTotalNoOfRequests";
-			this.txtTotalNoOfRequests.ReadOnly = true;
-			this.txtTotalNoOfRequests.Size = new System.Drawing.Size(64, 20);
-			this.txtTotalNoOfRequests.TabIndex = 6;
-			this.txtTotalNoOfRequests.Text = "";
-			// 
-			// label3
-			// 
-			this.label3.Location = new System.Drawing.Point(8, 56);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(168, 23);
-			this.label3.TabIndex = 5;
-			this.label3.Text = "Total No of Requests";
-			// 
-			// FrmCounterViewer
-			// 
-			this.Controls.Add(this.txtTotalNoOfRequests);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.txtAverageRequestsperSecond);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.txtInstantRequestsperSecond);
-			this.Controls.Add(this.label1);
-			this.ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label4;
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.txtInstantRequestsperSecond = new System.Windows.Forms.TextBox();
+            this.txtAverageRequestsperSecond = new System.Windows.Forms.TextBox();
+            this.txtTotalNoOfRequests = new System.Windows.Forms.TextBox();
+            this.txtNoOfErrors = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label1
+            // 
+            label1.Location = new System.Drawing.Point(0, 3);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(160, 23);
+            label1.TabIndex = 1;
+            label1.Text = "Instant No of requests/second";
+            // 
+            // txtInstantRequestsperSecond
+            // 
+            this.txtInstantRequestsperSecond.Location = new System.Drawing.Point(168, 3);
+            this.txtInstantRequestsperSecond.Name = "txtInstantRequestsperSecond";
+            this.txtInstantRequestsperSecond.ReadOnly = true;
+            this.txtInstantRequestsperSecond.Size = new System.Drawing.Size(64, 20);
+            this.txtInstantRequestsperSecond.TabIndex = 2;
+            // 
+            // txtAverageRequestsperSecond
+            // 
+            this.txtAverageRequestsperSecond.Location = new System.Drawing.Point(168, 27);
+            this.txtAverageRequestsperSecond.Name = "txtAverageRequestsperSecond";
+            this.txtAverageRequestsperSecond.ReadOnly = true;
+            this.txtAverageRequestsperSecond.Size = new System.Drawing.Size(64, 20);
+            this.txtAverageRequestsperSecond.TabIndex = 4;
+            // 
+            // label2
+            // 
+            label2.Location = new System.Drawing.Point(0, 27);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(168, 23);
+            label2.TabIndex = 3;
+            label2.Text = "Average No of requests/second";
+            // 
+            // txtTotalNoOfRequests
+            // 
+            this.txtTotalNoOfRequests.Location = new System.Drawing.Point(168, 51);
+            this.txtTotalNoOfRequests.Name = "txtTotalNoOfRequests";
+            this.txtTotalNoOfRequests.ReadOnly = true;
+            this.txtTotalNoOfRequests.Size = new System.Drawing.Size(64, 20);
+            this.txtTotalNoOfRequests.TabIndex = 6;
+            // 
+            // label3
+            // 
+            label3.Location = new System.Drawing.Point(0, 51);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(168, 23);
+            label3.TabIndex = 5;
+            label3.Text = "Total No of Requests";
+            // 
+            // txtNoOfErrors
+            // 
+            this.txtNoOfErrors.Location = new System.Drawing.Point(168, 74);
+            this.txtNoOfErrors.Name = "txtNoOfErrors";
+            this.txtNoOfErrors.ReadOnly = true;
+            this.txtNoOfErrors.Size = new System.Drawing.Size(64, 20);
+            this.txtNoOfErrors.TabIndex = 8;
+            // 
+            // label4
+            // 
+            label4.Location = new System.Drawing.Point(0, 74);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(168, 23);
+            label4.TabIndex = 7;
+            label4.Text = "No of Errors";
+            // 
+            // ucCounterViewer
+            // 
+            this.Controls.Add(this.txtNoOfErrors);
+            this.Controls.Add(label4);
+            this.Controls.Add(this.txtTotalNoOfRequests);
+            this.Controls.Add(label3);
+            this.Controls.Add(this.txtAverageRequestsperSecond);
+            this.Controls.Add(label2);
+            this.Controls.Add(this.txtInstantRequestsperSecond);
+            this.Controls.Add(label1);
+            this.Name = "ucCounterViewer";
+            this.Size = new System.Drawing.Size(534, 99);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 		#endregion
@@ -189,6 +212,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             StartTime = DateTime.Now;
             InstantCount = 0;
             TotalCount = 0;
+            TotalNoOfErrors = 0;
         }
 
         public void TestEnded()
@@ -211,6 +235,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
         {
             InstantCount++;
             TotalCount++;
+            if (rinfo.Errors != null && rinfo.Errors.Count > 0)
+                TotalNoOfErrors++;
             EndTime = DateTime.Now;
         }
     }
