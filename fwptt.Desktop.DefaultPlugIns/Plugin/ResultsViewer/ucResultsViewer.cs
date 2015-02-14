@@ -33,6 +33,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.IO;
+using System.Linq;
 using System.Data;
 using System.Text;
 using fwptt.TestProject.Run.Data;
@@ -43,10 +44,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 {
     [ExpandableSettings(ResultsViewerConfiguration.PublicName, "Request Viewer - Provides recording/vizualization and html content view", ExpandableComponentType.Plugin)]
     public class ucResultsViewer : BaseTestRunExecutionComponent, IRequestPlayerPlugIn
-	{
-		private System.Windows.Forms.DataGrid dgResults;
-		private System.Windows.Forms.Button btnExportResponses;
-        private System.Windows.Forms.Panel panel1;
+    {
+        private System.Windows.Forms.Button btnExportResponses;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -62,7 +61,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
 
         private List<IRequestInfo> queuedRequests = new List<IRequestInfo>();
-        private List<Tuple<string, double>> requests = new List<Tuple<string, double>>();
+        private DataGridView dgViewRequests;
+        private DataGridViewTextBoxColumn dgColInfo;
+        private DataGridViewTextBoxColumn dgColDuration;
 		private TestStatuses TestStatus = TestStatuses.NotRunning;
 
 		public ucResultsViewer()
@@ -76,7 +77,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			// TODO: Add any constructor code after InitializeComponent call
 			//
             ExportData_Click_handler = new EventHandler(ExportData_Click);
-            dgResults.DataSource = requests;
 		}
 
         protected ResultsViewerConfiguration Configuration
@@ -93,8 +93,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		protected override void Dispose( bool disposing )
 		{
             timer1.Dispose();
-            dgResults.DataSource = null;
-            requests = null;
             if (disposing && components != null)
             {
                 components.Dispose();
@@ -110,98 +108,68 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn1;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn2;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn3;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
-            System.Windows.Forms.DataGridTableStyle mainGridStyle;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn7;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn6;
-            this.dgResults = new System.Windows.Forms.DataGrid();
             this.btnExportResponses = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.btnExportData = new System.Windows.Forms.Button();
             this.btnViewPage = new System.Windows.Forms.Button();
             this.btnSaveXmlLogFile = new System.Windows.Forms.Button();
             this.timer1 = new System.Timers.Timer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuExportData = new System.Windows.Forms.ContextMenuStrip(this.components);
-            dataGridTextBoxColumn1 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn2 = new System.Windows.Forms.DataGridTextBoxColumn();
+            this.dgViewRequests = new System.Windows.Forms.DataGridView();
+            this.dgColInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgColDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
-            mainGridStyle = new System.Windows.Forms.DataGridTableStyle();
             dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn6 = new System.Windows.Forms.DataGridTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).BeginInit();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewRequests)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridTextBoxColumn1
+            // dataGridTextBoxColumn3
             // 
-            dataGridTextBoxColumn1.Format = "";
-            dataGridTextBoxColumn1.FormatInfo = null;
-            dataGridTextBoxColumn1.HeaderText = "RequestDetails";
-            dataGridTextBoxColumn1.MappingName = "Item1";
-            dataGridTextBoxColumn1.Width = 300;
+            dataGridTextBoxColumn3.Format = "";
+            dataGridTextBoxColumn3.FormatInfo = null;
+            dataGridTextBoxColumn3.Width = -1;
             // 
-            // dataGridTextBoxColumn2
+            // dataGridTextBoxColumn4
             // 
-            dataGridTextBoxColumn2.Format = "";
-            dataGridTextBoxColumn2.FormatInfo = null;
-            dataGridTextBoxColumn2.HeaderText = "Duration(sec)";
-            dataGridTextBoxColumn2.MappingName = "Item2";
-            dataGridTextBoxColumn2.Width = 75;
-            
-            this.dgResults.DataMember = "";
-            this.dgResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgResults.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            this.dgResults.Location = new System.Drawing.Point(0, 32);
-            this.dgResults.Name = "dgResults";
-            this.dgResults.ReadOnly = true;
-            this.dgResults.Size = new System.Drawing.Size(934, 430);
-            this.dgResults.TabIndex = 0;
-            this.dgResults.TableStyles.AddRange(new System.Windows.Forms.DataGridTableStyle[] {
-            mainGridStyle});
+            dataGridTextBoxColumn4.Format = "";
+            dataGridTextBoxColumn4.FormatInfo = null;
+            dataGridTextBoxColumn4.Width = -1;
             // 
-            // mainGridStyle
+            // dataGridTextBoxColumn7
             // 
-            mainGridStyle.DataGrid = this.dgResults;
-            mainGridStyle.GridColumnStyles.AddRange(new System.Windows.Forms.DataGridColumnStyle[] {
-            dataGridTextBoxColumn1,
-            dataGridTextBoxColumn2});
-            mainGridStyle.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-            mainGridStyle.ReadOnly = true;
+            dataGridTextBoxColumn7.Format = "";
+            dataGridTextBoxColumn7.FormatInfo = null;
+            dataGridTextBoxColumn7.Width = -1;
+            // 
+            // dataGridTextBoxColumn6
+            // 
+            dataGridTextBoxColumn6.Format = "";
+            dataGridTextBoxColumn6.FormatInfo = null;
+            dataGridTextBoxColumn6.Width = -1;
             // 
             // btnExportResponses
             // 
             this.btnExportResponses.Enabled = false;
             this.btnExportResponses.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportResponses.Location = new System.Drawing.Point(230, 1);
+            this.btnExportResponses.Location = new System.Drawing.Point(233, 3);
             this.btnExportResponses.Name = "btnExportResponses";
             this.btnExportResponses.Size = new System.Drawing.Size(224, 23);
             this.btnExportResponses.TabIndex = 15;
             this.btnExportResponses.Text = "Export Responses To HTML Files";
             this.btnExportResponses.Click += new System.EventHandler(this.btnExportResponses_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btnExportData);
-            this.panel1.Controls.Add(this.btnViewPage);
-            this.panel1.Controls.Add(this.btnSaveXmlLogFile);
-            this.panel1.Controls.Add(this.btnExportResponses);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(934, 32);
-            this.panel1.TabIndex = 16;
-            // 
             // btnExportData
             // 
             this.btnExportData.Enabled = false;
             this.btnExportData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportData.Location = new System.Drawing.Point(690, 1);
+            this.btnExportData.Location = new System.Drawing.Point(693, 3);
             this.btnExportData.Name = "btnExportData";
             this.btnExportData.Size = new System.Drawing.Size(224, 23);
             this.btnExportData.TabIndex = 24;
@@ -211,7 +179,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // btnViewPage
             // 
             this.btnViewPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnViewPage.Location = new System.Drawing.Point(460, 1);
+            this.btnViewPage.Location = new System.Drawing.Point(463, 3);
             this.btnViewPage.Name = "btnViewPage";
             this.btnViewPage.Size = new System.Drawing.Size(224, 24);
             this.btnViewPage.TabIndex = 21;
@@ -222,7 +190,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // 
             this.btnSaveXmlLogFile.Enabled = false;
             this.btnSaveXmlLogFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveXmlLogFile.Location = new System.Drawing.Point(0, 1);
+            this.btnSaveXmlLogFile.Location = new System.Drawing.Point(3, 3);
             this.btnSaveXmlLogFile.Name = "btnSaveXmlLogFile";
             this.btnSaveXmlLogFile.Size = new System.Drawing.Size(224, 23);
             this.btnSaveXmlLogFile.TabIndex = 20;
@@ -241,15 +209,45 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.menuExportData.Name = "menuExportData";
             this.menuExportData.Size = new System.Drawing.Size(61, 4);
             // 
+            // dataGridView1
+            // 
+            this.dgViewRequests.AllowUserToAddRows = false;
+            this.dgViewRequests.AllowUserToDeleteRows = false;
+            this.dgViewRequests.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgViewRequests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgColInfo,
+            this.dgColDuration});
+            this.dgViewRequests.Location = new System.Drawing.Point(0, 32);
+            this.dgViewRequests.Name = "dataGridView1";
+            this.dgViewRequests.ReadOnly = true;
+            this.dgViewRequests.Size = new System.Drawing.Size(931, 430);
+            this.dgViewRequests.TabIndex = 17;
+            // 
+            // Column1
+            // 
+            this.dgColInfo.HeaderText = "Info";
+            this.dgColInfo.MinimumWidth = 50;
+            this.dgColInfo.Name = "Column1";
+            this.dgColInfo.ReadOnly = true;
+            this.dgColInfo.Width = 300;
+            // 
+            // Column2
+            // 
+            this.dgColDuration.HeaderText = "Duration (sec)";
+            this.dgColDuration.Name = "Column2";
+            this.dgColDuration.ReadOnly = true;
+            // 
             // ucResultsViewer
             // 
-            this.Controls.Add(this.dgResults);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.btnExportData);
+            this.Controls.Add(this.btnViewPage);
+            this.Controls.Add(this.dgViewRequests);
+            this.Controls.Add(this.btnSaveXmlLogFile);
+            this.Controls.Add(this.btnExportResponses);
             this.Name = "ucResultsViewer";
             this.Size = new System.Drawing.Size(934, 462);
-            ((System.ComponentModel.ISupportInitialize)(this.dgResults)).EndInit();
-            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewRequests)).EndInit();
             this.ResumeLayout(false);
 
 		}
@@ -259,15 +257,13 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         public void TestStarted()
         {
-            requests.Clear();
-            if(dgResults.DataSource != null)
-                dgResults.BindingContext[dgResults.DataSource].Position = -1;
-            dgResults.DataSource = null;
+            queuedRequests.Clear();
+            dgViewRequests.Rows.Clear();
             btnExportResponses.Enabled = false;
             btnSaveXmlLogFile.Enabled = false;
             btnExportData.Enabled = false;
-            Application.DoEvents();
             TestStatus = TestStatuses.Running;
+            timer1.Interval = 1000 + (Configuration.MaxNumberOfRequestsRecorded / 1000);
             timer1.Start();
         }
 
@@ -289,7 +285,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             btnExportData.Enabled = true;
 			TestStatus = TestStatuses.Stopped;
             timer1.Stop();
-            //dgResults.DataSource = SetDataTable();
 		}
 
         delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
@@ -327,32 +322,37 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         {
             lock (queuedRequests)
             {
+                if (!queuedRequests.Any())
+                    return;
                 foreach (var newrinfo in queuedRequests)
-                    requests.Add(new Tuple<string, double>(newrinfo.ToString(), newrinfo.Duration / 1000));
-                requests.Clear();
-                while (requests.Count > Configuration.MaxNumberOfRequestsRecorded)
+                    dgViewRequests.Rows.Add(newrinfo.ToString(), newrinfo.Duration / 1000);
+                queuedRequests.Clear();
+                while (dgViewRequests.Rows.Count > Configuration.MaxNumberOfRequestsRecorded)
                 {
-                    requests.RemoveAt(0);
+                    dgViewRequests.Rows.RemoveAt(0);
                 }
             }
+            dgViewRequests.Refresh();
+            dgViewRequests.Update();
         }
 
 		private void btnSaveXmlLogFile_Click(object sender, System.EventArgs e)
 		{
-			string LogFileName = null;
-			SaveFileDialog sf = new SaveFileDialog();
-			sf.Filter="XML files (*.xml)|*.xml|All files (*.*)|*.*";
-			if(sf.ShowDialog(this) == DialogResult.OK)
-				LogFileName = sf.FileName;
-			sf.Dispose();
+            //TODO
+            //string LogFileName = null;
+            //SaveFileDialog sf = new SaveFileDialog();
+            //sf.Filter="XML files (*.xml)|*.xml|All files (*.*)|*.*";
+            //if(sf.ShowDialog(this) == DialogResult.OK)
+            //    LogFileName = sf.FileName;
+            //sf.Dispose();
 
-			if(LogFileName != null)
-			{
-				XmlSerializer ser = new XmlSerializer(typeof(List<WebRequestInfo>));
-				TextWriter twriter = new StreamWriter(LogFileName, false, Encoding.Unicode);
-				ser.Serialize(twriter, requests);
-				twriter.Close();
-			}
+            //if(LogFileName != null)
+            //{
+            //    XmlSerializer ser = new XmlSerializer(typeof(List<WebRequestInfo>));
+            //    TextWriter twriter = new StreamWriter(LogFileName, false, Encoding.Unicode);
+            //    ser.Serialize(twriter, requests);
+            //    twriter.Close();
+            //}
 		}
 		
 		private void btnExportResponses_Click(object sender, System.EventArgs e)
@@ -415,44 +415,45 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         void ExportData_Click(object sender, EventArgs e)
         {
-            string ret = null;
-            SaveFileDialog sf = new SaveFileDialog();
-            if (sf.ShowDialog(this) == DialogResult.OK)
-                ret = sf.FileName;
-            sf.Dispose();
-            if (ret == null)
-                return;
+            //TODO
+            //string ret = null;
+            //SaveFileDialog sf = new SaveFileDialog();
+            //if (sf.ShowDialog(this) == DialogResult.OK)
+            //    ret = sf.FileName;
+            //sf.Dispose();
+            //if (ret == null)
+            //    return;
 
-            ToolStripMenuItem mnu = (ToolStripMenuItem)sender;
-            FileInfo fi = (FileInfo)mnu.Tag;
+            //ToolStripMenuItem mnu = (ToolStripMenuItem)sender;
+            //FileInfo fi = (FileInfo)mnu.Tag;
 
-            try
-            {
-                XslCompiledTransform xslt = new XslCompiledTransform();
-                xslt.Load(fi.FullName);
+            //try
+            //{
+            //    XslCompiledTransform xslt = new XslCompiledTransform();
+            //    xslt.Load(fi.FullName);
 
-                XmlSerializer ser = new XmlSerializer(requests.GetType());
+            //    XmlSerializer ser = new XmlSerializer(requests.GetType());
 
-                StringBuilder sb = new StringBuilder(1000);
-                StringWriter strwriter = new StringWriter(sb);
-                ser.Serialize(strwriter, requests);
-                strwriter.Close();
+            //    StringBuilder sb = new StringBuilder(1000);
+            //    StringWriter strwriter = new StringWriter(sb);
+            //    ser.Serialize(strwriter, requests);
+            //    strwriter.Close();
 
-                XmlDocument xmld = new XmlDocument();
-                xmld.LoadXml(sb.ToString());
+            //    XmlDocument xmld = new XmlDocument();
+            //    xmld.LoadXml(sb.ToString());
 
-                XPathNavigator navigator1 = xmld.CreateNavigator();
+            //    XPathNavigator navigator1 = xmld.CreateNavigator();
 
-                XmlTextWriter writer = new XmlTextWriter(ret, System.Text.Encoding.Unicode);
-                writer.Formatting = Formatting.Indented;
-                xslt.Transform(navigator1, writer);
-                writer.Flush();
-                writer.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + ex.StackTrace);
-            }
+            //    XmlTextWriter writer = new XmlTextWriter(ret, System.Text.Encoding.Unicode);
+            //    writer.Formatting = Formatting.Indented;
+            //    xslt.Transform(navigator1, writer);
+            //    writer.Flush();
+            //    writer.Close();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message + ex.StackTrace);
+            //}
         }
 
 

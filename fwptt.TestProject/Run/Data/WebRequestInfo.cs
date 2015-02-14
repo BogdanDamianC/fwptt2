@@ -14,13 +14,14 @@ namespace fwptt.TestProject.Run.Data
         }
         public Int32 ResponseCode { get; set; }
 
+        private const string infoSeparator = "  -|-  ";
         public override string ToString()
         {
-            string ret = Request.RequestMethod + "  -|-  " + Request.URL + "  -|-  ";
+            string ret = Errors.Any() ? "Error" : "OK";
+            ret += infoSeparator;
+            ret = Request.RequestMethod + infoSeparator + Request.URL + infoSeparator;
             if (Errors.Any())
-                ret += " Errors:" + string.Join("| ", Errors);
-            else
-                ret += "OK";
+                ret += " Error Details:" + string.Join("| ", Errors);
             return ret;
         }
     }

@@ -208,5 +208,10 @@ namespace fwptt.Desktop.App.UI
         {
             //TODO
         }
+
+        private void btnNewRun_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
