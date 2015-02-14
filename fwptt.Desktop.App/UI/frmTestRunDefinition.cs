@@ -45,6 +45,7 @@ namespace fwptt.Desktop.App.UI
         }
 
         public event EventHandler<TestRunDefinition> onNameChanged;
+        public event Action<TestRunDefinition> onNewRun;
 
         public frmTestRunDefinition(TestRunDefinition  trd):this()
         {
@@ -211,7 +212,8 @@ namespace fwptt.Desktop.App.UI
 
         private void btnNewRun_Click(object sender, EventArgs e)
         {
-
+            if (onNewRun != null)
+                onNewRun(CurrentItem);
         }
     }
 }

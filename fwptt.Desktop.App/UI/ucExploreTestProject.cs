@@ -216,7 +216,13 @@ namespace fwptt.Desktop.App.UI
 
         private void tryOpenCreateItemTestRunDefinition(TestRunDefinition testRunDefinition)
         {
-            TryOpenCreateItem<frmTestRunDefinition, TestRunDefinition>(testRunDefinition, (td) => new frmTestRunDefinition(td), testRunDefinitionEditor_onNameChanged);
+            TryOpenCreateItem<frmTestRunDefinition, TestRunDefinition>(testRunDefinition, (td) =>
+            {
+                var ftrd = new frmTestRunDefinition(td);
+                ftrd.onNewRun +=  newTestRun;
+                return ftrd;
+            },
+                testRunDefinitionEditor_onNameChanged);
         }
 
         private void testRunDefinitionEditor_onNameChanged(object sender, TestRunDefinition e)
@@ -257,6 +263,17 @@ namespace fwptt.Desktop.App.UI
             testRunDefinitions.Nodes.Remove(trd.Item2);
         }
 
+        private void newTestRun(TestRunDefinition trd)
+        {
+            var runResults = new TestRunResults
+            {
+                Name = trd.Name + DateTime.Now.ToString(),
+                TestRunDefinition = trd,
+            }; //TODO the test run definition must be cloned
+            TestProjectHost.Current.Project.TestRunsResults.Add(runResults);
+            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td));
+        }
+
         private void newRunToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!CanCreateNewItem())
@@ -264,13 +281,7 @@ namespace fwptt.Desktop.App.UI
             var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError);
             if (trd == null)
                 return;
-            var runResults = new TestRunResults{ 
-                Name = trd.Item1.Name + DateTime.Now.ToString(),
-                TestRunDefinition = trd.Item1,
-            }; //TODO the test run definition must be cloned
-            TestProjectHost.Current.Project.TestRunsResults.Add(runResults);
-            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td));
-
+            newTestRun(trd.Item1);
         }
         #endregion
     }
