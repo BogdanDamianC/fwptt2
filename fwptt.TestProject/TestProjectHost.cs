@@ -15,7 +15,7 @@ using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.TestProject
 {
-    public class TestProjectHost
+    public class TestProjectHost:IDisposable
     {
         public static TestProjectHost Current { get; private set; }
 
@@ -29,7 +29,7 @@ namespace fwptt.TestProject
 
         public Type[] TestDefinitionGeneratorWizzardTypes { get; private set; }
         public ExpandableSetting[] PluginTypes { get; private set; }
-        internal Dictionary<string, Type> ExpandableData = new Dictionary<string, Type>();
+        private Dictionary<string, Type> expandableData = new Dictionary<string, Type>();
 
         public TestProjectHost(string ApplicationStartupPath, string PluginsPath)
         {
@@ -66,11 +66,6 @@ namespace fwptt.TestProject
                 new KeyValuePair<string,string>(TestProjectDefinition.ApplicationStartupPathIdentifier,ApplicationStartupPath + Path.DirectorySeparatorChar),
                 new KeyValuePair<string,string>(TestProjectDefinition.ProjectPathIdentifier,GetProjectRelatedFilePath(string.Empty))
             };
-        }
-
-        public Type GetExpandableDataType(string uniqueName)
-        {
-            return ExpandableData[uniqueName];
         }
 
         private string GetProjectRelatedFilePath(string fileName)
@@ -154,8 +149,20 @@ namespace fwptt.TestProject
             }
         }
 
+        Dictionary<string, Assembly> loadedAssemblies;
+        ResolveEventHandler CurrentDomain_AssemblyResolve;
+
         private void SearchForPlugInTypes()
         {
+            loadedAssemblies = new Dictionary<string, Assembly>();
+            CurrentDomain_AssemblyResolve = (object sender, ResolveEventArgs args) =>
+                {
+                    Assembly assembly = null;
+                    loadedAssemblies.TryGetValue(args.Name, out assembly);
+                    return assembly;
+                };
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
             var pluginTypes = new List<ExpandableSetting>();
             var testDefinitionGeneratorWizzardTypes = new List<Type>();
 
@@ -167,9 +174,11 @@ namespace fwptt.TestProject
             if(!pluginAssemblies.Any())
                 throw new ApplicationException("There are no plugin assemblies in the plugin folder => " + PluginsPath);
 
-            foreach (var dll in pluginAssemblies)
+            var plugins = pluginAssemblies.Select(dll=>Assembly.LoadFile(dll.FullName)).ToList();
+
+            foreach (var asmb in plugins)
             {
-                Assembly asmb = Assembly.LoadFile(dll.FullName);
+                loadedAssemblies[asmb.FullName] = asmb;
                 foreach (var type in asmb.GetTypes())
                     SearchAndAddPlugIns(type, pluginTypes, testDefinitionGeneratorWizzardTypes);
             }
@@ -177,11 +186,35 @@ namespace fwptt.TestProject
             this.PluginTypes = pluginTypes.ToArray();
         }
 
+        private const string hashKeySeparator = "|=-JC~=|";
+        private static string getExpandableDataKey(string dataType, string uniqueName)
+        {
+            return dataType + hashKeySeparator + uniqueName;
+        }
+        private static string getExpandableDataKey(ExpandableDataType dataType, string uniqueName)
+        {
+            return getExpandableDataKey(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
+        }
+
+        public Type GetExpandableType(string dataType, string uniqueName)
+        {
+            Type dataTypeFound;
+            if (!TestProjectHost.Current.expandableData.TryGetValue(getExpandableDataKey(dataType, uniqueName), out dataTypeFound))
+                throw new ApplicationException(uniqueName + " - " + dataType + " is not defined inside the application or it's plugins - you probably need to add the extra plugins");
+            return dataTypeFound;
+        }
+
+        public Type GetExpandableType(ExpandableDataType dataType, string uniqueName)
+        {
+            return GetExpandableType(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
+        }
+
         private void SearchAndAddPlugIns(Type possiblePluginType, List<ExpandableSetting> pluginTypes, List<Type> testDefinitionGeneratorWizzardTypes)
         {
             if (possiblePluginType.IsSubclassOf(typeof(ExtendableData)))
             {
-                ExpandableData.Add(((ExtendableData)Activator.CreateInstance(possiblePluginType)).UniqueName, possiblePluginType);
+                var tempData = (ExtendableData)Activator.CreateInstance(possiblePluginType);
+                expandableData.Add(getExpandableDataKey(tempData.DataType, tempData.UniqueName), possiblePluginType);
                 return;
             }
             var expandableattrib = possiblePluginType.GetCustomAttribute<ExpandableSettingsAttribute>(true);
@@ -189,6 +222,12 @@ namespace fwptt.TestProject
                 pluginTypes.Add(expandableattrib.GetSetting(possiblePluginType));
             else if (possiblePluginType.GetInterfaces().Any(i => i == typeof(ITestDefinitionGeneratorWizzard)))
                 testDefinitionGeneratorWizzardTypes.Add(possiblePluginType);
+        }
+
+        public void Dispose()
+        {
+            loadedAssemblies = null;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
     }
    

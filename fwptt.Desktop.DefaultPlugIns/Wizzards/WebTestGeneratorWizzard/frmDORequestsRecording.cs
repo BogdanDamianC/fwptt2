@@ -65,10 +65,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			//
 			InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-
 			recorder = l_recorder;			
 			txtProxyIP.Text = recorder.ProxyIP.ToString();
 			txtProxyPort.Text = recorder.ProxyPort.ToString();

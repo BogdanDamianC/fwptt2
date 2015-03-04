@@ -45,10 +45,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			//
 			InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-
 		}
 
 		public PageViewer(string HTMLContent):this()

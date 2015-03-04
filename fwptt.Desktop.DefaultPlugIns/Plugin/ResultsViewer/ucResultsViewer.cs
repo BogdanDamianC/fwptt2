@@ -38,6 +38,7 @@ using System.Data;
 using System.Text;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
+using fwptt.Data.DefaultPlugins.ResultsViewer;
 
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
@@ -64,6 +65,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         private DataGridView dgViewRequests;
         private DataGridViewTextBoxColumn dgColInfo;
         private DataGridViewTextBoxColumn dgColDuration;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
 		private TestStatuses TestStatus = TestStatuses.NotRunning;
 
 		public ucResultsViewer()
@@ -73,9 +76,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			//
 			InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
             ExportData_Click_handler = new EventHandler(ExportData_Click);
 		}
 
@@ -120,8 +120,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuExportData = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dgViewRequests = new System.Windows.Forms.DataGridView();
-            this.dgColInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dgColDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -209,33 +209,33 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.menuExportData.Name = "menuExportData";
             this.menuExportData.Size = new System.Drawing.Size(61, 4);
             // 
-            // dataGridView1
+            // dgViewRequests
             // 
             this.dgViewRequests.AllowUserToAddRows = false;
             this.dgViewRequests.AllowUserToDeleteRows = false;
             this.dgViewRequests.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgViewRequests.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dgColInfo,
-            this.dgColDuration});
+            this.Column1,
+            this.Column2});
             this.dgViewRequests.Location = new System.Drawing.Point(0, 32);
-            this.dgViewRequests.Name = "dataGridView1";
+            this.dgViewRequests.Name = "dgViewRequests";
             this.dgViewRequests.ReadOnly = true;
             this.dgViewRequests.Size = new System.Drawing.Size(931, 430);
             this.dgViewRequests.TabIndex = 17;
             // 
             // Column1
             // 
-            this.dgColInfo.HeaderText = "Info";
-            this.dgColInfo.MinimumWidth = 50;
-            this.dgColInfo.Name = "Column1";
-            this.dgColInfo.ReadOnly = true;
-            this.dgColInfo.Width = 300;
+            this.Column1.HeaderText = "Info";
+            this.Column1.MinimumWidth = 50;
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 300;
             // 
             // Column2
             // 
-            this.dgColDuration.HeaderText = "Duration (sec)";
-            this.dgColDuration.Name = "Column2";
-            this.dgColDuration.ReadOnly = true;
+            this.Column2.HeaderText = "Duration (sec)";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
             // 
             // ucResultsViewer
             // 
@@ -244,6 +244,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.Controls.Add(this.dgViewRequests);
             this.Controls.Add(this.btnSaveXmlLogFile);
             this.Controls.Add(this.btnExportResponses);
+            this.DoubleBuffered = true;
             this.Name = "ucResultsViewer";
             this.Size = new System.Drawing.Size(934, 462);
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
@@ -263,7 +264,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             btnSaveXmlLogFile.Enabled = false;
             btnExportData.Enabled = false;
             TestStatus = TestStatuses.Running;
-            timer1.Interval = 1000 + (Configuration.MaxNumberOfRequestsRecorded / 1000);
+            timer1.Interval = Configuration.RefreshInterval;
             timer1.Start();
         }
 
@@ -388,6 +389,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         private void txtRefreshTime_ValueChanged(object sender, EventArgs e)
         {
+            //TODO remove or implement adjustment
             //timer1.Interval = Convert.ToDouble(txtRefreshTime.Value);
         }
 

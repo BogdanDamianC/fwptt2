@@ -49,9 +49,6 @@ namespace fwptt.Desktop.App.UI
 			//
 			InitializeComponent();
 			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
 
 		}
 

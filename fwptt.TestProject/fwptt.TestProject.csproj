@@ -90,6 +90,7 @@
     <Compile Include="Run\BaseTest.cs" />
     <Compile Include="Run\BaseWebTest.cs" />
     <Compile Include="Project\JsonCreationConverter.cs" />
+    <Compile Include="Run\Data\TestLoadInfo.cs" />
     <Compile Include="Run\Data\WebRequest.cs" />
     <Compile Include="Run\Data\RequestInfo.cs" />
     <Compile Include="Run\Data\RequestParam.cs" />

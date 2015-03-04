@@ -5,21 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
     public class ExtendableDataJSONConverter : Util.JsonCreationConverter<ExtendableData>
-    {
+    {   
         protected override ExtendableData Create(Type objectType, JObject jObject)
         {
-            Type dataTypeToCreate;
-            if (!TestProjectHost.Current.ExpandableData.TryGetValue(jObject.Value<string>("UniqueName"), out dataTypeToCreate))
-                throw new ApplicationException(jObject.Value<string>("UniqueName") + " data type is not defined inside the application or it's plugins - you probably need to add the extra plugins");
-
-            return (ExtendableData)Activator.CreateInstance(dataTypeToCreate);
-
+            return (ExtendableData)Activator.CreateInstance(TestProjectHost.Current.GetExpandableType(jObject.Value<string>("DataType"), jObject.Value<string>("UniqueName")));
         }
     }
+    
+    public enum ExpandableDataType { Configuration, TestRun };
     /// <summary>
     /// this abstract class is used for identifying all the data classes used by the plugins
     /// </summary>
@@ -27,6 +25,8 @@ namespace fwptt.TestProject.Project.Interfaces
     public abstract class ExtendableData
     {
         public abstract string UniqueName { get; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public abstract ExpandableDataType DataType { get; }
     }
 
     public enum ExpandableComponentType { TimeLineConfiguration, TimeLineViewer, PluginConfiguration, Plugin };

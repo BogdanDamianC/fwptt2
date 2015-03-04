@@ -44,13 +44,13 @@
             // 
             label2.Location = new System.Drawing.Point(5, 28);
             label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(153, 16);
+            label2.Size = new System.Drawing.Size(168, 16);
             label2.TabIndex = 28;
             label2.Text = "Refresh Interval in miliseconds";
             // 
             // label1
             // 
-            label1.Location = new System.Drawing.Point(262, 3);
+            label1.Location = new System.Drawing.Point(280, 3);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(184, 16);
             label1.TabIndex = 27;
@@ -60,13 +60,13 @@
             // 
             lblNumberOfThreads.Location = new System.Drawing.Point(5, 3);
             lblNumberOfThreads.Name = "lblNumberOfThreads";
-            lblNumberOfThreads.Size = new System.Drawing.Size(120, 16);
+            lblNumberOfThreads.Size = new System.Drawing.Size(144, 16);
             lblNumberOfThreads.TabIndex = 25;
             lblNumberOfThreads.Text = "Max response Size";
             // 
             // txtRefreshTime
             // 
-            this.txtRefreshTime.Location = new System.Drawing.Point(156, 26);
+            this.txtRefreshTime.Location = new System.Drawing.Point(174, 26);
             this.txtRefreshTime.Maximum = new decimal(new int[] {
             5000,
             0,
@@ -88,7 +88,7 @@
             // 
             // txtMaxNumberOfRequests
             // 
-            this.txtMaxNumberOfRequests.Location = new System.Drawing.Point(441, 1);
+            this.txtMaxNumberOfRequests.Location = new System.Drawing.Point(464, 1);
             this.txtMaxNumberOfRequests.Name = "txtMaxNumberOfRequests";
             this.txtMaxNumberOfRequests.Size = new System.Drawing.Size(100, 20);
             this.txtMaxNumberOfRequests.TabIndex = 26;
@@ -96,7 +96,7 @@
             // 
             // txtMaxResponseSize
             // 
-            this.txtMaxResponseSize.Location = new System.Drawing.Point(156, 1);
+            this.txtMaxResponseSize.Location = new System.Drawing.Point(174, 1);
             this.txtMaxResponseSize.Name = "txtMaxResponseSize";
             this.txtMaxResponseSize.Size = new System.Drawing.Size(100, 20);
             this.txtMaxResponseSize.TabIndex = 24;
@@ -113,7 +113,7 @@
             this.Controls.Add(this.txtMaxResponseSize);
             this.Controls.Add(lblNumberOfThreads);
             this.Name = "ucRequestViewerConfiguration";
-            this.Size = new System.Drawing.Size(554, 50);
+            this.Size = new System.Drawing.Size(611, 50);
             ((System.ComponentModel.ISupportInitialize)(this.txtRefreshTime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

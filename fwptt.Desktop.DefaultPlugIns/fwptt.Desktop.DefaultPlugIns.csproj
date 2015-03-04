@@ -79,6 +79,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Simple2DChart">
+      <HintPath>..\DLLs\Simple2DChart.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private />
     </Reference>
@@ -98,14 +101,12 @@
     <Compile Include="BaseTestRunConfigurationComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Plugin\RequestsCounter\RequestCounterConfiguration.cs" />
     <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.Designer.cs">
       <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Plugin\ResultsViewer\ResultsViewerConfiguration.cs" />
     <Compile Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -166,7 +167,7 @@
     <Content Include="Plugin\ResultsViewer\Simple.xsl" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="General.cs" />
-    <Compile Include="Plugin\RequestsCounter\ucCounterViewer.cs">
+    <Compile Include="Plugin\RequestsCounter\ucCounter.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Plugin\ResultsViewer\ucResultsViewer.cs">
@@ -197,6 +198,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\fwptt.Data.DefaultPlugins\fwptt.Data.DefaultPlugins.csproj">
+      <Project>{df4f6fa5-5f7c-493a-a0bb-32e449a7ec39}</Project>
+      <Name>fwptt.Data.DefaultPlugins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\fwptt.Desktop.Util\fwptt.Desktop.Util.csproj">
       <Project>{df4c994c-a662-4e6f-a1bd-282d0bcc7dc6}</Project>
       <Name>fwptt.Desktop.Util</Name>
@@ -207,8 +212,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Plugin\RequestsCounter\ucCounterViewer.resx">
-      <DependentUpon>ucCounterViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Plugin\RequestsCounter\ucCounter.resx">
+      <DependentUpon>ucCounter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.resx">
       <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>

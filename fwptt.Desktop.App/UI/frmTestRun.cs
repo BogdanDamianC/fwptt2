@@ -128,8 +128,17 @@ namespace fwptt.Desktop.App.UI
 
         void testRunner_TestsHaveFinished(TestRunner runner)
         {
-            btnAction.Text = "Start";
-            btnAction.Enabled = true;
+            // InvokeRequired required compares the thread ID of the
+            // calling thread to the thread ID of the creating thread.
+            // If these threads are different, it returns true.
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new EventHandler((object a, EventArgs b)=>{
+                    btnAction.Text = "Start";
+                    btnAction.Enabled = true;
+                }), new object[] { this, EventArgs.Empty });
+                return;
+            }
         }
 
         private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)

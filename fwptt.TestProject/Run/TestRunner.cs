@@ -49,62 +49,59 @@ namespace fwptt.TestProject.Run
 		private List<IRequestPlayerPlugIn> Plugins = new List<IRequestPlayerPlugIn>();
 
 		public event Action<TestRunner> TestRunEnded;
-        public event Action<TestRunner> TestRunStarted;
+		public event Action<TestRunner> TestRunStarted;
 
 		private Type runningTestType;
-        private Action<IRequestInfo> runnerRequestStartedEventhandler;
-        private Action<IRequestInfo> runnerRequestEndedEventhandler;
+		private Action<IRequestInfo> runnerRequestStartedEventhandler;
+		private Action<IRequestInfo> runnerRequestEndedEventhandler;
 
 		private ITimeLineController timelineCtrl;
 
-        public TestRunner(ITimeLineController timeline, Type runningTestType)
+		public TestRunner(ITimeLineController timeline, Type runningTestType)
 		{
-            timelineCtrl = timeline;
-            this.runningTestType = runningTestType;
-            runnerRequestStartedEventhandler = new Action<IRequestInfo>(TestRunner_RequestStarted);
-            runnerRequestEndedEventhandler = new Action<IRequestInfo>(TestRunner_RequestEnded);
+			timelineCtrl = timeline;
+			this.runningTestType = runningTestType;
+			runnerRequestStartedEventhandler = new Action<IRequestInfo>(TestRunner_RequestStarted);
+			runnerRequestEndedEventhandler = new Action<IRequestInfo>(TestRunner_RequestEnded);
 		}
 
-        private int totalNoOfRunningTests = 0;
+		public void StartTests()
+		{
+			if (TestRunStarted != null)
+				TestRunStarted(this);
+			timelineCtrl.StartTimeLine();
+			foreach (var plugin in Plugins)
+				plugin.TestStarted();
 
-        public void StartTests()
-        {
-            if (TestRunStarted != null)
-                TestRunStarted(this);
-            timelineCtrl.StartTimeLine();
-            foreach (var plugin in Plugins)
-                plugin.TestStarted();
+			new Task(() =>
+			{
+				int delayInBetweenChecks = timelineCtrl.MiliSecondsPauseBetweenRequests > 0 ? timelineCtrl.MiliSecondsPauseBetweenRequests : 50;
+				do
+				{
+					if (timelineCtrl.TryStartNewExecutionThread())
+					{
+						timelineCtrl.OnStepStarted();
+						var newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
+						newInstance.RequestStarted += runnerRequestStartedEventhandler;
+						newInstance.RequestEnded += runnerRequestEndedEventhandler;
+						//newInstance.Proxy = this.Proxy;
+						newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a)=>{
+							await a;
+							timelineCtrl.OnStepFinished();
+							timelineCtrl.ExecutionThreadEnded();
+							TestRunner_TestEnded();
+						});
+					}
+					Task.Delay(delayInBetweenChecks);
+				} while (timelineCtrl.IsRunning);
+			}).Start();
+		}
 
-            totalNoOfRunningTests = 0;
-            new Task(() =>
-            {
-                int delayInBetweenChecks = timelineCtrl.MiliSecondsPauseBetweenRequests > 0 ? timelineCtrl.MiliSecondsPauseBetweenRequests : 50;
-                do
-                {
-                    if (timelineCtrl.TryStartNewExecutionThread())
-                    {
-                        totalNoOfRunningTests++;
-                        timelineCtrl.OnStepStarted();
-                        var newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
-                        newInstance.RequestStarted += runnerRequestStartedEventhandler;
-                        newInstance.RequestEnded += runnerRequestEndedEventhandler;
-                        //newInstance.Proxy = this.Proxy;
-                        newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a)=>{
-                            await a;
-                            timelineCtrl.OnStepFinished();
-                            TestRunner_TestEnded();
-                        });
-                    }
-                    Task.Delay(delayInBetweenChecks);
-                } while (timelineCtrl.IsRunning);
-            }).Start();
-        }
-
-        public void StopTests()
-        {
-            timelineCtrl.StopTimeLine(); //this will make the test instances to stop  
-            TestRunner_TestEnded();
-        }
+		public void StopTests()
+		{
+			timelineCtrl.StopTimeLine(); //this will make the test instances to stop  
+			TestRunner_TestEnded();
+		}
 
 		#region PlugIns
 		public void AddPlugIn(IRequestPlayerPlugIn plugin)
@@ -129,9 +126,8 @@ namespace fwptt.TestProject.Run
 
 		private void TestRunner_TestEnded()
 		{
-            totalNoOfRunningTests--;
-            if (totalNoOfRunningTests > 0)
-                return;
+			if (timelineCtrl.CurrentExecutionThreads > 0 || timelineCtrl.IsRunning)
+				return;
 			if (TestRunEnded != null)
 				TestRunEnded(this);
 
@@ -139,21 +135,21 @@ namespace fwptt.TestProject.Run
 				plugin.TestStoped();
 		}
 
-        private void TestRunner_RequestStarted(IRequestInfo currentRequest)
-        {
-            if (Plugins == null)
-                return;
-            foreach (var plugin in Plugins)
-                plugin.RequestStarted(currentRequest);
-        }
+		private void TestRunner_RequestStarted(IRequestInfo currentRequest)
+		{
+			if (Plugins == null)
+				return;
+			foreach (var plugin in Plugins)
+				plugin.RequestStarted(currentRequest);
+		}
 
-        private void TestRunner_RequestEnded(IRequestInfo currentRequest)
-        {
-            if (Plugins == null)
-                return;
-            foreach (var plugin in Plugins)
-                plugin.RequestEnded(currentRequest);
-        }
+		private void TestRunner_RequestEnded(IRequestInfo currentRequest)
+		{
+			if (Plugins == null)
+				return;
+			foreach (var plugin in Plugins)
+				plugin.RequestEnded(currentRequest);
+		}
 
 		#region IDisposable Members
 
