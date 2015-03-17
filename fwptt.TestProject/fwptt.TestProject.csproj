@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Project\Interfaces\ITestDefinitionGeneratorWizzard.cs" />
+    <Compile Include="Project\TimeLine\TimeLineStatus.cs" />
     <Compile Include="Run\BaseTest.cs" />
     <Compile Include="Run\BaseWebTest.cs" />
     <Compile Include="Project\JsonCreationConverter.cs" />

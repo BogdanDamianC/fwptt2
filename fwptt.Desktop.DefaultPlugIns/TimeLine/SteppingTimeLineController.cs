@@ -16,28 +16,14 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             MaxExecutionThreads = 1;
             this.timeline = timeline;
         }
-        public int CurrentStep { get; private set; }
-
-        public override void StartTimeLine()
-        {
-            CurrentStep = 0;
-            base.StartTimeLine();
-        }
-
-        public override void OnStepStarted()
-        {
-            lock (this)
-            {
-                CurrentStep++;
-            }
-        }
 
         public override void OnStepFinished()
         {
             lock (this)
             {
-                IsRunning &= CurrentStep <= timeline. MaxSteps;
+                IsRunning &= CurrentIteration <= timeline. MaxSteps;
             }
+            base.OnStepFinished();
         }
     }
 }

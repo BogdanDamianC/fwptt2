@@ -12,11 +12,16 @@ using fwptt.TestProject.Project.Interfaces;
 namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 {
     [ExpandableSettings(SteppingTimeLine.PublicName, "Step Time Line Info", ExpandableComponentType.TimeLineViewer)]
-    public partial class ucSetppingTimeLineViewer : BaseTestRunExecutionComponent
+    public partial class ucSetppingTimeLineViewer : BaseTestRunExecutionComponent, ITimeLinePlugIn
     {
         public ucSetppingTimeLineViewer()
         {
             InitializeComponent();
+        }
+
+        public Action<TestProject.Project.TimeLine.TimeLineStatus> OnTimelineEvent
+        {
+            get { return null; }
         }
     }
 }

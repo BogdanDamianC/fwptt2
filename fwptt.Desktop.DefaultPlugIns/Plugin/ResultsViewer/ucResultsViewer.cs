@@ -67,7 +67,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         private DataGridViewTextBoxColumn dgColDuration;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
-		private TestStatuses TestStatus = TestStatuses.NotRunning;
+
+        //TODO look into this not sure if this is needed
+        public ExtendableData TestRunResults { get { return null; } } 
 
 		public ucResultsViewer()
 		{
@@ -258,13 +260,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         public void TestStarted()
         {
-            queuedRequests.Clear();
+            queuedRequests = new List<IRequestInfo>();
             dgViewRequests.Rows.Clear();
             btnExportResponses.Enabled = false;
             btnSaveXmlLogFile.Enabled = false;
             btnExportData.Enabled = false;
-            TestStatus = TestStatuses.Running;
-            timer1.Interval = Configuration.RefreshInterval;
+            timer1.Interval = Configuration.RefreshInterval * 1000;
             timer1.Start();
         }
 
@@ -284,55 +285,35 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			btnExportResponses.Enabled = true;
 			btnSaveXmlLogFile.Enabled = true;
             btnExportData.Enabled = true;
-			TestStatus = TestStatuses.Stopped;
             timer1.Stop();
 		}
 
         delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
-		public void RequestEnded(IRequestInfo rinfo)
-		{
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (this.InvokeRequired)
-            {
-                ThreadSafeAddRequestCallback d = new ThreadSafeAddRequestCallback(RequestEnded);
-                this.Invoke(d, new object[] { rinfo.Clone() });
-                return;
-            }
-            lock (queuedRequests)
-			{
-                queuedRequests.Add(rinfo);
-                //TODO var newrinfo = (WebRequestInfo)rinfo;
-                //if(newrinfo.Response.Length > Configuration.MaxResponseSizeRecorded)
-                //    newrinfo.Response = newrinfo.Response.Substring(0, Configuration.MaxResponseSizeRecorded);
-				
-			}
-		}
+        public void RequestEnded(IRequestInfo rinfo)
+        {
+            queuedRequests.Add(rinfo);
+        }
 
 		private void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
-			if(TestStatus == TestStatuses.NotRunning)
-				return;
-			else if(TestStatus == TestStatuses.Stopped)
-				TestStatus = TestStatuses.NotRunning;            
-            SetDataTable();
+            RefreshData();
 		}
 
-        private void SetDataTable()
+        private void RefreshData()
         {
-            lock (queuedRequests)
-            {
-                if (!queuedRequests.Any())
-                    return;
-                foreach (var newrinfo in queuedRequests)
-                    dgViewRequests.Rows.Add(newrinfo.ToString(), newrinfo.Duration / 1000);
-                queuedRequests.Clear();
-                while (dgViewRequests.Rows.Count > Configuration.MaxNumberOfRequestsRecorded)
-                {
+            var currentQueuedRequests = queuedRequests;
+            queuedRequests = new List<IRequestInfo>();
+            if (currentQueuedRequests.Count >= Configuration.MaxNumberOfRequestsRecorded)
+                dgViewRequests.Rows.Clear();
+            else
+                while (dgViewRequests.Rows.Count > 0 && dgViewRequests.Rows.Count + currentQueuedRequests.Count > Configuration.MaxNumberOfRequestsRecorded)
                     dgViewRequests.Rows.RemoveAt(0);
-                }
+            for (int i = currentQueuedRequests.Count - 1; i >= 0 && dgViewRequests.Rows.Count < Configuration.MaxNumberOfRequestsRecorded; i--)
+            {
+                var item = currentQueuedRequests[i];
+                dgViewRequests.Rows.Add(item.ToString(), item.Duration / 1000);
             }
+
             dgViewRequests.Refresh();
             dgViewRequests.Update();
         }

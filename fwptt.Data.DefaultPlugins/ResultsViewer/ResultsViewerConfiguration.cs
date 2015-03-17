@@ -30,6 +30,11 @@ namespace fwptt.Data.DefaultPlugins.ResultsViewer
 {
     public class ResultsViewerConfiguration : ExtendableData
     {
+        public ResultsViewerConfiguration()
+        {
+            RefreshInterval = 5;
+        }
+
         public const string PublicName = "fwptt -> Default -> Plugins -> ResultsViewer";
         public override string UniqueName
         {

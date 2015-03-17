@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using fwptt.TestProject.Project.TimeLine;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
@@ -29,5 +30,6 @@ namespace fwptt.TestProject.Project.Interfaces
         int MiliSecondsPauseBetweenRequests { get; set; }
         bool TryStartNewExecutionThread();
         void ExecutionThreadEnded();
+        event Action<TimeLineStatus> TimelineEvent;
     }
 }

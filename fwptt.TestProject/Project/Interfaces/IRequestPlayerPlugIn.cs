@@ -24,9 +24,14 @@ using System;
 using System.Collections.Generic;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject;
+using fwptt.TestProject.Project.TimeLine;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
+    public interface ITimeLinePlugIn
+    {
+        Action<TimeLineStatus> OnTimelineEvent{get;}
+    }
 	/// <summary>
 	/// Summary description for RequestPlayerPlugIn.
 	/// </summary>
@@ -36,13 +41,6 @@ namespace fwptt.TestProject.Project.Interfaces
 		void TestStoped();
 		void RequestStarted(IRequestInfo rinfo);
 		void RequestEnded(IRequestInfo rinfo);
-	}
-
-	/// <summary>
-	/// Summary description for RequestPlayerPlugIn.
-	/// </summary>
-	public interface IRequestPlayer
-	{
-		object PlayerInfo { get; }
+        ExtendableData TestRunResults { get; }
 	}
 }

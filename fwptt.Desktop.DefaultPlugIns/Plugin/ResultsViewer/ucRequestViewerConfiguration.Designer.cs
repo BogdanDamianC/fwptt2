@@ -46,7 +46,7 @@
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(168, 16);
             label2.TabIndex = 28;
-            label2.Text = "Refresh Interval in miliseconds";
+            label2.Text = "Refresh Interval in seconds";
             // 
             // label1
             // 
@@ -73,7 +73,7 @@
             0,
             0});
             this.txtRefreshTime.Minimum = new decimal(new int[] {
-            500,
+            1,
             0,
             0,
             0});

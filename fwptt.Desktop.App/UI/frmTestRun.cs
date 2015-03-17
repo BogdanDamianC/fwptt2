@@ -75,6 +75,10 @@ namespace fwptt.Desktop.App.UI
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            if (DesignMode)
+                return;
+            txtTestRunName.Width = GetNameWidth();
+            mainAccordion.Width = this.ClientSize.Width;
             if(SetupTestRunner())
                 SetupPlugins();
         }
@@ -150,7 +154,7 @@ namespace fwptt.Desktop.App.UI
             return tlpl;
         }
 
-        private void AddPlugin(ExpandableSetting setting, ExtendableData data, bool checkIfIsReqPlayer = false)
+        private Control CreateAndAddPlugin(ExpandableSetting setting, ExtendableData data)
         {
             var newPluginControl = new ExpanderControl();
             newPluginControl.BorderStyle = BorderStyle.FixedSingle;
@@ -159,10 +163,18 @@ namespace fwptt.Desktop.App.UI
             newPluginControl.Content = CreateNewControlAndData(setting, data);
             mainAccordion.Add(newPluginControl);
             newPluginControl.Expand();
-            var reqPlayerPlugin = newPluginControl.Content as IRequestPlayerPlugIn;
+            return newPluginControl.Content;
+        }
+        private void AddPlugin(ExpandableSetting setting, ExtendableData data)
+        {
+            var reqPlayerPlugin = CreateAndAddPlugin(setting, data) as IRequestPlayerPlugIn;
             if (reqPlayerPlugin != null)
+            {
                 testRunner.AddPlugIn(reqPlayerPlugin);
-            else if (checkIfIsReqPlayer)
+                if (reqPlayerPlugin.TestRunResults != null)
+                    CurrentItem.PluginsResults.Add(reqPlayerPlugin.TestRunResults);
+            }
+            else
                 MessageBox.Show(string.Format("{0} ({1}) is not a request player plugin", setting.DisplayName, setting.UniqueName), "Error");
         }
 
@@ -171,12 +183,14 @@ namespace fwptt.Desktop.App.UI
         {
             var tmpPluginInfo = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
                                                 && pl.UniqueName == CurrentItem.TestRunDefinition.TimeLine.UniqueName);
-            AddPlugin(tmpPluginInfo, CurrentItem.TestRunDefinition.TimeLine);
+            var timeLine = (ITimeLinePlugIn)CreateAndAddPlugin(tmpPluginInfo, CurrentItem.TestRunDefinition.TimeLine);
+            if (timeLine.OnTimelineEvent != null)
+                timeLineController.TimelineEvent += timeLine.OnTimelineEvent;
             foreach(var plugin in CurrentItem.TestRunDefinition.RunPlugins)
             {
                 tmpPluginInfo = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
                                                 && pl.UniqueName == plugin.UniqueName);
-                AddPlugin(tmpPluginInfo, plugin, true);
+                AddPlugin(tmpPluginInfo, plugin);
             }
 
         }

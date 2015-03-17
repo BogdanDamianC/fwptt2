@@ -32,7 +32,7 @@ namespace fwptt.TestProject.Run
         protected async Task InitializeCurrentRequest()
         {
             CurrentRequest = new RI();
-            await DoSleep();
+            await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests);
         }
 
         protected void onRequestStarted()
@@ -45,15 +45,6 @@ namespace fwptt.TestProject.Run
         {
             if (RequestEnded != null && timelineCtrl.IsRunning)
                 RequestEnded(CurrentRequest);
-        }
-
-        private async Task DoSleep()
-        {
-            int tmp = timelineCtrl.MiliSecondsPauseBetweenRequests / 100;
-            if (tmp <= 0)
-                tmp = 1;
-            for (int i = 0; timelineCtrl.IsRunning && i < tmp; i++)
-                await Task.Delay(100);
         }
 
 		protected abstract Task RunTest();

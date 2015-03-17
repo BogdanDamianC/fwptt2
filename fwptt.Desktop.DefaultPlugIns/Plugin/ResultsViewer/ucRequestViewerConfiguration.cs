@@ -25,8 +25,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             base.SetConfiguration(data);
             txtMaxNumberOfRequests.DataBindings.Add("Text", CurrentData, "MaxNumberOfRequestsRecorded");
             txtMaxResponseSize.DataBindings.Add("Text", CurrentData, "MaxResponseSizeRecorded");
-            if (((ResultsViewerConfiguration)CurrentData).RefreshInterval < 500)
-                ((ResultsViewerConfiguration)CurrentData).RefreshInterval = 500;
+            if (((ResultsViewerConfiguration)CurrentData).RefreshInterval < 1)
+                ((ResultsViewerConfiguration)CurrentData).RefreshInterval = 1;
             txtRefreshTime.DataBindings.Add("Value", CurrentData, "RefreshInterval");
         }
     }
