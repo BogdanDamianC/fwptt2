@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
@@ -38,6 +39,7 @@
             this.lblCurrentExecutionThreads = new System.Windows.Forms.Label();
             this.lblMaxThreads = new System.Windows.Forms.Label();
             this.lblCurrentIteration = new System.Windows.Forms.Label();
+            this.mainTimer = new System.Windows.Forms.Timer(this.components);
             label1 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -85,6 +87,16 @@
             label5.TabIndex = 6;
             label5.Text = "Max Threads";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(321, 5);
+            label6.Margin = new System.Windows.Forms.Padding(0);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(45, 13);
+            label6.TabIndex = 8;
+            label6.Text = "Iteration";
+            // 
             // lblStartTime
             // 
             this.lblStartTime.Location = new System.Drawing.Point(40, 5);
@@ -125,15 +137,11 @@
             this.lblCurrentIteration.Size = new System.Drawing.Size(51, 13);
             this.lblCurrentIteration.TabIndex = 9;
             // 
-            // label6
+            // mainTimer
             // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(321, 5);
-            label6.Margin = new System.Windows.Forms.Padding(0);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(45, 13);
-            label6.TabIndex = 8;
-            label6.Text = "Iteration";
+            this.mainTimer.Enabled = true;
+            this.mainTimer.Interval = 1000;
+            this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
             // 
             // ucTimeBasedTimeLineViewer
             // 
@@ -163,5 +171,6 @@
         private System.Windows.Forms.Label lblCurrentExecutionThreads;
         private System.Windows.Forms.Label lblMaxThreads;
         private System.Windows.Forms.Label lblCurrentIteration;
+        private System.Windows.Forms.Timer mainTimer;
     }
 }

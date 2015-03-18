@@ -272,6 +272,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         delegate void ThreadSafeCallback();
 		public void TestEnded()
 		{
+            timer1.Stop();
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
@@ -285,7 +286,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			btnExportResponses.Enabled = true;
 			btnSaveXmlLogFile.Enabled = true;
             btnExportData.Enabled = true;
-            timer1.Stop();
+            RefreshData();
 		}
 
         delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
@@ -303,12 +304,21 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         {
             var currentQueuedRequests = queuedRequests;
             queuedRequests = new List<IRequestInfo>();
+            int StartRecord = 0;
             if (currentQueuedRequests.Count >= Configuration.MaxNumberOfRequestsRecorded)
+            {
                 dgViewRequests.Rows.Clear();
+                StartRecord = currentQueuedRequests.Count - Configuration.MaxNumberOfRequestsRecorded;
+
+            }
             else
-                while (dgViewRequests.Rows.Count > 0 && dgViewRequests.Rows.Count + currentQueuedRequests.Count > Configuration.MaxNumberOfRequestsRecorded)
+            {
+                int rowsToKeep = Configuration.MaxNumberOfRequestsRecorded - currentQueuedRequests.Count;
+                while (dgViewRequests.Rows.Count > 0 && dgViewRequests.Rows.Count > rowsToKeep)
                     dgViewRequests.Rows.RemoveAt(0);
-            for (int i = currentQueuedRequests.Count - 1; i >= 0 && dgViewRequests.Rows.Count < Configuration.MaxNumberOfRequestsRecorded; i--)
+            }
+
+            for (int i = StartRecord; i < currentQueuedRequests.Count; i++)
             {
                 var item = currentQueuedRequests[i];
                 dgViewRequests.Rows.Add(item.ToString(), item.Duration / 1000);

@@ -21,26 +21,20 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
 
         private void mainTimer_Tick(object sender, EventArgs e)
         {
-
+            if (lastStatus == null)
+                return;
+            lblStartTime.Text = lastStatus.StartTime.ToLongTimeString();
+            lblEndTime.Text = lastStatus.EndTime.ToLongTimeString();
+            lblCurrentExecutionThreads.Text = lastStatus.CurrentExecutionThreads.ToString();
+            lblMaxThreads.Text = lastStatus.MaxExecutionThreads.ToString();
+            lblCurrentIteration.Text = lastStatus.CurrentIteration.ToString();
         }
+
+        TestProject.Project.TimeLine.TimeLineStatus lastStatus = null; 
 
         private void HandleTimelineEvent(TestProject.Project.TimeLine.TimeLineStatus status)
         {
-            // InvokeRequired required compares the thread ID of the
-            // calling thread to the thread ID of the creating thread.
-            // If these threads are different, it returns true.
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new EventHandler((object a, EventArgs b) =>
-                {
-                    lblStartTime.Text = status.StartTime.ToLongTimeString();
-                    lblEndTime.Text = status.EndTime.ToLongTimeString();
-                    lblCurrentExecutionThreads.Text = status.CurrentExecutionThreads.ToString();
-                    lblMaxThreads.Text = status.MaxExecutionThreads.ToString();
-                    lblCurrentIteration.Text = status.CurrentIteration.ToString();
-                }), new object[] { this, EventArgs.Empty });
-                return;
-            }
+            lastStatus = status;
         }
 
         public Action<TestProject.Project.TimeLine.TimeLineStatus> OnTimelineEvent

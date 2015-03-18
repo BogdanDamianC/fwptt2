@@ -130,9 +130,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(25, 18);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 13);
+            this.label2.Size = new System.Drawing.Size(96, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Minutes and Seconds";
+            this.label2.Text = "Hours and Minutes";
             // 
             // txtDurationMinute
             // 
@@ -148,7 +148,7 @@
             this.txtDurationHour.Size = new System.Drawing.Size(76, 20);
             this.txtDurationHour.TabIndex = 3;
             // 
-            // ucTimeBasedTimeLine
+            // ucTimeBasedTimeLineConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -158,7 +158,7 @@
             this.Controls.Add(this.txtNumberOfThreads);
             this.Controls.Add(lblNumberOfThreads);
             this.Controls.Add(this.grpTimeBasedTimelineDuration);
-            this.Name = "ucTimeBasedTimeLine";
+            this.Name = "ucTimeBasedTimeLineConfiguration";
             this.Size = new System.Drawing.Size(398, 136);
             this.Load += new System.EventHandler(this.ucTimeBasedTimeLine_Load);
             this.grpRampUpTime.ResumeLayout(false);

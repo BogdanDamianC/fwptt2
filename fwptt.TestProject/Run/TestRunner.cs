@@ -75,27 +75,36 @@ namespace fwptt.TestProject.Run
 
 			new Task(() =>
 			{
-				int delayInBetweenChecks = timelineCtrl.MiliSecondsPauseBetweenRequests > 0 ? timelineCtrl.MiliSecondsPauseBetweenRequests : 50;
+				int delayInBetweenChecks = 20;
 				do
 				{
-					if (timelineCtrl.TryStartNewExecutionThread())
-					{
-						timelineCtrl.OnStepStarted();
-						var newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
-						newInstance.RequestStarted += runnerRequestStartedEventhandler;
-						newInstance.RequestEnded += runnerRequestEndedEventhandler;
-						//newInstance.Proxy = this.Proxy;
-						newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a)=>{
-							await a;
-							timelineCtrl.OnStepFinished();
-							timelineCtrl.ExecutionThreadEnded();
-							TestRunner_TestEnded();
-						});
-					}
+                    TryStartNewExecutionThread();
+                    if (timelineCtrl.CurrentExecutionThreads == timelineCtrl.MaxExecutionThreads)
+                        delayInBetweenChecks = 2000; //no need use the CPU too much the test ended should deal with most of the restarts
 					Task.Delay(delayInBetweenChecks);
 				} while (timelineCtrl.IsRunning);
 			}).Start();
 		}
+
+        private bool TryStartNewExecutionThread()
+        {
+            if (!timelineCtrl.TryStartNewExecutionThread())
+                return false;
+
+            timelineCtrl.OnStepStarted();
+            var newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
+            newInstance.RequestStarted += runnerRequestStartedEventhandler;
+            newInstance.RequestEnded += runnerRequestEndedEventhandler;
+            //newInstance.Proxy = this.Proxy;
+            newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a) =>
+            {
+                await a;
+                timelineCtrl.OnStepFinished();
+                timelineCtrl.ExecutionThreadEnded();
+                TestRunner_TestEnded();
+            });
+            return true;
+        }
 
 		public void StopTests()
 		{
@@ -127,7 +136,11 @@ namespace fwptt.TestProject.Run
 		private void TestRunner_TestEnded()
 		{
 			if (timelineCtrl.CurrentExecutionThreads > 0 || timelineCtrl.IsRunning)
-				return;
+            {
+                TryStartNewExecutionThread();
+                return;
+            }
+				
 			if (TestRunEnded != null)
 				TestRunEnded(this);
 

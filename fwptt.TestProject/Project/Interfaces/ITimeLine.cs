@@ -24,6 +24,7 @@ namespace fwptt.TestProject.Project.Interfaces
         void StartTimeLine();
         void StopTimeLine();
         bool IsRunning { get; }
+        int MaxExecutionThreads { get; }
         int CurrentExecutionThreads { get; }
         void OnStepStarted();
         void OnStepFinished();

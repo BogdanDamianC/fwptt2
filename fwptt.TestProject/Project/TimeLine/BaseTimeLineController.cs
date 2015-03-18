@@ -9,7 +9,7 @@ namespace fwptt.TestProject.Project.TimeLine
 	/// </summary>
     public abstract class BaseTimeLineController : ITimeLineController
 	{
-        protected int MaxExecutionThreads;
+        public int MaxExecutionThreads { get; protected set; }
         public int CurrentExecutionThreads{get; protected set;}
 		public DateTime StartTime {get; protected set;}
         public DateTime EndTime { get; protected set; }
@@ -71,7 +71,7 @@ namespace fwptt.TestProject.Project.TimeLine
             OnTimelineEvent();
         }
 
-        public bool TryStartNewExecutionThread()
+        public virtual bool TryStartNewExecutionThread()
         {
             if (CurrentExecutionThreads >= MaxExecutionThreads)
                 return false;

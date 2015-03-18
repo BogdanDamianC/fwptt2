@@ -294,7 +294,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 
             lblTotalNoOfRequests.Text = currentResults.OverallCounts.NoOfRequests.ToString();
             average = ElapsedSecs > 0 ? (double)currentResults.OverallCounts.NoOfRequests / ElapsedSecs : (double)currentResults.OverallCounts.NoOfRequests;
-            lblAverageRequestsperSecond.Text = average.ToString();
+            lblAverageRequestsperSecond.Text = Math.Round(average, 1).ToString();
             lblNoOfErrors.Text = currentResults.OverallCounts.NoOfErrors.ToString();
 
             ((List<Simple2DChart.Graphs.GraphData<DateTime, double>>)instantNoOfRequestsChart.GraphData).Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, instCount.NoOfRequests));
