@@ -31,6 +31,7 @@ using fwptt.TestProject.Project.Interfaces;
 using Simple2DChart;
 using Simple2DChart.Axes;
 using fwptt.Data.DefaultPlugins.RequestsCounter;
+using System.Threading;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
@@ -232,7 +233,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             axaX = new DateAxis(new Rectangle(50, 160, 800, 100), new Font(FontFamily.GenericSansSerif, 8), 4, Position.Bottom);
             axaX.LabelOrientation = Simple2DChart.Orientation.Horizontal;
             axaX.Title = null;
-            axaX.GetLabel = DateAxis.CurrentValueMinValueDiffLabel;
+            axaX.GetLabel = (BaseAxis<DateTime> axis, int index, DateTime value) => { return value.ToString("mm:ss"); };
 
             axaY = new NumberAxis(new Rectangle(0, 30, 50, 130), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Left);
             axaY.LabelOrientation = Simple2DChart.Orientation.Horizontal;
@@ -280,7 +281,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
         private void UpdateRecordedResultsAndCharts()
         {
             var instCount = currentInstantCount;
-            currentInstantCount = new TestLoadInfoPerUnitOfTime();
+            lock (this)
+            {
+                currentInstantCount = new TestLoadInfoPerUnitOfTime();
+            }
             var currentResults = (RequestCounterRunData)TestRunResults;
             instCount.Time = DateTime.Now;
             currentResults.OverallCounts.NoOfRequests += instCount.NoOfRequests;
@@ -296,10 +300,19 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             average = ElapsedSecs > 0 ? (double)currentResults.OverallCounts.NoOfRequests / ElapsedSecs : (double)currentResults.OverallCounts.NoOfRequests;
             lblAverageRequestsperSecond.Text = Math.Round(average, 1).ToString();
             lblNoOfErrors.Text = currentResults.OverallCounts.NoOfErrors.ToString();
+            var instReqData = (List<Simple2DChart.Graphs.GraphData<DateTime, double>>)instantNoOfRequestsChart.GraphData;
+            var averageReqData = (List<Simple2DChart.Graphs.GraphData<DateTime, double>>)averageNoOfRequestsChart.GraphData;
+            var errorReqData = (List<Simple2DChart.Graphs.GraphData<DateTime, double>>)errorCountChart.GraphData;
 
-            ((List<Simple2DChart.Graphs.GraphData<DateTime, double>>)instantNoOfRequestsChart.GraphData).Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, instCount.NoOfRequests));
-            ((List<Simple2DChart.Graphs.GraphData<DateTime, double>>)averageNoOfRequestsChart.GraphData).Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, average));
-            ((List<Simple2DChart.Graphs.GraphData<DateTime, double>>)errorCountChart.GraphData).Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, instCount.NoOfErrors));
+            instReqData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, instCount.NoOfRequests));
+            averageReqData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, average));
+            errorReqData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(DateTime.Now, instCount.NoOfErrors));
+
+            if (instReqData.Count > 600)
+            {
+                instReqData.RemoveRange(0, instReqData.Count - 600);
+                axaX.MinValue = instReqData[0].X;
+            }
 
             axaX.MaxValue = DateTime.Now;
             if (instCount.NoOfRequests > axaY.MaxValue)
@@ -333,9 +346,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 
         public void RequestEnded(TestProject.Run.Data.IRequestInfo rinfo)
         {
-            currentInstantCount.NoOfRequests++;
-            if (rinfo.Errors != null && rinfo.Errors.Count > 0)
-                currentInstantCount.NoOfErrors++;
+            lock (this)
+            {
+                currentInstantCount.NoOfRequests++;
+                if (rinfo.Errors != null && rinfo.Errors.Count > 0)
+                    currentInstantCount.NoOfErrors++;
+            }
         }
     }
 }

@@ -292,7 +292,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
         public void RequestEnded(IRequestInfo rinfo)
         {
-            queuedRequests.Add(rinfo);
+            lock (this)
+            {
+                queuedRequests.Add(rinfo);
+            }
         }
 
 		private void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -303,7 +306,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         private void RefreshData()
         {
             var currentQueuedRequests = queuedRequests;
-            queuedRequests = new List<IRequestInfo>();
+            lock (this)
+            {
+                queuedRequests = new List<IRequestInfo>();
+            }
             int StartRecord = 0;
             if (currentQueuedRequests.Count >= Configuration.MaxNumberOfRequestsRecorded)
             {

@@ -135,11 +135,13 @@ namespace fwptt.TestProject.Run
 
 		private void TestRunner_TestEnded()
 		{
-			if (timelineCtrl.CurrentExecutionThreads > 0 || timelineCtrl.IsRunning)
+            if(timelineCtrl.IsRunning)
             {
                 TryStartNewExecutionThread();
                 return;
             }
+			else if (timelineCtrl.CurrentExecutionThreads > 0) //trigger the end event only once all the threads are done
+                return;
 				
 			if (TestRunEnded != null)
 				TestRunEnded(this);
