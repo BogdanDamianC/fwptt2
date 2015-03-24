@@ -61,7 +61,7 @@ namespace fwptt.Desktop.App.UI
             this.cboTestDefinition.FormattingEnabled = true;
             this.cboTestDefinition.Location = new System.Drawing.Point(199, 4);
             this.cboTestDefinition.Name = "cboTestDefinition";
-            this.cboTestDefinition.Size = new System.Drawing.Size(314, 21);
+            this.cboTestDefinition.Size = new System.Drawing.Size(382, 21);
             this.cboTestDefinition.TabIndex = 11;
             // 
             // txtTestRunName
@@ -70,7 +70,7 @@ namespace fwptt.Desktop.App.UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTestRunName.Location = new System.Drawing.Point(199, 34);
             this.txtTestRunName.Name = "txtTestRunName";
-            this.txtTestRunName.Size = new System.Drawing.Size(314, 20);
+            this.txtTestRunName.Size = new System.Drawing.Size(382, 20);
             this.txtTestRunName.TabIndex = 10;
             // 
             // lblName
@@ -91,7 +91,7 @@ namespace fwptt.Desktop.App.UI
             this.cboTimeLines.FormattingEnabled = true;
             this.cboTimeLines.Location = new System.Drawing.Point(6, 19);
             this.cboTimeLines.Name = "cboTimeLines";
-            this.cboTimeLines.Size = new System.Drawing.Size(500, 21);
+            this.cboTimeLines.Size = new System.Drawing.Size(568, 21);
             this.cboTimeLines.TabIndex = 7;
             this.cboTimeLines.SelectedIndexChanged += new System.EventHandler(this.cboTimeLines_SelectedIndexChanged);
             // 
@@ -104,17 +104,15 @@ namespace fwptt.Desktop.App.UI
             this.ckListPlugins.FormattingEnabled = true;
             this.ckListPlugins.Location = new System.Drawing.Point(6, 19);
             this.ckListPlugins.Name = "ckListPlugins";
-            this.ckListPlugins.Size = new System.Drawing.Size(493, 62);
+            this.ckListPlugins.Size = new System.Drawing.Size(561, 62);
             this.ckListPlugins.TabIndex = 0;
             // 
             // grpTimeLine
             // 
-            this.grpTimeLine.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpTimeLine.Controls.Add(this.cboTimeLines);
             this.grpTimeLine.Location = new System.Drawing.Point(7, 60);
             this.grpTimeLine.Name = "grpTimeLine";
-            this.grpTimeLine.Size = new System.Drawing.Size(512, 56);
+            this.grpTimeLine.Size = new System.Drawing.Size(580, 56);
             this.grpTimeLine.TabIndex = 1;
             this.grpTimeLine.TabStop = false;
             this.grpTimeLine.Text = "Time Line";
@@ -127,7 +125,7 @@ namespace fwptt.Desktop.App.UI
             this.grpPlugins.Controls.Add(this.ckListPlugins);
             this.grpPlugins.Location = new System.Drawing.Point(7, 122);
             this.grpPlugins.Name = "grpPlugins";
-            this.grpPlugins.Size = new System.Drawing.Size(512, 120);
+            this.grpPlugins.Size = new System.Drawing.Size(580, 120);
             this.grpPlugins.TabIndex = 13;
             this.grpPlugins.TabStop = false;
             this.grpPlugins.Text = "Plugins";
@@ -139,7 +137,7 @@ namespace fwptt.Desktop.App.UI
             this.accordionPlugins.KeepOnlyOneItemExpanded = true;
             this.accordionPlugins.Location = new System.Drawing.Point(7, 88);
             this.accordionPlugins.Name = "accordionPlugins";
-            this.accordionPlugins.Size = new System.Drawing.Size(492, 22);
+            this.accordionPlugins.Size = new System.Drawing.Size(560, 22);
             this.accordionPlugins.TabIndex = 1;
             this.accordionPlugins.Resize += new System.EventHandler(this.accordionPlugins_Resize);
             // 
@@ -159,7 +157,7 @@ namespace fwptt.Desktop.App.UI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoScrollMargin = new System.Drawing.Size(15, 0);
-            this.ClientSize = new System.Drawing.Size(534, 329);
+            this.ClientSize = new System.Drawing.Size(602, 329);
             this.Controls.Add(this.btnNewRun);
             this.Controls.Add(this.grpPlugins);
             this.Controls.Add(this.lblTestDefinition);

@@ -50,7 +50,7 @@ namespace fwptt.Desktop.Util
 
                 this.header = value;
                 this.header.Cursor = Cursors.Hand;
-                this.header.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                this.header.Anchor = AnchorStyles.Left | AnchorStyles.Top;
                 this.header.Width = this.Width;
                 this.Controls.Add(this.header);
                 this.Controls.SetChildIndex(this.header, this.Controls.Count > 1 ? 1 : 0);
@@ -67,7 +67,7 @@ namespace fwptt.Desktop.Util
                     this.Controls.Remove(this.content);
 
                 this.content = value;
-                this.Content.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;                
+                this.Content.Anchor = AnchorStyles.Left | AnchorStyles.Top;                
                 this.content.Top = this.header.Height;
                 this.Height = this.header.Height + this.content.Height;
 
@@ -143,13 +143,19 @@ namespace fwptt.Desktop.Util
 
         #endregion
         
-        #region Priate fields
+        #region Private fields
 
         private Control header;
         private Control content;
 
         #endregion
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if(this.Header != null && this.Content != null)
+                this.Header.Width = this.Content.Width = this.ClientSize.Width;
+        }
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
@@ -164,10 +170,7 @@ namespace fwptt.Desktop.Util
             }
             base.Dispose(disposing);
         }
-    }
 
-    public static class ExpanderHelper
-    {
         public static Label CreateLabelHeader(ExpanderControl expander, string text, Color backColor, Image collapsedImage = null, Image expandedImage = null, int height = 25, Font font = null)
         {
             Label headerLabel = new Label();

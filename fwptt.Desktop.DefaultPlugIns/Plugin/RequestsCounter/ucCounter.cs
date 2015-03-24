@@ -230,33 +230,33 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 
         private void CreateChart()
         {
-            axaX = new DateAxis(new Rectangle(50, 160, 800, 100), new Font(FontFamily.GenericSansSerif, 8), 4, Position.Bottom);
+            axaX = new DateAxis(new Rectangle(50, 160, this.Width - 150, 100), new Font(FontFamily.GenericSansSerif, 8), 4, Position.Bottom);
             axaX.LabelOrientation = Simple2DChart.Orientation.Horizontal;
             axaX.Title = null;
             axaX.GetLabel = (BaseAxis<DateTime> axis, int index, DateTime value) => { return value.ToString("mm:ss"); };
 
             axaY = new NumberAxis(new Rectangle(0, 30, 50, 130), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Left);
             axaY.LabelOrientation = Simple2DChart.Orientation.Horizontal;
-            axaY.Title = "No of Requests/Second";
+            axaY.Title = "Requests/Second";
 
 
             instantNoOfRequestsChart = new Simple2DChart.Graphs.LineGraph<DateTime, double>(axaX, axaY, new List<Simple2DChart.Graphs.GraphData<DateTime, double>>());
             instantNoOfRequestsChart.Font = new Font(FontFamily.GenericSansSerif, 8);
             instantNoOfRequestsChart.DrawPoint += new Simple2DChart.Graphs.DrawPointDelegate(DrawPoint);
             instantNoOfRequestsChart.Pen = Pens.Red;
-            instantNoOfRequestsChart.Legend = "No Of Requests/Second";
+            instantNoOfRequestsChart.Legend = "Req/Sec";
 
             averageNoOfRequestsChart = new Simple2DChart.Graphs.LineGraph<DateTime, double>(axaX, axaY, new List<Simple2DChart.Graphs.GraphData<DateTime, double>>(), Simple2DChart.Graphs.LineGrapType.Curve);
             averageNoOfRequestsChart.Font = new Font(FontFamily.GenericSansSerif, 8);
             averageNoOfRequestsChart.DrawPoint += new Simple2DChart.Graphs.DrawPointDelegate(DrawPoint1);
             averageNoOfRequestsChart.Pen = Pens.Green;
-            averageNoOfRequestsChart.Legend = "Average No Of Requests/Second";
+            averageNoOfRequestsChart.Legend = "Avg Req/Sec";
 
             errorCountChart = new Simple2DChart.Graphs.LineGraph<DateTime, double>(axaX, axaY, new List<Simple2DChart.Graphs.GraphData<DateTime, double>>(), Simple2DChart.Graphs.LineGrapType.Curve);
             errorCountChart.Font = new Font(FontFamily.GenericSansSerif, 8);
             errorCountChart.DrawPoint += new Simple2DChart.Graphs.DrawPointDelegate(DrawPoint1);
             errorCountChart.Pen = Pens.Red;
-            errorCountChart.Legend = "No Of Errors/Second";
+            errorCountChart.Legend = "Errors/Sec";
 
             
 
@@ -269,9 +269,19 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 
             chartRenderer = new ChartRenderer(new IAxis[] { axaY, axaX, axaY }, new Simple2DChart.Graphs.IGraph[] { instantNoOfRequestsChart, averageNoOfRequestsChart }, null);
             chartRenderer.Grid = grgrid;
-            chartRenderer.LegendPosition = new Rectangle(850, 0, 100, 170);
+            chartRenderer.LegendPosition = new Rectangle(this.Width - 100, 0, 100, 170);
         }
         #endregion
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            if (axaX != null && chartRenderer != null)
+            {
+                axaX.Bounds = new Rectangle(50, 160, this.Width - 150, 100);
+                chartRenderer.LegendPosition = new Rectangle(this.Width - 100, 0, 100, 170);
+            }
+        }
 
         private void timer1_Tick(object sender, System.EventArgs e)
 		{

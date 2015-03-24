@@ -132,7 +132,7 @@ namespace fwptt.Desktop.App.UI
             var newPluginControl = new ExpanderControl();            
             newPluginControl.BorderStyle = BorderStyle.FixedSingle;
             newPluginControl.Width = accordionPlugins.Width = ckListPlugins.Width;
-            ExpanderHelper.CreateLabelHeader(newPluginControl, setting.DisplayName, SystemColors.ActiveBorder);
+            ExpanderControl.CreateLabelHeader(newPluginControl, setting.DisplayName, SystemColors.ActiveBorder);
             newPluginControl.Content = CreateNewControlAndData(setting, data);
             accordionPlugins.Add(newPluginControl);            
             newPluginControl.Expand();

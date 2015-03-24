@@ -38,10 +38,17 @@ namespace fwptt.Desktop.Util
         {
             if (this.Controls.Count > 0)
                 expander.Collapse();
-            expander.Width = this.Width;
-            expander.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+            expander.Width = this.ClientSize.Width;
+            expander.Anchor = AnchorStyles.Left | AnchorStyles.Top;
             this.Controls.Add(expander);
             expander.StateChanged += new EventHandler(expander_StateChanged);
+        }
+
+        protected override void OnResize(EventArgs eventargs)
+        {
+            base.OnResize(eventargs);
+            foreach(Control control in Controls)
+                control.Width = this.ClientSize.Width;
         }
 
         protected override void OnControlAdded(ControlEventArgs e)

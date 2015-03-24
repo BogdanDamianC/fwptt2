@@ -9,15 +9,15 @@ namespace fwptt.TestProject.Project.TimeLine
 	/// </summary>
     public abstract class BaseTimeLineController : ITimeLineController
 	{
-        public int MaxExecutionThreads { get; protected set; }
-        public int CurrentExecutionThreads{get; protected set;}
+        public uint MaxExecutionThreads { get; protected set; }
+        public uint CurrentExecutionThreads{get; protected set;}
 		public DateTime StartTime {get; protected set;}
         public DateTime EndTime { get; protected set; }
         public int MiliSecondsPauseBetweenRequests { get; set; }
 
         public event Action<TimeLineStatus> TimelineEvent;
 
-        public int CurrentIteration { get; private set; }
+        public uint CurrentIteration { get; private set; }
         public virtual bool IsRunning { get; protected set; }
         private void OnTimelineEvent()
         {

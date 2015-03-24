@@ -83,6 +83,13 @@ namespace fwptt.Desktop.App.UI
                 SetupPlugins();
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            if (timeLineController != null && timeLineController.IsRunning)
+                testRunner.StopTests();
+            base.OnClosed(e);
+        }
+
         private bool SetupTestRunner()
         {
             var testDef = TestProjectHost.Current.Project.TestDefinitions.FirstOrDefault(td => td.Id == CurrentItem.TestRunDefinition.TestDefinitionId);
@@ -158,8 +165,8 @@ namespace fwptt.Desktop.App.UI
         {
             var newPluginControl = new ExpanderControl();
             newPluginControl.BorderStyle = BorderStyle.FixedSingle;
-            newPluginControl.Width = mainAccordion.Width;
-            ExpanderHelper.CreateLabelHeader(newPluginControl, setting.DisplayName, SystemColors.ActiveBorder);
+            newPluginControl.Width = mainAccordion.ClientSize.Width;
+            ExpanderControl.CreateLabelHeader(newPluginControl, setting.DisplayName, SystemColors.ActiveBorder);
             newPluginControl.Content = CreateNewControlAndData(setting, data);
             mainAccordion.Add(newPluginControl);
             newPluginControl.Expand();

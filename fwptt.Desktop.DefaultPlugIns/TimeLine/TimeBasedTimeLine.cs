@@ -12,7 +12,7 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         public const string PublicName = "fwptt -> Default -> TimeBased TimeLine";
         public int Hours {get; set;}
         public int Minutes {get; set;}
-        public int NoOfThreads { get; set; }
+        public uint NoOfThreads { get; set; }
         public int PauseBetweenRequests { get; set; }
         public int RampUpMinutes { get; set; }
         public int RampUpSeconds { get; set; }

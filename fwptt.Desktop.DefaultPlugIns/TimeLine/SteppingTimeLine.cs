@@ -9,12 +9,12 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
     public class SteppingTimeLine : BaseTestRunTimeLine
 	{
         public const string PublicName = "fwptt -> Default -> Stepping TimeLine";	
-		public int MaxSteps {get; set;}
+		public uint MaxSteps {get; set;}
 
         public SteppingTimeLine()
         { }
 
-		public SteppingTimeLine(int MaxNumberOfSteps)
+		public SteppingTimeLine(uint MaxNumberOfSteps)
 		{
 			MaxSteps = MaxNumberOfSteps;
 		}
