@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 
  * Namespace Summary
  * Copyright (C) 2007+ Bogdan Damian Constantin
@@ -22,26 +22,21 @@
 
 using System;
 using System.Collections.Generic;
-using fwptt.TestProject.Run.Data;
-using fwptt.TestProject;
-using fwptt.TestProject.Project.TimeLine;
-using fwptt.TestProject.Project.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using fwptt.TestProject.Project.Interfaces;
 
-namespace fwptt.TestProject.Project.Interfaces
+namespace fwptt.TestProject.Project.Data
 {
-    public interface ITimeLinePlugIn
+    public class ExtendableDataJSONConverter : JsonCreationConverter<ExtendableData>
     {
-        Action<TimeLineStatus> OnTimelineEvent{get;}
+        protected override ExtendableData Create(Type objectType, JObject jObject)
+        {
+            return (ExtendableData)Activator.CreateInstance(TestProjectHost.Current.GetExpandableType(jObject.Value<string>("DataType"), jObject.Value<string>("UniqueName")));
+        }
     }
-	/// <summary>
-	/// Summary description for RequestPlayerPlugIn.
-	/// </summary>
-	public interface IRequestPlayerPlugIn
-	{
-		void TestStarted();
-		void TestStoped();
-		void RequestStarted(IRequestInfo rinfo);
-		void RequestEnded(IRequestInfo rinfo);
-        ExtendableData TestRunResults { get; }
-	}
 }

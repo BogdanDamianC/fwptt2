@@ -8,14 +8,6 @@ using fwptt.TestProject.Project.TimeLine;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
-    public abstract class BaseTestRunTimeLine:ExtendableData
-    {
-        public abstract ITimeLineController GetNewController();
-        public override ExpandableDataType DataType
-        {
-            get { return ExpandableDataType.Configuration; }
-        }
-    }
 
     public interface ITimeLineController
     {

@@ -86,11 +86,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Project\Data\ExpandableSettingsAttribute.cs" />
+    <Compile Include="Project\Data\ExtendableData.cs" />
+    <Compile Include="Project\Data\ExtendableDataJSONConverter.cs" />
     <Compile Include="Project\Interfaces\ITestDefinitionGeneratorWizzard.cs" />
+    <Compile Include="Project\Interfaces\ITestRunDataSource.cs" />
+    <Compile Include="Project\TimeLine\BaseTestRunTimeLine.cs" />
     <Compile Include="Project\TimeLine\TimeLineStatus.cs" />
     <Compile Include="Run\BaseTest.cs" />
     <Compile Include="Run\BaseWebTest.cs" />
-    <Compile Include="Project\JsonCreationConverter.cs" />
+    <Compile Include="Project\Data\JsonCreationConverter.cs" />
     <Compile Include="Run\Data\TestLoadInfo.cs" />
     <Compile Include="Run\Data\WebRequest.cs" />
     <Compile Include="Run\Data\RequestInfo.cs" />

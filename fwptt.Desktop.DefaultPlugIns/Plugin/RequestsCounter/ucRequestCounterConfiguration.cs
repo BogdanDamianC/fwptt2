@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Data.DefaultPlugins.RequestsCounter;
+using fwptt.TestProject.Project.Data;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {

@@ -39,6 +39,7 @@ using System.Text;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Data.DefaultPlugins.ResultsViewer;
+using fwptt.TestProject.Project.Data;
 
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer

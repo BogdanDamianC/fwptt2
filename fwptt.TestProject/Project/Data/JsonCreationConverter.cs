@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 
-namespace fwptt.TestProject.Util
+namespace fwptt.TestProject.Project.Data
 {
     public abstract class JsonCreationConverter<T> : JsonConverter
     {

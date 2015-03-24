@@ -32,6 +32,7 @@ using Simple2DChart;
 using Simple2DChart.Axes;
 using fwptt.Data.DefaultPlugins.RequestsCounter;
 using System.Threading;
+using fwptt.TestProject.Project.Data;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {

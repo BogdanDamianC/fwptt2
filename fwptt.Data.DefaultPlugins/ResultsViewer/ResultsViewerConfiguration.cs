@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using fwptt.TestProject.Project.Interfaces;
+using fwptt.TestProject.Project.Data;
 
 namespace fwptt.Data.DefaultPlugins.ResultsViewer
 {
