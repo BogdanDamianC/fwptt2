@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
-    public class ITestRunDataSource
+    public interface ITestRunDataSource
     {
+        object GetRecord(ulong iteration);
     }
 
 }

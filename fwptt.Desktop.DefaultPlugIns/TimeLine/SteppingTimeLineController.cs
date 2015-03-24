@@ -17,13 +17,13 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             this.timeline = timeline;
         }
 
-        public override void OnStepFinished()
+        public override void IterationExecutionEnded(ulong iteration)
         {
             lock (this)
             {
                 IsRunning &= CurrentIteration <= timeline. MaxSteps;
             }
-            base.OnStepFinished();
+            base.IterationExecutionEnded(iteration);
         }
     }
 }

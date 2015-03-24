@@ -17,7 +17,7 @@ namespace fwptt.TestProject.Project.TimeLine
 
         public event Action<TimeLineStatus> TimelineEvent;
 
-        public uint CurrentIteration { get; private set; }
+        public ulong CurrentIteration { get; private set; }
         public virtual bool IsRunning { get; protected set; }
         private void OnTimelineEvent()
         {
@@ -51,20 +51,17 @@ namespace fwptt.TestProject.Project.TimeLine
             OnTimelineEvent();
 		}
         
-        public virtual void OnStepStarted() 
+        public virtual ulong StartNewIterationExecution() 
         {
             lock (this)
             {
                 CurrentIteration++;
             }
             OnTimelineEvent();
+            return CurrentIteration;
         }
 
-        public virtual void OnStepFinished() 
-        {
-            OnTimelineEvent();
-        }
-        public virtual void ExecutionThreadEnded()
+        public virtual void IterationExecutionEnded(ulong iteration) 
         {
             if (CurrentExecutionThreads > 0)
                 CurrentExecutionThreads--;

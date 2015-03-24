@@ -54,6 +54,7 @@ namespace fwptt.TestProject.Run
 		private Type runningTestType;
 		private Action<IRequestInfo> runnerRequestStartedEventhandler;
 		private Action<IRequestInfo> runnerRequestEndedEventhandler;
+        private System.Collections.Concurrent.ConcurrentQueue<IBaseTest> inactiveTestInstancesPool;
 
 		private ITimeLineController timelineCtrl;
 
@@ -67,6 +68,7 @@ namespace fwptt.TestProject.Run
 
 		public void StartTests()
 		{
+            inactiveTestInstancesPool = new System.Collections.Concurrent.ConcurrentQueue<IBaseTest>();
 			if (TestRunStarted != null)
 				TestRunStarted(this);
 			timelineCtrl.StartTimeLine();
@@ -78,6 +80,7 @@ namespace fwptt.TestProject.Run
 				int delayInBetweenChecks = 20;
 				do
 				{
+                    
                     TryStartNewExecutionThread();
                     if (timelineCtrl.CurrentExecutionThreads == timelineCtrl.MaxExecutionThreads)
                         delayInBetweenChecks = 2000; //no need use the CPU too much the test ended should deal with most of the restarts
@@ -91,16 +94,21 @@ namespace fwptt.TestProject.Run
             if (!timelineCtrl.TryStartNewExecutionThread())
                 return false;
 
-            timelineCtrl.OnStepStarted();
-            var newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
-            newInstance.RequestStarted += runnerRequestStartedEventhandler;
-            newInstance.RequestEnded += runnerRequestEndedEventhandler;
+            ulong currentIteration = timelineCtrl.StartNewIterationExecution();
+
+            IBaseTest newInstance;
+            if (!inactiveTestInstancesPool.TryDequeue(out newInstance))
+            {
+                newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
+                newInstance.RequestStarted += runnerRequestStartedEventhandler;
+                newInstance.RequestEnded += runnerRequestEndedEventhandler;
+            }
             //newInstance.Proxy = this.Proxy;
             newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a) =>
             {
                 await a;
-                timelineCtrl.OnStepFinished();
-                timelineCtrl.ExecutionThreadEnded();
+                timelineCtrl.IterationExecutionEnded(currentIteration);
+                inactiveTestInstancesPool.Enqueue(newInstance);//the test can now be reused
                 TestRunner_TestEnded();
             });
             return true;
@@ -142,7 +150,8 @@ namespace fwptt.TestProject.Run
             }
 			else if (timelineCtrl.CurrentExecutionThreads > 0) //trigger the end event only once all the threads are done
                 return;
-				
+
+            inactiveTestInstancesPool = null;
 			if (TestRunEnded != null)
 				TestRunEnded(this);
 
