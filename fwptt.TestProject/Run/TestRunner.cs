@@ -57,10 +57,12 @@ namespace fwptt.TestProject.Run
         private System.Collections.Concurrent.ConcurrentQueue<IBaseTest> inactiveTestInstancesPool;
 
 		private ITimeLineController timelineCtrl;
+        private ITestDataSourceReader testDataSource;
 
-		public TestRunner(ITimeLineController timeline, Type runningTestType)
+		public TestRunner(ITimeLineController timeline, Type runningTestType, ITestDataSourceReader testDataSource)
 		{
 			timelineCtrl = timeline;
+            this.testDataSource = testDataSource;
 			this.runningTestType = runningTestType;
 			runnerRequestStartedEventhandler = new Action<IRequestInfo>(TestRunner_RequestStarted);
 			runnerRequestEndedEventhandler = new Action<IRequestInfo>(TestRunner_RequestEnded);
@@ -91,10 +93,11 @@ namespace fwptt.TestProject.Run
 
         private bool TryStartNewExecutionThread()
         {
-            if (!timelineCtrl.TryStartNewExecutionThread())
+            var currentIteration = timelineCtrl.TryStartNewExecutionThread();
+            if (!currentIteration.HasValue)
                 return false;
 
-            ulong currentIteration = timelineCtrl.StartNewIterationExecution();
+            timelineCtrl.StartNewIterationExecution();
 
             IBaseTest newInstance;
             if (!inactiveTestInstancesPool.TryDequeue(out newInstance))
@@ -103,11 +106,12 @@ namespace fwptt.TestProject.Run
                 newInstance.RequestStarted += runnerRequestStartedEventhandler;
                 newInstance.RequestEnded += runnerRequestEndedEventhandler;
             }
+            object runData = testDataSource != null ? testDataSource.GetRecord(currentIteration.Value) : null;
             //newInstance.Proxy = this.Proxy;
-            newInstance.StartTest(timelineCtrl).ContinueWith(async (Task a) =>
+            newInstance.StartTest(timelineCtrl, runData).ContinueWith(async (Task a) =>
             {
                 await a;
-                timelineCtrl.IterationExecutionEnded(currentIteration);
+                timelineCtrl.IterationExecutionEnded(currentIteration.Value);
                 inactiveTestInstancesPool.Enqueue(newInstance);//the test can now be reused
                 TestRunner_TestEnded();
             });

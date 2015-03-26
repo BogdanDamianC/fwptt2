@@ -13,13 +13,14 @@ namespace fwptt.TestProject.Run
     {
         event Action<IRequestInfo> RequestStarted;
         event Action<IRequestInfo> RequestEnded;
-        Task StartTest(ITimeLineController ptimeline);
+        Task StartTest(ITimeLineController ptimeline, object testRunRecord);
         IRequestInfo GetCurrentRequest();
     }
 
     public abstract class BaseTest<RI> : IBaseTest where RI : IRequestInfo, new()
     {
         protected ITimeLineController timelineCtrl = null;
+        protected object testRunRecord;
         public event Action<IRequestInfo> RequestStarted;
         public event Action<IRequestInfo> RequestEnded;
 
@@ -49,9 +50,10 @@ namespace fwptt.TestProject.Run
 
 		protected abstract Task RunTest();
 
-		public virtual async Task StartTest(ITimeLineController ptimeline)
+		public virtual async Task StartTest(ITimeLineController ptimeline, object testRunRecord)
 		{
 			this.timelineCtrl = ptimeline;
+            this.testRunRecord = testRunRecord;
 			await RunTest();
 		}
 

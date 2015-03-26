@@ -90,7 +90,8 @@
     <Compile Include="Project\Data\ExtendableData.cs" />
     <Compile Include="Project\Data\ExtendableDataJSONConverter.cs" />
     <Compile Include="Project\Interfaces\ITestDefinitionGeneratorWizzard.cs" />
-    <Compile Include="Project\Interfaces\ITestRunDataSource.cs" />
+    <Compile Include="Project\Interfaces\ITestDataSourceReader.cs" />
+    <Compile Include="Project\BaseTestDataSource.cs" />
     <Compile Include="Project\TimeLine\BaseTestRunTimeLine.cs" />
     <Compile Include="Project\TimeLine\TimeLineStatus.cs" />
     <Compile Include="Run\BaseTest.cs" />

@@ -1,6 +1,7 @@
 using System;
 using fwptt.TestProject;
 using fwptt.TestProject.Project.Interfaces;
+using System.Threading;
 
 namespace fwptt.TestProject.Project.TimeLine
 {
@@ -18,7 +19,7 @@ namespace fwptt.TestProject.Project.TimeLine
         public event Action<TimeLineStatus> TimelineEvent;
 
         public ulong CurrentIteration { get; private set; }
-        public virtual bool IsRunning { get; protected set; }
+        public bool IsRunning { get; protected set; }
         private void OnTimelineEvent()
         {
             var handler = TimelineEvent;
@@ -50,30 +51,30 @@ namespace fwptt.TestProject.Project.TimeLine
             IsRunning = false;
             OnTimelineEvent();
 		}
-        
-        public virtual ulong StartNewIterationExecution() 
+
+        public virtual void StartNewIterationExecution() 
         {
-            lock (this)
+            OnTimelineEvent();
+        }
+
+        public object threadCountLock = new object();
+        public virtual void IterationExecutionEnded(ulong iteration)
+        {
+            lock (threadCountLock)
+                if (CurrentExecutionThreads > 0)
+                    CurrentExecutionThreads--;
+            OnTimelineEvent();
+        }
+
+        public virtual ulong? TryStartNewExecutionThread()
+        {
+            lock (threadCountLock)
             {
-                CurrentIteration++;
+                if (CurrentExecutionThreads >= MaxExecutionThreads)
+                    return null;
+                CurrentExecutionThreads++;
+                return CurrentIteration++;
             }
-            OnTimelineEvent();
-            return CurrentIteration;
-        }
-
-        public virtual void IterationExecutionEnded(ulong iteration) 
-        {
-            if (CurrentExecutionThreads > 0)
-                CurrentExecutionThreads--;
-            OnTimelineEvent();
-        }
-
-        public virtual bool TryStartNewExecutionThread()
-        {
-            if (CurrentExecutionThreads >= MaxExecutionThreads)
-                return false;
-            CurrentExecutionThreads++;
-            return true;
         }
 	}
 }

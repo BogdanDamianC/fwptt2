@@ -110,7 +110,7 @@ namespace fwptt.Desktop.App.UI
                 }
 
                 timeLineController = CurrentItem.TestRunDefinition.TimeLine.GetNewController();
-                this.testRunner = new TestRunner(timeLineController, testExecuteClass);
+                this.testRunner = new TestRunner(timeLineController, testExecuteClass, null);
                 this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }

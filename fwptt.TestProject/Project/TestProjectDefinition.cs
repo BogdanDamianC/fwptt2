@@ -23,8 +23,10 @@ namespace fwptt.TestProject.Project
         }
 
         public List<TestDefinition> TestDefinitions { get; set; }
+        public List<BaseTestDataSource> TestDataSources { get; set; }
         public List<TestRunDefinition> TestRunDefinitions { get; set; }
         public List<TestRunResults> TestRunsResults { get; set; }
+
 
         public static TestProjectDefinition FromFile(string path)
         {

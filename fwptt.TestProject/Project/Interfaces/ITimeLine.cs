@@ -18,10 +18,10 @@ namespace fwptt.TestProject.Project.Interfaces
         bool IsRunning { get; }
         uint MaxExecutionThreads { get; }
         uint CurrentExecutionThreads { get; }
-        ulong StartNewIterationExecution();
+        void StartNewIterationExecution();
         void IterationExecutionEnded(ulong iteration);
         int MiliSecondsPauseBetweenRequests { get; set; }
-        bool TryStartNewExecutionThread();
+        ulong? TryStartNewExecutionThread();
         event Action<TimeLineStatus> TimelineEvent;
     }
 }

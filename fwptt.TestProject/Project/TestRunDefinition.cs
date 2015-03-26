@@ -15,6 +15,7 @@ namespace fwptt.TestProject.Project
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid TestDefinitionId { get; set; }
+        public Guid? TestDataSourceId { get; set; }
         public BaseTestRunTimeLine TimeLine { get; set; }
         public List<ExtendableData> RunPlugins { get; set; }
     }
