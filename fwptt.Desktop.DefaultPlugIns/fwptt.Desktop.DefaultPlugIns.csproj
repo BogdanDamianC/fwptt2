@@ -101,6 +101,12 @@
     <Compile Include="BaseTestRunConfigurationComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="DataSources\ucTextFileDataSourceConfiguration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DataSources\ucTextFileDataSourceConfiguration.Designer.cs">
+      <DependentUpon>ucTextFileDataSourceConfiguration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,10 +122,6 @@
     <Compile Include="BaseTestRunExecutionComponent.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimeLine\SteppingTimeLine.cs" />
-    <Compile Include="TimeLine\SteppingTimeLineController.cs" />
-    <Compile Include="TimeLine\TimeBasedTimeLine.cs" />
-    <Compile Include="TimeLine\TimeBasedTimeLineController.cs" />
     <Compile Include="TimeLine\ucSetppingTimeLineViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -212,6 +214,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DataSources\ucTextFileDataSourceConfiguration.resx">
+      <DependentUpon>ucTextFileDataSourceConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Plugin\RequestsCounter\ucCounter.resx">
       <DependentUpon>ucCounter.cs</DependentUpon>
     </EmbeddedResource>

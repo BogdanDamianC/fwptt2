@@ -50,16 +50,22 @@ namespace fwptt.Desktop.App.UI
             base.OnLoad(e);
             if (DesignMode)
                 return;
+            LoadTestDefinitionGenerationWizzards();
+        }
 
-            foreach(var wizzType in TestProjectHost.Current.TestDefinitionGeneratorWizzardTypes)
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadTestDefinitionGenerationWizzards()
+        {
+            foreach (var wizzType in TestProjectHost.Current.TestDefinitionGeneratorWizzardTypes)
             {
                 var descriptionAttr = wizzType.GetCustomAttributes(typeof(DescriptionAttribute), true);
-                string description = descriptionAttr.Length > 0?((DescriptionAttribute)descriptionAttr[0]).Description:wizzType.ToString();
+                string description = descriptionAttr.Length > 0 ? ((DescriptionAttribute)descriptionAttr[0]).Description : wizzType.ToString();
                 var menuItem = new ToolStripMenuItem(description) { Tag = wizzType };
                 menuItem.Click += tstripNewTestDefinition_Click;
                 tstripNewTestDefinition.DropDownItems.Add(menuItem);
             }
-            
         }
 
         private TreeNode AddTestDefinition(TestDefinition testDefinition)

@@ -2,7 +2,7 @@ using System;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.TimeLine;
 
-namespace fwptt.Desktop.DefaultPlugIns.TimeLine
+namespace fwptt.Data.DefaultPlugins.TimeLine
 {
 	/// <summary>
 	/// Summary description for DurationTimeLine.
