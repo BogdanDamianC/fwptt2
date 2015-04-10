@@ -18,6 +18,7 @@ namespace fwptt.TestProject.Project
         public TestProjectDefinition()
         {
             TestDefinitions = new List<TestDefinition>();
+            TestDataSources = new List<BaseTestDataSource>();
             TestRunDefinitions = new List<TestRunDefinition>();
             TestRunsResults = new List<TestRunResults>();
         }

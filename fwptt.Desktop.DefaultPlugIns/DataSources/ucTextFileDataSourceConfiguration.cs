@@ -14,7 +14,7 @@ using fwptt.Desktop.Util;
 
 namespace fwptt.Desktop.DefaultPlugIns.DataSources
 {
-    [ExpandableSettings(fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource.PublicName, "Define the text filepath from which the data will be loaded from", ExpandableComponentType.TimeLineConfiguration)]
+    [ExpandableSettings(fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource.PublicName, "Text File Data Source", ExpandableComponentType.DataSourceConfiguration)]
     public partial class ucTextFileDataSourceConfiguration : BaseTestRunConfigurationComponent
     {
         public ucTextFileDataSourceConfiguration()

@@ -33,13 +33,14 @@ using System.Windows.Forms;
 using fwptt.Desktop.Util;
 using fwptt.TestProject;
 using fwptt.TestProject.Project;
+using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.Desktop.App.UI
 {
     public partial class ucExploreTestProject : UserControl
     {
-        private TreeNode testDefinitions, testRunDefinitions;
+        private TreeNode testDefinitions, testDataSources, testRunDefinitions, testRunResults;
         public ucExploreTestProject()
         {
             InitializeComponent();
@@ -51,10 +52,11 @@ namespace fwptt.Desktop.App.UI
             if (DesignMode)
                 return;
             LoadTestDefinitionGenerationWizzards();
+            LoadSupportedDataSourceTypes();
         }
 
         /// <summary>
-        /// 
+        /// Loads all the Wizzards for generating C# test code
         /// </summary>
         private void LoadTestDefinitionGenerationWizzards()
         {
@@ -68,12 +70,33 @@ namespace fwptt.Desktop.App.UI
             }
         }
 
+        private void LoadSupportedDataSourceTypes()
+        {
+            foreach (var dst in TestProjectHost.Current.PluginTypes.Where(pl => pl.ComponentType == ExpandableComponentType.DataSourceConfiguration))
+            {
+                var menuItem = new ToolStripMenuItem(dst.DisplayName) { Tag = dst };
+                menuItem.Click += tStripMenuItemNewTestDataSource_Click;
+                tStripMenuItemNewTestDataSource.DropDownItems.Add(menuItem);
+            }
+        }
+
+
         private TreeNode AddTestDefinition(TestDefinition testDefinition)
         {
             var td = new TreeNode(testDefinition.TestDefinitionFile);
             td.Tag = testDefinition;
             td.ContextMenuStrip = ctxTestDefinitionItem;
             testDefinitions.Nodes.Add(td);
+            return td;
+        }
+
+        private TreeNode AddTestDataSource(BaseTestDataSource testDataSource)
+        {
+            
+            var td = new TreeNode(testDataSource.Name);
+            td.Tag = testDataSource;
+            td.ContextMenuStrip = ctxTestDataSource;
+            testDataSources.Nodes.Add(td);
             return td;
         }
 
@@ -86,6 +109,15 @@ namespace fwptt.Desktop.App.UI
             return td;
         }
 
+        private TreeNode AddTestRunResult(TestRunResults testRunResult)
+        {
+            var td = new TreeNode(testRunResult.Name);
+            td.Tag = testRunResult;
+            td.ContextMenuStrip = ctxTestResultsItem;
+            testRunResults.Nodes.Add(td);
+            return td;
+        }
+
         public void RefreshProjectDetails()
         {
             tvProject.Nodes.Clear();
@@ -93,12 +125,25 @@ namespace fwptt.Desktop.App.UI
             testDefinitions.ContextMenuStrip = ctxTestDefinition;
             foreach (var testDefinition in TestProjectHost.Current.Project.TestDefinitions)
                 AddTestDefinition(testDefinition);
+
+            testDataSources = new TreeNode("Test Data Sources");
+            testDataSources.ContextMenuStrip = ctxTestDataSource;
+            foreach (var testDataSource in TestProjectHost.Current.Project.TestDataSources)
+                AddTestDataSource(testDataSource);
+
             testRunDefinitions = new TreeNode("Test Run Definitions");
             testRunDefinitions.ContextMenuStrip = ctxTestRunDefinition;
             foreach (var testRunDefinition in TestProjectHost.Current.Project.TestRunDefinitions)
                 AddTestRunDefinition(testRunDefinition);
+
+            testRunResults = new TreeNode("Test Run Results");
+            foreach (var testRunResult in TestProjectHost.Current.Project.TestRunsResults)
+                AddTestRunResult(testRunResult);
+
             tvProject.Nodes.Add(testDefinitions);
+            tvProject.Nodes.Add(testDataSources);
             tvProject.Nodes.Add(testRunDefinitions);
+            tvProject.Nodes.Add(testRunResults);
         }
 
         private void TryOpenCreateItem<T, I>(I item, Func<I, T> createFunction, EventHandler<I> onNameChanged = null)
@@ -120,6 +165,13 @@ namespace fwptt.Desktop.App.UI
                 }
             }
             editor = createFunction(item);
+            Setup<T, I>(editor, onNameChanged);
+        }
+
+        private void Setup<T, I>(T editor, EventHandler<I> onNameChanged = null)
+            where T : Form, IItemEditor<I>
+            where I : class
+        {
             editor.MdiParent = this.ParentForm;
             editor.Show();
             editor.Activate();
@@ -240,16 +292,7 @@ namespace fwptt.Desktop.App.UI
 
         private void newTestRunDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (!CanCreateNewItem())
-                return;
-            if (!TestProjectHost.Current.Project.TestDefinitions.Any())
-            {
-                MessageBox.Show(this, "Please create a Test Definition before creating a Test Run - the Test Run will be linked to a Test Definition", "Can't create a new Test Run");
-                return;
-            }
-            var newTR = TestProjectHost.Current.NewTestProjectDefinitionTestRun();
-            AddTestRunDefinition(newTR);
-            tryOpenCreateItemTestRunDefinition(newTR);
+
         }
 
         private void openTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
@@ -290,5 +333,44 @@ namespace fwptt.Desktop.App.UI
             newTestRun(trd.Item1);
         }
         #endregion
+
+        private void tStripMenuItemNewTestDataSource_Click(object sender, EventArgs e)
+        {
+            if (!CanCreateNewItem())
+                return;
+            var dst = (ExpandableSetting)((ToolStripMenuItem)sender).Tag;
+            var newForm = new frmTestDatasourceDefinition(dst);
+            var tnDS = this.AddTestDataSource(newForm.CurrentItem);
+            Setup<frmTestDatasourceDefinition, BaseTestDataSource>(newForm,  (object tmpSnd, BaseTestDataSource eds) => {
+                    tnDS.Text = newForm.CurrentItem.Name;
+                });
+            
+        }
+
+        private void tStripMenuItemOpenTestDataSource_Click(object sender, EventArgs e)
+        {
+            var dts = GetMenuClickTargetNodeValue<BaseTestDataSource>(sender, TestRunDefininitionTreeviewSelectError);
+            if (dts == null)
+                return;
+            TryOpenCreateItem<frmTestDatasourceDefinition, BaseTestDataSource>(dts.Item1,
+                (td) => { return new frmTestDatasourceDefinition(td); }, (object tmpSnd, BaseTestDataSource eds) => {
+                    dts.Item2.Text = eds.Name;
+                }); 
+        }
+
+        private void tStripMenuItemDeleteTestDataSource_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tStripMenuItemOpenTestResults_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tStripMenuItemDeleteTestResults_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -43,10 +43,21 @@
             this.newRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTestRunDefinitionStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTestRunDefinitionStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxTestDataSource = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tStripMenuItemNewTestDataSource = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxTestResultsItem = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tStripMenuItemOpenTestResults = new System.Windows.Forms.ToolStripMenuItem();
+            this.tStripMenuItemDeleteTestResults = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxTestDataSourceItem = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tStripMenuItemOpenTestDataSource = new System.Windows.Forms.ToolStripMenuItem();
+            this.tStripMenuItemDeleteTestDataSource = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxTestDefinition.SuspendLayout();
             this.ctxTestDefinitionItem.SuspendLayout();
             this.ctxTestRunDefinition.SuspendLayout();
             this.ctxTestRunDefinitionItem.SuspendLayout();
+            this.ctxTestDataSource.SuspendLayout();
+            this.ctxTestResultsItem.SuspendLayout();
+            this.ctxTestDataSourceItem.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTItle
@@ -123,7 +134,6 @@
             this.newTestRunDefinitionToolStripMenuItem.Name = "newTestRunDefinitionToolStripMenuItem";
             this.newTestRunDefinitionToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.newTestRunDefinitionToolStripMenuItem.Text = "New Test Run Definition";
-            this.newTestRunDefinitionToolStripMenuItem.Click += new System.EventHandler(this.newTestRunDefinitionToolStripMenuItem_Click);
             // 
             // ctxTestRunDefinitionItem
             // 
@@ -155,6 +165,63 @@
             this.deleteTestRunDefinitionStripMenuItem.Text = "Delete";
             this.deleteTestRunDefinitionStripMenuItem.Click += new System.EventHandler(this.deleteTestRunDefinitionStripMenuItem_Click);
             // 
+            // ctxTestDataSource
+            // 
+            this.ctxTestDataSource.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tStripMenuItemNewTestDataSource});
+            this.ctxTestDataSource.Name = "ctxTestDefinition";
+            this.ctxTestDataSource.Size = new System.Drawing.Size(190, 48);
+            // 
+            // tStripMenuItemNewTestDataSource
+            // 
+            this.tStripMenuItemNewTestDataSource.Name = "tStripMenuItemNewTestDataSource";
+            this.tStripMenuItemNewTestDataSource.Size = new System.Drawing.Size(189, 22);
+            this.tStripMenuItemNewTestDataSource.Text = "New Test Data Source";
+            // 
+            // ctxTestResultsItem
+            // 
+            this.ctxTestResultsItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tStripMenuItemOpenTestResults,
+            this.tStripMenuItemDeleteTestResults});
+            this.ctxTestResultsItem.Name = "ctxTestDefinitionItem";
+            this.ctxTestResultsItem.Size = new System.Drawing.Size(108, 48);
+            // 
+            // tStripMenuItemOpenTestResults
+            // 
+            this.tStripMenuItemOpenTestResults.Name = "tStripMenuItemOpenTestResults";
+            this.tStripMenuItemOpenTestResults.Size = new System.Drawing.Size(107, 22);
+            this.tStripMenuItemOpenTestResults.Text = "Open";
+            this.tStripMenuItemOpenTestResults.Click += new System.EventHandler(this.tStripMenuItemOpenTestResults_Click);
+            // 
+            // tStripMenuItemDeleteTestResults
+            // 
+            this.tStripMenuItemDeleteTestResults.Name = "tStripMenuItemDeleteTestResults";
+            this.tStripMenuItemDeleteTestResults.Size = new System.Drawing.Size(107, 22);
+            this.tStripMenuItemDeleteTestResults.Text = "Delete";
+            this.tStripMenuItemDeleteTestResults.Click += new System.EventHandler(this.tStripMenuItemDeleteTestResults_Click);
+            // 
+            // ctxTestDataSourceItem
+            // 
+            this.ctxTestDataSourceItem.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tStripMenuItemOpenTestDataSource,
+            this.tStripMenuItemDeleteTestDataSource});
+            this.ctxTestDataSourceItem.Name = "ctxTestDefinitionItem";
+            this.ctxTestDataSourceItem.Size = new System.Drawing.Size(108, 48);
+            // 
+            // tStripMenuItemOpenTestDataSource
+            // 
+            this.tStripMenuItemOpenTestDataSource.Name = "tStripMenuItemOpenTestDataSource";
+            this.tStripMenuItemOpenTestDataSource.Size = new System.Drawing.Size(107, 22);
+            this.tStripMenuItemOpenTestDataSource.Text = "Open";
+            this.tStripMenuItemOpenTestDataSource.Click += new System.EventHandler(this.tStripMenuItemOpenTestDataSource_Click);
+            // 
+            // tStripMenuItemDeleteTestDataSource
+            // 
+            this.tStripMenuItemDeleteTestDataSource.Name = "tStripMenuItemDeleteTestDataSource";
+            this.tStripMenuItemDeleteTestDataSource.Size = new System.Drawing.Size(107, 22);
+            this.tStripMenuItemDeleteTestDataSource.Text = "Delete";
+            this.tStripMenuItemDeleteTestDataSource.Click += new System.EventHandler(this.tStripMenuItemDeleteTestDataSource_Click);
+            // 
             // ucExploreTestProject
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -171,6 +238,9 @@
             this.ctxTestDefinitionItem.ResumeLayout(false);
             this.ctxTestRunDefinition.ResumeLayout(false);
             this.ctxTestRunDefinitionItem.ResumeLayout(false);
+            this.ctxTestDataSource.ResumeLayout(false);
+            this.ctxTestResultsItem.ResumeLayout(false);
+            this.ctxTestDataSourceItem.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -192,5 +262,13 @@
         private System.Windows.Forms.ToolStripMenuItem openTestRunDefinitionStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newRunToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteTestRunDefinitionStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip ctxTestDataSource;
+        private System.Windows.Forms.ToolStripMenuItem tStripMenuItemNewTestDataSource;
+        private System.Windows.Forms.ContextMenuStrip ctxTestResultsItem;
+        private System.Windows.Forms.ToolStripMenuItem tStripMenuItemOpenTestResults;
+        private System.Windows.Forms.ToolStripMenuItem tStripMenuItemDeleteTestResults;
+        private System.Windows.Forms.ContextMenuStrip ctxTestDataSourceItem;
+        private System.Windows.Forms.ToolStripMenuItem tStripMenuItemOpenTestDataSource;
+        private System.Windows.Forms.ToolStripMenuItem tStripMenuItemDeleteTestDataSource;
     }
 }

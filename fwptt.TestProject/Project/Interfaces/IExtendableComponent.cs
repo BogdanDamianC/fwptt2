@@ -32,5 +32,5 @@ using Newtonsoft.Json.Converters;
 namespace fwptt.TestProject.Project.Interfaces
 {    
     public enum ExpandableDataType { Configuration, TestRun };
-    public enum ExpandableComponentType { TimeLineConfiguration, TimeLineViewer, PluginConfiguration, Plugin };
+    public enum ExpandableComponentType { DataSourceConfiguration, TimeLineConfiguration, TimeLineViewer, PluginConfiguration, Plugin };
 }
