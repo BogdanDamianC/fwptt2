@@ -30,6 +30,7 @@ namespace fwptt.Desktop.App.UI
             setUpEditControl(setting);
             configControl.SetConfiguration(CurrentItem);//force data init
             CurrentItem = (BaseTestDataSource)configControl.GetConfiguration();
+            CurrentItem.Id = Guid.NewGuid();
         }
 
         public frmTestDatasourceDefinition(BaseTestDataSource datasource)

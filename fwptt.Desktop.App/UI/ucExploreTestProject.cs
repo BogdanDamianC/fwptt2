@@ -173,11 +173,11 @@ namespace fwptt.Desktop.App.UI
             else
             {
                 editor = createFunction(item);
-                Setup<T, I>(editor, onNameChanged);
+                SetupAndDisplayForm<T, I>(editor, onNameChanged);
             }
         }
 
-        private void Setup<T, I>(T editor, EventHandler<I> onNameChanged = null)
+        private void SetupAndDisplayForm<T, I>(T editor, EventHandler<I> onNameChanged = null)
             where T : Form, IItemEditor<I>
             where I : class
         {
@@ -188,6 +188,16 @@ namespace fwptt.Desktop.App.UI
                 editor.onNameChanged += onNameChanged;
         }
 
+        /// <summary>
+        /// removes the item from the tree node and the collection + it closes the edit window if it is open 
+        /// </summary>
+        /// <typeparam name="T">Form Type</typeparam>
+        /// <typeparam name="I">typeof the entity that the form is working with</typeparam>
+        /// <param name="sender">the sender object from the tree view event</param>
+        /// <param name="topTreeNode">top node from which the item should be removed</param>
+        /// <param name="collection">the collection of items from which the item should be removed</param>
+        /// <param name="nodeNotFoundError">error message for the case when for some reason the</param>
+        /// <param name="checkBeforeDelete">a function that can be used to do various checks before the item is deleted if it returns false the item will not e deleted</param>
         private void RemoveItem<T, I>(object sender, TreeNode topTreeNode, List<I> collection, string nodeNotFoundError,
             Func<I, bool> checkBeforeDelete = null)
             where T : Form, IItemEditor<I>
@@ -223,6 +233,7 @@ namespace fwptt.Desktop.App.UI
         {
             TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(e.Node.Tag as TestDefinition, (td) => new frmTestDefinitionSourceCodeEditor(td));
             tryOpenCreateItemTestRunDefinition(e.Node.Tag as TestRunDefinition);
+            TryOpenTestDataSource(e.Node.Tag as BaseTestDataSource, e.Node);   
         }
 
         private Tuple<T,TreeNode> GetMenuClickTargetNodeValue<T>(object sender, string errorMessageWhenEmpty) where T : class
@@ -303,7 +314,6 @@ namespace fwptt.Desktop.App.UI
         #region TestRunDefinitions
         private const string TestRunDefininitionTreeviewSelectError = "Something went wrong the current selected node is not a test run definition.";
 
-
         private void tryOpenCreateItemTestRunDefinition(TestRunDefinition testRunDefinition)
         {
             TryOpenCreateItem<frmTestRunDefinition, TestRunDefinition>(testRunDefinition, (td) =>
@@ -363,6 +373,7 @@ namespace fwptt.Desktop.App.UI
         }
         #endregion
 
+        #region DataSource Events
         private void tStripMenuItemNewTestDataSource_Click(object sender, EventArgs e)
         {
             if (!CanCreateNewItem())
@@ -371,10 +382,21 @@ namespace fwptt.Desktop.App.UI
             var newForm = new frmTestDatasourceDefinition(dst);
             var tnDS = this.AddTestDataSource(newForm.CurrentItem);
             TestProjectHost.Current.Project.TestDataSources.Add(newForm.CurrentItem);
-            Setup<frmTestDatasourceDefinition, BaseTestDataSource>(newForm,  (object tmpSnd, BaseTestDataSource eds) => {
+            SetupAndDisplayForm<frmTestDatasourceDefinition, BaseTestDataSource>(newForm,  (object tmpSnd, BaseTestDataSource eds) => {
                     tnDS.Text = newForm.CurrentItem.Name;
                 });
             
+        }
+
+        private void TryOpenTestDataSource(BaseTestDataSource ds, TreeNode node)
+        {
+            if (ds == null)
+                return;
+            TryOpenCreateItem<frmTestDatasourceDefinition, BaseTestDataSource>(ds,
+                (td) => { return new frmTestDatasourceDefinition(td); }, (object tmpSnd, BaseTestDataSource eds) =>
+                {
+                    node.Text = eds.Name;
+                }); 
         }
 
         private void tStripMenuItemOpenTestDataSource_Click(object sender, EventArgs e)
@@ -382,10 +404,7 @@ namespace fwptt.Desktop.App.UI
             var dts = GetMenuClickTargetNodeValue<BaseTestDataSource>(sender, TestRunDefininitionTreeviewSelectError);
             if (dts == null)
                 return;
-            TryOpenCreateItem<frmTestDatasourceDefinition, BaseTestDataSource>(dts.Item1,
-                (td) => { return new frmTestDatasourceDefinition(td); }, (object tmpSnd, BaseTestDataSource eds) => {
-                    dts.Item2.Text = eds.Name;
-                }); 
+            TryOpenTestDataSource(dts.Item1, dts.Item2);   
         }
 
         private void tStripMenuItemDeleteTestDataSource_Click(object sender, EventArgs e)
@@ -393,9 +412,13 @@ namespace fwptt.Desktop.App.UI
             RemoveItem<frmTestDatasourceDefinition, BaseTestDataSource>(sender, testDataSources,
                 TestProjectHost.Current.Project.TestDataSources, "Ooops something went wrong, could notfind the datasource anymore",
                 (BaseTestDataSource ds)=>{
-                    return true; //TODO check if itisin use
+                    bool isInUse = TestProjectHost.Current.Project.TestRunDefinitions.Any(trd => trd.TestDataSourceId.HasValue && trd.TestDataSourceId.Value == ds.Id);
+                    if (isInUse)
+                        MessageBox.Show("Datasource is in use, please update the test Run definitions first before deleting it");
+                    return !isInUse;
                 });
         }
+        #endregion
 
         private void tStripMenuItemOpenTestResults_Click(object sender, EventArgs e)
         {

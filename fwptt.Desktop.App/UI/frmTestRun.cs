@@ -91,6 +91,16 @@ namespace fwptt.Desktop.App.UI
             base.OnClosed(e);
         }
 
+        private ITestDataSourceReader GetDataSourceReader()
+        {
+            if (!CurrentItem.TestRunDefinition.TestDataSourceId.HasValue)
+                return null;
+
+            var dataSource = TestProject.TestProjectHost.Current.Project.TestDataSources.
+                    SingleOrDefault(ds=>ds.Id == CurrentItem.TestRunDefinition.TestDataSourceId.Value);
+            return dataSource != null ? dataSource.GetDataSourceReader() : null;
+        }
+
         private bool SetupTestRunner()
         {
             var testDef = TestProjectHost.Current.Project.TestDefinitions.FirstOrDefault(td => td.Id == CurrentItem.TestRunDefinition.TestDefinitionId);
@@ -110,7 +120,7 @@ namespace fwptt.Desktop.App.UI
                 }
 
                 timeLineController = CurrentItem.TestRunDefinition.TimeLine.GetNewController();
-                this.testRunner = new TestRunner(timeLineController, testExecuteClass, null);
+                this.testRunner = new TestRunner(timeLineController, testExecuteClass, GetDataSourceReader());
                 this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }
