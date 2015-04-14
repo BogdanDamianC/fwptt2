@@ -29,28 +29,33 @@ namespace fwptt.Desktop.App.UI
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTestDefinition = new System.Windows.Forms.Label();
+            System.Windows.Forms.Label lblTestDefinition;
+            System.Windows.Forms.Label lblName;
+            System.Windows.Forms.Label label1;
             this.cboTestDefinition = new System.Windows.Forms.ComboBox();
             this.txtTestRunName = new System.Windows.Forms.TextBox();
-            this.lblName = new System.Windows.Forms.Label();
             this.cboTimeLines = new System.Windows.Forms.ComboBox();
             this.ckListPlugins = new System.Windows.Forms.CheckedListBox();
             this.grpTimeLine = new System.Windows.Forms.GroupBox();
             this.grpPlugins = new System.Windows.Forms.GroupBox();
             this.accordionPlugins = new fwptt.Desktop.Util.AccordionControl();
             this.btnNewRun = new System.Windows.Forms.Button();
+            this.cboDataSource = new System.Windows.Forms.ComboBox();
+            lblTestDefinition = new System.Windows.Forms.Label();
+            lblName = new System.Windows.Forms.Label();
+            label1 = new System.Windows.Forms.Label();
             this.grpTimeLine.SuspendLayout();
             this.grpPlugins.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTestDefinition
             // 
-            this.lblTestDefinition.AutoSize = true;
-            this.lblTestDefinition.Location = new System.Drawing.Point(110, 7);
-            this.lblTestDefinition.Name = "lblTestDefinition";
-            this.lblTestDefinition.Size = new System.Drawing.Size(75, 13);
-            this.lblTestDefinition.TabIndex = 12;
-            this.lblTestDefinition.Text = "Test Definition";
+            lblTestDefinition.AutoSize = true;
+            lblTestDefinition.Location = new System.Drawing.Point(150, 7);
+            lblTestDefinition.Name = "lblTestDefinition";
+            lblTestDefinition.Size = new System.Drawing.Size(75, 13);
+            lblTestDefinition.TabIndex = 12;
+            lblTestDefinition.Text = "Test Definition";
             // 
             // cboTestDefinition
             // 
@@ -59,28 +64,28 @@ namespace fwptt.Desktop.App.UI
             this.cboTestDefinition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTestDefinition.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cboTestDefinition.FormattingEnabled = true;
-            this.cboTestDefinition.Location = new System.Drawing.Point(199, 4);
+            this.cboTestDefinition.Location = new System.Drawing.Point(239, 4);
             this.cboTestDefinition.Name = "cboTestDefinition";
-            this.cboTestDefinition.Size = new System.Drawing.Size(382, 21);
+            this.cboTestDefinition.Size = new System.Drawing.Size(348, 21);
             this.cboTestDefinition.TabIndex = 11;
             // 
             // txtTestRunName
             // 
             this.txtTestRunName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTestRunName.Location = new System.Drawing.Point(199, 34);
+            this.txtTestRunName.Location = new System.Drawing.Point(239, 34);
             this.txtTestRunName.Name = "txtTestRunName";
-            this.txtTestRunName.Size = new System.Drawing.Size(382, 20);
+            this.txtTestRunName.Size = new System.Drawing.Size(348, 20);
             this.txtTestRunName.TabIndex = 10;
             // 
             // lblName
             // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(110, 34);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(82, 13);
-            this.lblName.TabIndex = 9;
-            this.lblName.Text = "Test Run Name";
+            lblName.AutoSize = true;
+            lblName.Location = new System.Drawing.Point(150, 34);
+            lblName.Name = "lblName";
+            lblName.Size = new System.Drawing.Size(82, 13);
+            lblName.TabIndex = 9;
+            lblName.Text = "Test Run Name";
             // 
             // cboTimeLines
             // 
@@ -110,7 +115,7 @@ namespace fwptt.Desktop.App.UI
             // grpTimeLine
             // 
             this.grpTimeLine.Controls.Add(this.cboTimeLines);
-            this.grpTimeLine.Location = new System.Drawing.Point(7, 60);
+            this.grpTimeLine.Location = new System.Drawing.Point(7, 88);
             this.grpTimeLine.Name = "grpTimeLine";
             this.grpTimeLine.Size = new System.Drawing.Size(580, 56);
             this.grpTimeLine.TabIndex = 1;
@@ -123,7 +128,7 @@ namespace fwptt.Desktop.App.UI
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpPlugins.Controls.Add(this.accordionPlugins);
             this.grpPlugins.Controls.Add(this.ckListPlugins);
-            this.grpPlugins.Location = new System.Drawing.Point(7, 122);
+            this.grpPlugins.Location = new System.Drawing.Point(7, 144);
             this.grpPlugins.Name = "grpPlugins";
             this.grpPlugins.Size = new System.Drawing.Size(580, 120);
             this.grpPlugins.TabIndex = 13;
@@ -145,11 +150,32 @@ namespace fwptt.Desktop.App.UI
             // 
             this.btnNewRun.Location = new System.Drawing.Point(14, 4);
             this.btnNewRun.Name = "btnNewRun";
-            this.btnNewRun.Size = new System.Drawing.Size(79, 50);
+            this.btnNewRun.Size = new System.Drawing.Size(109, 77);
             this.btnNewRun.TabIndex = 14;
             this.btnNewRun.Text = "New Run";
             this.btnNewRun.UseVisualStyleBackColor = true;
             this.btnNewRun.Click += new System.EventHandler(this.btnNewRun_Click);
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(150, 63);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(86, 13);
+            label1.TabIndex = 16;
+            label1.Text = "Test Datasource";
+            // 
+            // cboDataSource
+            // 
+            this.cboDataSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboDataSource.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDataSource.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.cboDataSource.FormattingEnabled = true;
+            this.cboDataSource.Location = new System.Drawing.Point(239, 60);
+            this.cboDataSource.Name = "cboDataSource";
+            this.cboDataSource.Size = new System.Drawing.Size(348, 21);
+            this.cboDataSource.TabIndex = 15;
             // 
             // frmTestRunDefinition
             // 
@@ -158,13 +184,15 @@ namespace fwptt.Desktop.App.UI
             this.AutoScroll = true;
             this.AutoScrollMargin = new System.Drawing.Size(15, 0);
             this.ClientSize = new System.Drawing.Size(602, 329);
+            this.Controls.Add(label1);
+            this.Controls.Add(this.cboDataSource);
             this.Controls.Add(this.btnNewRun);
             this.Controls.Add(this.grpPlugins);
-            this.Controls.Add(this.lblTestDefinition);
+            this.Controls.Add(lblTestDefinition);
             this.Controls.Add(this.grpTimeLine);
             this.Controls.Add(this.cboTestDefinition);
             this.Controls.Add(this.txtTestRunName);
-            this.Controls.Add(this.lblName);
+            this.Controls.Add(lblName);
             this.Name = "frmTestRunDefinition";
             this.ShowInTaskbar = false;
             this.Text = "frmTestRunDefinition";
@@ -177,16 +205,15 @@ namespace fwptt.Desktop.App.UI
 
         #endregion
 
-        private System.Windows.Forms.Label lblTestDefinition;
         private System.Windows.Forms.ComboBox cboTestDefinition;
         private System.Windows.Forms.TextBox txtTestRunName;
-        private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ComboBox cboTimeLines;
         private System.Windows.Forms.CheckedListBox ckListPlugins;
         private System.Windows.Forms.GroupBox grpTimeLine;
         private System.Windows.Forms.GroupBox grpPlugins;
         private Util.AccordionControl accordionPlugins;
         private System.Windows.Forms.Button btnNewRun;
+        private System.Windows.Forms.ComboBox cboDataSource;
 
 
     }

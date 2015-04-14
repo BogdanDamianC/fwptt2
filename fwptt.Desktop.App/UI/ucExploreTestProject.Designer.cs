@@ -170,7 +170,7 @@
             this.ctxTestDataSource.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tStripMenuItemNewTestDataSource});
             this.ctxTestDataSource.Name = "ctxTestDefinition";
-            this.ctxTestDataSource.Size = new System.Drawing.Size(190, 48);
+            this.ctxTestDataSource.Size = new System.Drawing.Size(190, 26);
             // 
             // tStripMenuItemNewTestDataSource
             // 
@@ -206,19 +206,19 @@
             this.tStripMenuItemOpenTestDataSource,
             this.tStripMenuItemDeleteTestDataSource});
             this.ctxTestDataSourceItem.Name = "ctxTestDefinitionItem";
-            this.ctxTestDataSourceItem.Size = new System.Drawing.Size(108, 48);
+            this.ctxTestDataSourceItem.Size = new System.Drawing.Size(153, 70);
             // 
             // tStripMenuItemOpenTestDataSource
             // 
             this.tStripMenuItemOpenTestDataSource.Name = "tStripMenuItemOpenTestDataSource";
-            this.tStripMenuItemOpenTestDataSource.Size = new System.Drawing.Size(107, 22);
+            this.tStripMenuItemOpenTestDataSource.Size = new System.Drawing.Size(152, 22);
             this.tStripMenuItemOpenTestDataSource.Text = "Open";
             this.tStripMenuItemOpenTestDataSource.Click += new System.EventHandler(this.tStripMenuItemOpenTestDataSource_Click);
             // 
             // tStripMenuItemDeleteTestDataSource
             // 
             this.tStripMenuItemDeleteTestDataSource.Name = "tStripMenuItemDeleteTestDataSource";
-            this.tStripMenuItemDeleteTestDataSource.Size = new System.Drawing.Size(107, 22);
+            this.tStripMenuItemDeleteTestDataSource.Size = new System.Drawing.Size(152, 22);
             this.tStripMenuItemDeleteTestDataSource.Text = "Delete";
             this.tStripMenuItemDeleteTestDataSource.Click += new System.EventHandler(this.tStripMenuItemDeleteTestDataSource_Click);
             // 

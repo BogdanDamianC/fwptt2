@@ -63,6 +63,7 @@ namespace fwptt.Desktop.App.UI
             cboTestDefinition.DataBindings.Add("SelectedValue", trd, "TestDefinitionId");
             CurrentItem = trd;
             SetTitle();
+            SetUpDataSources();
         }
 
         private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
@@ -87,6 +88,24 @@ namespace fwptt.Desktop.App.UI
             parent.Height = tlpl.Bottom + 5;
             return tlpl;
         }
+
+        #region Data Sources
+        private void SetUpDataSources()
+        {
+            var tmpds = TestProjectHost.Current.Project.TestDataSources.Select(ds => new { Id = ds.Id, Name = ds.Name }).ToList();
+            tmpds.Insert(0, new { Id = Guid.Empty, Name = "No Data Source" });
+            cboDataSource.ValueMember = "Id";
+            cboDataSource.DisplayMember = "Name";
+            cboDataSource.DataSource = tmpds;
+            cboDataSource.SelectedValue = this.CurrentItem.TestDataSourceId.GetValueOrDefault(Guid.Empty);
+            cboDataSource.SelectedValueChanged += (object sender, EventArgs e) =>
+            {
+                var sel = (Guid)cboDataSource.SelectedValue;
+                this.CurrentItem.TestDataSourceId = sel != Guid.Empty ? (Guid?)sel : (Guid?)null;
+            };
+        }
+
+        #endregion
 
         #region TimeLine
         private void SetUpTimeLineConfigurationControl()

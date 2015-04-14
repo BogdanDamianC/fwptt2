@@ -92,10 +92,9 @@ namespace fwptt.Desktop.App.UI
 
         private TreeNode AddTestDataSource(BaseTestDataSource testDataSource)
         {
-            
             var td = new TreeNode(testDataSource.Name);
             td.Tag = testDataSource;
-            td.ContextMenuStrip = ctxTestDataSource;
+            td.ContextMenuStrip = ctxTestDataSourceItem;
             testDataSources.Nodes.Add(td);
             return td;
         }
@@ -146,6 +145,21 @@ namespace fwptt.Desktop.App.UI
             tvProject.Nodes.Add(testRunResults);
         }
 
+        private T GetEditor<T, I>(I item)
+            where T : Form, IItemEditor<I>
+            where I : class
+        {
+            T editor = null;
+            foreach (var frm in this.ParentForm.MdiChildren)
+            {
+                if ((editor = frm as T) == null)
+                    continue;
+                else if (editor.CurrentItem == item)
+                    return editor;
+            }
+            return null;
+        }
+
         private void TryOpenCreateItem<T, I>(I item, Func<I, T> createFunction, EventHandler<I> onNameChanged = null)
             where T : Form, IItemEditor<I>
             where I : class
@@ -153,19 +167,14 @@ namespace fwptt.Desktop.App.UI
             if (item == null)
                 return;
 
-            T editor = null;
-            foreach (var frm in this.ParentForm.MdiChildren)
+            T editor = GetEditor<T, I>(item);
+            if (editor != null)
+                editor.Activate();
+            else
             {
-                if ((editor = frm as T) == null)
-                    continue;
-                else if (editor.CurrentItem == item)
-                {
-                    editor.Activate();
-                    return;
-                }
+                editor = createFunction(item);
+                Setup<T, I>(editor, onNameChanged);
             }
-            editor = createFunction(item);
-            Setup<T, I>(editor, onNameChanged);
         }
 
         private void Setup<T, I>(T editor, EventHandler<I> onNameChanged = null)
@@ -177,6 +186,28 @@ namespace fwptt.Desktop.App.UI
             editor.Activate();
             if (onNameChanged != null)
                 editor.onNameChanged += onNameChanged;
+        }
+
+        private void RemoveItem<T, I>(object sender, TreeNode topTreeNode, List<I> collection, string nodeNotFoundError,
+            Func<I, bool> checkBeforeDelete = null)
+            where T : Form, IItemEditor<I>
+            where I : class
+        {
+
+            var dts = GetMenuClickTargetNodeValue<I>(sender, nodeNotFoundError);
+            if (dts == null)
+                return;
+            if (checkBeforeDelete != null && !checkBeforeDelete(dts.Item1))
+                return;
+                
+            var editor = GetEditor<T, I>(dts.Item1);
+            if (editor != null)
+            {
+                editor.Close();
+                editor.Dispose();
+            }
+            collection.Remove(dts.Item1);
+            topTreeNode.Nodes.Remove(dts.Item2);
         }
 
         private static bool CanCreateNewItem()
@@ -246,17 +277,18 @@ namespace fwptt.Desktop.App.UI
 
         private void deleteTestDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var td = GetMenuClickTargetNodeValue<TestDefinition>(sender, TestDefininitionTreeviewSelectError);
-            if (td == null || td.Item1 == null)
-                return;
-            if (TestProjectHost.Current.Project.TestRunDefinitions.Any(tr=>tr.TestDefinitionId == td.Item1.Id))
-            {
-                MessageBox.Show("Can't delete the current test definition it is being used by some test runs. Please connect the existing test runs to other test definitions or delete them before trying to delete this test definition.", "Alert");
-                return;
-            }
-            TestProjectHost.Current.Project.TestDefinitions.Remove(td.Item1);
-            testRunDefinitions.Nodes.Remove(td.Item2);
-            //TODO delete the file
+            RemoveItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(sender, testRunDefinitions,
+                TestProjectHost.Current.Project.TestDefinitions, TestDefininitionTreeviewSelectError,
+                (TestDefinition td) =>
+                {
+                    if (TestProjectHost.Current.Project.TestRunDefinitions.Any(tr => tr.TestDefinitionId == td.Id))
+                    {
+                        MessageBox.Show("Can't delete the current test definition it is being used by some test runs. Please connect the existing test runs to other test definitions or delete them before trying to delete this test definition.", "Alert");
+                        return false;
+                    }
+                    //TODO delete the file
+                    return true;
+                });
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -305,11 +337,8 @@ namespace fwptt.Desktop.App.UI
 
         private void deleteTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
-            var trd = GetMenuClickTargetNodeValue<TestRunDefinition>(sender, TestRunDefininitionTreeviewSelectError);
-            if (trd == null)
-                return;
-            TestProjectHost.Current.Project.TestRunDefinitions.Remove(trd.Item1);
-            testRunDefinitions.Nodes.Remove(trd.Item2);
+            RemoveItem<frmTestRunDefinition, TestRunDefinition>(sender, testRunDefinitions, 
+                TestProjectHost.Current.Project.TestRunDefinitions, TestRunDefininitionTreeviewSelectError);
         }
 
         private void newTestRun(TestRunDefinition trd)
@@ -341,6 +370,7 @@ namespace fwptt.Desktop.App.UI
             var dst = (ExpandableSetting)((ToolStripMenuItem)sender).Tag;
             var newForm = new frmTestDatasourceDefinition(dst);
             var tnDS = this.AddTestDataSource(newForm.CurrentItem);
+            TestProjectHost.Current.Project.TestDataSources.Add(newForm.CurrentItem);
             Setup<frmTestDatasourceDefinition, BaseTestDataSource>(newForm,  (object tmpSnd, BaseTestDataSource eds) => {
                     tnDS.Text = newForm.CurrentItem.Name;
                 });
@@ -360,7 +390,11 @@ namespace fwptt.Desktop.App.UI
 
         private void tStripMenuItemDeleteTestDataSource_Click(object sender, EventArgs e)
         {
-
+            RemoveItem<frmTestDatasourceDefinition, BaseTestDataSource>(sender, testDataSources,
+                TestProjectHost.Current.Project.TestDataSources, "Ooops something went wrong, could notfind the datasource anymore",
+                (BaseTestDataSource ds)=>{
+                    return true; //TODO check if itisin use
+                });
         }
 
         private void tStripMenuItemOpenTestResults_Click(object sender, EventArgs e)

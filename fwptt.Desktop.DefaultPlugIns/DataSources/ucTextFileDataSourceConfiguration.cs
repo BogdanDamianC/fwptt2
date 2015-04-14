@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Desktop.Util;
+using fwptt.TestProject;
+using System.IO;
 
 
 namespace fwptt.Desktop.DefaultPlugIns.DataSources
@@ -46,7 +48,13 @@ namespace fwptt.Desktop.DefaultPlugIns.DataSources
 
         private void btnSelectFilePath_Click(object sender, EventArgs e)
         {
-            txtFilePath.Text = UI_Util.PickOpenFile(this, "*.*") ?? string.Empty;
+            var newPath = UI_Util.PickOpenFile(this, "All files (*.*)|*.*");
+            if (string.IsNullOrWhiteSpace(newPath))
+                return;
+
+            var folder = new Uri(new FileInfo(TestProjectHost.Current.ProjectPath).Directory.FullName + Path.DirectorySeparatorChar);
+            txtFilePath.Text = Uri.UnescapeDataString(folder.MakeRelativeUri(new Uri(newPath))
+                    .ToString().Replace('/', Path.DirectorySeparatorChar));
         }
 
         private void txtFilePath_TextChanged(object sender, EventArgs e)

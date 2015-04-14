@@ -28,6 +28,7 @@ namespace fwptt.Desktop.App.UI
             : this()
         {
             setUpEditControl(setting);
+            configControl.SetConfiguration(CurrentItem);//force data init
             CurrentItem = (BaseTestDataSource)configControl.GetConfiguration();
         }
 
@@ -48,7 +49,6 @@ namespace fwptt.Desktop.App.UI
             this.Controls.Add(editControl);
             this.configControl = (ITestRunConfigurationComponent)editControl;
             SetUpPluginSize();
-
         }
 
         public BaseTestDataSource CurrentItem
@@ -82,12 +82,14 @@ namespace fwptt.Desktop.App.UI
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            SetUpPluginSize();
+            if (configControl != null)
+                SetUpPluginSize();
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             CurrentItem.Name = txtName.Text;
+            this.Text = CurrentItem.Name;
             var eventToCall = onNameChanged;
             if (eventToCall != null)
                 eventToCall(this, CurrentItem);
