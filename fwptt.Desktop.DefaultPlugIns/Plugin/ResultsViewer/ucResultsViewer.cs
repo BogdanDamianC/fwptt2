@@ -52,21 +52,15 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		/// Required designer variable.
 		/// </summary>
         private System.ComponentModel.IContainer components;
-		
-		private System.Timers.Timer timer1;
-		
-		private System.Windows.Forms.Button btnSaveXmlLogFile;
+
+        private System.Timers.Timer timer1;
         private System.Windows.Forms.Button btnViewPage;
-        private Button btnExportData;
-        private ContextMenuStrip menuExportData;
-        private EventHandler ExportData_Click_handler;
 
 
         private List<IRequestInfo> queuedRequests = new List<IRequestInfo>();
         private DataGridView dgViewRequests;
-        private DataGridViewTextBoxColumn dgColInfo;
-        private DataGridViewTextBoxColumn dgColDuration;
         private DataGridViewTextBoxColumn Column1;
+        private Button btnViewContent;
         private DataGridViewTextBoxColumn Column2;
 
         //TODO look into this not sure if this is needed
@@ -78,8 +72,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-
-            ExportData_Click_handler = new EventHandler(ExportData_Click);
 		}
 
         protected ResultsViewerConfiguration Configuration
@@ -116,15 +108,13 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn7;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn6;
             this.btnExportResponses = new System.Windows.Forms.Button();
-            this.btnExportData = new System.Windows.Forms.Button();
             this.btnViewPage = new System.Windows.Forms.Button();
-            this.btnSaveXmlLogFile = new System.Windows.Forms.Button();
             this.timer1 = new System.Timers.Timer();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.menuExportData = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dgViewRequests = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnViewContent = new System.Windows.Forms.Button();
             dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
@@ -159,46 +149,23 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             // 
             // btnExportResponses
             // 
-            this.btnExportResponses.Enabled = false;
             this.btnExportResponses.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportResponses.Location = new System.Drawing.Point(233, 3);
+            this.btnExportResponses.Location = new System.Drawing.Point(0, 3);
             this.btnExportResponses.Name = "btnExportResponses";
             this.btnExportResponses.Size = new System.Drawing.Size(224, 23);
             this.btnExportResponses.TabIndex = 15;
             this.btnExportResponses.Text = "Export Responses To HTML Files";
             this.btnExportResponses.Click += new System.EventHandler(this.btnExportResponses_Click);
             // 
-            // btnExportData
-            // 
-            this.btnExportData.Enabled = false;
-            this.btnExportData.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnExportData.Location = new System.Drawing.Point(693, 3);
-            this.btnExportData.Name = "btnExportData";
-            this.btnExportData.Size = new System.Drawing.Size(224, 23);
-            this.btnExportData.TabIndex = 24;
-            this.btnExportData.Text = "Export Data";
-            this.btnExportData.Click += new System.EventHandler(this.btnExportData_Click);
-            // 
             // btnViewPage
             // 
             this.btnViewPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnViewPage.Location = new System.Drawing.Point(463, 3);
+            this.btnViewPage.Location = new System.Drawing.Point(460, 3);
             this.btnViewPage.Name = "btnViewPage";
             this.btnViewPage.Size = new System.Drawing.Size(224, 24);
             this.btnViewPage.TabIndex = 21;
             this.btnViewPage.Text = "View Page";
             this.btnViewPage.Click += new System.EventHandler(this.btnViewPage_Click);
-            // 
-            // btnSaveXmlLogFile
-            // 
-            this.btnSaveXmlLogFile.Enabled = false;
-            this.btnSaveXmlLogFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSaveXmlLogFile.Location = new System.Drawing.Point(3, 3);
-            this.btnSaveXmlLogFile.Name = "btnSaveXmlLogFile";
-            this.btnSaveXmlLogFile.Size = new System.Drawing.Size(224, 23);
-            this.btnSaveXmlLogFile.TabIndex = 20;
-            this.btnSaveXmlLogFile.Text = "Save XML Log File";
-            this.btnSaveXmlLogFile.Click += new System.EventHandler(this.btnSaveXmlLogFile_Click);
             // 
             // timer1
             // 
@@ -206,11 +173,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.timer1.Interval = 1000D;
             this.timer1.SynchronizingObject = this;
             this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
-            // 
-            // menuExportData
-            // 
-            this.menuExportData.Name = "menuExportData";
-            this.menuExportData.Size = new System.Drawing.Size(61, 4);
             // 
             // dgViewRequests
             // 
@@ -240,12 +202,21 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.Column2.Name = "Column2";
             this.Column2.ReadOnly = true;
             // 
+            // btnViewContent
+            // 
+            this.btnViewContent.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnViewContent.Location = new System.Drawing.Point(230, 3);
+            this.btnViewContent.Name = "btnViewContent";
+            this.btnViewContent.Size = new System.Drawing.Size(224, 24);
+            this.btnViewContent.TabIndex = 22;
+            this.btnViewContent.Text = "View Content";
+            this.btnViewContent.Click += new System.EventHandler(this.btnViewContent_Click);
+            // 
             // ucResultsViewer
             // 
-            this.Controls.Add(this.btnExportData);
+            this.Controls.Add(this.btnViewContent);
             this.Controls.Add(this.btnViewPage);
             this.Controls.Add(this.dgViewRequests);
-            this.Controls.Add(this.btnSaveXmlLogFile);
             this.Controls.Add(this.btnExportResponses);
             this.DoubleBuffered = true;
             this.Name = "ucResultsViewer";
@@ -264,8 +235,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             queuedRequests = new List<IRequestInfo>();
             dgViewRequests.Rows.Clear();
             btnExportResponses.Enabled = false;
-            btnSaveXmlLogFile.Enabled = false;
-            btnExportData.Enabled = false;
             timer1.Interval = Configuration.RefreshInterval * 1000;
             timer1.Start();
         }
@@ -285,8 +254,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             }
 
 			btnExportResponses.Enabled = true;
-			btnSaveXmlLogFile.Enabled = true;
-            btnExportData.Enabled = true;
             RefreshData();
 		}
 
@@ -328,134 +295,49 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             for (int i = StartRecord; i < currentQueuedRequests.Count; i++)
             {
                 var item = currentQueuedRequests[i];
-                dgViewRequests.Rows.Add(item.ToString(), item.Duration / 1000);
+                var index = dgViewRequests.Rows.Add(item.ToString(), item.Duration / 1000);
+                dgViewRequests.Rows[index].Tag = item.ResponseToString();
             }
 
             dgViewRequests.Refresh();
             dgViewRequests.Update();
         }
-
-		private void btnSaveXmlLogFile_Click(object sender, System.EventArgs e)
-		{
-            //TODO
-            //string LogFileName = null;
-            //SaveFileDialog sf = new SaveFileDialog();
-            //sf.Filter="XML files (*.xml)|*.xml|All files (*.*)|*.*";
-            //if(sf.ShowDialog(this) == DialogResult.OK)
-            //    LogFileName = sf.FileName;
-            //sf.Dispose();
-
-            //if(LogFileName != null)
-            //{
-            //    XmlSerializer ser = new XmlSerializer(typeof(List<WebRequestInfo>));
-            //    TextWriter twriter = new StreamWriter(LogFileName, false, Encoding.Unicode);
-            //    ser.Serialize(twriter, requests);
-            //    twriter.Close();
-            //}
-		}
 		
 		private void btnExportResponses_Click(object sender, System.EventArgs e)
 		{
-            //TODO
-            //string ret = null;
-            //FolderBrowserDialog fbd = new FolderBrowserDialog();
-            //if(fbd.ShowDialog(this) == DialogResult.OK)
-            //    ret = fbd.SelectedPath;
-            //fbd.Dispose();
-            //if(ret == null)
-            //    return;
+            string ret = null;
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if(fbd.ShowDialog(this) == DialogResult.OK)
+                ret = fbd.SelectedPath;
+            fbd.Dispose();
+            if(ret == null)
+                return;
 
-            //for(int j = 0; j < requests.Count; j++)
-            //{
-            //    StreamWriter writer = new StreamWriter(ret + @"\Instance_" + j.ToString() + "_Req_" + j.ToString() + ".html");
-            //    writer.Write(((WebRequestInfo)requests[j]).Response);
-            //    writer.Close();
-            //}
+            for (int j = 0; j < dgViewRequests.Rows.Count; j++)
+            {
+                StreamWriter writer = new StreamWriter(ret + @"\Instance_" + j.ToString() + "_Req_" + j.ToString() + ".html");
+                writer.Write(dgViewRequests.Rows[j].Tag);
+                writer.Close();
+            }
 		}
+
+        private void btnViewContent_Click(object sender, EventArgs e)
+        {
+            if (dgViewRequests.CurrentRow == null)
+                return;
+
+            using (var cv = new ContentViewer((string)dgViewRequests.CurrentRow.Tag))
+                cv.ShowDialog(this);
+        }
 
         private void btnViewPage_Click(object sender, System.EventArgs e)
         {
-            //TODO
-            //if (dgResults.DataSource == null || BindingContext[dgResults.DataSource].Current == null)
-            //    return;
-
-            //int Index = (int)((DataRowView)BindingContext[dgResults.DataSource].Current)["Record_Index"];
-            //if (Index >= 0 && Index < requests.Count)
-            //    using (PageViewer pv = new PageViewer(((WebRequestInfo)requests[Index]).Response))
-            //        pv.ShowDialog(this);
-        }
-
-        private void txtRefreshTime_ValueChanged(object sender, EventArgs e)
-        {
-            //TODO remove or implement adjustment
-            //timer1.Interval = Convert.ToDouble(txtRefreshTime.Value);
-        }
-
-        private void btnExportData_Click(object sender, EventArgs e)
-        {
-            menuExportData.Items.Clear();
-            DirectoryInfo dir = new DirectoryInfo(Application.StartupPath + "\\ResultReportsTemplates");
-            if (!dir.Exists)
-            {
-                MessageBox.Show(string.Format("There is no ResultReportsTemplates folder in {0}. Please put your xsl templates in the '{0}\\ResultReportsTemplates' folder!", Application.StartupPath),
-                    "Error");
+            if (dgViewRequests.CurrentRow == null)
                 return;
-            }
-            FileInfo [] files = dir.GetFiles("*.xsl");
-            foreach (FileInfo fi in files)
-            {
-                ToolStripMenuItem i = new ToolStripMenuItem(fi.Name);
-                i.Click += ExportData_Click_handler;
-                i.Tag = fi;
-                menuExportData.Items.Add(i);
-            }
 
-            menuExportData.Show(btnExportData.Parent.PointToScreen(new Point(btnExportData.Left, btnExportData.Bottom)));
+            using (var pv = new PageViewer((string)dgViewRequests.CurrentRow.Tag))
+                pv.ShowDialog(this);
         }
-
-        void ExportData_Click(object sender, EventArgs e)
-        {
-            //TODO
-            //string ret = null;
-            //SaveFileDialog sf = new SaveFileDialog();
-            //if (sf.ShowDialog(this) == DialogResult.OK)
-            //    ret = sf.FileName;
-            //sf.Dispose();
-            //if (ret == null)
-            //    return;
-
-            //ToolStripMenuItem mnu = (ToolStripMenuItem)sender;
-            //FileInfo fi = (FileInfo)mnu.Tag;
-
-            //try
-            //{
-            //    XslCompiledTransform xslt = new XslCompiledTransform();
-            //    xslt.Load(fi.FullName);
-
-            //    XmlSerializer ser = new XmlSerializer(requests.GetType());
-
-            //    StringBuilder sb = new StringBuilder(1000);
-            //    StringWriter strwriter = new StringWriter(sb);
-            //    ser.Serialize(strwriter, requests);
-            //    strwriter.Close();
-
-            //    XmlDocument xmld = new XmlDocument();
-            //    xmld.LoadXml(sb.ToString());
-
-            //    XPathNavigator navigator1 = xmld.CreateNavigator();
-
-            //    XmlTextWriter writer = new XmlTextWriter(ret, System.Text.Encoding.Unicode);
-            //    writer.Formatting = Formatting.Indented;
-            //    xslt.Transform(navigator1, writer);
-            //    writer.Flush();
-            //    writer.Close();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message + ex.StackTrace);
-            //}
-        }
-
 
         public void TestStoped()
         {
@@ -466,6 +348,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         {
             
         }
+
+
     }
 }
 

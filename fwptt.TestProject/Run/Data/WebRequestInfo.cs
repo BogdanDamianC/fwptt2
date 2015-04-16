@@ -13,6 +13,10 @@ namespace fwptt.TestProject.Run.Data
             this.Request = new WebRequest();
         }
         public Int32 ResponseCode { get; set; }
+        public override string ResponseToString()
+        {
+            return Response;
+        }
 
         private const string infoSeparator = "  -|-  ";
         public override string ToString()

@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 {
@@ -47,12 +48,18 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
 		}
 
+        string contentToDisplay;
 		public PageViewer(string HTMLContent):this()
 		{
 			webBrowser1.Navigate("about:blank");
-			System.Threading.Thread.Sleep(500);
-			webBrowser1.Document.Write(HTMLContent);
+            contentToDisplay = HTMLContent;
 		}
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            Task.Delay(500).ContinueWith((task) => { webBrowser1.Document.Write(contentToDisplay); });
+        }
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -76,26 +83,32 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-			this.SuspendLayout();
-			// 
-			// webBrowser1
-			// 
-			this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-			this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-			this.webBrowser1.Name = "webBrowser1";
-			this.webBrowser1.Size = new System.Drawing.Size(768, 366);
-			this.webBrowser1.TabIndex = 0;
-			// 
-			// PageViewer
-			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(768, 366);
-			this.Controls.Add(this.webBrowser1);
-			this.Name = "PageViewer";
-			this.Text = "PageViewer";
-			this.ResumeLayout(false);
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.SuspendLayout();
+            // 
+            // webBrowser1
+            // 
+            this.webBrowser1.AllowNavigation = false;
+            this.webBrowser1.AllowWebBrowserDrop = false;
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.ScriptErrorsSuppressed = true;
+            this.webBrowser1.Size = new System.Drawing.Size(768, 366);
+            this.webBrowser1.TabIndex = 0;
+            this.webBrowser1.WebBrowserShortcutsEnabled = false;
+            // 
+            // PageViewer
+            // 
+            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+            this.ClientSize = new System.Drawing.Size(768, 366);
+            this.Controls.Add(this.webBrowser1);
+            this.Name = "PageViewer";
+            this.Text = "PageViewer";
+            this.ResumeLayout(false);
+
 		}
 		private System.Windows.Forms.WebBrowser webBrowser1;
 		#endregion

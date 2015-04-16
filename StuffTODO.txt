@@ -1,4 +1,7 @@
 [Finish the Test Run Definition Desktop Implementation]
-Move the Test Definition Generator outside the main desktop project
-Make the test running even more generic so that it go further than http calls
-update the test references to use something similar to how the typescript references are done
+
+[In Progress] Make the test running even more generic so that it go further than http calls
+update the test definition references to use something similar to how the typescript references are done
+update the plugin updates to use an event driven approach in order to avoid unnecessary calls similar to the one used in the timeline plugins
+
+[DONE] [Move the Test Definition Generator outside the main desktop project]

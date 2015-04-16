@@ -59,7 +59,12 @@ namespace fwptt.Desktop.App.UI
             SetTitle();
             this.exploreTestProject.RefreshProjectDetails();
             showExploreTestProjectToolStripMenuItem.Checked = true;
-            if (!string.IsNullOrWhiteSpace(LastAccessedProject))
+            if (TestProjectHost.Current.ProjectPath != null)
+            {
+                SetTitle();
+                this.exploreTestProject.RefreshProjectDetails();
+            }
+            else if(!string.IsNullOrWhiteSpace(LastAccessedProject))
                 LoadProject(LastAccessedProject);
         }
 

@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblTimeLineInfo = new System.Windows.Forms.Label();
+            this.refreshTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // lblTimeLineInfo
@@ -39,6 +41,12 @@
             this.lblTimeLineInfo.Size = new System.Drawing.Size(78, 13);
             this.lblTimeLineInfo.TabIndex = 0;
             this.lblTimeLineInfo.Text = "lblTimeLineInfo";
+            // 
+            // refreshTimer
+            // 
+            this.refreshTimer.Enabled = true;
+            this.refreshTimer.Interval = 1000;
+            this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
             // 
             // ucSetppingTimeLineViewer
             // 
@@ -55,5 +63,6 @@
         #endregion
 
         private System.Windows.Forms.Label lblTimeLineInfo;
+        private System.Windows.Forms.Timer refreshTimer;
     }
 }

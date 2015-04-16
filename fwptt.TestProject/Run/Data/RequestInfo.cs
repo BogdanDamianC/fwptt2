@@ -38,7 +38,9 @@ namespace fwptt.TestProject.Run.Data
         /// </summary>
         double Duration { get; }
         IRequestInfo Clone();
+        string ResponseToString();
     }
+
 	[Serializable]	
 	public abstract class RequestInfo<TIn, TOut>:IRequestInfo
 	{
@@ -51,6 +53,7 @@ namespace fwptt.TestProject.Run.Data
         public DateTime EndTime { get; set; }
         public List<string> Errors { get; private set; }
         public double Duration { get { return EndTime.Subtract(StartTime).TotalMilliseconds; } }
+        public abstract string ResponseToString();
 
         public IRequestInfo Clone()
         {
