@@ -1,0 +1,61 @@
+{
+  "TestDefinitions": [
+    {
+      "Id": "01db1c48-4748-47c4-a5ab-051302008212",
+      "TestDefinitionFile": "UsersRegistration.cs",
+      "Assemblies": [
+        "System.dll",
+        "System.Data.dll",
+        "System.Xml.dll",
+        "System.Core.dll",
+        "[fwptt_application_startuppath]fwptt.TestProject.dll",
+        "[fwptt_application_pluginpath]RestSharp.dll",
+        "[fwptt_application_pluginpath]CsQuery.dll",
+        "[fwptt_application_pluginpath]fwptt.Web.HTTP.Test.dll"
+      ]
+    }
+  ],
+  "TestDataSources": [
+    {
+      "UniqueName": "fwptt -> Default -> Datasources -> Text DataSource",
+      "FilePath": "usersDataSource.txt",
+      "DataRowSeparator": "\n",
+      "Id": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+      "Name": "users Datarouce",
+      "DataType": "Configuration"
+    }
+  ],
+  "TestRunDefinitions": [
+    {
+      "Id": "79191cf3-7b76-4593-b049-a918fc96ec81",
+      "Name": "Users Registration",
+      "TestDefinitionId": "01db1c48-4748-47c4-a5ab-051302008212",
+      "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+      "TimeLine": {
+        "Hours": 0,
+        "Minutes": 5,
+        "NoOfThreads": 50,
+        "PauseBetweenRequests": 50,
+        "RampUpMinutes": 1,
+        "RampUpSeconds": 0,
+        "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+        "DataType": "Configuration"
+      },
+      "RunPlugins": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "Configuration"
+        },
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+          "DataType": "Configuration",
+          "MaxResponseSizeRecorded": 10000,
+          "MaxNumberOfRequestsRecorded": 100,
+          "RefreshInterval": 1
+        }
+      ]
+    }
+  ],
+  "TestRunsResults": [
+  ]
+}

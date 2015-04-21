@@ -219,6 +219,10 @@
       <Project>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</Project>
       <Name>fwptt.TestProject</Name>
     </ProjectReference>
+    <ProjectReference Include="..\fwptt.Web.HTTP.Test\fwptt.Web.HTTP.Test.csproj">
+      <Project>{d7b5afd0-5409-4cbc-9ba7-1282deaab097}</Project>
+      <Name>fwptt.Web.HTTP.Test</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataSources\ucTextFileDataSourceConfiguration.resx">

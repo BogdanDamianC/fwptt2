@@ -334,7 +334,16 @@ namespace fwptt.Desktop.App.UI
 
         private void newTestRunDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (!CanCreateNewItem())
+                return;
+            if (!TestProjectHost.Current.Project.TestDefinitions.Any())
+            {
+                MessageBox.Show(this, "Please create a Test Definition before creating a Test Run - the Test Run will be linked to a Test Definition", "Can't create a new Test Run");
+                return;
+            }
+            var newTR = TestProjectHost.Current.NewTestProjectDefinitionTestRun();
+            AddTestRunDefinition(newTR);
+            tryOpenCreateItemTestRunDefinition(newTR);
         }
 
         private void openTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)

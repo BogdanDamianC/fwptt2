@@ -21,6 +21,8 @@ namespace fwptt.TestProject.Run
     {
         protected ITimeLineController timelineCtrl = null;
         protected object testRunRecord;
+        protected bool CancelCurrentRunIteration = false;
+
         public event Action<IRequestInfo> RequestStarted;
         public event Action<IRequestInfo> RequestEnded;
 
@@ -30,10 +32,11 @@ namespace fwptt.TestProject.Run
             return CurrentRequest;
         }
 
-        protected async Task InitializeCurrentRequest()
+        protected async Task<bool> InitializeCurrentRequest()
         {
             CurrentRequest = new RI();
             await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests);
+            return !CancelCurrentRunIteration;
         }
 
         protected void onRequestStarted()
@@ -54,6 +57,7 @@ namespace fwptt.TestProject.Run
 		{
 			this.timelineCtrl = ptimeline;
             this.testRunRecord = testRunRecord;
+            this.CancelCurrentRunIteration = false;
 			await RunTest();
 		}
 

@@ -6,7 +6,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C202C444-15DC-45E9-9445-58EFBC372752}</ProjectGuid>
     <RootNamespace>fwptt.Desktop.App</RootNamespace>
-    <AssemblyName>fwptt2</AssemblyName>
+    <AssemblyName>fwptt2.Desktop.App</AssemblyName>
     <OutputType>WinExe</OutputType>
     <RunPostBuildEvent>OnSuccessfulBuild</RunPostBuildEvent>
     <PreBuildEvent />

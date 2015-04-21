@@ -20,13 +20,15 @@
  *
  */
 
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using fwptt.TestProject.Run.Data;
 
-namespace fwptt.TestProject.Run.Data
+namespace fwptt.Web.HTTP.Test.Data
 {
 	[Serializable]	
 	public class WebRequest
@@ -73,7 +75,7 @@ namespace fwptt.TestProject.Run.Data
 					retVal.URL = address.Scheme + "://" + address.Host + address.AbsolutePath;
                     retVal.Port = address.Port;
 					if(!string.IsNullOrWhiteSpace(address.Query))
-						retVal.QueryParams.AddRange(BaseWebTest.ParseRequestData(address.Query.Substring(1)));
+                        retVal.QueryParams.AddRange(BaseHTTPTest.ParseRequestData(address.Query.Substring(1)));
 					continue;
 				}
 				var httpproperty = GetHttpProperty(lineText);
@@ -88,7 +90,7 @@ namespace fwptt.TestProject.Run.Data
 					retVal.Payload = lineText;
 					if(retVal.PayloadContentType == "application/x-www-form-urlencoded")
 					{
-						retVal.PostParams.AddRange(BaseWebTest.ParseRequestData(retVal.Payload));
+                        retVal.PostParams.AddRange(BaseHTTPTest.ParseRequestData(retVal.Payload));
 					}
 					break;
 				}

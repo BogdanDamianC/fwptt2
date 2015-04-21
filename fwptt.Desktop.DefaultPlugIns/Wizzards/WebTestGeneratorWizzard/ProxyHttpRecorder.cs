@@ -28,6 +28,8 @@ using System.Text;
 using System.Net;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Run;
+using fwptt.Web.HTTP.Test.Data;
+using fwptt.Web.HTTP.Test;
 
 
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
@@ -80,7 +82,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 					return;
 				}
 
-            var newr = new fwptt.TestProject.Run.Data.WebRequest
+            var newr = new fwptt.Web.HTTP.Test.Data.WebRequest
             {
                 URL = tmpuri.Scheme + "://" + tmpuri.Host + tmpuri.Path,
                 Port = tmpuri.Port
@@ -91,15 +93,15 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			if(qery.Length > 0)
 			{				
 				if(qery[0] == '?')
-					newr.QueryParams = BaseWebTest.ParseRequestData(qery.Substring(1));
+                    newr.QueryParams = BaseHTTPTest.ParseRequestData(qery.Substring(1));
 				else
-					newr.QueryParams = BaseWebTest.ParseRequestData(qery);
+                    newr.QueryParams = BaseHTTPTest.ParseRequestData(qery);
 			}
 			
 			newr.RequestMethod = Method.ToUpper();
 
 			if(newr.RequestMethod == "POST")
-				newr.PostParams = BaseWebTest.ParseRequestData(System.Web.HttpUtility.UrlDecode(PostData));
+                newr.PostParams = BaseHTTPTest.ParseRequestData(System.Web.HttpUtility.UrlDecode(PostData));
 
             RequestsMade.Requests.Add(newr);
 		}

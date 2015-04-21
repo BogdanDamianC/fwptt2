@@ -127,13 +127,14 @@
             this.ctxTestRunDefinition.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newTestRunDefinitionToolStripMenuItem});
             this.ctxTestRunDefinition.Name = "ctxTestRunDefinition";
-            this.ctxTestRunDefinition.Size = new System.Drawing.Size(203, 26);
+            this.ctxTestRunDefinition.Size = new System.Drawing.Size(203, 48);
             // 
             // newTestRunDefinitionToolStripMenuItem
             // 
             this.newTestRunDefinitionToolStripMenuItem.Name = "newTestRunDefinitionToolStripMenuItem";
             this.newTestRunDefinitionToolStripMenuItem.Size = new System.Drawing.Size(202, 22);
             this.newTestRunDefinitionToolStripMenuItem.Text = "New Test Run Definition";
+            this.newTestRunDefinitionToolStripMenuItem.Click += new System.EventHandler(this.newTestRunDefinitionToolStripMenuItem_Click);
             // 
             // ctxTestRunDefinitionItem
             // 

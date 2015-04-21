@@ -43,6 +43,7 @@ using Ionic.Zip;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using fwptt.TestProject.Project.Interfaces;
+using fwptt.Web.HTTP.Test.Data;
 
 
 
@@ -408,7 +409,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                 return;
 			try
 			{
-				var importedRecords = new List<Tuple<int, WebRequest>>();
+                var importedRecords = new List<Tuple<int, fwptt.Web.HTTP.Test.Data.WebRequest>>();
                 var unImportedRequests = new List<string>();
                 using (ZipFile zipFile = ZipFile.Read(fileToOpen))
 				{
@@ -422,9 +423,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                         try
                         {
                             RequestMessage = GetZipRequestFileContent(ze);
-                            var newRequest = WebRequest.FromFiddlerLog(RequestMessage);
+                            var newRequest = fwptt.Web.HTTP.Test.Data.WebRequest.FromFiddlerLog(RequestMessage);
                             if (newRequest != null && newRequest.RequestMethod.ToUpper() != "CONNECT")
-                                importedRecords.Add(new Tuple<int, WebRequest>(requestIndex, newRequest));
+                                importedRecords.Add(new Tuple<int, fwptt.Web.HTTP.Test.Data.WebRequest>(requestIndex, newRequest));
 
                         }
                         catch (Exception ex)

@@ -9,10 +9,13 @@ using System.IO;
 using System.Text;
 using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
+using fwptt.Web.HTTP.Test;
+using fwptt.Web.HTTP.Test.Data;
+using CsQuery;
 
 namespace IETests
 {
-	public class <#= TestDefinition.ClassName #>:BaseWebTest
+	public class <#= TestDefinition.ClassName #>:BaseHTTPTest
 	{
 		//var actions = new List<Func<Task>>();
 		public <#= TestDefinition.ClassName #>():base("<#=BaseUrl#>",
@@ -21,16 +24,17 @@ namespace IETests
 		{			
 			
 		}
+
 		<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 
 		{
 			var request = TestDefinition.Requests[index];
 		#>
 	
-		
 		#region Peristor - <#= index #> <#= request.URL #>
 		private async Task <#= GetMethodName(index) #>()
 		{
-			await InitializeCurrentRequest();
+            if (!await InitializeCurrentRequest())
+                return;
 			CurrentRequest.Request.URL = @"<#= request.URL #>";
 			CurrentRequest.Request.Port = <#= request.Port #>;
 			CurrentRequest.Request.RequestMethod = @"<#= request.RequestMethod??"GET" #>";
@@ -46,10 +50,10 @@ namespace IETests
 			{ #>CurrentRequest.Request.PostParams.Add(new RequestParam(@"<#=pp.ParamName #>",@"<#=pp.ParamValue??string.Empty #>"));
 			<# }  #>
 
-			var req = GetRequest();		
-			var resp = await GetResponse(req);
-			
-			//Add response handling stuff here if needed
+			var req = BuildRequest();		
+			await ExecuteRequest(req,(resp)=>{
+				return true;//Add response handling stuff here if needed - return true for the current run to continue or false to cancel it
+			});
 		}
 		#endregion
 		<# } #>

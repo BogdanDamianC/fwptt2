@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 
  * Namespace Summary
  * Copyright (C) 2007+ Bogdan Damian Constantin
@@ -20,18 +20,17 @@
  *
  */
 
+
 using System;
-using System.Collections;
-using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace fwptt.TestProject.HTMLContent
+namespace fwptt.TestProject.Project.Interfaces
 {
-	[Serializable]	
-	public class HTMLControl 	{
-        public string name { get; set; }
-        public string value { get; set; }
-        public string Control_id { get; set; }
-        public string Type { get; set; }
-	}
+    public interface ITestDataSourceReader:IDisposable
+    {
+        object GetRecord(ulong iteration);
+    }
 }
-

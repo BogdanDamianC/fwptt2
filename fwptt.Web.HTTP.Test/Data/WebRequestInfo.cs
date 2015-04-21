@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 
  * Namespace Summary
  * Copyright (C) 2007+ Bogdan Damian Constantin
@@ -21,22 +21,35 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using fwptt.TestProject.Run.Data;
 
-namespace fwptt.TestProject.Run.Data
+namespace fwptt.Web.HTTP.Test.Data
 {
-	[Serializable]	
-	public class RecordedTestDefinition
-	{
-        public RecordedTestDefinition(){
-            Requests = new List<WebRequest>();
+    public class WebRequestInfo:RequestInfo<WebRequest, string>
+    {
+        public WebRequestInfo()
+        {
+            this.Request = new WebRequest();
         }
-        public string NameSpace { get; set; }
-        public string ClassName { get; set; }
-        public List<WebRequest> Requests { get; set; }
-		
-	}
-}
+        public Int32 ResponseCode { get; set; }
+        public override string ResponseToString()
+        {
+            return Response;
+        }
 
+        private const string infoSeparator = "  -|-  ";
+        public override string ToString()
+        {
+            string ret = Errors.Any() ? "Error" : "OK";
+            ret += infoSeparator;
+            ret = Request.RequestMethod + infoSeparator + Request.URL + infoSeparator;
+            if (Errors.Any())
+                ret += " Error Details:" + string.Join("| ", Errors);
+            return ret;
+        }
+    }
+}

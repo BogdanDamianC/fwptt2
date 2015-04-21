@@ -1,15 +1,37 @@
-﻿using System;
+﻿/*
+ * 
+ * Namespace Summary
+ * Copyright (C) 2007+ Bogdan Damian Constantin
+ * WEB: http://fwptt.sourceforge.net/
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
-using fwptt.TestProject;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Reflection;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
-using System.Reflection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
@@ -64,7 +86,8 @@ namespace fwptt.TestProject
         {
             return new KeyValuePair<string, string>[]
             {
-                new KeyValuePair<string,string>(TestProjectDefinition.ApplicationStartupPathIdentifier,ApplicationStartupPath + Path.DirectorySeparatorChar),
+                new KeyValuePair<string,string>(TestProjectDefinition.ApplicationStartupPathIdentifier, ApplicationStartupPath + Path.DirectorySeparatorChar),
+                new KeyValuePair<string,string>(TestProjectDefinition.ApplicationPluginPathIdentifier, Current.PluginsPath + Path.DirectorySeparatorChar),
                 new KeyValuePair<string,string>(TestProjectDefinition.ProjectPathIdentifier,GetProjectRelatedFilePath(string.Empty))
             };
         }
@@ -155,11 +178,20 @@ namespace fwptt.TestProject
 
         private void SearchForPlugInTypes()
         {
+            var dirinfo = new DirectoryInfo(PluginsPath);
+            if (!dirinfo.Exists)
+                throw new ApplicationException("The Plugins folder is missing => " + PluginsPath);
+
             loadedAssemblies = new Dictionary<string, Assembly>();
             CurrentDomain_AssemblyResolve = (object sender, ResolveEventArgs args) =>
                 {
                     Assembly assembly = null;
                     loadedAssemblies.TryGetValue(args.Name, out assembly);
+                    if (assembly == null)
+                    {
+                        assembly = Assembly.LoadFile(dirinfo.FullName + Path.DirectorySeparatorChar + args.Name.Split(',')[0] + ".dll");
+                        loadedAssemblies[assembly.FullName] = assembly;
+                    }
                     return assembly;
                 };
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
@@ -167,9 +199,7 @@ namespace fwptt.TestProject
             var pluginTypes = new List<ExpandableSetting>();
             var testDefinitionGeneratorWizzardTypes = new List<Type>();
 
-            var dirinfo = new DirectoryInfo(PluginsPath);
-            if (!dirinfo.Exists)
-                throw new ApplicationException("The Plugins folder is missing => " + PluginsPath);
+            
 
             var pluginAssemblies = dirinfo.GetFiles("*.dll");
             if(!pluginAssemblies.Any())

@@ -25,16 +25,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace fwptt.TestProject.HTMLContent
+namespace fwptt.Web.HTTP.Test.Data
 {
 	[Serializable]	
-	public class HTMLForm
+	public class RecordedTestDefinition
 	{
-        public string name { get; set; }
-        public string method { get; set; }
-        public string action { get; set; }
-        public string Form_id { get; set; }
-        public List<HTMLControl> Controls { get; set; }
+        public RecordedTestDefinition(){
+            Requests = new List<WebRequest>();
+        }
+        public string NameSpace { get; set; }
+        public string ClassName { get; set; }
+        public List<WebRequest> Requests { get; set; }
+		
 	}
 }
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using fwptt.TestProject.Run.Data;
+using fwptt.Web.HTTP.Test.Data;
 
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {

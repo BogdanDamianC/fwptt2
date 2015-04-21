@@ -6,7 +6,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</ProjectGuid>
     <RootNamespace>fwptt.TestProject</RootNamespace>
-    <AssemblyName>fwptt.RequestsPlayer</AssemblyName>
+    <AssemblyName>fwptt.TestProject</AssemblyName>
     <OutputType>Library</OutputType>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <PreBuildEvent />
@@ -71,15 +71,8 @@
     <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTMLparserDotNet11, Version=3.1.0.31145, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLLs\HTMLparserDotNet11.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -96,13 +89,10 @@
     <Compile Include="Project\TimeLine\BaseTestRunTimeLine.cs" />
     <Compile Include="Project\TimeLine\TimeLineStatus.cs" />
     <Compile Include="Run\BaseTest.cs" />
-    <Compile Include="Run\BaseWebTest.cs" />
     <Compile Include="Project\Data\JsonCreationConverter.cs" />
     <Compile Include="Run\Data\TestLoadInfo.cs" />
-    <Compile Include="Run\Data\WebRequest.cs" />
     <Compile Include="Run\Data\RequestInfo.cs" />
     <Compile Include="Run\Data\RequestParam.cs" />
-    <Compile Include="Project\RecordedTestDefinition.cs" />
     <Compile Include="Project\Interfaces\IExtendableComponent.cs" />
     <Compile Include="Project\Interfaces\IRequestPlayerPlugIn.cs" />
     <Compile Include="Project\Interfaces\ITestRunConfigurationComponent.cs" />
@@ -111,12 +101,8 @@
     <Compile Include="Project\TestProjectDefinition.cs" />
     <Compile Include="Project\TestRunDefinition.cs" />
     <Compile Include="Project\TestRunResults.cs" />
-    <Compile Include="Run\Data\WebRequestInfo.cs" />
     <Compile Include="TestProjectHost.cs" />
     <Compile Include="Run\TestRunner.cs" />
-    <Compile Include="HTMLContent\ContentParser.cs" />
-    <Compile Include="HTMLContent\HTMLControl.cs" />
-    <Compile Include="HTMLContent\HTMLForm.cs" />
     <Compile Include="Project\TimeLine\BaseTimeLineController.cs" />
   </ItemGroup>
   <ItemGroup>

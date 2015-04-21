@@ -58,7 +58,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Task.Delay(500).ContinueWith((task) => { webBrowser1.Document.Write(contentToDisplay); });
+            webBrowser1.Document.Write(contentToDisplay);
         }
 
 		/// <summary>
