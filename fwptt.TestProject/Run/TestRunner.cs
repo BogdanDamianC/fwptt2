@@ -57,11 +57,13 @@ namespace fwptt.TestProject.Run
         private System.Collections.Concurrent.ConcurrentQueue<IBaseTest> inactiveTestInstancesPool;
 
 		private ITimeLineController timelineCtrl;
+        private Dictionary<string, string> Properties;
         private ITestDataSourceReader testDataSource;
 
-		public TestRunner(ITimeLineController timeline, Type runningTestType, ITestDataSourceReader testDataSource)
+		public TestRunner(ITimeLineController timeline, Type runningTestType, Dictionary<string, string> Properties, ITestDataSourceReader testDataSource)
 		{
 			timelineCtrl = timeline;
+            this.Properties = Properties;
             this.testDataSource = testDataSource;
 			this.runningTestType = runningTestType;
 			runnerRequestStartedEventhandler = new Action<IRequestInfo>(TestRunner_RequestStarted);
@@ -108,7 +110,7 @@ namespace fwptt.TestProject.Run
             }
             object runData = testDataSource != null ? testDataSource.GetRecord(currentIteration.Value) : null;
             //newInstance.Proxy = this.Proxy;
-            newInstance.StartTest(timelineCtrl, runData).ContinueWith(async (Task a) =>
+            newInstance.StartTest(timelineCtrl, Properties, runData).ContinueWith(async (Task a) =>
             {
                 await a;
                 timelineCtrl.IterationExecutionEnded(currentIteration.Value);

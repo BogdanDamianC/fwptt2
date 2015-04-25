@@ -47,6 +47,7 @@ namespace fwptt.Desktop.App.UI
             this.tabPageCompile = new System.Windows.Forms.TabPage();
             this.txtCompileResults = new System.Windows.Forms.TextBox();
             this.pnlActionButtons = new System.Windows.Forms.Panel();
+            this.btnSaveSourceCode2 = new System.Windows.Forms.Button();
             this.btnCompileCode = new System.Windows.Forms.Button();
             this.grpAssemblies = new System.Windows.Forms.GroupBox();
             this.lstBoxAssemplies = new System.Windows.Forms.ListBox();
@@ -54,7 +55,8 @@ namespace fwptt.Desktop.App.UI
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnAddAssembly = new System.Windows.Forms.Button();
             this.btnDeleteAssembly = new System.Windows.Forms.Button();
-            this.btnSaveSourceCode2 = new System.Windows.Forms.Button();
+            this.tabPageProperties = new System.Windows.Forms.TabPage();
+            this.ucTestDefinitionProperties = new fwptt.Desktop.App.UI.ucTestDefinitionProperties();
             this.tabControl1.SuspendLayout();
             this.tabPageCode.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -63,6 +65,7 @@ namespace fwptt.Desktop.App.UI
             this.pnlActionButtons.SuspendLayout();
             this.grpAssemblies.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabPageProperties.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -78,6 +81,7 @@ namespace fwptt.Desktop.App.UI
             // 
             this.tabControl1.Controls.Add(this.tabPageCode);
             this.tabControl1.Controls.Add(this.tabPageCompile);
+            this.tabControl1.Controls.Add(this.tabPageProperties);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -183,6 +187,16 @@ namespace fwptt.Desktop.App.UI
             this.pnlActionButtons.Size = new System.Drawing.Size(621, 29);
             this.pnlActionButtons.TabIndex = 8;
             // 
+            // btnSaveSourceCode2
+            // 
+            this.btnSaveSourceCode2.Location = new System.Drawing.Point(135, 3);
+            this.btnSaveSourceCode2.Name = "btnSaveSourceCode2";
+            this.btnSaveSourceCode2.Size = new System.Drawing.Size(209, 23);
+            this.btnSaveSourceCode2.TabIndex = 7;
+            this.btnSaveSourceCode2.Text = "Save C# Source Code ";
+            this.btnSaveSourceCode2.UseVisualStyleBackColor = true;
+            this.btnSaveSourceCode2.Click += new System.EventHandler(this.btnSaveSourceCode_Click);
+            // 
             // btnCompileCode
             // 
             this.btnCompileCode.Location = new System.Drawing.Point(3, 3);
@@ -258,15 +272,23 @@ namespace fwptt.Desktop.App.UI
             this.btnDeleteAssembly.UseVisualStyleBackColor = true;
             this.btnDeleteAssembly.Click += new System.EventHandler(this.BtnDeleteAssemblyClick);
             // 
-            // btnSaveSourceCode2
+            // tabPageProperties
             // 
-            this.btnSaveSourceCode2.Location = new System.Drawing.Point(135, 3);
-            this.btnSaveSourceCode2.Name = "btnSaveSourceCode2";
-            this.btnSaveSourceCode2.Size = new System.Drawing.Size(209, 23);
-            this.btnSaveSourceCode2.TabIndex = 7;
-            this.btnSaveSourceCode2.Text = "Save C# Source Code ";
-            this.btnSaveSourceCode2.UseVisualStyleBackColor = true;
-            this.btnSaveSourceCode2.Click += new System.EventHandler(this.btnSaveSourceCode_Click);
+            this.tabPageProperties.Controls.Add(this.ucTestDefinitionProperties);
+            this.tabPageProperties.Location = new System.Drawing.Point(4, 22);
+            this.tabPageProperties.Name = "tabPageProperties";
+            this.tabPageProperties.Size = new System.Drawing.Size(627, 433);
+            this.tabPageProperties.TabIndex = 2;
+            this.tabPageProperties.Text = "Properties";
+            this.tabPageProperties.UseVisualStyleBackColor = true;
+            // 
+            // ucTestDefinitionProperties
+            // 
+            this.ucTestDefinitionProperties.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ucTestDefinitionProperties.Location = new System.Drawing.Point(0, 0);
+            this.ucTestDefinitionProperties.Name = "ucTestDefinitionProperties";
+            this.ucTestDefinitionProperties.Size = new System.Drawing.Size(627, 433);
+            this.ucTestDefinitionProperties.TabIndex = 0;
             // 
             // frmTestDefinitionSourceCodeEditor
             // 
@@ -289,6 +311,7 @@ namespace fwptt.Desktop.App.UI
             this.grpAssemblies.ResumeLayout(false);
             this.grpAssemblies.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tabPageProperties.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -311,5 +334,7 @@ namespace fwptt.Desktop.App.UI
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel Statuslabel;
         private System.Windows.Forms.Button btnSaveSourceCode2;
+        private System.Windows.Forms.TabPage tabPageProperties;
+        private ucTestDefinitionProperties ucTestDefinitionProperties;
 	}
 }

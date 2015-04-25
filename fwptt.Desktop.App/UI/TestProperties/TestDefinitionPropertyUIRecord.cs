@@ -24,27 +24,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using fwptt.TestProject.Project.Interfaces;
+using fwptt.TestProject.Project;
 
-namespace fwptt.TestProject.Project.Data
+namespace fwptt.Desktop.App.UI.TestProperties
 {
-    /// <summary>
-    /// this abstract class is used for identifying all the data classes used by the plugins
-    /// </summary>
-    [JsonConverter(typeof(ExtendableDataJSONConverter))]
-    public abstract class ExtendableData: ICloneable
+    public class TestDefinitionPropertyUIRecord
     {
-        public abstract string UniqueName { get; }
-        [JsonConverter(typeof(StringEnumConverter))]
-        public abstract ExpandableDataType DataType { get; }
-
-        public virtual object Clone()
+        public TestDefinitionPropertyUIRecord() { }
+        public TestDefinitionPropertyUIRecord(TestDefinitionProperty Prop, TestDefinitionPropertyValue OverridedValue)
         {
-            return this.MemberwiseClone();
+            this.Prop = Prop;
+            this.OverridedValue = OverridedValue;
+        }
+
+        public TestDefinitionProperty Prop { get; set; }
+        public TestDefinitionPropertyValue OverridedValue { get; set; }
+
+        public override string ToString()
+        {
+            string ret = Prop.Name + " ===>> ";
+            if (OverridedValue == null || OverridedValue.Value == null)
+                ret += Prop.DefaultValue;
+            else
+                ret += " O ==> " + OverridedValue.Value;
+            return ret;
         }
     }
 }

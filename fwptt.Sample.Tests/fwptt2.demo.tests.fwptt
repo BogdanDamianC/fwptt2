@@ -12,6 +12,33 @@
         "[fwptt_application_pluginpath]RestSharp.dll",
         "[fwptt_application_pluginpath]CsQuery.dll",
         "[fwptt_application_pluginpath]fwptt.Web.HTTP.Test.dll"
+      ],
+      "Properties": []
+    },
+    {
+      "Id": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+      "TestDefinitionFile": "UserRegistration_With_Params.cs",
+      "Assemblies": [
+        "System.dll",
+        "System.Data.dll",
+        "System.Xml.dll",
+        "System.Core.dll",
+        "[fwptt_application_startuppath]fwptt.TestProject.dll",
+        "[fwptt_application_pluginpath]RestSharp.dll",
+        "[fwptt_application_pluginpath]CsQuery.dll",
+        "[fwptt_application_pluginpath]fwptt.Web.HTTP.Test.dll"
+      ],
+      "Properties": [
+        {
+          "Id": "00000000-0000-0000-0000-0000000000a1",
+          "Name": "Root Path",
+          "DefaultValue": "/testSites"
+        },
+        {
+          "Id": "35574ec8-fea7-4263-b4cb-ec8153f704b4",
+          "Name": "Site Domain",
+          "DefaultValue": "http://localhost"
+        }
       ]
     }
   ],
@@ -30,6 +57,7 @@
       "Id": "79191cf3-7b76-4593-b049-a918fc96ec81",
       "Name": "Users Registration",
       "TestDefinitionId": "01db1c48-4748-47c4-a5ab-051302008212",
+      "TestDefinitionOverridedPropertyValues": [],
       "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
       "TimeLine": {
         "Hours": 0,
@@ -54,8 +82,443 @@
           "RefreshInterval": 1
         }
       ]
+    },
+    {
+      "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+      "Name": "User Registration With Params",
+      "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+      "TestDefinitionOverridedPropertyValues": [
+        {
+          "TestDefinitionPropertyId": "35574ec8-fea7-4263-b4cb-ec8153f704b4",
+          "Value": "http://127.0.0.1"
+        }
+      ],
+      "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+      "TimeLine": {
+        "Hours": 0,
+        "Minutes": 5,
+        "NoOfThreads": 2,
+        "PauseBetweenRequests": 100,
+        "RampUpMinutes": 0,
+        "RampUpSeconds": 30,
+        "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+        "DataType": "Configuration"
+      },
+      "RunPlugins": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "Configuration"
+        },
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+          "DataType": "Configuration",
+          "MaxResponseSizeRecorded": 1000,
+          "MaxNumberOfRequestsRecorded": 100,
+          "RefreshInterval": 5
+        }
+      ]
     }
   ],
   "TestRunsResults": [
+    {
+      "Name": "User Registration With Params4/24/2015 11:20:05 PM",
+      "TestRunDefinition": {
+        "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+        "Name": "User Registration With Params",
+        "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+        "TestDefinitionOverridedPropertyValues": [
+          {
+            "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+            "Value": "http://127.0.0.1/testSites/"
+          }
+        ],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 2,
+          "PauseBetweenRequests": 100,
+          "RampUpMinutes": 0,
+          "RampUpSeconds": 30,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 0,
+            "MaxNumberOfRequestsRecorded": 0,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Main Site Root Path",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+          "Value": "http://127.0.0.1/testSites/"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "User Registration With Params4/24/2015 11:21:17 PM",
+      "TestRunDefinition": {
+        "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+        "Name": "User Registration With Params",
+        "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+        "TestDefinitionOverridedPropertyValues": [
+          {
+            "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+            "Value": "http://127.0.0.1/testSites/"
+          }
+        ],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 2,
+          "PauseBetweenRequests": 100,
+          "RampUpMinutes": 0,
+          "RampUpSeconds": 30,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 1000,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Main Site Root Path",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+          "Value": "http://127.0.0.1/testSites/"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "User Registration With Params4/24/2015 11:23:32 PM",
+      "TestRunDefinition": {
+        "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+        "Name": "User Registration With Params",
+        "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+        "TestDefinitionOverridedPropertyValues": [
+          {
+            "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+            "Value": "http://127.0.0.1/testSites/"
+          }
+        ],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 2,
+          "PauseBetweenRequests": 100,
+          "RampUpMinutes": 0,
+          "RampUpSeconds": 30,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 1000,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Main Site Root Path",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+          "Value": "http://127.0.0.1/testSites/"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "User Registration With Params4/24/2015 11:24:47 PM",
+      "TestRunDefinition": {
+        "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+        "Name": "User Registration With Params",
+        "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+        "TestDefinitionOverridedPropertyValues": [
+          {
+            "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+            "Value": "http://127.0.0.1/testSites/"
+          }
+        ],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 2,
+          "PauseBetweenRequests": 100,
+          "RampUpMinutes": 0,
+          "RampUpSeconds": 30,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 1000,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Main Site Root Path",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+          "Value": "http://127.0.0.1/testSites/"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "User Registration With Params4/24/2015 11:25:36 PM",
+      "TestRunDefinition": {
+        "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+        "Name": "User Registration With Params",
+        "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+        "TestDefinitionOverridedPropertyValues": [
+          {
+            "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+            "Value": "http://127.0.0.1/testSites/"
+          }
+        ],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 2,
+          "PauseBetweenRequests": 100,
+          "RampUpMinutes": 0,
+          "RampUpSeconds": 30,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 1000,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Main Site Root Path",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+          "Value": "http://127.0.0.1/testSites/"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Users Registration4/24/2015 11:31:35 PM",
+      "TestRunDefinition": {
+        "Id": "79191cf3-7b76-4593-b049-a918fc96ec81",
+        "Name": "Users Registration",
+        "TestDefinitionId": "01db1c48-4748-47c4-a5ab-051302008212",
+        "TestDefinitionOverridedPropertyValues": [],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 50,
+          "PauseBetweenRequests": 50,
+          "RampUpMinutes": 1,
+          "RampUpSeconds": 0,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 10000,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 1
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "User Registration With Params4/24/2015 11:32:04 PM",
+      "TestRunDefinition": {
+        "Id": "853cd0e9-e0ea-4877-95c6-5c8e25d84ebc",
+        "Name": "User Registration With Params",
+        "TestDefinitionId": "8c745c17-8ffc-4414-a1ab-7fee89c6810f",
+        "TestDefinitionOverridedPropertyValues": [
+          {
+            "TestDefinitionPropertyId": "35574ec8-fea7-4263-b4cb-ec8153f704b4",
+            "Value": "http://127.0.0.1/"
+          }
+        ],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "Hours": 0,
+          "Minutes": 5,
+          "NoOfThreads": 2,
+          "PauseBetweenRequests": 100,
+          "RampUpMinutes": 0,
+          "RampUpSeconds": 30,
+          "UniqueName": "fwptt -> Default -> TimeBased TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 1000,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Root Path",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-0000000000a1",
+          "Value": "/testSites"
+        },
+        {
+          "Name": "Site Domain",
+          "TestDefinitionPropertyId": "35574ec8-fea7-4263-b4cb-ec8153f704b4",
+          "Value": "http://127.0.0.1/"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0
+          }
+        }
+      ]
+    }
   ]
 }

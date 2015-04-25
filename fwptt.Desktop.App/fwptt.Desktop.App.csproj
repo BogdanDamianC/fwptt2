@@ -117,11 +117,24 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <Compile Include="UI\frmTestRunDefinition.Designer.cs">
       <DependentUpon>frmTestRunDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\TestProperties\TestDefinitionPropertyUIRecord.cs" />
+    <Compile Include="UI\TestProperties\ucEditTestDefinitionValues.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\TestProperties\ucEditTestDefinitionValues.Designer.cs">
+      <DependentUpon>ucEditTestDefinitionValues.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\ucExploreTestProject.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\ucExploreTestProject.Designer.cs">
       <DependentUpon>ucExploreTestProject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TestProperties\ucTestDefinitionProperties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\TestProperties\ucTestDefinitionProperties.Designer.cs">
+      <DependentUpon>ucTestDefinitionProperties.cs</DependentUpon>
     </Compile>
     <Content Include="App.ico" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -194,8 +207,14 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <EmbeddedResource Include="UI\frmTestRunDefinition.resx">
       <DependentUpon>frmTestRunDefinition.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\TestProperties\ucEditTestDefinitionValues.resx">
+      <DependentUpon>ucEditTestDefinitionValues.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\ucExploreTestProject.resx">
       <DependentUpon>ucExploreTestProject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\TestProperties\ucTestDefinitionProperties.resx">
+      <DependentUpon>ucTestDefinitionProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />

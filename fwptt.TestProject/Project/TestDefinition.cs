@@ -29,6 +29,7 @@ namespace fwptt.TestProject.Project
     {
         public TestDefinition() {
             Assemblies = new List<string>();
+            Properties = new List<TestDefinitionProperty>();
         }
         public TestDefinition(string FileName):this()
         {
@@ -46,5 +47,8 @@ namespace fwptt.TestProject.Project
         public Guid Id { get; set; }
         public string TestDefinitionFile { get; set; }
         public List<string> Assemblies { get; set; }
+        public List<TestDefinitionProperty> Properties { get; set; }
     }
+
+
 }

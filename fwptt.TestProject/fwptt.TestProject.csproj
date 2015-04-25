@@ -86,6 +86,7 @@
     <Compile Include="Project\Interfaces\ITestDefinitionGeneratorWizzard.cs" />
     <Compile Include="Project\Interfaces\ITestDataSourceReader.cs" />
     <Compile Include="Project\BaseTestDataSource.cs" />
+    <Compile Include="Project\TestDefinitionProperty.cs" />
     <Compile Include="Project\TimeLine\BaseTestRunTimeLine.cs" />
     <Compile Include="Project\TimeLine\TimeLineStatus.cs" />
     <Compile Include="Run\BaseTest.cs" />

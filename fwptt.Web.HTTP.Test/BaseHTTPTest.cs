@@ -47,13 +47,13 @@ namespace fwptt.Web.HTTP.Test
 
 		private string AcceptedContent;// = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";
 
-        protected BaseHTTPTest(string baseUrl, string UserAgent, string AcceptedContent)
-		{
+        protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
+        {
             client = new RestClient(baseUrl);
-			client.UserAgent = UserAgent;
+            client.UserAgent = UserAgent;
+            client.CookieContainer = new System.Net.CookieContainer();
             this.AcceptedContent = AcceptedContent;
-
-		}
+        }
 
 		public System.Net.WebProxy Proxy {get; set;}
 		
@@ -63,7 +63,6 @@ namespace fwptt.Web.HTTP.Test
         {
             UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
             address.Port = CurrentRequest.Request.Port;
-            //address.Query = GetRequestQuery(CurrentRequest.Request.QueryParams);
 
             var req = new RestRequest(address.Uri, (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true));
             if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
@@ -113,46 +112,6 @@ namespace fwptt.Web.HTTP.Test
                 return;
             }
         }
-
-//		protected void SetRequestData(HttpWebRequest req)
-//		{
-//			try
-//			{	
-//                req.Accept = AcceptedContent;
-//
-//				/*var ctrls = parser.GetLastControlsData(req.Method, req.Address);
-//                foreach (RequestParam rp in currentRequest.PostParams)
-//                    if (rp.ParamName != "__VIEWSTATE" || rp.ParamName != "__VSTATE")
-//						ctrls[rp.ParamName] = rp.ParamValue;*/
-//
-//				StringBuilder postData = new StringBuilder();
-//				foreach(string paramname in ctrls.Keys)
-//				{
-//					if(postData.Length > 0)
-//						postData.Append("&");
-//					//postData.Append(paramname + "="+System.Web.HttpUtility.HtmlEncode(ctrls[paramname]));
-//                    postData.Append(paramname + "=" + ctrls[paramname]);
-//				}
-//				UTF8Encoding encod = new UTF8Encoding();
-//				byte[] postDataBytes = encod.GetBytes(postData.ToString());
-//				if(postDataBytes.Length > 0)
-//				{
-//                    req.ContentType = currentRequest.RequestType;
-//					req.ContentLength = postDataBytes.Length;
-//					Stream postDataStream = req.GetRequestStream();
-//					postDataStream.Write(postDataBytes, 0, postDataBytes.Length);
-//					postDataStream.Close();
-//				}
-//			}
-//            catch (System.Threading.ThreadAbortException ex) //make sure that the exception stops the current thread
-//            {
-//                throw ex;
-//            }
-//			catch(Exception ex)
-//			{
-//				SetException(ex);
-//			}
-//		}
 
 		#endregion
 

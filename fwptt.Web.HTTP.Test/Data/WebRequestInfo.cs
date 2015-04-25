@@ -41,12 +41,10 @@ namespace fwptt.Web.HTTP.Test.Data
             return Response;
         }
 
-        private const string infoSeparator = "  -|-  ";
         public override string ToString()
         {
             string ret = Errors.Any() ? "Error" : "OK";
-            ret += infoSeparator;
-            ret = Request.RequestMethod + infoSeparator + Request.URL + infoSeparator;
+            ret = "[" + Request.RequestMethod + "] [" + (Errors.Any() ? "Error" : "OK") + "] [" + Request.URL + "]";
             if (Errors.Any())
                 ret += " Error Details:" + string.Join("| ", Errors);
             return ret;

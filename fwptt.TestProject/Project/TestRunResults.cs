@@ -20,10 +20,11 @@
  *
  */
 
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace fwptt.TestProject.Project
 {
@@ -33,13 +34,26 @@ namespace fwptt.TestProject.Project
         {
             PluginsResults = new List<ExtendableData>();
         }
+
+        public TestRunResults(TestRunDefinition trd, TestDefinition td):this()
+        {
+            PluginsResults = new List<ExtendableData>();
+            Name = trd.Name + DateTime.Now.ToString();
+            TestRunDefinition = (TestRunDefinition)trd.Clone();
+            RunTestDefinitionProperties = (from prop in td.Properties
+                                                                      join overr in trd.TestDefinitionOverridedPropertyValues on prop.Id equals overr.TestDefinitionPropertyId 
+                                                                      into gj
+                                                                      from subov in gj.DefaultIfEmpty()
+                                                                select new TestDefinitionRunPropertyValue(prop.Id, subov != null ? subov.Value : prop.DefaultValue, prop.Name)).ToList();
+        }
+
         public string Name { get; set; }
         /// <summary>
         /// this is a copy down of the test run definition that was used initially
         /// the purpose of the copy down is to preserve the test definition detais unchanged after the run is donw the first time 
         /// </summary>
         public TestRunDefinition TestRunDefinition { get; set; }
-
+        public List<TestDefinitionRunPropertyValue> RunTestDefinitionProperties { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public List<ExtendableData> PluginsResults { get; set; }

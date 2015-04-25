@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserRegistration_With_Params.cs" />
     <Compile Include="UsersRegistration.cs" />
   </ItemGroup>
   <ItemGroup>

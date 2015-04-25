@@ -21,6 +21,7 @@
  */
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.TimeLine;
@@ -28,17 +29,28 @@ using fwptt.TestProject.Project.Data;
 
 namespace fwptt.TestProject.Project
 {
-    public class TestRunDefinition
+    public class TestRunDefinition: ICloneable
     {
         public TestRunDefinition()
         {
             Id = Guid.NewGuid();
+            TestDefinitionOverridedPropertyValues = new List<TestDefinitionPropertyValue>();
         }
         public Guid Id { get; set; }
         public string Name { get; set; }
         public Guid TestDefinitionId { get; set; }
+        public List<TestDefinitionPropertyValue> TestDefinitionOverridedPropertyValues { get; set; }
         public Guid? TestDataSourceId { get; set; }
         public BaseTestRunTimeLine TimeLine { get; set; }
         public List<ExtendableData> RunPlugins { get; set; }
+
+        public object Clone()
+        {
+            var ret = (TestRunDefinition)this.MemberwiseClone();
+            ret.TestDefinitionOverridedPropertyValues = this.TestDefinitionOverridedPropertyValues.Select(tdpl => (TestDefinitionPropertyValue)tdpl.Clone()).ToList();
+            ret.TimeLine = (BaseTestRunTimeLine)this.TimeLine.Clone();
+            ret.RunPlugins = this.RunPlugins.Select(rp => (ExtendableData)rp.Clone()).ToList();
+            return ret;
+        }
     }
 }

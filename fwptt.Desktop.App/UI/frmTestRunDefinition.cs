@@ -64,6 +64,8 @@ namespace fwptt.Desktop.App.UI
             CurrentItem = trd;
             SetTitle();
             SetUpDataSources();
+            if (TestProjectHost.Current.Project.TestDefinitions.Any())
+                ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId).Properties, trd.TestDefinitionOverridedPropertyValues);
         }
 
         private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
@@ -101,7 +103,17 @@ namespace fwptt.Desktop.App.UI
             cboDataSource.SelectedValueChanged += (object sender, EventArgs e) =>
             {
                 var sel = (Guid)cboDataSource.SelectedValue;
-                this.CurrentItem.TestDataSourceId = sel != Guid.Empty ? (Guid?)sel : (Guid?)null;
+                CurrentItem.TestDefinitionOverridedPropertyValues.Clear();
+                if (sel != Guid.Empty)
+                {
+                    this.CurrentItem.TestDataSourceId = sel;
+                    ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == sel).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
+                }
+                else
+                {
+                    this.CurrentItem.TestDataSourceId = null;
+                    ucEditTestDefinitionValues.SetProperties(null, CurrentItem.TestDefinitionOverridedPropertyValues);
+                }
             };
         }
 
@@ -118,6 +130,7 @@ namespace fwptt.Desktop.App.UI
                 ctrl.Dispose();
             }
             var newTimelineConfigControl = (ITestRunConfigurationComponent)CreateAndPositionNewControl(selectedTimelineConfiguration, CurrentItem.TimeLine, grpTimeLine, new Point(cboTimeLines.Left, cboTimeLines.Bottom + 10), cboTimeLines.Width);
+            grpProperties.Height = Math.Max(grpTimeLine.Height, 120);
             CurrentItem.TimeLine = (BaseTestRunTimeLine)newTimelineConfigControl.GetConfiguration();
         }
 
@@ -144,7 +157,7 @@ namespace fwptt.Desktop.App.UI
         private void SetDisplaySettings()
         {
             SetUpTimeLineConfigurationControl();
-            grpPlugins.Top = grpTimeLine.Bottom + 5;
+            grpPlugins.Top = grpProperties.Bottom + 5;
         }
 
         #region Plugins

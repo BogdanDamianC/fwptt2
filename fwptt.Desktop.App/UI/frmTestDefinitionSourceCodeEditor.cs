@@ -81,6 +81,7 @@ namespace fwptt.Desktop.App.UI
             lstBoxAssemplies.DataSource = assembliesBindingList;
             txtAssembly.DataBindings.Add("Text", assembliesBindingList, null);
             txtSourceCode.Text = TestProjectHost.Current.GetTestProjectDefinitionCSharpCode(CurrentItem);
+            this.ucTestDefinitionProperties.SetProperties(CurrentItem.Properties);
         }
 
         #region Source Code Events

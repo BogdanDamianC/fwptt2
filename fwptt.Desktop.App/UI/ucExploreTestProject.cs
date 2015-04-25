@@ -362,11 +362,7 @@ namespace fwptt.Desktop.App.UI
 
         private void newTestRun(TestRunDefinition trd)
         {
-            var runResults = new TestRunResults
-            {
-                Name = trd.Name + DateTime.Now.ToString(),
-                TestRunDefinition = trd,
-            }; //TODO the test run definition must be cloned
+            var runResults = new TestRunResults(trd, TestProjectHost.Current.Project.TestDefinitions.First(td=>td.Id == trd.TestDefinitionId));
             TestProjectHost.Current.Project.TestRunsResults.Add(runResults);
             TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td));
         }
