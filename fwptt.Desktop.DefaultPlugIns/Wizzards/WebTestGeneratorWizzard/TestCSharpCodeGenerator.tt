@@ -17,33 +17,48 @@ namespace IETests
 {
 	public class <#= TestDefinition.ClassName #>:BaseHTTPTest
 	{
+		private const string SiteDomainPropName = "Site Domain";
+		<# if(usedParams.Length > 0) {#>
+		string <#= string.Join(",", usedParams) #>;
+		<#}#>
+
 		<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 
 		{
 			var request = TestDefinition.Requests[index];
 		#>
 	
-		#region Peristor - <#= index #> <#= request.URL #>
+		#region Request - <#= index #> <#= useSiteDomainPath(request.URL)?getRelativePath(request.URL):request.URL #>
 		private async Task <#= GetMethodName(index) #>()
 		{
             if (!await InitializeCurrentRequest())
                 return;
+			<# if(useSiteDomainPath(request.URL)){ #>
+			CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"<#= getRelativePath(request.URL) #>";
+			<# }else  { #>
 			CurrentRequest.Request.URL = @"<#= request.URL #>";
+			<# }  #>
+			
 			CurrentRequest.Request.Port = <#= request.Port #>;
 			CurrentRequest.Request.RequestMethod = @"<#= request.RequestMethod??"GET" #>";
 			<#if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") { #>
 			CurrentRequest.Request.PayloadContentType = @"<#= request.PayloadContentType??"application/x-www-form-urlencoded" #>";
-			CurrentRequest.Request.Payload = @"<#= request.Payload??string.Empty #>";
+			CurrentRequest.Request.Payload = <#= GetQuotedValue(request.Payload) #>;
 			<# } #>
 			<# foreach(var qp in request.QueryParams) 
-			{ #>CurrentRequest.Request.QueryParams.Add(new RequestParam(@"<#=qp.ParamName #>",@"<#=qp.ParamValue??string.Empty #>"));
+			{ #>CurrentRequest.Request.QueryParams.Add(new RequestParam(@"<#=qp.ParamName #>",<#=GetQuotedValue(qp.ParamValue) #>));
 			<# }  #>
 			
 			<# foreach(var pp in request.PostParams) 
-			{ #>CurrentRequest.Request.PostParams.Add(new RequestParam(@"<#=pp.ParamName #>",@"<#=pp.ParamValue??string.Empty #>"));
+			{ #>CurrentRequest.Request.PostParams.Add(new RequestParam(@"<#=pp.ParamName #>",<#=GetPostParamValue(index, pp) #>));
 			<# }  #>
 
 			var req = BuildRequest();		
 			await ExecuteRequest(req,(resp)=>{
+				<# if(paramsToSave[index].Length > 0) { #>
+				CQ requestDOM = CQ.Create(resp.Content);
+				<#for(int psIndex = 0; psIndex < paramsToSave[index].Length; psIndex++){#>
+				<#=GetCodeNameForParam(paramsToSave[index][psIndex])#> = requestDOM["#<#= paramsToSave[index][psIndex] #>"].Val();
+				<#}} #>
 				return true;//Add response handling stuff here if needed - return true for the current run to continue or false to cancel it
 			});
 		}
@@ -52,7 +67,7 @@ namespace IETests
 		
 		protected override async Task RunTest()
 		{		
-			InitializeHttpClient(("<#=BaseUrl#>",
+			InitializeHttpClient(Properties[SiteDomainPropName],
 			"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
 			,"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
 			<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 

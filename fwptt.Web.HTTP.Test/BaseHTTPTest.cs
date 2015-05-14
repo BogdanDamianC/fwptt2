@@ -169,53 +169,5 @@ namespace fwptt.Web.HTTP.Test
 		{
             base.Dispose();
 		}
-
-        Regex inputFieldsSearchRegex;
-        public List<InputField> ParseInputFieldsProperties(string content)
-        {
-            if (inputFieldsSearchRegex == null)
-                inputFieldsSearchRegex = new Regex(@"
-                <input
-                    (
-                        \s*
-                        (?<name>[^=]+)
-                        =
-                        (['""])
-                        (?<value>.*?)
-                        \2
-                    )*
-                \s*/?>
-            ", RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase);
-            var ret = new List<InputField>();
-            foreach (Match m in inputFieldsSearchRegex.Matches(content))
-            {
-                var names = m.Groups["name"];
-                var values = m.Groups["value"];
-                var input = new InputField();
-                ret.Add(input);
-                for (int i = 0; i < names.Captures.Count; i++)
-                    switch(names.Captures[i].Value.ToLower())
-                    {
-                        case "name": input.Name = values.Captures[i].Value; break;
-                        case "id": input.Id = values.Captures[i].Value; break;
-                        case "value": input.Value = values.Captures[i].Value; break;
-                        default: input.OtherProperties.Add(new KeyValuePair<string, string>(names.Captures[i].Value, values.Captures[i].Value));
-                            break;
-                    }
-            }
-            return ret;
-        }
-
-        public class InputField
-        {
-            public InputField()
-            {
-                OtherProperties = new List<KeyValuePair<string, string>>();
-            }
-            public string Name { get; set; }
-            public string Id { get; set; }
-            public string Value { get; set; }
-            public List<KeyValuePair<string, string>> OtherProperties { get; set; }
-        }
 	}
 }

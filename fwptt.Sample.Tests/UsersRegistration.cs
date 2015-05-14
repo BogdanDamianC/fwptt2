@@ -58,7 +58,6 @@ namespace IETests
             var req = BuildRequest();
             await ExecuteRequest(req, (resp) =>
             {
-                var inputFields = ParseInputFieldsProperties(resp.Content);
                 CQ dom = CQ.Create(resp.Content);
 
                 __VIEWSTATE = dom["#__VIEWSTATE"].Val();

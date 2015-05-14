@@ -56,11 +56,26 @@ namespace fwptt.Desktop.App.UI
             txtTestRunName.Text = trd.Name;
             txtTestRunName.TextChanged += txtTestRunName_TextChanged;
             if (trd.TestDefinitionId == Guid.Empty)
+            { }
                 trd.TestDefinitionId = TestProjectHost.Current.Project.TestDefinitions[0].Id;
             cboTestDefinition.ValueMember = "Id";
             cboTestDefinition.DisplayMember = "TestDefinitionFile";
             cboTestDefinition.DataSource = TestProjectHost.Current.Project.TestDefinitions;
-            cboTestDefinition.DataBindings.Add("SelectedValue", trd, "TestDefinitionId");
+            cboTestDefinition.SelectedValue = trd.TestDefinitionId;
+            cboTestDefinition.SelectedValueChanged += (object sender, EventArgs e) =>
+            {
+                CurrentItem.TestDefinitionId = (Guid)cboTestDefinition.SelectedValue;
+                CurrentItem.TestDefinitionOverridedPropertyValues.Clear();
+                if (CurrentItem.TestDefinitionId != Guid.Empty)
+                {
+                    ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == CurrentItem.TestDefinitionId).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
+                }
+                else
+                {
+                    this.CurrentItem.TestDataSourceId = null;
+                    ucEditTestDefinitionValues.SetProperties(null, CurrentItem.TestDefinitionOverridedPropertyValues);
+                }
+            };
             CurrentItem = trd;
             SetTitle();
             SetUpDataSources();
@@ -103,17 +118,7 @@ namespace fwptt.Desktop.App.UI
             cboDataSource.SelectedValueChanged += (object sender, EventArgs e) =>
             {
                 var sel = (Guid)cboDataSource.SelectedValue;
-                CurrentItem.TestDefinitionOverridedPropertyValues.Clear();
-                if (sel != Guid.Empty)
-                {
-                    this.CurrentItem.TestDataSourceId = sel;
-                    ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == sel).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
-                }
-                else
-                {
-                    this.CurrentItem.TestDataSourceId = null;
-                    ucEditTestDefinitionValues.SetProperties(null, CurrentItem.TestDefinitionOverridedPropertyValues);
-                }
+                CurrentItem.TestDataSourceId = sel!=Guid.Empty? (Guid?)sel:null;
             };
         }
 

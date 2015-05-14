@@ -10,5 +10,7 @@ namespace fwptt.TestProject.Project.Interfaces
     {
         string GeneratedTestDefinitionClassCode { get; }
         string GeneratedTestDefinitionClassName { get; }
+        List<TestDefinitionProperty> Properties { get; }
+
     }
 }

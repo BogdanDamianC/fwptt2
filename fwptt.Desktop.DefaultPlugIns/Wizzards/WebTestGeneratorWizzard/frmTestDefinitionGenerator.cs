@@ -44,6 +44,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Web.HTTP.Test.Data;
+using fwptt.TestProject.Project;
 
 
 
@@ -368,11 +369,17 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
         public string GeneratedTestDefinitionClassName { get; set; }
         public string GeneratedTestDefinitionClassCode { get; set; }
+        public List<TestDefinitionProperty> Properties { get; set; }
+
         private void btnGenerateTestProgramCode_Click(object sender, System.EventArgs e)
         {
             try
             {
-                GeneratedTestDefinitionClassCode = GenerateCodeClass();
+                recorder.RequestsMade.ClassName = txtClassName.Text.Trim();
+                string mainSiteHost = getMainSiteHost();
+                Properties = new List<TestDefinitionProperty>();
+                Properties.Add(new TestDefinitionProperty() { Name = "Site Domain", DefaultValue = mainSiteHost });
+                GeneratedTestDefinitionClassCode = TestCSharpCodeGenerator.GenerateCode(recorder.RequestsMade, mainSiteHost);
                 GeneratedTestDefinitionClassName = recorder.RequestsMade.ClassName;
                 this.Close();
             }
@@ -382,12 +389,20 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                 MessageBox.Show(ex.Message);
             }
         }
-		
-		private string GenerateCodeClass()
-		{
-            recorder.RequestsMade.ClassName = txtClassName.Text.Trim();
-            return TestCSharpCodeGenerator.GenerateCode(recorder.RequestsMade);
-		}
+
+        private string getMainSiteHost()
+        {
+            var urls = (from uri in
+                            (from req in recorder.RequestsMade.Requests
+                             select new Uri(req.URL.ToString()))
+                        select uri).ToArray();
+            if (urls.Length == 0)
+                throw new ApplicationException("No Base url can be found");
+
+            return (from d in urls
+                    group d by d.Scheme + "://" + d.Host into ug
+                    select new { ug.Key, cnt = ug.Count() }).OrderByDescending(ug => ug.cnt).First().Key;
+        }
 
         private string GetZipRequestFileContent(ZipEntry ze)
         {

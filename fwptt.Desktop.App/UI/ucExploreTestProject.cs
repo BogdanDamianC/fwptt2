@@ -268,6 +268,8 @@ namespace fwptt.Desktop.App.UI
                     return;
                 string codeFileName = ret.GeneratedTestDefinitionClassName + ".cs";
                 newTD = TestProjectHost.Current.AddTestProjectDefinitionCSharpCode(codeFileName, ret.GeneratedTestDefinitionClassCode);
+                if (ret.Properties != null && ret.Properties.Any())
+                    newTD.Properties.AddRange(ret.Properties);
             }
             AddTestDefinition(newTD);
             TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(newTD, (td) => new frmTestDefinitionSourceCodeEditor(td));

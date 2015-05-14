@@ -40,6 +40,27 @@
           "DefaultValue": "http://localhost"
         }
       ]
+    },
+    {
+      "Id": "e5bfdf46-1d56-4ed7-ba4e-ac2e7fd0ecba",
+      "TestDefinitionFile": "Local_signInand_json_api_calls.cs",
+      "Assemblies": [
+        "System.dll",
+        "System.Data.dll",
+        "System.Xml.dll",
+        "System.Core.dll",
+        "[fwptt_application_startuppath]fwptt.TestProject.dll",
+        "[fwptt_application_pluginpath]RestSharp.dll",
+        "[fwptt_application_pluginpath]CsQuery.dll",
+        "[fwptt_application_pluginpath]fwptt.Web.HTTP.Test.dll"
+      ],
+      "Properties": [
+        {
+          "Id": "00000000-0000-0000-0000-000000000000",
+          "Name": "Site Domain",
+          "DefaultValue": "http://localhost"
+        }
+      ]
     }
   ],
   "TestDataSources": [
@@ -113,6 +134,31 @@
           "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
           "DataType": "Configuration",
           "MaxResponseSizeRecorded": 1000,
+          "MaxNumberOfRequestsRecorded": 100,
+          "RefreshInterval": 5
+        }
+      ]
+    },
+    {
+      "Id": "7319c294-a1ba-4df9-ab70-93516a4f899b",
+      "Name": "local_sign_in_wizzard_test",
+      "TestDefinitionId": "e5bfdf46-1d56-4ed7-ba4e-ac2e7fd0ecba",
+      "TestDefinitionOverridedPropertyValues": [],
+      "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+      "TimeLine": {
+        "MaxSteps": 30,
+        "UniqueName": "fwptt -> Default -> Stepping TimeLine",
+        "DataType": "Configuration"
+      },
+      "RunPlugins": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "Configuration"
+        },
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+          "DataType": "Configuration",
+          "MaxResponseSizeRecorded": 100,
           "MaxNumberOfRequestsRecorded": 100,
           "RefreshInterval": 5
         }
