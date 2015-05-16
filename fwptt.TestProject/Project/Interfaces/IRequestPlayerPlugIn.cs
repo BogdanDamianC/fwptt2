@@ -38,10 +38,10 @@ namespace fwptt.TestProject.Project.Interfaces
 	/// </summary>
 	public interface IRequestPlayerPlugIn
 	{
-		void TestStarted();
-		void TestStoped();
-		void RequestStarted(IRequestInfo rinfo);
-		void RequestEnded(IRequestInfo rinfo);
+        Action OnTestStarted {get;}
+        Action OnTestStopped {get;}
+        Action<IRequestInfo> OnRequestStarted { get; }
+        Action<IRequestInfo> OnRequestEnded { get; }
         ExtendableData TestRunResults { get; }
 	}
 }

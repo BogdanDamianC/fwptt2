@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("fwptt.Web.HTTP.Test")]
+[assembly: AssemblyTitle("fwptt Web HTTP Test classes - Feature Preview 1")]
 [assembly: AssemblyDescription("Base classes needed to do http based tests")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("fwptt.Web.HTTP.Test")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Bogdan Damian Constantin Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

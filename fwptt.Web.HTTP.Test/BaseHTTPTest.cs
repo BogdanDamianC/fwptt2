@@ -47,71 +47,71 @@ namespace fwptt.Web.HTTP.Test
 
 		private string AcceptedContent;// = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";
 
-        protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
-        {
-            client = new RestClient(baseUrl);
-            client.UserAgent = UserAgent;
-            client.CookieContainer = new System.Net.CookieContainer();
-            this.AcceptedContent = AcceptedContent;
-        }
+		protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
+		{
+			client = new RestClient(baseUrl);
+			client.UserAgent = UserAgent;
+			client.CookieContainer = new System.Net.CookieContainer();
+			this.AcceptedContent = AcceptedContent;
+		}
 
 		public System.Net.WebProxy Proxy {get; set;}
 		
 				
 		#region Util HTTP request/Respons processing functions
-        protected RestRequest BuildRequest()
-        {
-            UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
-            address.Port = CurrentRequest.Request.Port;
+		protected RestRequest BuildRequest()
+		{
+			UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
+			address.Port = CurrentRequest.Request.Port;
 
-            var req = new RestRequest(address.Uri, (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true));
-            if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
-                req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
-            else
-                req.ReadWriteTimeout = req.Timeout = 5000;
+			var req = new RestRequest(address.Uri, (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true));
+			if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
+				req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
+			else
+				req.ReadWriteTimeout = req.Timeout = 5000;
 
-            foreach (var param in CurrentRequest.Request.QueryParams)
-                req.AddParameter(param.ParamName, param.ParamValue, ParameterType.QueryString);
-            foreach (var param in CurrentRequest.Request.PostParams)
-                req.AddParameter(param.ParamName, param.ParamValue, ParameterType.GetOrPost);
+			foreach (var param in CurrentRequest.Request.QueryParams)
+				req.AddParameter(param.ParamName, param.ParamValue, ParameterType.QueryString);
+			foreach (var param in CurrentRequest.Request.PostParams)
+				req.AddParameter(param.ParamName, param.ParamValue, ParameterType.GetOrPost);
 
-            //                if (Proxy != null)
-            //                    req.Proxy = Proxy;
-            return req;
-        }
+			//                if (Proxy != null)
+			//                    req.Proxy = Proxy;
+			return req;
+		}
 
-        protected async Task ExecuteRequest(RestRequest req, Func<IRestResponse, bool> processResponse = null, Func<Exception, bool> onError = null)
-        {
-            CurrentRequest.StartTime = DateTime.Now;
-            onRequestStarted();
-            try
-            {
-                var resp = await client.ExecuteTaskAsync(req);
-                CurrentRequest.EndTime = DateTime.Now;
-                CurrentRequest.ResponseCode = (int)resp.StatusCode;
-                CurrentRequest.Response = resp.Content;
-                
-                if (processResponse != null)
-                    this.CancelCurrentRunIteration |= !processResponse(resp);
-                onRequestEnded();
-                return;
-            }
-            catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                CurrentRequest.EndTime = DateTime.Now;
-                SetException(ex);
-                onRequestEnded();
-                if(onError != null)
-                    this.CancelCurrentRunIteration |= onError(ex);
-                else
-                    this.CancelCurrentRunIteration = true;
-                return;
-            }
-        }
+		protected async Task ExecuteRequest(RestRequest req, Func<IRestResponse, bool> processResponse = null, Func<Exception, bool> onError = null)
+		{
+			CurrentRequest.StartTime = DateTime.Now;
+			onRequestStarted();
+			try
+			{
+				var resp = await client.ExecuteTaskAsync(req);
+				CurrentRequest.EndTime = DateTime.Now;
+				CurrentRequest.ResponseCode = (int)resp.StatusCode;
+				CurrentRequest.Response = resp.Content;
+				
+				if (processResponse != null)
+					this.CancelCurrentRunIteration |= !processResponse(resp);
+				onRequestEnded();
+				return;
+			}
+			catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
+			{
+				throw;
+			}
+			catch (Exception ex)
+			{
+				CurrentRequest.EndTime = DateTime.Now;
+				SetException(ex);
+				onRequestEnded();
+				if(onError != null)
+					this.CancelCurrentRunIteration |= onError(ex);
+				else
+					this.CancelCurrentRunIteration = true;
+				return;
+			}
+		}
 
 		#endregion
 
@@ -145,29 +145,29 @@ namespace fwptt.Web.HTTP.Test
 		/// </summary>
 		/// <param name="queryParams">collecton of the params</param>
 		/// <returns>string that contains all params</returns>
-        //public static string GetRequestQuery(List<RequestParam> queryParams)
-        //{
-        //    if(queryParams.Count == 0)
-        //        return string.Empty;
-        //    StringBuilder sb = new StringBuilder(queryParams.Count * 40);
-        //    sb.Append(queryParams[0].ParamName);
-        //    sb.Append("=");
-        //    sb.Append(queryParams[0].ParamValue);
-        //    for(int i = 1; i < queryParams.Count; i++)
-        //    {
-        //        sb.Append("&");
-        //        sb.Append(queryParams[i].ParamName);
-        //        sb.Append("=");
-        //        sb.Append(queryParams[i].ParamValue);
-        //    }
-        //    return sb.ToString();
-        //}
+		//public static string GetRequestQuery(List<RequestParam> queryParams)
+		//{
+		//    if(queryParams.Count == 0)
+		//        return string.Empty;
+		//    StringBuilder sb = new StringBuilder(queryParams.Count * 40);
+		//    sb.Append(queryParams[0].ParamName);
+		//    sb.Append("=");
+		//    sb.Append(queryParams[0].ParamValue);
+		//    for(int i = 1; i < queryParams.Count; i++)
+		//    {
+		//        sb.Append("&");
+		//        sb.Append(queryParams[i].ParamName);
+		//        sb.Append("=");
+		//        sb.Append(queryParams[i].ParamValue);
+		//    }
+		//    return sb.ToString();
+		//}
 		#endregion
 
 		
 		public override void Dispose()
 		{
-            base.Dispose();
+			base.Dispose();
 		}
 	}
 }

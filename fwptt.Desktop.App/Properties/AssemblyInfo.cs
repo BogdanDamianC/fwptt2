@@ -28,10 +28,10 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("Fast Web Performance Test Tool Application")]
+[assembly: AssemblyTitle("Fast Web Performance Test Tool Application - Feature Preview 1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SiQ")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Fast Web Performance Test Tool")]
 [assembly: AssemblyCopyright("Bogdan Damian Constantin")]
 [assembly: AssemblyTrademark("")]

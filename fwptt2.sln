@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fwptt.Web.HTTP.Test", "fwpt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fwptt.Sample.Tests", "fwptt.Sample.Tests\fwptt.Sample.Tests.csproj", "{80F93AE4-B52D-44EA-ADE7-4705C9C95BEF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fwptt.WebSite", "fwptt.WebSite", "{9755054D-1B02-4A5B-A52B-684EE264A91F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

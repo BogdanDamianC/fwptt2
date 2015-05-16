@@ -59,6 +59,7 @@ namespace fwptt.TestProject.Run
 		private ITimeLineController timelineCtrl;
         private Dictionary<string, string> Properties;
         private ITestDataSourceReader testDataSource;
+        private List<Action<IRequestInfo>> onRequestStarted, onRequestEnded;
 
 		public TestRunner(ITimeLineController timeline, Type runningTestType, Dictionary<string, string> Properties, ITestDataSourceReader testDataSource)
 		{
@@ -75,9 +76,18 @@ namespace fwptt.TestProject.Run
             inactiveTestInstancesPool = new System.Collections.Concurrent.ConcurrentQueue<IBaseTest>();
 			if (TestRunStarted != null)
 				TestRunStarted(this);
+            onRequestStarted = new List<Action<IRequestInfo>>();
+            onRequestEnded = new List<Action<IRequestInfo>>();
 			timelineCtrl.StartTimeLine();
-			foreach (var plugin in Plugins)
-				plugin.TestStarted();
+            foreach (var plugin in Plugins)
+            {
+                if (plugin.OnTestStarted != null)
+                    plugin.OnTestStarted();
+                if (plugin.OnRequestStarted != null)
+                    onRequestStarted.Add(plugin.OnRequestStarted);
+                if (plugin.OnRequestEnded != null)
+                    onRequestEnded.Add(plugin.OnRequestEnded);
+            }
 
 			new Task(() =>
 			{
@@ -162,23 +172,26 @@ namespace fwptt.TestProject.Run
 				TestRunEnded(this);
 
 			foreach (var plugin in Plugins)
-				plugin.TestStoped();
+                if(plugin.OnTestStopped != null)
+                    plugin.OnTestStopped();
+            onRequestStarted = null;
+            onRequestEnded = null;
 		}
 
 		private void TestRunner_RequestStarted(IRequestInfo currentRequest)
 		{
 			if (Plugins == null)
 				return;
-			foreach (var plugin in Plugins)
-				plugin.RequestStarted(currentRequest);
+			foreach (var requestStarted in onRequestStarted)
+                requestStarted(currentRequest);
 		}
 
 		private void TestRunner_RequestEnded(IRequestInfo currentRequest)
 		{
 			if (Plugins == null)
 				return;
-			foreach (var plugin in Plugins)
-				plugin.RequestEnded(currentRequest);
+			foreach (var requestEnded in onRequestEnded)
+                requestEnded(currentRequest);
 		}
 
 		#region IDisposable Members
@@ -186,6 +199,8 @@ namespace fwptt.TestProject.Run
 		public void Dispose()
 		{
 			StopTests();
+            onRequestStarted = null;
+            onRequestEnded = null;
 			Plugins = null;
 		}
 

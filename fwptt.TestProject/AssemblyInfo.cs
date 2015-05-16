@@ -28,12 +28,12 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("")]
+[assembly: AssemblyTitle("fwptt Core Test Framework - Feature Preview 1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Bogdan Damian Constantin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 

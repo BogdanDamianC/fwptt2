@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("fwptt.Desktop.Util")]
+[assembly: AssemblyTitle("fwptt.Desktop.Util - Feature Preview 1")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("fwptt.Desktop.Util")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Bogdan Damian Constantin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

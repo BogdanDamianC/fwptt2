@@ -230,7 +230,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		#endregion
 
 
-        public void TestStarted()
+        private void TestStarted()
         {
             queuedRequests = new List<IRequestInfo>();
             dgViewRequests.Rows.Clear();
@@ -239,8 +239,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             timer1.Start();
         }
 
+        public Action OnTestStarted { get{return TestStarted;} }
+
         delegate void ThreadSafeCallback();
-		public void TestEnded()
+		private void TestEnded()
 		{
             timer1.Stop();
             // InvokeRequired required compares the thread ID of the
@@ -257,6 +259,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             RefreshData();
 		}
 
+        public Action OnTestStopped { get { return TestEnded; } }
+
+        public Action<IRequestInfo> OnRequestStarted { get{return null;} }
         delegate void ThreadSafeAddRequestCallback(IRequestInfo rinfo);
         public void RequestEnded(IRequestInfo rinfo)
         {
@@ -265,6 +270,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
                 queuedRequests.Add(rinfo);
             }
         }
+        public Action<IRequestInfo> OnRequestEnded { get{return RequestEnded;} }
 
 		private void timer1_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
 		{
@@ -338,18 +344,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             using (var pv = new PageViewer((string)dgViewRequests.CurrentRow.Tag))
                 pv.ShowDialog(this);
         }
-
-        public void TestStoped()
-        {
-            
-        }
-
-        public void RequestStarted(IRequestInfo rinfo)
-        {
-            
-        }
-
-
     }
 }
 

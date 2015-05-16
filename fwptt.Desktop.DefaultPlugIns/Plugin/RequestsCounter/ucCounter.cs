@@ -333,7 +333,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             Refresh();
         }
 
-        public void TestStarted()
+        private void TestStarted()
         {
             TestRunResults = new RequestCounterRunData();
             currentInstantCount = new TestLoadInfoPerUnitOfTime();
@@ -343,17 +343,15 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
             axaX.MinValue = TestRunStartTime = DateTime.Now;
             mainTimer.Start();
         }
+        public Action OnTestStarted { get{return TestStarted;} }
 
-        public void TestStoped()
+        private void TestEnded()
         {
             mainTimer.Stop();
             UpdateRecordedResultsAndCharts();
         }
-
-        public void RequestStarted(TestProject.Run.Data.IRequestInfo rinfo)
-        {
-            
-        }
+        public Action OnTestStopped { get { return TestEnded; } }
+        public Action<TestProject.Run.Data.IRequestInfo> OnRequestStarted { get { return null; } }
 
         public void RequestEnded(TestProject.Run.Data.IRequestInfo rinfo)
         {
@@ -364,5 +362,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
                     currentInstantCount.NoOfErrors++;
             }
         }
+        public Action<TestProject.Run.Data.IRequestInfo> OnRequestEnded { get { return RequestEnded; } }
     }
 }
