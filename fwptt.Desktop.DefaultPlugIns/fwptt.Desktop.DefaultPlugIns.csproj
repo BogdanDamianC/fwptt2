@@ -8,7 +8,8 @@
     <RootNamespace>fwptt.Desktop.DefaultPlugIns</RootNamespace>
     <AssemblyName>fwptt.Desktop.DefaultPlugIns</AssemblyName>
     <OutputType>Library</OutputType>
-    <ApplicationIcon>App.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <NoConfig>false</NoConfig>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
@@ -172,7 +173,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.mapp.cs" />
-    <Content Include="App.ico" />
     <Content Include="Plugin\ResultsViewer\Simple.xsl" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="General.cs" />

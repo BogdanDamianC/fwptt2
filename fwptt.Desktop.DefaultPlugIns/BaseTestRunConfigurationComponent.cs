@@ -32,7 +32,14 @@ namespace fwptt.Desktop.DefaultPlugIns
 
         public virtual void SetConfiguration(ExtendableData data)
         {
-            CurrentData = data != null && data.GetType() == configurationDataType ? data : (ExtendableData)Activator.CreateInstance(configurationDataType);
+            if (data != null && data.GetType() == configurationDataType)
+                CurrentData = data;
+            else
+                CurrentData = GetNewCurrentData();
+        }
+        protected virtual ExtendableData GetNewCurrentData()
+        {
+            return (ExtendableData)Activator.CreateInstance(configurationDataType);
         }
 
         public ExtendableData GetConfiguration()

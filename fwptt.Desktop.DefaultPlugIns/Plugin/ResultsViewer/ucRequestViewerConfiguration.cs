@@ -21,6 +21,15 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             InitializeComponent();
         }
 
+        protected override ExtendableData GetNewCurrentData()
+        {
+            var newData = (ResultsViewerConfiguration)base.GetNewCurrentData();
+            newData.MaxNumberOfRequestsRecorded = 100;
+            newData.MaxResponseSizeRecorded = 2000;
+            newData.RefreshInterval = 5;
+            return newData;
+        }
+
         public override void SetConfiguration(ExtendableData data)
         {
             base.SetConfiguration(data);

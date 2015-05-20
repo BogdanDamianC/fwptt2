@@ -21,12 +21,6 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             InitializeComponent();
         }
 
-        private void HandlexxxxxTimelineEvent(TestProject.Project.TimeLine.TimeLineStatus status)
-        {
-            //this timeline is designed for a reduced number of executions as such the status label can be updated without an extra timer
-            lblTimeLineInfo.Text = "Iteration " + status.CurrentIteration;
-        }
-
         TestProject.Project.TimeLine.TimeLineStatus lastStatus = null;
 
         private void HandleTimelineEvent(TestProject.Project.TimeLine.TimeLineStatus status)

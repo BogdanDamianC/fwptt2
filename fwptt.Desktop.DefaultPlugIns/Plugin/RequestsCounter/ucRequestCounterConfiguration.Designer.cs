@@ -28,25 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            System.Windows.Forms.Label lblCounterInfo;
+            lblCounterInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // lblCounterInfo
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 4);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Shows You a Counter when the test is ran";
+            lblCounterInfo.AutoSize = true;
+            lblCounterInfo.Location = new System.Drawing.Point(0, 4);
+            lblCounterInfo.Name = "lblCounterInfo";
+            lblCounterInfo.Size = new System.Drawing.Size(371, 13);
+            lblCounterInfo.TabIndex = 0;
+            lblCounterInfo.Text = "Shows You a Chart  when the test is ran with the different counters of the test";
             // 
             // ucRequestCounterConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(lblCounterInfo);
             this.Name = "ucRequestCounterConfiguration";
-            this.Size = new System.Drawing.Size(325, 22);
+            this.Size = new System.Drawing.Size(396, 22);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -54,6 +55,5 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
     }
 }

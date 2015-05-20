@@ -20,11 +20,5 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
         {
             InitializeComponent();
         }
-
-        public override void SetConfiguration(ExtendableData data)
-        {
-            base.SetConfiguration(data);
-            //txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
-        }
     }
 }

@@ -64,8 +64,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
-		private System.Windows.Forms.Button btnLoadAllreadyRecordedData;
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnLoadAllreadyRecordedData;
         private System.Windows.Forms.TextBox txtClassName;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
@@ -75,6 +74,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         private System.Windows.Forms.Label label7;
         private Button btnViewModifyRequests;
 		private ProxyHttpRecorder recorder = new ProxyHttpRecorder();
+        private TextBox txtParamsToLookFor;
 		private System.Windows.Forms.Button btnLoadFiddlerData;
 
 		public frmTestDefinitionGenerator()
@@ -109,7 +109,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.label1 = new System.Windows.Forms.Label();
+            System.Windows.Forms.Label label1;
+            System.Windows.Forms.Label label8;
             this.txtClassName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -124,28 +125,32 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.btnSaveRecordingData = new System.Windows.Forms.Button();
             this.btnStartRecording = new System.Windows.Forms.Button();
             this.btnLoadFiddlerData = new System.Windows.Forms.Button();
+            this.txtParamsToLookFor = new System.Windows.Forms.TextBox();
+            label1 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(159, 193);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(217, 23);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Test Name (use only alphanumeric chars)";
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(12, 209);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(202, 13);
+            label1.TabIndex = 6;
+            label1.Text = "Test Name (use only alphanumeric chars)";
             // 
             // txtClassName
             // 
-            this.txtClassName.Location = new System.Drawing.Point(162, 219);
+            this.txtClassName.Location = new System.Drawing.Point(12, 225);
             this.txtClassName.Name = "txtClassName";
-            this.txtClassName.Size = new System.Drawing.Size(198, 20);
+            this.txtClassName.Size = new System.Drawing.Size(496, 20);
             this.txtClassName.TabIndex = 7;
             this.txtClassName.Text = "tmp_test";
             // 
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(8, 8);
+            this.label2.Location = new System.Drawing.Point(8, 72);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(144, 56);
             this.label2.TabIndex = 9;
@@ -177,7 +182,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label5
             // 
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.Location = new System.Drawing.Point(8, 72);
+            this.label5.Location = new System.Drawing.Point(8, 136);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(144, 56);
             this.label5.TabIndex = 12;
@@ -187,7 +192,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label6
             // 
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label6.Location = new System.Drawing.Point(8, 136);
+            this.label6.Location = new System.Drawing.Point(8, 8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(144, 54);
             this.label6.TabIndex = 13;
@@ -239,9 +244,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // 
             // btnGenerateTestProgramCode
             // 
-            this.btnGenerateTestProgramCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateTestProgramCode.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGenerateTestProgramCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerateTestProgramCode.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnGenerateTestProgramCode.Location = new System.Drawing.Point(8, 251);
+            this.btnGenerateTestProgramCode.Location = new System.Drawing.Point(8, 318);
             this.btnGenerateTestProgramCode.Name = "btnGenerateTestProgramCode";
             this.btnGenerateTestProgramCode.Size = new System.Drawing.Size(504, 56);
             this.btnGenerateTestProgramCode.TabIndex = 3;
@@ -277,14 +283,34 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.btnLoadFiddlerData.Name = "btnLoadFiddlerData";
             this.btnLoadFiddlerData.Size = new System.Drawing.Size(96, 56);
             this.btnLoadFiddlerData.TabIndex = 17;
-            this.btnLoadFiddlerData.Text = "Import Fiddler Data (recomended)";
+            this.btnLoadFiddlerData.Text = "Import Fiddler Data [Recomended!]";
             this.btnLoadFiddlerData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnLoadFiddlerData.Click += new System.EventHandler(this.BtnLoadFiddlerDataClick);
+            // 
+            // txtParamsToLookFor
+            // 
+            this.txtParamsToLookFor.Location = new System.Drawing.Point(15, 276);
+            this.txtParamsToLookFor.Name = "txtParamsToLookFor";
+            this.txtParamsToLookFor.Size = new System.Drawing.Size(496, 20);
+            this.txtParamsToLookFor.TabIndex = 19;
+            this.txtParamsToLookFor.Text = "__VIEWSTATE;__VIEWSTATEGENERATOR;__EVENTVALIDATION;javax.faces.ViewState";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(15, 260);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(387, 13);
+            label8.TabIndex = 18;
+            label8.Text = "Dynamic params to look for  - the wizzard will try to generate code that uses the" +
+    "m";
             // 
             // frmTestDefinitionGenerator
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(520, 315);
+            this.ClientSize = new System.Drawing.Size(520, 386);
+            this.Controls.Add(this.txtParamsToLookFor);
+            this.Controls.Add(label8);
             this.Controls.Add(this.btnLoadFiddlerData);
             this.Controls.Add(this.btnViewModifyRequests);
             this.Controls.Add(this.label7);
@@ -294,7 +320,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtClassName);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(label1);
             this.Controls.Add(this.btnLoadAllreadyRecordedData);
             this.Controls.Add(this.btnClearRecordedData);
             this.Controls.Add(this.btnGenerateTestProgramCode);
@@ -379,7 +405,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                 string mainSiteHost = getMainSiteHost();
                 Properties = new List<TestDefinitionProperty>();
                 Properties.Add(new TestDefinitionProperty() { Name = "Site Domain", DefaultValue = mainSiteHost });
-                GeneratedTestDefinitionClassCode = TestCSharpCodeGenerator.GenerateCode(recorder.RequestsMade, mainSiteHost);
+                GeneratedTestDefinitionClassCode = TestCSharpCodeGenerator.GenerateCode(recorder.RequestsMade, mainSiteHost, GetParamsToLookFor());
                 GeneratedTestDefinitionClassName = recorder.RequestsMade.ClassName;
                 this.Close();
             }
@@ -388,6 +414,11 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                 GeneratedTestDefinitionClassCode = null;
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private IEnumerable<string> GetParamsToLookFor()
+        {
+            return txtParamsToLookFor.Text.Split(';').Select(s => s.Trim()).Where(s => s.Length > 0);
         }
 
         private string getMainSiteHost()
@@ -426,6 +457,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			{
                 var importedRecords = new List<Tuple<int, fwptt.Web.HTTP.Test.Data.WebRequest>>();
                 var unImportedRequests = new List<string>();
+                txtClassName.Text = TestCSharpCodeGenerator.TransformNameToCode(Path.GetFileNameWithoutExtension(fileToOpen));
                 using (ZipFile zipFile = ZipFile.Read(fileToOpen))
 				{
 					foreach (ZipEntry ze in zipFile)

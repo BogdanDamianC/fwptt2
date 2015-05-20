@@ -44,6 +44,13 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             InitializeComponent();
         }
 
+        protected override ExtendableData GetNewCurrentData()
+        {
+            var newData = (SteppingTimeLine)base.GetNewCurrentData();
+            newData.MaxSteps = 1;
+            return newData;
+        }
+
         public override void SetConfiguration(ExtendableData data)
         {
             base.SetConfiguration(data);

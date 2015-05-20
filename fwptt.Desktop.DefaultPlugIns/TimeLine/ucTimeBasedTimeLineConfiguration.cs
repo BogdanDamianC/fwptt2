@@ -44,6 +44,16 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             InitializeComponent();
         }
 
+        protected override ExtendableData GetNewCurrentData()
+        {
+            var newData = (TimeBasedTimeLine)base.GetNewCurrentData();
+            newData.Minutes = 5;
+            newData.NoOfThreads = 2;
+            newData.PauseBetweenRequests = 100;
+            newData.RampUpSeconds = 30;
+            return newData;
+        }
+
         public override void SetConfiguration(ExtendableData data)
         {
             base.SetConfiguration(data);

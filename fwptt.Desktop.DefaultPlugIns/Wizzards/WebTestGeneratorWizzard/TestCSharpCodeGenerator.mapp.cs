@@ -21,15 +21,21 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         {
             var ret = new StringBuilder();
             ret.Append(req.RequestMethod);
+            
             var uri = new Uri( req.URL);
-            string pathToUse = uri.Host + uri.AbsolutePath;
-            foreach(char c in pathToUse)
-                if(char.IsLetterOrDigit(c))
+            ret.Append(TransformNameToCode(uri.Host)).Append(TransformNameToCode(uri.AbsolutePath));
+            return ret.ToString();
+        }
+
+        public static string TransformNameToCode(string name)
+        {
+            var ret = new StringBuilder();
+            foreach (char c in name)
+                if (char.IsLetterOrDigit(c))
                     ret.Append(c);
                 else
                     ret.Append('_');
             return ret.ToString();
-
         }
 
         public string MainSiteHost{get; private set;}
@@ -45,20 +51,20 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             return url.Substring(MainSiteHost.Length);
         }
 
-        public static string GenerateCode(RecordedTestDefinition testDefinition, string MainSiteHost)
+        public static string GenerateCode(RecordedTestDefinition testDefinition, string MainSiteHost, IEnumerable<string> paramsToLookFor)
         {
             var newGen = new TestCSharpCodeGenerator { TestDefinition = testDefinition, MainSiteHost = MainSiteHost, paramsToSave = new List<string[]>() };
-            newGen.SetParamsToSave();
+            newGen.SetParamsToSave(paramsToLookFor);
             return newGen.TransformText();
         }
 
-        private void SetParamsToSave()
+        private void SetParamsToSave(IEnumerable<string> paramsToLookFor)
         {
-            var paramsToLookFor = new HashSet<string>(new string[] { "__VIEWSTATE", "__VIEWSTATEGENERATOR", "__EVENTVALIDATION", "javax.faces.ViewState" });
+            var hashParamsToLookFor = new HashSet<string>(paramsToLookFor.Distinct());
             for (int i = 1; i < TestDefinition.Requests.Count; i++)
             {
                 paramsToSave.Add((from pp in TestDefinition.Requests[i].PostParams
-                                               where paramsToLookFor.Contains(pp.ParamName)
+                                               where hashParamsToLookFor.Contains(pp.ParamName)
                                                select pp.ParamName).ToArray());
             }
             paramsToSave.Add(new string[0]); //last hash is empty no need to save anything
