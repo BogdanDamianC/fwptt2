@@ -65,8 +65,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			//
 			InitializeComponent();
 
-			recorder = l_recorder;			
-			txtProxyIP.Text = recorder.ProxyIP.ToString();
+            label4.Text = "In order to record the Http requests the program will start a proxy at the IP addres and Port from below. After you can check the proxy settings in the connection settings and set the proxy . The 'Exclude from Recording' are used to determine what files should not be recorded.  Please note that this Proxy only works for http requests if you need to load https requests please use fiddler save the requests and import them.";
+			recorder = l_recorder;
+            txtProxyIP.Text = recorder.ProxyIP.ToString();
 			txtProxyPort.Text = recorder.ProxyPort.ToString();
 
 			if(recorder.ExcludedRequests != null && recorder.ExcludedRequests.Length > 0)
@@ -179,7 +180,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(392, 112);
             this.label4.TabIndex = 6;
-            this.label4.Text = resources.GetString("label4.Text");
             // 
             // btnStopRecording
             // 

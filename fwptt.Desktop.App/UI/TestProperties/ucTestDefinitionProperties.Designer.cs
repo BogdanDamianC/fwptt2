@@ -28,18 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.Label lblDescription;
-            System.Windows.Forms.Label lblPropertyName;
-            System.Windows.Forms.Label lblDefaultValue;
+            this.lblPropertyName = new System.Windows.Forms.Label();
+            this.lblDefaultValue = new System.Windows.Forms.Label();
+            this.lblDescription = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.txtPropertyName = new System.Windows.Forms.TextBox();
             this.lstBoxProperties = new System.Windows.Forms.ListBox();
             this.txtPropertyDefaultValue = new System.Windows.Forms.TextBox();
-            lblDescription = new System.Windows.Forms.Label();
-            lblPropertyName = new System.Windows.Forms.Label();
-            lblDefaultValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // lblPropertyName
+            // 
+            this.lblPropertyName.AutoSize = true;
+            this.lblPropertyName.Location = new System.Drawing.Point(347, 55);
+            this.lblPropertyName.Name = "lblPropertyName";
+            this.lblPropertyName.Size = new System.Drawing.Size(77, 13);
+            this.lblPropertyName.TabIndex = 11;
+            this.lblPropertyName.Text = "Property Name";
+            // 
+            // lblDefaultValue
+            // 
+            this.lblDefaultValue.AutoSize = true;
+            this.lblDefaultValue.Location = new System.Drawing.Point(347, 113);
+            this.lblDefaultValue.Name = "lblDefaultValue";
+            this.lblDefaultValue.Size = new System.Drawing.Size(334, 13);
+            this.lblDefaultValue.TabIndex = 12;
+            this.lblDefaultValue.Text = "Property Default Value (this Value can be overidded for each test run)";
+            // 
+            // lblDescription
+            // 
+            this.lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDescription.Location = new System.Drawing.Point(16, 4);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(729, 32);
+            this.lblDescription.TabIndex = 6;
+            this.lblDescription.Text = "lblDescription";
             // 
             // btnAdd
             // 
@@ -60,18 +85,6 @@
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // lblDescription
-            // 
-            lblDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            lblDescription.Location = new System.Drawing.Point(16, 4);
-            lblDescription.Name = "lblDescription";
-            lblDescription.Size = new System.Drawing.Size(729, 32);
-            lblDescription.TabIndex = 6;
-            lblDescription.Text = "General Properties that can be used inside the C# code using the TestProperties[\"" +
-    "PropertyName\"] index. These properties can be overidded for each Test Run Defini" +
-    "tion ";
             // 
             // txtPropertyName
             // 
@@ -103,34 +116,16 @@
             this.txtPropertyDefaultValue.Size = new System.Drawing.Size(389, 157);
             this.txtPropertyDefaultValue.TabIndex = 10;
             // 
-            // lblPropertyName
-            // 
-            lblPropertyName.AutoSize = true;
-            lblPropertyName.Location = new System.Drawing.Point(347, 55);
-            lblPropertyName.Name = "lblPropertyName";
-            lblPropertyName.Size = new System.Drawing.Size(77, 13);
-            lblPropertyName.TabIndex = 11;
-            lblPropertyName.Text = "Property Name";
-            // 
-            // lblDefaultValue
-            // 
-            lblDefaultValue.AutoSize = true;
-            lblDefaultValue.Location = new System.Drawing.Point(347, 113);
-            lblDefaultValue.Name = "lblDefaultValue";
-            lblDefaultValue.Size = new System.Drawing.Size(334, 13);
-            lblDefaultValue.TabIndex = 12;
-            lblDefaultValue.Text = "Property Default Value (this Value can be overidded for each test run)";
-            // 
             // ucTestDefinitionProperties
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(lblDefaultValue);
-            this.Controls.Add(lblPropertyName);
+            this.Controls.Add(this.lblDefaultValue);
+            this.Controls.Add(this.lblPropertyName);
             this.Controls.Add(this.txtPropertyDefaultValue);
             this.Controls.Add(this.lstBoxProperties);
             this.Controls.Add(this.txtPropertyName);
-            this.Controls.Add(lblDescription);
+            this.Controls.Add(this.lblDescription);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnDelete);
             this.Name = "ucTestDefinitionProperties";
@@ -147,5 +142,8 @@
         private System.Windows.Forms.TextBox txtPropertyName;
         private System.Windows.Forms.ListBox lstBoxProperties;
         private System.Windows.Forms.TextBox txtPropertyDefaultValue;
+        private System.Windows.Forms.Label lblDescription;
+        private System.Windows.Forms.Label lblPropertyName;
+        private System.Windows.Forms.Label lblDefaultValue;
     }
 }

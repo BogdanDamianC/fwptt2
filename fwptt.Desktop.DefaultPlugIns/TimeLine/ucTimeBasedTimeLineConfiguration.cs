@@ -42,6 +42,7 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
         public ucTimeBasedTimeLineConfiguration()
         {
             InitializeComponent();
+            lblInfo.Text = "When using this time line the test will be ran a specific duration (hours + minutes). The test can be run using one or multiple threads - this simlates multiple users hitting the site in the same time. The pause betwen request helps get the run closer to a real timescenario where you have multiple users doing different actions on the page every 1-10 seconds. The Ramp up time allows for a gradual increase of the number of concurent threads(users) running this test";
         }
 
         protected override ExtendableData GetNewCurrentData()

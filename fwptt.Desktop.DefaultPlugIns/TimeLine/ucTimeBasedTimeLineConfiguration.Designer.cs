@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label lblNumberOfThreads;
+            this.lblInfo = new System.Windows.Forms.Label();
             this.grpRampUpTime = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtRampUpSeconds = new System.Windows.Forms.TextBox();
@@ -48,7 +49,7 @@
             // 
             // label3
             // 
-            label3.Location = new System.Drawing.Point(13, 69);
+            label3.Location = new System.Drawing.Point(13, 176);
             label3.Name = "label3";
             label3.Size = new System.Drawing.Size(207, 13);
             label3.TabIndex = 20;
@@ -56,18 +57,26 @@
             // 
             // lblNumberOfThreads
             // 
-            lblNumberOfThreads.Location = new System.Drawing.Point(13, 46);
+            lblNumberOfThreads.Location = new System.Drawing.Point(13, 153);
             lblNumberOfThreads.Name = "lblNumberOfThreads";
             lblNumberOfThreads.Size = new System.Drawing.Size(207, 13);
             lblNumberOfThreads.TabIndex = 19;
             lblNumberOfThreads.Text = "Number Of Threads(concurrent users)";
+            // 
+            // lblInfo
+            // 
+            this.lblInfo.Location = new System.Drawing.Point(0, 3);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(411, 99);
+            this.lblInfo.TabIndex = 23;
+            this.lblInfo.Text = "lblInfo";
             // 
             // grpRampUpTime
             // 
             this.grpRampUpTime.Controls.Add(this.label1);
             this.grpRampUpTime.Controls.Add(this.txtRampUpSeconds);
             this.grpRampUpTime.Controls.Add(this.txtRampUpMinutes);
-            this.grpRampUpTime.Location = new System.Drawing.Point(3, 88);
+            this.grpRampUpTime.Location = new System.Drawing.Point(3, 195);
             this.grpRampUpTime.Name = "grpRampUpTime";
             this.grpRampUpTime.Size = new System.Drawing.Size(394, 45);
             this.grpRampUpTime.TabIndex = 22;
@@ -99,7 +108,7 @@
             // 
             // txtTimeBetweenRequests
             // 
-            this.txtTimeBetweenRequests.Location = new System.Drawing.Point(226, 65);
+            this.txtTimeBetweenRequests.Location = new System.Drawing.Point(226, 172);
             this.txtTimeBetweenRequests.Name = "txtTimeBetweenRequests";
             this.txtTimeBetweenRequests.Size = new System.Drawing.Size(68, 20);
             this.txtTimeBetweenRequests.TabIndex = 21;
@@ -107,7 +116,7 @@
             // 
             // txtNumberOfThreads
             // 
-            this.txtNumberOfThreads.Location = new System.Drawing.Point(226, 42);
+            this.txtNumberOfThreads.Location = new System.Drawing.Point(226, 149);
             this.txtNumberOfThreads.Name = "txtNumberOfThreads";
             this.txtNumberOfThreads.Size = new System.Drawing.Size(68, 20);
             this.txtNumberOfThreads.TabIndex = 18;
@@ -118,7 +127,7 @@
             this.grpTimeBasedTimelineDuration.Controls.Add(this.label2);
             this.grpTimeBasedTimelineDuration.Controls.Add(this.txtDurationMinute);
             this.grpTimeBasedTimelineDuration.Controls.Add(this.txtDurationHour);
-            this.grpTimeBasedTimelineDuration.Location = new System.Drawing.Point(3, 1);
+            this.grpTimeBasedTimelineDuration.Location = new System.Drawing.Point(3, 108);
             this.grpTimeBasedTimelineDuration.Name = "grpTimeBasedTimelineDuration";
             this.grpTimeBasedTimelineDuration.Size = new System.Drawing.Size(394, 41);
             this.grpTimeBasedTimelineDuration.TabIndex = 17;
@@ -152,6 +161,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.grpRampUpTime);
             this.Controls.Add(this.txtTimeBetweenRequests);
             this.Controls.Add(label3);
@@ -159,7 +169,7 @@
             this.Controls.Add(lblNumberOfThreads);
             this.Controls.Add(this.grpTimeBasedTimelineDuration);
             this.Name = "ucTimeBasedTimeLineConfiguration";
-            this.Size = new System.Drawing.Size(398, 136);
+            this.Size = new System.Drawing.Size(414, 247);
             this.Load += new System.EventHandler(this.ucTimeBasedTimeLine_Load);
             this.grpRampUpTime.ResumeLayout(false);
             this.grpRampUpTime.PerformLayout();
@@ -182,5 +192,6 @@
         private System.Windows.Forms.TextBox txtDurationHour;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblInfo;
     }
 }

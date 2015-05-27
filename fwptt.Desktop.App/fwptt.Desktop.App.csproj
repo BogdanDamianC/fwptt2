@@ -210,11 +210,11 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <EmbeddedResource Include="UI\TestProperties\ucEditTestDefinitionValues.resx">
       <DependentUpon>ucEditTestDefinitionValues.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ucExploreTestProject.resx">
-      <DependentUpon>ucExploreTestProject.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UI\TestProperties\ucTestDefinitionProperties.resx">
       <DependentUpon>ucTestDefinitionProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ucExploreTestProject.resx">
+      <DependentUpon>ucExploreTestProject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />

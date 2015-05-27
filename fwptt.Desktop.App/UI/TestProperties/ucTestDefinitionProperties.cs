@@ -38,6 +38,7 @@ namespace fwptt.Desktop.App.UI
         public ucTestDefinitionProperties()
         {
             InitializeComponent();
+            lblDescription.Text = "General Properties that can be used inside the C# code using the TestProperties[\"PropertyName\"] index. These properties can be overidded for each Test Run Definition in case you have to do something different for a specific test.";
         }
 
         private List<TestDefinitionProperty> properties;

@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.Label lblNumberOfThreads;
+            System.Windows.Forms.Label lblInfo;
             this.txtNumberOfThreads = new System.Windows.Forms.TextBox();
             lblNumberOfThreads = new System.Windows.Forms.Label();
+            lblInfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblNumberOfThreads
             // 
-            lblNumberOfThreads.Location = new System.Drawing.Point(4, 5);
+            lblNumberOfThreads.Location = new System.Drawing.Point(-3, 40);
             lblNumberOfThreads.Name = "lblNumberOfThreads";
             lblNumberOfThreads.Size = new System.Drawing.Size(162, 14);
             lblNumberOfThreads.TabIndex = 10;
@@ -43,20 +45,30 @@
             // 
             // txtNumberOfThreads
             // 
-            this.txtNumberOfThreads.Location = new System.Drawing.Point(172, 2);
+            this.txtNumberOfThreads.Location = new System.Drawing.Point(165, 37);
             this.txtNumberOfThreads.Name = "txtNumberOfThreads";
             this.txtNumberOfThreads.Size = new System.Drawing.Size(68, 20);
             this.txtNumberOfThreads.TabIndex = 9;
             this.txtNumberOfThreads.Text = "10";
             // 
-            // ucStepTimeLine
+            // lblInfo
+            // 
+            lblInfo.Location = new System.Drawing.Point(-1, 4);
+            lblInfo.Name = "lblInfo";
+            lblInfo.Size = new System.Drawing.Size(411, 30);
+            lblInfo.TabIndex = 11;
+            lblInfo.Text = "When using this time line the test will be ran a specific number of times and eac" +
+    "h test will start after the previous test finished running or errored out";
+            // 
+            // ucStepTimeLineConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(lblInfo);
             this.Controls.Add(this.txtNumberOfThreads);
             this.Controls.Add(lblNumberOfThreads);
-            this.Name = "ucStepTimeLine";
-            this.Size = new System.Drawing.Size(418, 27);
+            this.Name = "ucStepTimeLineConfiguration";
+            this.Size = new System.Drawing.Size(418, 61);
             this.ResumeLayout(false);
             this.PerformLayout();
 
