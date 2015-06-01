@@ -29,7 +29,7 @@ using System.Runtime.CompilerServices;
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("Fast Web Performance Test Tool Application - Feature Preview 1")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("fwptt it's a Web application tester program for load testing web applications. It can record normal and ajax requests. I tested it on asp.net applications, but it should work with jsp, php or other.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Fast Web Performance Test Tool")]

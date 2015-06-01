@@ -7,7 +7,7 @@ using fwptt.TestProject.Project.TimeLine;
 
 namespace fwptt.Data.DefaultPlugins.TimeLine
 {
-    public class TimeBasedTimeLineController : BaseTimeLineController
+    public class TimeBasedTimeLineController : BaseTimeLineController, IDisposable
     {
         private TimeBasedTimeLine timeline;
         private double RampUpTimeSlice;
@@ -36,7 +36,7 @@ namespace fwptt.Data.DefaultPlugins.TimeLine
         public override void StopTimeLine()
         {
             base.StopTimeLine();
-            timeCheckTimer.Dispose();
+            this.Dispose();
         }
 
 
@@ -50,6 +50,17 @@ namespace fwptt.Data.DefaultPlugins.TimeLine
                     return null;
             }
             return base.TryStartNewExecutionThread();
+        }
+
+
+
+        public void Dispose()
+        {
+            if(timeCheckTimer != null)
+            {
+                timeCheckTimer.Dispose();
+                timeCheckTimer = null;
+            }
         }
     }
 }

@@ -14,13 +14,17 @@
 copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <NoConfig>false</NoConfig>
     <RunCodeAnalysis>False</RunCodeAnalysis>
-    <ApplicationIcon>html_go.ico</ApplicationIcon>
+    <ApplicationIcon>App.ico</ApplicationIcon>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NoWin32Manifest>False</NoWin32Manifest>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -33,12 +37,8 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NoWin32Manifest>False</NoWin32Manifest>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <NoStdLib>false</NoStdLib>
@@ -53,6 +53,7 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <DebugType>Full</DebugType>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <NoStdLib>false</NoStdLib>
@@ -136,7 +137,6 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <Compile Include="UI\TestProperties\ucTestDefinitionProperties.Designer.cs">
       <DependentUpon>ucTestDefinitionProperties.cs</DependentUpon>
     </Compile>
-    <Content Include="App.ico" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\frmTestDefinitionSourceCodeEditor.cs">
       <SubType>Form</SubType>
@@ -144,7 +144,7 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <Compile Include="UI\frmTestDefinitionSourceCodeEditor.Designer.cs">
       <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
     </Compile>
-    <Content Include="html_go.ico" />
+    <Content Include="App.ico" />
     <Content Include="License.txt" />
     <Compile Include="MainClass.cs" />
     <None Include="app.config" />
@@ -201,8 +201,8 @@ copy "$(ProjectDir)RecorderClass.xsl" "$(SolutionDir)$(OutDir)"</PostBuildEvent>
     <EmbeddedResource Include="UI\frmTestDefinitionSourceCodeEditor.resx">
       <DependentUpon>frmTestDefinitionSourceCodeEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\frmTestProjectDefinition.resx">
-      <DependentUpon>frmTestProjectDefinition.cs</DependentUpon>
+    <EmbeddedResource Include="UI\frmTestRun.resx">
+      <DependentUpon>frmTestRun.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\frmTestRunDefinition.resx">
       <DependentUpon>frmTestRunDefinition.cs</DependentUpon>

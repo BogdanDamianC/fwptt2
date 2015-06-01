@@ -56,6 +56,7 @@ namespace fwptt.Desktop.App.UI
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            this.Icon = Icon.ExtractAssociatedIcon(this.GetType().Assembly.Location);
             SetTitle();
             this.exploreTestProject.RefreshProjectDetails();
             showExploreTestProjectToolStripMenuItem.Checked = true;
@@ -81,7 +82,7 @@ namespace fwptt.Desktop.App.UI
             this.exploreTestProject.RefreshProjectDetails();
         }
 
-        private string LastAccessedProject
+        private static string LastAccessedProject
         {
             get
             {
@@ -100,6 +101,7 @@ namespace fwptt.Desktop.App.UI
                 TestProjectHost.Current.LoadProject(projectPath);
                 SetTitle();
                 this.exploreTestProject.RefreshProjectDetails();
+                LastAccessedProject = projectPath;
                 return true;
             }
             catch (Exception ex)

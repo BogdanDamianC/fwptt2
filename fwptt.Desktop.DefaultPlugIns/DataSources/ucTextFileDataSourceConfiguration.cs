@@ -27,10 +27,10 @@ namespace fwptt.Desktop.DefaultPlugIns.DataSources
         fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource tfDataSource;
         private const string NewLineSeparator = "{{NEWLINE}}";
         private const string TabSeparator = "{{TAB}}";
-        public override void SetConfiguration(ExtendableData data)
+        protected override void SetCurrentData(ExtendableData data)
         {
-            base.SetConfiguration(data);
-            tfDataSource = (fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource)CurrentData;
+            base.SetCurrentData(data);
+            tfDataSource = (fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource)data;
             txtFilePath.Text = tfDataSource.FilePath;
             cboDataSeparator.Items.Add(NewLineSeparator);
             cboDataSeparator.Items.Add(TabSeparator);

@@ -146,7 +146,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 		}
 		#endregion
 
-		private IPAddress GetLocalIPAddress()
+		private static IPAddress GetLocalIPAddress()
 		{
 			string strHostName = string.Empty;
 			strHostName = Dns.GetHostName ();

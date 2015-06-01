@@ -14,7 +14,7 @@ namespace fwptt.Desktop.DefaultPlugIns
     /// <summary>
     /// helper class that implements the basic implementation for the setter and getter actions
     /// </summary>
-    public class BaseTestRunConfigurationComponent : UserControl, ITestRunConfigurationComponent
+    public class BaseTestRunConfigurationComponent : UserControl, ITestRunComponent
     {
         private Type configurationDataType = null;
         public BaseTestRunConfigurationComponent():base()
@@ -25,26 +25,31 @@ namespace fwptt.Desktop.DefaultPlugIns
             if (attributes.Length == 0)
                 return;//still in design mode
 
-            configurationDataType = TestProjectHost.Current.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
+            configurationDataType = TestProjectHost.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
         }
 
-        protected ExtendableData CurrentData;
+        private ExtendableData lCurrentData;
 
-        public virtual void SetConfiguration(ExtendableData data)
+        public ExtendableData CurrentData
+        {
+            get { return lCurrentData; }
+            set
+            {
+                SetCurrentData(value);
+            }
+        }
+
+        protected virtual void SetCurrentData(ExtendableData data)
         {
             if (data != null && data.GetType() == configurationDataType)
-                CurrentData = data;
+                lCurrentData = data;
             else
-                CurrentData = GetNewCurrentData();
+                lCurrentData = GetNewCurrentData();
         }
+
         protected virtual ExtendableData GetNewCurrentData()
         {
             return (ExtendableData)Activator.CreateInstance(configurationDataType);
-        }
-
-        public ExtendableData GetConfiguration()
-        {
-            return CurrentData;
         }
     }
 }

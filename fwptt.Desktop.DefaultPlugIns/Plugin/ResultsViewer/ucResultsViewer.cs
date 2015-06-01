@@ -110,7 +110,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.btnExportResponses = new System.Windows.Forms.Button();
             this.btnViewPage = new System.Windows.Forms.Button();
             this.timer1 = new System.Timers.Timer();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.dgViewRequests = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -226,7 +225,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.ResumeLayout(false);
 
 		}
-		private System.Windows.Forms.ToolTip toolTip1;
 		#endregion
 
 

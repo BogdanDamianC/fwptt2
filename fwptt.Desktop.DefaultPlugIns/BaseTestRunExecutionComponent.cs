@@ -14,7 +14,7 @@ namespace fwptt.Desktop.DefaultPlugIns
     /// <summary>
     /// helper class that implements the basic implementation for the setter
     /// </summary>
-    public class BaseTestRunExecutionComponent: UserControl, ITestRunExecutionComponent
+    public class BaseTestRunExecutionComponent: UserControl, ITestRunComponent
     {
         private Type configurationDataType = null;
         public BaseTestRunExecutionComponent()
@@ -25,12 +25,21 @@ namespace fwptt.Desktop.DefaultPlugIns
             var attributes = this.GetType().GetCustomAttributes(typeof(ExpandableSettingsAttribute), true);
             if (attributes.Length == 0)
                 return;//still in design mode
-            configurationDataType = TestProjectHost.Current.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
+            configurationDataType = TestProjectHost.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
         }
 
-        protected ExtendableData CurrentData;
+        private ExtendableData lCurrentData;
 
-        public virtual void SetConfiguration(ExtendableData data)
+        public ExtendableData CurrentData
+        {
+            get { return lCurrentData; }
+            set
+            {
+                SetCurrentData(value);
+            }
+        }
+
+        protected virtual void SetCurrentData(ExtendableData data)
         {
             if (data == null)
                 throw new ApplicationException("The "+ this.GetType() + " viewer was started with no data!");

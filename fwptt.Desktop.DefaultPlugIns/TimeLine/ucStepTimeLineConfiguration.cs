@@ -51,9 +51,9 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             return newData;
         }
 
-        public override void SetConfiguration(ExtendableData data)
+        protected override void SetCurrentData(ExtendableData data)
         {
-            base.SetConfiguration(data);
+            base.SetCurrentData(data);
             txtNumberOfThreads.DataBindings.Add("Text", CurrentData, "MaxSteps");
         }
     }

@@ -46,7 +46,7 @@ namespace fwptt.Desktop.App.UI
         public void SetProperties(List<TestDefinitionProperty> properties)
         {
             this.properties = properties;
-            bindingList = new BindingList<TestDefinitionProperty>(properties);
+            bindingList = new BindingList<TestDefinitionProperty>(this.properties);
             lstBoxProperties.DataSource = bindingList;
             txtPropertyName.DataBindings.Add("Text", bindingList, "Name", false, DataSourceUpdateMode.OnPropertyChanged);
             txtPropertyDefaultValue.DataBindings.Add("Text", bindingList, "DefaultValue", false, DataSourceUpdateMode.OnPropertyChanged);

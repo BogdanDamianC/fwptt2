@@ -17,7 +17,7 @@ namespace fwptt.Desktop.App.UI
 {
     public partial class frmTestDatasourceDefinition : Form, IItemEditor<BaseTestDataSource>
     {
-        private ITestRunConfigurationComponent configControl;
+        private ITestRunComponent configControl;
 
         public frmTestDatasourceDefinition()
         {
@@ -28,8 +28,8 @@ namespace fwptt.Desktop.App.UI
             : this()
         {
             setUpEditControl(setting);
-            configControl.SetConfiguration(CurrentItem);//force data init
-            CurrentItem = (BaseTestDataSource)configControl.GetConfiguration();
+            configControl.CurrentData = CurrentItem;//force data init
+            CurrentItem = (BaseTestDataSource)configControl.CurrentData;
             CurrentItem.Id = Guid.NewGuid();
         }
 
@@ -40,7 +40,7 @@ namespace fwptt.Desktop.App.UI
             setUpEditControl(TestProjectHost.Current.PluginTypes.
                 Single(pl => pl.ComponentType == ExpandableComponentType.DataSourceConfiguration
                 && pl.UniqueName == datasource.UniqueName));
-            configControl.SetConfiguration(CurrentItem);
+            configControl.CurrentData = CurrentItem;
         }
 
         private void setUpEditControl(ExpandableSetting setting)
@@ -48,7 +48,7 @@ namespace fwptt.Desktop.App.UI
             var editControl = Activator.CreateInstance(setting.PluginType) as Control;
             editControl.Top = txtName.Bottom + 5;
             this.Controls.Add(editControl);
-            this.configControl = (ITestRunConfigurationComponent)editControl;
+            this.configControl = (ITestRunComponent)editControl;
             SetUpPluginSize();
         }
 

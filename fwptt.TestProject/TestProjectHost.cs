@@ -227,7 +227,7 @@ namespace fwptt.TestProject
             return getExpandableDataKey(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
         }
 
-        public Type GetExpandableType(string dataType, string uniqueName)
+        public static Type GetExpandableType(string dataType, string uniqueName)
         {
             Type dataTypeFound;
             if (!TestProjectHost.Current.expandableData.TryGetValue(getExpandableDataKey(dataType, uniqueName), out dataTypeFound))
@@ -235,7 +235,7 @@ namespace fwptt.TestProject
             return dataTypeFound;
         }
 
-        public Type GetExpandableType(ExpandableDataType dataType, string uniqueName)
+        public static Type GetExpandableType(ExpandableDataType dataType, string uniqueName)
         {
             return GetExpandableType(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
         }

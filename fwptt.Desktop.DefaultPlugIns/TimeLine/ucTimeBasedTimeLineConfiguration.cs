@@ -55,9 +55,9 @@ namespace fwptt.Desktop.DefaultPlugIns.TimeLine
             return newData;
         }
 
-        public override void SetConfiguration(ExtendableData data)
+        protected override void SetCurrentData(ExtendableData data)
         {
-            base.SetConfiguration(data);
+            base.SetCurrentData(data);
  
             txtDurationHour.DataBindings.Add("Text", CurrentData, "Hours");
             txtDurationMinute.DataBindings.Add("Text", CurrentData, "Minutes");

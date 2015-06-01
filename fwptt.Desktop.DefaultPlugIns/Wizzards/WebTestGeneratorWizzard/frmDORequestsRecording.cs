@@ -56,7 +56,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 		private System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn2;
 		private System.Timers.Timer timer1;
 		private ProxyHttpRecorder recorder;
-		private int LastRecordsCount = 0;
 
 		public frmDORequestsRecording(ProxyHttpRecorder l_recorder)
 		{
@@ -106,7 +105,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmDORequestsRecording));
             this.label1 = new System.Windows.Forms.Label();
             this.txtProxyIP = new System.Windows.Forms.TextBox();
             this.txtProxyPort = new System.Windows.Forms.TextBox();

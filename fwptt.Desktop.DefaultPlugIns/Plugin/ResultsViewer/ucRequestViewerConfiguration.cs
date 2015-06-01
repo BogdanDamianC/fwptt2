@@ -30,9 +30,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             return newData;
         }
 
-        public override void SetConfiguration(ExtendableData data)
+        protected override void SetCurrentData(ExtendableData data)
         {
-            base.SetConfiguration(data);
+            base.SetCurrentData(data);
             txtMaxNumberOfRequests.DataBindings.Add("Text", CurrentData, "MaxNumberOfRequestsRecorded");
             txtMaxResponseSize.DataBindings.Add("Text", CurrentData, "MaxResponseSizeRecorded");
             if (((ResultsViewerConfiguration)CurrentData).RefreshInterval < 1)

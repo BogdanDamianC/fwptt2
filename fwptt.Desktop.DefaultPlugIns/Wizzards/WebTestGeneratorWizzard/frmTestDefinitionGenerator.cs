@@ -435,7 +435,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                     select new { ug.Key, cnt = ug.Count() }).OrderByDescending(ug => ug.cnt).First().Key;
         }
 
-        private string GetZipRequestFileContent(ZipEntry ze)
+        private static string GetZipRequestFileContent(ZipEntry ze)
         {
             using (var ms = new MemoryStream())
             {

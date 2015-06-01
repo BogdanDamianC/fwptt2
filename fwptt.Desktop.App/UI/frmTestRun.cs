@@ -187,12 +187,12 @@ namespace fwptt.Desktop.App.UI
             }
         }
 
-        private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
+        private static Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
         {
             var tlpl = Activator.CreateInstance(setting.PluginType) as Control;
             if (tlpl == null)
                 throw new ApplicationException(setting.PluginType.ToString() + " type is not supported as a desktop application plugin, the type must be a user control or some type derived from the Control class");
-            ((ITestRunExecutionComponent)tlpl).SetConfiguration(data);
+            ((ITestRunComponent)tlpl).CurrentData = data;
             return tlpl;
         }
 
@@ -249,5 +249,6 @@ namespace fwptt.Desktop.App.UI
         {
             //TODO
         }
+
     }
 }

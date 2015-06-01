@@ -83,12 +83,12 @@ namespace fwptt.Desktop.App.UI
                 ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId).Properties, trd.TestDefinitionOverridedPropertyValues);
         }
 
-        private Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
+        private static Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
         {
             var tlpl = Activator.CreateInstance(setting.PluginType) as Control;
             if (tlpl == null)
                 throw new ApplicationException(setting.PluginType.ToString() + " type is not supported as a desktop application plugin, the type must be a user control or some type derived from the Control class");
-            ((ITestRunConfigurationComponent)tlpl).SetConfiguration(data);
+            ((ITestRunComponent)tlpl).CurrentData = data;
             return tlpl;
         }
 
@@ -134,9 +134,9 @@ namespace fwptt.Desktop.App.UI
                 grpTimeLine.Controls.Remove(ctrl);
                 ctrl.Dispose();
             }
-            var newTimelineConfigControl = (ITestRunConfigurationComponent)CreateAndPositionNewControl(selectedTimelineConfiguration, CurrentItem.TimeLine, grpTimeLine, new Point(cboTimeLines.Left, cboTimeLines.Bottom + 10), cboTimeLines.Width);
+            var newTimelineConfigControl = (ITestRunComponent)CreateAndPositionNewControl(selectedTimelineConfiguration, CurrentItem.TimeLine, grpTimeLine, new Point(cboTimeLines.Left, cboTimeLines.Bottom + 10), cboTimeLines.Width);
             grpProperties.Height = Math.Max(grpTimeLine.Height, 120);
-            CurrentItem.TimeLine = (BaseTestRunTimeLine)newTimelineConfigControl.GetConfiguration();
+            CurrentItem.TimeLine = (BaseTestRunTimeLine)newTimelineConfigControl.CurrentData;
         }
 
         private void SetUpTimeLinePlugins(TestRunDefinition trd)
@@ -203,7 +203,7 @@ namespace fwptt.Desktop.App.UI
             {
                 var selectedType = dataSource[e.Index].Data.UniqueName;
                 if (e.NewValue == CheckState.Checked && !CurrentItem.RunPlugins.Any(pl => pl.UniqueName == selectedType))
-                    CurrentItem.RunPlugins.Add(((ITestRunConfigurationComponent)AddPlugin(dataSource[e.Index].Data, null).Content).GetConfiguration());
+                    CurrentItem.RunPlugins.Add(((ITestRunComponent)AddPlugin(dataSource[e.Index].Data, null).Content).CurrentData);
                 if (e.NewValue != CheckState.Checked)
                 {
                     CurrentItem.RunPlugins.RemoveAll(pl => pl.UniqueName == selectedType);

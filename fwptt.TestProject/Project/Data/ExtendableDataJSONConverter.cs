@@ -36,7 +36,7 @@ namespace fwptt.TestProject.Project.Data
     {
         protected override ExtendableData Create(Type objectType, JObject jObject)
         {
-            return (ExtendableData)Activator.CreateInstance(TestProjectHost.Current.GetExpandableType(jObject.Value<string>("DataType"), jObject.Value<string>("UniqueName")));
+            return (ExtendableData)Activator.CreateInstance(TestProjectHost.GetExpandableType(jObject.Value<string>("DataType"), jObject.Value<string>("UniqueName")));
         }
     }
 }

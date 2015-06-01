@@ -30,13 +30,8 @@ using fwptt.TestProject.Project.Data;
 
 namespace fwptt.TestProject.Project.Interfaces
 {
-    public interface ITestRunExecutionComponent
+    public interface ITestRunComponent
     {
-        void SetConfiguration(ExtendableData data);
-    }
-
-    public interface ITestRunConfigurationComponent : ITestRunExecutionComponent
-    {
-        ExtendableData GetConfiguration();
+        ExtendableData CurrentData { get; set; }
     }
 }
