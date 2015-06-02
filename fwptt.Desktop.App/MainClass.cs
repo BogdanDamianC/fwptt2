@@ -34,20 +34,13 @@ namespace fwptt.Desktop.App.UI {
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		[STAThread]
-		static void Main(string[] args) 
-		{
-			try
-			{
-                TestProjectHost.Initialize(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
-                if (args.Length > 0)
-                    TestProjectHost.Current.LoadProject(args[0]);
-				Application.Run(new frmTestProjectDefinition ());
-			}
-			catch(Exception ex)
-			{
-				MessageBox.Show(ex.Message);
-			}
-		}
+        [STAThread]
+        static void Main(string[] args)
+        {
+            TestProjectHost.Initialize(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
+            if (args.Length > 0)
+                TestProjectHost.Current.LoadProject(args[0]);
+            Application.Run(new frmTestProjectDefinition());
+        }
 	}
 }

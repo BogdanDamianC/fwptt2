@@ -146,7 +146,7 @@
       "TestDefinitionOverridedPropertyValues": [],
       "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
       "TimeLine": {
-        "MaxSteps": 30,
+        "MaxSteps": 300,
         "UniqueName": "fwptt -> Default -> Stepping TimeLine",
         "DataType": "Configuration"
       },
@@ -219,7 +219,8 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]
@@ -277,7 +278,8 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]
@@ -335,7 +337,8 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]
@@ -393,7 +396,8 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]
@@ -451,7 +455,8 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]
@@ -498,7 +503,8 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]
@@ -561,7 +567,51 @@
           "TestRunCounts": [],
           "OverallCounts": {
             "NoOfRequests": 0,
-            "NoOfErrors": 0
+            "NoOfErrors": 0,
+            "OtherCounts": {}
+          }
+        }
+      ]
+    },
+    {
+      "Name": "local_sign_in_wizzard_test6/2/2015 8:14:33 AM",
+      "TestRunDefinition": {
+        "Id": "7319c294-a1ba-4df9-ab70-93516a4f899b",
+        "Name": "local_sign_in_wizzard_test",
+        "TestDefinitionId": "01db1c48-4748-47c4-a5ab-051302008212",
+        "TestDefinitionOverridedPropertyValues": [],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "MaxSteps": 30,
+          "UniqueName": "fwptt -> Default -> Stepping TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 100,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": [
+        {
+          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+          "DataType": "TestRun",
+          "TestRunCounts": [],
+          "OverallCounts": {
+            "NoOfRequests": 0,
+            "NoOfErrors": 0,
+            "OtherCounts": {}
           }
         }
       ]

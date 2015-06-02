@@ -52,7 +52,6 @@ namespace IETests
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"POST";
 						CurrentRequest.Request.PayloadContentType = @"application/x-www-form-urlencoded";
-			CurrentRequest.Request.Payload = @"__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE=74K1yr9qHr7G3q7ruprwFzT5zgTNfgsiA0WO%2BOolEb%2FCPwiTXxQ4QdbY2UGZEQ56Ztr3jUpKfZaRIFvb0oopL0ExW5rNXya1jkXUSdOqQHqJGbX8jj0%2B9pV%2BSUY1k9%2BdLTlUvUgWH2%2Fw%2F5DliWQ3fU%2BkAIqXsYpZOELR1Z96jdoyVmucWjw5KCJInXINNLBja%2BhTG79qZvcP9HhHPZrolqjrugL9CG7s9NPhJXGXxOvyf%2FlZ21%2BmLVKPatE3vvgi4F1IDj6ij0OeT3BtK6RfJJsX9U5piFUsLPS%2B3OnLExgrxvrNsFXXLMa26nzTpKfxo9S%2FiUQIRdiEUTL5E6EW79xcSZyAh3kySog6h%2F0kMmW4OFW4nBY684rH3tAmeiOE&__VIEWSTATEGENERATOR=096DA286&__EVENTVALIDATION=vr0saVbrCK9k22Aj1syJ9ZiBYO%2B2mYxM33jlSjhxv9SlekXLe2BbnSiacJjkEJp8tijF7LvSlfvErVnF%2BwVf7wmvNhFAub%2FD0FMFIzAiiwkE6Wra%2BwYeGJHWgRiuKmUL2PbFzaz6osrCD0hzrRZAsemIe5Wyse5UhYZLvJwgYGUWSVfKoO48Ju26hBVxFZ1O&ctl00%24MainContent%24Email=test%40test.com&ctl00%24MainContent%24Password=1&ctl00%24MainContent%24ctl05=Log+in";
 									
 			CurrentRequest.Request.PostParams.Add(new RequestParam(@"__EVENTTARGET",@""));
 			CurrentRequest.Request.PostParams.Add(new RequestParam(@"__EVENTARGUMENT",@""));
@@ -65,6 +64,10 @@ namespace IETests
 			
 			var req = BuildRequest();		
 			await ExecuteRequest(req,(resp)=>{
+                if (resp.Content.IndexOf("<li><a href=\"Account/Manage\" title=\"Manage your account\">Hello, ") > 0)
+                    CurrentRequest.Counts.Add("LoggedIn", 1);
+                else
+                    resp.ErrorMessage = "not Logged In";
 								return true;//Add response handling stuff here if needed - return true for the current run to continue or false to cancel it
 			});
 		}

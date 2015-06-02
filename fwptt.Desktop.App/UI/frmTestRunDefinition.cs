@@ -56,8 +56,8 @@ namespace fwptt.Desktop.App.UI
             txtTestRunName.Text = trd.Name;
             txtTestRunName.TextChanged += txtTestRunName_TextChanged;
             if (trd.TestDefinitionId == Guid.Empty)
-            { }
                 trd.TestDefinitionId = TestProjectHost.Current.Project.TestDefinitions[0].Id;
+
             cboTestDefinition.ValueMember = "Id";
             cboTestDefinition.DisplayMember = "TestDefinitionFile";
             cboTestDefinition.DataSource = TestProjectHost.Current.Project.TestDefinitions;

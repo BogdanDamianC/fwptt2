@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace fwptt.Data.DefaultPlugins.RequestsCounter
 {
@@ -32,6 +33,7 @@ namespace fwptt.Data.DefaultPlugins.RequestsCounter
     {
         public ulong NoOfRequests;
         public ulong NoOfErrors;
+        public ConcurrentDictionary<string, ulong> OtherCounts = new ConcurrentDictionary<string, ulong>();
     }
 
     public class TestLoadInfoPerUnitOfTime :TestLoadInfo

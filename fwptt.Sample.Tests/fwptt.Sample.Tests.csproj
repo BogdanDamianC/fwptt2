@@ -69,6 +69,7 @@
   <ItemGroup>
     <None Include="Fiddler_Local_signInand_json_api_calls.saz" />
     <None Include="fwptt2.demo.tests.fwptt" />
+    <None Include="fwptt2.demo2.tests.fwptt" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -39,6 +39,7 @@ namespace fwptt.TestProject.Run.Data
         double Duration { get; }
         IRequestInfo Clone();
         string ResponseToString();
+        Dictionary<string, ulong> Counts { get; }
     }
 
 	[Serializable]	
@@ -46,6 +47,7 @@ namespace fwptt.TestProject.Run.Data
 	{
         public RequestInfo() {
             Errors = new List<string>();
+            Counts = new Dictionary<string, ulong>(); 
         }
 		public TIn Request  { get; set; }
         public TOut Response { get; set; }
@@ -55,10 +57,20 @@ namespace fwptt.TestProject.Run.Data
         public double Duration { get { return EndTime.Subtract(StartTime).TotalMilliseconds; } }
         public abstract string ResponseToString();
 
+        public Dictionary<string, ulong> Counts { get; private set; }
+        public void IncreaseCount(string key, uint value)
+        {
+            ulong currentCountValue;
+            if (Counts.TryGetValue(key, out currentCountValue))
+                Counts[key] = currentCountValue + value;
+            else
+                Counts.Add(key, value);
+        }
+
         public IRequestInfo Clone()
         {
             return (IRequestInfo)this.MemberwiseClone();
         }
-	}
+    }
 }
 

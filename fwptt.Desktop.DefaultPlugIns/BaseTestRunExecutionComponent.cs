@@ -45,7 +45,7 @@ namespace fwptt.Desktop.DefaultPlugIns
                 throw new ApplicationException("The "+ this.GetType() + " viewer was started with no data!");
             else if(data.GetType() != configurationDataType)
                 throw new ApplicationException("The " + this.GetType() + " viewer was started with the wrong data!");
-            CurrentData = data;
+            lCurrentData = data;
         }
     }
 }
