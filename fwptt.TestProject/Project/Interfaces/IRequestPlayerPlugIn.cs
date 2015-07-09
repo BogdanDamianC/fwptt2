@@ -42,6 +42,6 @@ namespace fwptt.TestProject.Project.Interfaces
         Action OnTestStopped {get;}
         Action<IRequestInfo> OnRequestStarted { get; }
         Action<IRequestInfo> OnRequestEnded { get; }
-        ExtendableData TestRunResults { get; }
+        ExtendableData TestRunResults { get; set;}
 	}
 }

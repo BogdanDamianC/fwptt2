@@ -313,6 +313,55 @@ namespace fwptt.Desktop.App.UI
         }
         #endregion
 
+        #region DataSource Events
+        private void tStripMenuItemNewTestDataSource_Click(object sender, EventArgs e)
+        {
+            if (!CanCreateNewItem())
+                return;
+            var dst = (ExpandableSetting)((ToolStripMenuItem)sender).Tag;
+            var newForm = new frmTestDatasourceDefinition(dst);
+            var tnDS = this.AddTestDataSource(newForm.CurrentItem);
+            TestProjectHost.Current.Project.TestDataSources.Add(newForm.CurrentItem);
+            SetupAndDisplayForm<frmTestDatasourceDefinition, BaseTestDataSource>(newForm, (object tmpSnd, BaseTestDataSource eds) =>
+            {
+                tnDS.Text = newForm.CurrentItem.Name;
+            });
+
+        }
+
+        private void TryOpenTestDataSource(BaseTestDataSource ds, TreeNode node)
+        {
+            if (ds == null)
+                return;
+            TryOpenCreateItem<frmTestDatasourceDefinition, BaseTestDataSource>(ds,
+                (td) => { return new frmTestDatasourceDefinition(td); }, (object tmpSnd, BaseTestDataSource eds) =>
+                {
+                    node.Text = eds.Name;
+                });
+        }
+
+        private void tStripMenuItemOpenTestDataSource_Click(object sender, EventArgs e)
+        {
+            var dts = GetMenuClickTargetNodeValue<BaseTestDataSource>(sender, TestRunDefininitionTreeviewSelectError);
+            if (dts == null)
+                return;
+            TryOpenTestDataSource(dts.Item1, dts.Item2);
+        }
+
+        private void tStripMenuItemDeleteTestDataSource_Click(object sender, EventArgs e)
+        {
+            RemoveItem<frmTestDatasourceDefinition, BaseTestDataSource>(sender, testDataSources,
+                TestProjectHost.Current.Project.TestDataSources, "Ooops something went wrong, could notfind the datasource anymore",
+                (BaseTestDataSource ds) =>
+                {
+                    bool isInUse = TestProjectHost.Current.Project.TestRunDefinitions.Any(trd => trd.TestDataSourceId.HasValue && trd.TestDataSourceId.Value == ds.Id);
+                    if (isInUse)
+                        MessageBox.Show("Datasource is in use, please update the test Run definitions first before deleting it");
+                    return !isInUse;
+                });
+        }
+        #endregion
+
         #region TestRunDefinitions
         private const string TestRunDefininitionTreeviewSelectError = "Something went wrong the current selected node is not a test run definition.";
 
@@ -380,56 +429,11 @@ namespace fwptt.Desktop.App.UI
         }
         #endregion
 
-        #region DataSource Events
-        private void tStripMenuItemNewTestDataSource_Click(object sender, EventArgs e)
-        {
-            if (!CanCreateNewItem())
-                return;
-            var dst = (ExpandableSetting)((ToolStripMenuItem)sender).Tag;
-            var newForm = new frmTestDatasourceDefinition(dst);
-            var tnDS = this.AddTestDataSource(newForm.CurrentItem);
-            TestProjectHost.Current.Project.TestDataSources.Add(newForm.CurrentItem);
-            SetupAndDisplayForm<frmTestDatasourceDefinition, BaseTestDataSource>(newForm,  (object tmpSnd, BaseTestDataSource eds) => {
-                    tnDS.Text = newForm.CurrentItem.Name;
-                });
-            
-        }
-
-        private void TryOpenTestDataSource(BaseTestDataSource ds, TreeNode node)
-        {
-            if (ds == null)
-                return;
-            TryOpenCreateItem<frmTestDatasourceDefinition, BaseTestDataSource>(ds,
-                (td) => { return new frmTestDatasourceDefinition(td); }, (object tmpSnd, BaseTestDataSource eds) =>
-                {
-                    node.Text = eds.Name;
-                }); 
-        }
-
-        private void tStripMenuItemOpenTestDataSource_Click(object sender, EventArgs e)
-        {
-            var dts = GetMenuClickTargetNodeValue<BaseTestDataSource>(sender, TestRunDefininitionTreeviewSelectError);
-            if (dts == null)
-                return;
-            TryOpenTestDataSource(dts.Item1, dts.Item2);   
-        }
-
-        private void tStripMenuItemDeleteTestDataSource_Click(object sender, EventArgs e)
-        {
-            RemoveItem<frmTestDatasourceDefinition, BaseTestDataSource>(sender, testDataSources,
-                TestProjectHost.Current.Project.TestDataSources, "Ooops something went wrong, could notfind the datasource anymore",
-                (BaseTestDataSource ds)=>{
-                    bool isInUse = TestProjectHost.Current.Project.TestRunDefinitions.Any(trd => trd.TestDataSourceId.HasValue && trd.TestDataSourceId.Value == ds.Id);
-                    if (isInUse)
-                        MessageBox.Show("Datasource is in use, please update the test Run definitions first before deleting it");
-                    return !isInUse;
-                });
-        }
-        #endregion
-
         private void tStripMenuItemOpenTestResults_Click(object sender, EventArgs e)
         {
-
+            //I GOT HERE
+            var runResults = GetMenuClickTargetNodeValue<TestRunResults>(sender, TestRunDefininitionTreeviewSelectError);
+            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults.Item1, (td) => new frmTestRun(td));
         }
 
         private void tStripMenuItemDeleteTestResults_Click(object sender, EventArgs e)

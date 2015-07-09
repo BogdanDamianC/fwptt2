@@ -127,7 +127,7 @@
             this.ctxTestRunDefinition.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newTestRunDefinitionToolStripMenuItem});
             this.ctxTestRunDefinition.Name = "ctxTestRunDefinition";
-            this.ctxTestRunDefinition.Size = new System.Drawing.Size(203, 48);
+            this.ctxTestRunDefinition.Size = new System.Drawing.Size(203, 26);
             // 
             // newTestRunDefinitionToolStripMenuItem
             // 

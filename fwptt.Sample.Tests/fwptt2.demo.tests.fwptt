@@ -615,6 +615,44 @@
           }
         }
       ]
+    },
+    {
+      "Name": "local_sign_in_wizzard_test7/8/2015 9:55:56 PM",
+      "TestRunDefinition": {
+        "Id": "7319c294-a1ba-4df9-ab70-93516a4f899b",
+        "Name": "local_sign_in_wizzard_test",
+        "TestDefinitionId": "e5bfdf46-1d56-4ed7-ba4e-ac2e7fd0ecba",
+        "TestDefinitionOverridedPropertyValues": [],
+        "TestDataSourceId": "59df7d2f-ecc2-4fbe-80ae-6434cbdebd82",
+        "TimeLine": {
+          "MaxSteps": 300,
+          "UniqueName": "fwptt -> Default -> Stepping TimeLine",
+          "DataType": "Configuration"
+        },
+        "RunPlugins": [
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
+            "DataType": "Configuration"
+          },
+          {
+            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
+            "DataType": "Configuration",
+            "MaxResponseSizeRecorded": 100,
+            "MaxNumberOfRequestsRecorded": 100,
+            "RefreshInterval": 5
+          }
+        ]
+      },
+      "RunTestDefinitionProperties": [
+        {
+          "Name": "Site Domain",
+          "TestDefinitionPropertyId": "00000000-0000-0000-0000-000000000000",
+          "Value": "http://localhost"
+        }
+      ],
+      "StartTime": "0001-01-01T00:00:00",
+      "EndTime": "0001-01-01T00:00:00",
+      "PluginsResults": []
     }
   ]
 }

@@ -53,7 +53,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		/// </summary>
         private System.ComponentModel.IContainer components;
 
-        private System.Timers.Timer timer1;
+        private System.Timers.Timer mainTimer;
         private System.Windows.Forms.Button btnViewPage;
 
 
@@ -63,8 +63,18 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         private Button btnViewContent;
         private DataGridViewTextBoxColumn Column2;
 
-        //TODO look into this not sure if this is needed
-        public ExtendableData TestRunResults { get { return null; } } 
+        private RequestResultsRunData requestResultsRunData = new RequestResultsRunData();
+        public ExtendableData TestRunResults
+        {
+            get { return requestResultsRunData; }
+            set {
+                requestResultsRunData = (RequestResultsRunData)value;
+                dgViewRequests.Rows.Clear();
+                requestResultsRunData.Requests.ForEach(r => AddRequest(r));
+                dgViewRequests.Refresh();
+                dgViewRequests.Update();
+            }
+        }
 
 		public ucResultsViewer()
 		{
@@ -87,7 +97,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		/// </summary>
 		protected override void Dispose( bool disposing )
 		{
-            timer1.Dispose();
+            mainTimer.Dispose();
             if (disposing && components != null)
             {
                 components.Dispose();
@@ -102,14 +112,13 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn3;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn7;
             System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn6;
             this.btnExportResponses = new System.Windows.Forms.Button();
             this.btnViewPage = new System.Windows.Forms.Button();
-            this.timer1 = new System.Timers.Timer();
+            this.mainTimer = new System.Timers.Timer();
             this.dgViewRequests = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -118,7 +127,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
             dataGridTextBoxColumn6 = new System.Windows.Forms.DataGridTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.timer1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainTimer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewRequests)).BeginInit();
             this.SuspendLayout();
             // 
@@ -166,12 +175,11 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.btnViewPage.Text = "View Page";
             this.btnViewPage.Click += new System.EventHandler(this.btnViewPage_Click);
             // 
-            // timer1
+            // mainTimer
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 1000D;
-            this.timer1.SynchronizingObject = this;
-            this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
+            this.mainTimer.Interval = 1000D;
+            this.mainTimer.SynchronizingObject = this;
+            this.mainTimer.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
             // 
             // dgViewRequests
             // 
@@ -220,7 +228,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.DoubleBuffered = true;
             this.Name = "ucResultsViewer";
             this.Size = new System.Drawing.Size(934, 462);
-            ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainTimer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewRequests)).EndInit();
             this.ResumeLayout(false);
 
@@ -233,8 +241,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             queuedRequests = new List<IRequestInfo>();
             dgViewRequests.Rows.Clear();
             btnExportResponses.Enabled = false;
-            timer1.Interval = Configuration.RefreshInterval * 1000;
-            timer1.Start();
+            mainTimer.Interval = Configuration.RefreshInterval * 1000;
+            mainTimer.Start();
         }
 
         public Action OnTestStarted { get{return TestStarted;} }
@@ -242,7 +250,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         delegate void ThreadSafeCallback();
 		private void TestEnded()
 		{
-            timer1.Stop();
+            mainTimer.Stop();
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.
@@ -285,6 +293,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             int StartRecord = 0;
             if (currentQueuedRequests.Count >= Configuration.MaxNumberOfRequestsRecorded)
             {
+                requestResultsRunData.Requests.Clear();
                 dgViewRequests.Rows.Clear();
                 StartRecord = currentQueuedRequests.Count - Configuration.MaxNumberOfRequestsRecorded;
 
@@ -293,20 +302,28 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             {
                 int rowsToKeep = Configuration.MaxNumberOfRequestsRecorded - currentQueuedRequests.Count;
                 while (dgViewRequests.Rows.Count > 0 && dgViewRequests.Rows.Count > rowsToKeep)
+                {
+                    requestResultsRunData.Requests.RemoveAt(0);
                     dgViewRequests.Rows.RemoveAt(0);
+                }
             }
-
             for (int i = StartRecord; i < currentQueuedRequests.Count; i++)
             {
-                var item = currentQueuedRequests[i];
-                var index = dgViewRequests.Rows.Add(item.ToString(), item.Duration / 1000);
-                dgViewRequests.Rows[index].Tag = item.ResponseToString();
+                var item = new RequestInfoRunData(currentQueuedRequests[i] );;
+                requestResultsRunData.Requests.Add(item);
+                AddRequest(item);
             }
 
             dgViewRequests.Refresh();
             dgViewRequests.Update();
         }
-		
+
+        private void AddRequest(RequestInfoRunData item)
+        {
+            var index = dgViewRequests.Rows.Add(item.Info, item.Duration);
+            dgViewRequests.Rows[index].Tag = item.RecordedResponse;
+        }
+
 		private void btnExportResponses_Click(object sender, System.EventArgs e)
 		{
             string ret = null;

@@ -27,33 +27,42 @@ using System.Text;
 using System.Threading.Tasks;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
+using fwptt.TestProject.Run.Data;
 
-namespace fwptt.Data.DefaultPlugins.RequestsCounter
+namespace fwptt.Data.DefaultPlugins.ResultsViewer
 {
-    public class RequestCounterRunData : ExtendableData
+    public class RequestResultsRunData : ExtendableData
     {
-        public RequestCounterRunData()
+        public RequestResultsRunData()
         {
-            TestRunCounts = new List<TestLoadInfoPerUnitOfTime>();
-            OverallCounts = new TestLoadInfo();
+            Requests = new List<RequestInfoRunData>();
         }
         public override string UniqueName
         {
-            get { return RequestCounterConfiguration.PublicName; }
+            get { return ResultsViewerConfiguration.PublicName; }
         }
 
         public override ExpandableDataType DataType
         {
             get { return ExpandableDataType.TestRun; }
         }
-        public List<TestLoadInfoPerUnitOfTime> TestRunCounts { get; set; }
-        public TestLoadInfo OverallCounts { get; set; }
+        public List<RequestInfoRunData> Requests { get; set; }
+    }
 
-        public void Reset()
+    public class RequestInfoRunData
+    {
+        public RequestInfoRunData() { }
+        public RequestInfoRunData(string Info, double Duration, string FullRequestPayload)
         {
-            this.TestRunCounts.Clear();
-            OverallCounts = new TestLoadInfo();
-
+            this.Info = Info;
+            this.Duration = Duration;
+            this.RecordedResponse = FullRequestPayload;
         }
+        public RequestInfoRunData(IRequestInfo item)
+            : this(item.ToString(), item.Duration / 1000, item.ResponseToString()) { }
+
+        public string Info { get; set; }
+        public double Duration { get; set; }
+        public string RecordedResponse { get; set; }
     }
 }

@@ -213,7 +213,10 @@ namespace fwptt.Desktop.App.UI
             if (reqPlayerPlugin != null)
             {
                 testRunner.AddPlugIn(reqPlayerPlugin);
-                if (reqPlayerPlugin.TestRunResults != null)
+                var savedTestResults = CurrentItem.PluginsResults.FirstOrDefault(pr => pr.UniqueName == setting.UniqueName);
+                if (savedTestResults != null)
+                    reqPlayerPlugin.TestRunResults = savedTestResults;
+                else if (reqPlayerPlugin.TestRunResults != null)
                     CurrentItem.PluginsResults.Add(reqPlayerPlugin.TestRunResults);
             }
             else

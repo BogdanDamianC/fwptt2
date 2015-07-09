@@ -48,6 +48,7 @@
     <Compile Include="RequestsCounter\RequestCounterConfiguration.cs" />
     <Compile Include="RequestsCounter\RequestCounterRunData.cs" />
     <Compile Include="RequestsCounter\TestLoadInfo.cs" />
+    <Compile Include="ResultsViewer\RequestResultsRunData.cs" />
     <Compile Include="ResultsViewer\ResultsViewerConfiguration.cs" />
     <Compile Include="TimeLine\SteppingTimeLine.cs" />
     <Compile Include="TimeLine\SteppingTimeLineController.cs" />

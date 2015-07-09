@@ -73,8 +73,9 @@ namespace fwptt.TestProject
 
         public void LoadProject(string projectPath)
         {
-            Project = TestProjectDefinition.FromFile(projectPath);
-            ProjectPath = projectPath;
+            var projectFileInfo = new FileInfo(projectPath);
+            Project = TestProjectDefinition.FromFile(projectFileInfo.FullName);
+            ProjectPath = projectFileInfo.FullName;
         }
 
         public void SaveProject()

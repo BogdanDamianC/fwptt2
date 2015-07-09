@@ -55,7 +55,16 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		private Label lblTotalNoOfRequests;
 		private Label lblNoOfErrors;
 
-		public ExtendableData TestRunResults {get; private set;}
+        private RequestCounterRunData requestCounterRunData = new RequestCounterRunData();
+        public ExtendableData TestRunResults
+        {
+            get { return requestCounterRunData; }
+            set
+            {
+                requestCounterRunData = (RequestCounterRunData)value;
+                CreateChart();
+            }
+        }
 		public DateTime TestRunStartTime;
 
 		public ucCounter()
@@ -64,7 +73,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-			TestRunResults = new RequestCounterRunData();
 			mainTimer.Stop();
 
 		}
@@ -267,6 +275,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			instantNoOfRequestsChart = NewGraph("Req/Sec");
 			averageNoOfRequestsChart = NewGraph("Avg Req/Sec", DrawPoint1);
 			errorCountChart = NewGraph("Err/Sec", DrawPoint1);
+
+            requestCounterRunData.TestRunCounts.ForEach(trc => AddCountToGraph(trc));
             Refresh();
 		}
 		#endregion
@@ -295,22 +305,26 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 				currentInstantCount = new TestLoadInfoPerUnitOfTime();
 			}
             mainTimer.Interval = Math.Max(Convert.ToInt32(currentInstantCount.NoOfRequests), 1000);
-			var currentResults = (RequestCounterRunData)TestRunResults;
 			instCount.Time = DateTime.Now;
-			currentResults.OverallCounts.NoOfRequests += instCount.NoOfRequests;
-			currentResults.OverallCounts.NoOfErrors += instCount.NoOfErrors;
-			currentResults.TestRunCounts.Add(instCount);
+			requestCounterRunData.OverallCounts.NoOfRequests += instCount.NoOfRequests;
+			requestCounterRunData.OverallCounts.NoOfErrors += instCount.NoOfErrors;
+			requestCounterRunData.TestRunCounts.Add(instCount);
+            AddCountToGraph(instCount);
+			Refresh();
+		}
 
-			double ElapsedSecs = ((TimeSpan)instCount.Time.Subtract(TestRunStartTime)).TotalSeconds;
+        private void AddCountToGraph(TestLoadInfoPerUnitOfTime instCount)
+        {
+            double ElapsedSecs = ((TimeSpan)instCount.Time.Subtract(TestRunStartTime)).TotalSeconds;
 			double average = 0;
 
 			var currentTime = DateTime.Now;
 			lblInstantRequestsperSecond.Text = instCount.NoOfRequests.ToString();
 
-			lblTotalNoOfRequests.Text = currentResults.OverallCounts.NoOfRequests.ToString();
-			average = ElapsedSecs > 0 ? (double)currentResults.OverallCounts.NoOfRequests / ElapsedSecs : (double)currentResults.OverallCounts.NoOfRequests;
+			lblTotalNoOfRequests.Text = requestCounterRunData.OverallCounts.NoOfRequests.ToString();
+			average = ElapsedSecs > 0 ? (double)requestCounterRunData.OverallCounts.NoOfRequests / ElapsedSecs : (double)requestCounterRunData.OverallCounts.NoOfRequests;
 			lblAverageRequestsperSecond.Text = Math.Round(average, 1).ToString();
-			lblNoOfErrors.Text = currentResults.OverallCounts.NoOfErrors.ToString();
+			lblNoOfErrors.Text = requestCounterRunData.OverallCounts.NoOfErrors.ToString();
 
 			instantNoOfRequestsChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(currentTime, instCount.NoOfRequests));
 			averageNoOfRequestsChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(currentTime, average));
@@ -341,12 +355,11 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 				yAxis.MaxValue = instCount.NoOfRequests;
 			if (average > yAxis.MaxValue)
 				yAxis.MaxValue = average;
-			Refresh();
-		}
+        }
 
 		private void TestStarted()
 		{
-			TestRunResults = new RequestCounterRunData();
+            requestCounterRunData.Reset();
 			currentInstantCount = new TestLoadInfoPerUnitOfTime();
 			CreateChart();
 			xAxis.MinValue = TestRunStartTime = DateTime.Now;

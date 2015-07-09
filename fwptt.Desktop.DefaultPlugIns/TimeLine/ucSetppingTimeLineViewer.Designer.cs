@@ -38,9 +38,9 @@
             this.lblTimeLineInfo.AutoSize = true;
             this.lblTimeLineInfo.Location = new System.Drawing.Point(0, 0);
             this.lblTimeLineInfo.Name = "lblTimeLineInfo";
-            this.lblTimeLineInfo.Size = new System.Drawing.Size(78, 13);
+            this.lblTimeLineInfo.Size = new System.Drawing.Size(313, 13);
             this.lblTimeLineInfo.TabIndex = 0;
-            this.lblTimeLineInfo.Text = "lblTimeLineInfo";
+            this.lblTimeLineInfo.Text = "N/A  - current iteration/step will be shown once the test is started";
             // 
             // refreshTimer
             // 
