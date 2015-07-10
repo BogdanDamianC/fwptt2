@@ -162,6 +162,7 @@ namespace fwptt.Desktop.App.UI
             {
                 btnAction.Text = "Stop";
                 testRunner.StartTests();
+                this.CurrentItem.StartTime = DateTime.Now;
             }
             else
             {
@@ -174,6 +175,7 @@ namespace fwptt.Desktop.App.UI
 
         void testRunner_TestsHaveFinished(TestRunner runner)
         {
+            this.CurrentItem.EndTime = DateTime.Now;
             // InvokeRequired required compares the thread ID of the
             // calling thread to the thread ID of the creating thread.
             // If these threads are different, it returns true.

@@ -38,7 +38,7 @@ namespace fwptt.TestProject.Project
         public TestRunResults(TestRunDefinition trd, TestDefinition td):this()
         {
             PluginsResults = new List<ExtendableData>();
-            Name = trd.Name + DateTime.Now.ToString();
+            Name = trd.Name + "( "+ DateTime.Now.ToString() + " )";
             TestRunDefinition = (TestRunDefinition)trd.Clone();
             RunTestDefinitionProperties = (from prop in td.Properties
                                                                       join overr in trd.TestDefinitionOverridedPropertyValues on prop.Id equals overr.TestDefinitionPropertyId 

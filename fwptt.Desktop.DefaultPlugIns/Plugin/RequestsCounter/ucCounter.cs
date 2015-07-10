@@ -50,21 +50,19 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		private Simple2DChart.Graphs.LineGraph<DateTime, double> instantNoOfRequestsChart;
 		private Simple2DChart.Graphs.LineGraph<DateTime, double> averageNoOfRequestsChart;
 		private Simple2DChart.Graphs.LineGraph<DateTime, double> errorCountChart;
-		private Label lblInstantRequestsperSecond;
-		private Label lblAverageRequestsperSecond;
-		private Label lblTotalNoOfRequests;
-		private Label lblNoOfErrors;
+		private Label lblNumbersOverview;
 
-        private RequestCounterRunData requestCounterRunData = new RequestCounterRunData();
-        public ExtendableData TestRunResults
-        {
-            get { return requestCounterRunData; }
-            set
-            {
-                requestCounterRunData = (RequestCounterRunData)value;
-                CreateChart();
-            }
-        }
+		private RequestCounterRunData requestCounterRunData = new RequestCounterRunData();
+		public ExtendableData TestRunResults
+		{
+			get { return requestCounterRunData; }
+			set
+			{
+				requestCounterRunData = (RequestCounterRunData)value;
+				CreateChart();
+				SetNumbersOverview();
+			}
+		}
 		public DateTime TestRunStartTime;
 
 		public ucCounter()
@@ -82,7 +80,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			base.OnLoad(e);
 			if (DesignMode)
 				return;
-			CreateChart();
+			if (chartRenderer == null)
+				CreateChart();
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -114,52 +113,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.Label label1;
-			System.Windows.Forms.Label label2;
-			System.Windows.Forms.Label label3;
-			System.Windows.Forms.Label label4;
 			this.mainTimer = new System.Windows.Forms.Timer(this.components);
-			this.lblInstantRequestsperSecond = new System.Windows.Forms.Label();
-			this.lblAverageRequestsperSecond = new System.Windows.Forms.Label();
-			this.lblTotalNoOfRequests = new System.Windows.Forms.Label();
-			this.lblNoOfErrors = new System.Windows.Forms.Label();
-			label1 = new System.Windows.Forms.Label();
-			label2 = new System.Windows.Forms.Label();
-			label3 = new System.Windows.Forms.Label();
-			label4 = new System.Windows.Forms.Label();
+			this.lblNumbersOverview = new System.Windows.Forms.Label();
 			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			label1.Location = new System.Drawing.Point(0, 1);
-			label1.Name = "label1";
-			label1.Size = new System.Drawing.Size(160, 23);
-			label1.TabIndex = 1;
-			label1.Text = "Instant No of requests/second";
-			// 
-			// label2
-			// 
-			label2.Location = new System.Drawing.Point(216, 1);
-			label2.Name = "label2";
-			label2.Size = new System.Drawing.Size(168, 23);
-			label2.TabIndex = 3;
-			label2.Text = "Average No of requests/second";
-			// 
-			// label3
-			// 
-			label3.Location = new System.Drawing.Point(448, 1);
-			label3.Name = "label3";
-			label3.Size = new System.Drawing.Size(120, 23);
-			label3.TabIndex = 5;
-			label3.Text = "Total No of Requests";
-			// 
-			// label4
-			// 
-			label4.Location = new System.Drawing.Point(657, 1);
-			label4.Name = "label4";
-			label4.Size = new System.Drawing.Size(73, 23);
-			label4.TabIndex = 7;
-			label4.Text = "No of Errors";
 			// 
 			// mainTimer
 			// 
@@ -167,52 +123,18 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			this.mainTimer.Interval = 1000;
 			this.mainTimer.Tick += new System.EventHandler(this.mainTimer_Tick);
 			// 
-			// lblInstantRequestsperSecond
+			// lblNumbersOverview
 			// 
-			this.lblInstantRequestsperSecond.AutoSize = true;
-			this.lblInstantRequestsperSecond.Location = new System.Drawing.Point(166, 1);
-			this.lblInstantRequestsperSecond.Name = "lblInstantRequestsperSecond";
-			this.lblInstantRequestsperSecond.Size = new System.Drawing.Size(13, 13);
-			this.lblInstantRequestsperSecond.TabIndex = 9;
-			this.lblInstantRequestsperSecond.Text = "0";
-			// 
-			// lblAverageRequestsperSecond
-			// 
-			this.lblAverageRequestsperSecond.AutoSize = true;
-			this.lblAverageRequestsperSecond.Location = new System.Drawing.Point(380, 1);
-			this.lblAverageRequestsperSecond.Name = "lblAverageRequestsperSecond";
-			this.lblAverageRequestsperSecond.Size = new System.Drawing.Size(13, 13);
-			this.lblAverageRequestsperSecond.TabIndex = 10;
-			this.lblAverageRequestsperSecond.Text = "0";
-			// 
-			// lblTotalNoOfRequests
-			// 
-			this.lblTotalNoOfRequests.AutoSize = true;
-			this.lblTotalNoOfRequests.Location = new System.Drawing.Point(565, 1);
-			this.lblTotalNoOfRequests.Name = "lblTotalNoOfRequests";
-			this.lblTotalNoOfRequests.Size = new System.Drawing.Size(13, 13);
-			this.lblTotalNoOfRequests.TabIndex = 11;
-			this.lblTotalNoOfRequests.Text = "0";
-			// 
-			// lblNoOfErrors
-			// 
-			this.lblNoOfErrors.AutoSize = true;
-			this.lblNoOfErrors.Location = new System.Drawing.Point(727, 1);
-			this.lblNoOfErrors.Name = "lblNoOfErrors";
-			this.lblNoOfErrors.Size = new System.Drawing.Size(13, 13);
-			this.lblNoOfErrors.TabIndex = 12;
-			this.lblNoOfErrors.Text = "0";
+			this.lblNumbersOverview.AutoSize = true;
+			this.lblNumbersOverview.Location = new System.Drawing.Point(5, 1);
+			this.lblNumbersOverview.Name = "lblNumbersOverview";
+			this.lblNumbersOverview.Size = new System.Drawing.Size(13, 13);
+			this.lblNumbersOverview.TabIndex = 9;
+			this.lblNumbersOverview.Text = "0";
 			// 
 			// ucCounter
 			// 
-			this.Controls.Add(this.lblNoOfErrors);
-			this.Controls.Add(this.lblTotalNoOfRequests);
-			this.Controls.Add(this.lblAverageRequestsperSecond);
-			this.Controls.Add(this.lblInstantRequestsperSecond);
-			this.Controls.Add(label4);
-			this.Controls.Add(label3);
-			this.Controls.Add(label2);
-			this.Controls.Add(label1);
+			this.Controls.Add(this.lblNumbersOverview);
 			this.DoubleBuffered = true;
 			this.Name = "ucCounter";
 			this.Size = new System.Drawing.Size(876, 180);
@@ -237,24 +159,28 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 
 		#endregion
 
-        private Pen[] availableDynamicPens = new Pen[] { Pens.Blue, Pens.Green, Pens.Red, Pens.DarkOrange, Pens.Lavender, Pens.Pink, Pens.Magenta, Pens.LightGreen, Pens.LightBlue, Pens.YellowGreen, Pens.Yellow, Pens.Crimson, Pens.DarkGray };
+		private Pen[] availableDynamicPens = new Pen[] { Pens.Blue, Pens.Green, Pens.Red, Pens.DarkOrange, Pens.Lavender, Pens.Pink, Pens.Magenta, Pens.LightGreen, Pens.LightBlue, Pens.YellowGreen, Pens.Yellow, Pens.Crimson, Pens.DarkGray };
 		private Simple2DChart.Graphs.LineGraph<DateTime, double> NewGraph(string legend, Action<Graphics,int,int> drawPoint = null)
 		{
 			var newGraph = new Simple2DChart.Graphs.LineGraph<DateTime, double>(xAxis, yAxis, new List<Simple2DChart.Graphs.GraphData<DateTime, double>>());
 			newGraph.Font = new Font(FontFamily.GenericSansSerif, 8);
 			newGraph.DrawPoint += new Simple2DChart.Graphs.DrawPointDelegate(drawPoint ?? this.DrawPoint);
-            newGraph.Pen = availableDynamicPens[chartRenderer.Graphs.Count % availableDynamicPens.Length];
+			newGraph.Pen = availableDynamicPens[chartRenderer.Graphs.Count % availableDynamicPens.Length];
 			newGraph.Legend = legend;
 			chartRenderer.Graphs.Add(newGraph);
 			return newGraph;
 		}
 
+		private static string getChartDateTimeLabel(BaseAxis<DateTime> axis, int index, DateTime value) { 
+			return value.Minute + ":" + value.Second; 
+		}
 		private void CreateChart()
 		{
+			otherCountsCharts = new Dictionary<string, Simple2DChart.Graphs.LineGraph<DateTime, double>>();
 			xAxis = new DateAxis(new Rectangle(50, 160, this.Width - 150, 100), new Font(FontFamily.GenericSansSerif, 8), 4, Position.Bottom);
 			xAxis.LabelOrientation = Simple2DChart.Orientation.Horizontal;
 			xAxis.Title = null;
-			xAxis.GetLabel = (BaseAxis<DateTime> axis, int index, DateTime value) => { return value.ToString("mm:ss"); };
+			xAxis.GetLabel = getChartDateTimeLabel;
 
 			yAxis = new NumberAxis(new Rectangle(0, 30, 50, 130), new Font(FontFamily.GenericSansSerif, 8), 5, Position.Left);
 			yAxis.LabelOrientation = Simple2DChart.Orientation.Horizontal;
@@ -264,20 +190,38 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			grgrid.Brush = new SolidBrush(System.Drawing.Color.CornflowerBlue);
 			grgrid.Pen = new Pen(grgrid.Brush, Convert.ToSingle(0.2));
 
-			xAxis.MinValue = xAxis.MaxValue = DateTime.Now;
-			yAxis.MinValue = 0;
-
 			
 			chartRenderer = new ChartRenderer(new IAxis[] { yAxis, xAxis, yAxis }, new List< Simple2DChart.Graphs.IGraph>(), null);
 			chartRenderer.Grid = grgrid;
 			chartRenderer.LegendPosition = new Rectangle(this.Width - 100, 0, 100, 170);
 
-			instantNoOfRequestsChart = NewGraph("Req/Sec");
-			averageNoOfRequestsChart = NewGraph("Avg Req/Sec", DrawPoint1);
-			errorCountChart = NewGraph("Err/Sec", DrawPoint1);
+			instantNoOfRequestsChart = NewGraph("req/sec");
+			averageNoOfRequestsChart = NewGraph("avg req/sec", DrawPoint1);
+			errorCountChart = NewGraph("err/sec", DrawPoint1);
+			
+			yAxis.MinValue = 0;
 
-            requestCounterRunData.TestRunCounts.ForEach(trc => AddCountToGraph(trc));
-            Refresh();
+			if (requestCounterRunData.TestRunCounts.Any())
+			{
+				xAxis.MinValue = xAxis.MaxValue = requestCounterRunData.TestRunCounts[0].Time;
+				ulong tmpTotalRequests = 0;
+				TestRunStartTime = requestCounterRunData.TestRunCounts[0].Time.AddSeconds(-1);
+				requestCounterRunData.TestRunCounts.ForEach(trc =>
+				{
+					tmpTotalRequests += trc.NoOfRequests;
+					double ElapsedSecs = ((TimeSpan)trc.Time.Subtract(TestRunStartTime)).TotalSeconds;
+					double average = 1;
+					if (ElapsedSecs > 0)
+						average = (double)tmpTotalRequests / ElapsedSecs;
+
+					AddCountToGraph(trc, average);
+				});
+			}
+			else
+			{
+				xAxis.MinValue = xAxis.MaxValue = DateTime.Now;
+			}
+			Refresh();
 		}
 		#endregion
 
@@ -288,6 +232,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			{
 				xAxis.Bounds = new Rectangle(50, 160, this.Width - 150, 100);
 				chartRenderer.LegendPosition = new Rectangle(this.Width - 100, 0, 100, 170);
+				Refresh();
 			}
 		}
 
@@ -296,7 +241,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			UpdateRecordedResultsAndCharts();
 		}
 
-		private Dictionary<string, Simple2DChart.Graphs.LineGraph<DateTime, double>> otherCountsCharts = new Dictionary<string, Simple2DChart.Graphs.LineGraph<DateTime, double>>();
+		private Dictionary<string, Simple2DChart.Graphs.LineGraph<DateTime, double>> otherCountsCharts;
 		private void UpdateRecordedResultsAndCharts()
 		{
 			var instCount = currentInstantCount;
@@ -304,62 +249,65 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			{
 				currentInstantCount = new TestLoadInfoPerUnitOfTime();
 			}
-            mainTimer.Interval = Math.Max(Convert.ToInt32(currentInstantCount.NoOfRequests), 1000);
+			mainTimer.Interval = Math.Max(Convert.ToInt32(currentInstantCount.NoOfRequests), 1000);
 			instCount.Time = DateTime.Now;
 			requestCounterRunData.OverallCounts.NoOfRequests += instCount.NoOfRequests;
 			requestCounterRunData.OverallCounts.NoOfErrors += instCount.NoOfErrors;
 			requestCounterRunData.TestRunCounts.Add(instCount);
-            AddCountToGraph(instCount);
+
+			double ElapsedSecs = ((TimeSpan)instCount.Time.Subtract(TestRunStartTime)).TotalSeconds;
+			double average = 1;
+			if (ElapsedSecs > 0)
+				average = (double)requestCounterRunData.OverallCounts.NoOfRequests / ElapsedSecs;
+			AddCountToGraph(instCount, average);
+			SetNumbersOverview();
 			Refresh();
 		}
 
-        private void AddCountToGraph(TestLoadInfoPerUnitOfTime instCount)
-        {
-            double ElapsedSecs = ((TimeSpan)instCount.Time.Subtract(TestRunStartTime)).TotalSeconds;
-			double average = 0;
+		private const string overviewSpacer = "         ";
+		private void SetNumbersOverview()
+		{
+			lblNumbersOverview.Text = "Total Requests: " + requestCounterRunData.OverallCounts.NoOfRequests + overviewSpacer;
+			foreach (Simple2DChart.Graphs.LineGraph<DateTime, double> chart in chartRenderer.Graphs)
+				lblNumbersOverview.Text += chart.Legend + ": " + Math.Round(chart.GraphData[chart.GraphData.Count - 1].Y, 2) + overviewSpacer;
+		}
 
-			var currentTime = DateTime.Now;
-			lblInstantRequestsperSecond.Text = instCount.NoOfRequests.ToString();
-
-			lblTotalNoOfRequests.Text = requestCounterRunData.OverallCounts.NoOfRequests.ToString();
-			average = ElapsedSecs > 0 ? (double)requestCounterRunData.OverallCounts.NoOfRequests / ElapsedSecs : (double)requestCounterRunData.OverallCounts.NoOfRequests;
-			lblAverageRequestsperSecond.Text = Math.Round(average, 1).ToString();
-			lblNoOfErrors.Text = requestCounterRunData.OverallCounts.NoOfErrors.ToString();
-
-			instantNoOfRequestsChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(currentTime, instCount.NoOfRequests));
-			averageNoOfRequestsChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(currentTime, average));
-			errorCountChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(currentTime, instCount.NoOfErrors));
+		private const int MaximuNumberOfRecordedPoints = 600;
+		private void AddCountToGraph(TestLoadInfoPerUnitOfTime instCount, double average)
+		{
+			instantNoOfRequestsChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(instCount.Time, instCount.NoOfRequests));
+			averageNoOfRequestsChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(instCount.Time, average));
+			errorCountChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(instCount.Time, instCount.NoOfErrors));
 
 			foreach(var oc in instCount.OtherCounts)
 			{
 				Simple2DChart.Graphs.LineGraph<DateTime, double> tmpChart;
 				if(!otherCountsCharts.TryGetValue(oc.Key, out tmpChart))
 				{
-					tmpChart = NewGraph(oc.Key);
-                    otherCountsCharts.Add(oc.Key, tmpChart);
+					tmpChart = NewGraph(oc.Key + "/sec");
+					otherCountsCharts.Add(oc.Key, tmpChart);
 				}
-				((List<Simple2DChart.Graphs.GraphData<DateTime, double>>)tmpChart.GraphData).Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(currentTime, oc.Value));
+				tmpChart.GraphData.Add(new Simple2DChart.Graphs.GraphData<DateTime, double>(instCount.Time, oc.Value));
 				if (oc.Value > yAxis.MaxValue)
 					yAxis.MaxValue = oc.Value;
 			}
 
-			foreach(var graph in chartRenderer.Graphs)
+			foreach(Simple2DChart.Graphs.LineGraph<DateTime, double> graph in chartRenderer.Graphs)
 			{
-				var data = ((Simple2DChart.Graphs.LineGraph<DateTime, double>)graph).GraphData;
-				while(data.Count > 600)
-					data.RemoveAt(0);
+				while (graph.GraphData.Count > MaximuNumberOfRecordedPoints)
+					graph.GraphData.RemoveAt(0);
 			}
 			xAxis.MinValue = instantNoOfRequestsChart.GraphData[0].X;
-			xAxis.MaxValue = currentTime;
+			xAxis.MaxValue = instCount.Time;
 			if (instCount.NoOfRequests > yAxis.MaxValue)
 				yAxis.MaxValue = instCount.NoOfRequests;
 			if (average > yAxis.MaxValue)
 				yAxis.MaxValue = average;
-        }
+		}
 
 		private void TestStarted()
 		{
-            requestCounterRunData.Reset();
+			requestCounterRunData.Reset();
 			currentInstantCount = new TestLoadInfoPerUnitOfTime();
 			CreateChart();
 			xAxis.MinValue = TestRunStartTime = DateTime.Now;
@@ -370,7 +318,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		private void TestEnded()
 		{
 			mainTimer.Stop();
-			UpdateRecordedResultsAndCharts();
 		}
 		public Action OnTestStopped { get { return TestEnded; } }
 		public Action<TestProject.Run.Data.IRequestInfo> OnRequestStarted { get { return null; } }

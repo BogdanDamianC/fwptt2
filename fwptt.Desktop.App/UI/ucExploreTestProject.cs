@@ -415,7 +415,11 @@ namespace fwptt.Desktop.App.UI
         {
             var runResults = new TestRunResults(trd, TestProjectHost.Current.Project.TestDefinitions.First(td=>td.Id == trd.TestDefinitionId));
             TestProjectHost.Current.Project.TestRunsResults.Add(runResults);
-            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td));
+            var treeNode = AddTestRunResult(runResults);
+            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td),
+                (object sender, TestRunResults trr) => { treeNode.Text = trr.Name; });
+            treeNode.Parent.Expand();
+            this.tvProject.SelectedNode = treeNode;
         }
 
         private void newRunToolStripMenuItem_Click(object sender, EventArgs e)
@@ -431,14 +435,15 @@ namespace fwptt.Desktop.App.UI
 
         private void tStripMenuItemOpenTestResults_Click(object sender, EventArgs e)
         {
-            //I GOT HERE
             var runResults = GetMenuClickTargetNodeValue<TestRunResults>(sender, TestRunDefininitionTreeviewSelectError);
-            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults.Item1, (td) => new frmTestRun(td));
+            TryOpenCreateItem<frmTestRun, TestRunResults>(runResults.Item1, (td) => new frmTestRun(td),
+                (object tmpsender, TestRunResults trr) => { runResults.Item2.Text = trr.Name; });
         }
 
         private void tStripMenuItemDeleteTestResults_Click(object sender, EventArgs e)
         {
-
+            RemoveItem<frmTestRun, TestRunResults>(sender, testRunResults,
+                TestProjectHost.Current.Project.TestRunsResults, TestRunDefininitionTreeviewSelectError);
         }
     }
 }
