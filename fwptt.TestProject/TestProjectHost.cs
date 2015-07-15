@@ -35,6 +35,7 @@ using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
+using fwptt.TestProject.Run;
 
 namespace fwptt.TestProject
 {
@@ -172,6 +173,43 @@ namespace fwptt.TestProject
             {
                 return cr.CompiledAssembly;
             }
+        }
+
+        public TestRunner GetTestRunner(TestRunResults testRunResults, ITimeLineController timeLineController)
+        {
+            var testDef = TestProjectHost.Current.Project.TestDefinitions.FirstOrDefault(td => td.Id == testRunResults.TestRunDefinition.TestDefinitionId);
+            if (testDef == null)
+                throw new ApplicationException("The test definition C# code linked this test run def no longer exists, please update the test run definition before trying to run this test");
+            Type testExecuteClass = null;
+            try
+            {
+                var testAsmb = TestProjectHost.Current.CreateMemoryAssembly(testDef);
+                testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t => t.GetInterfaces().Contains(typeof(IBaseTest)));
+                
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error occured while compiling the test, this test can't be run" , ex);
+            }
+            if (testExecuteClass == null)
+            {
+                throw new ApplicationException("There is no class that implements the IBaseTest in the test C# code, please review the Test C# code");
+            }
+
+            return new TestRunner(timeLineController, testExecuteClass
+                , testRunResults.RunTestDefinitionProperties.ToDictionary(k => k.Name, v => v.Value)
+                , GetDataSourceReader(testRunResults));
+        }
+
+
+        private static ITestDataSourceReader GetDataSourceReader(TestRunResults testRunResults)
+        {
+            if (!testRunResults.TestRunDefinition.TestDataSourceId.HasValue)
+                return null;
+
+            var dataSource = TestProjectHost.Current.Project.TestDataSources.
+                    SingleOrDefault(ds => ds.Id == testRunResults.TestRunDefinition.TestDataSourceId.Value);
+            return dataSource != null ? dataSource.GetDataSourceReader() : null;
         }
 
         Dictionary<string, Assembly> loadedAssemblies;

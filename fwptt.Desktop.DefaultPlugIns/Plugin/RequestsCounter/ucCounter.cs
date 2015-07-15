@@ -27,12 +27,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using fwptt.TestProject.Project.Interfaces;
 using Simple2DChart;
 using Simple2DChart.Axes;
-using fwptt.Data.DefaultPlugins.RequestsCounter;
-using System.Threading;
 using fwptt.TestProject.Project.Data;
+using fwptt.TestProject.Project.Interfaces;
+using fwptt.Data.DefaultPlugins.RequestsCounter;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 {
@@ -63,7 +62,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 				SetNumbersOverview();
 			}
 		}
-		public DateTime TestRunStartTime;
+		private DateTime testRunStartTime;
 
 		public ucCounter()
 		{
@@ -205,11 +204,11 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			{
 				xAxis.MinValue = xAxis.MaxValue = requestCounterRunData.TestRunCounts[0].Time;
 				ulong tmpTotalRequests = 0;
-				TestRunStartTime = requestCounterRunData.TestRunCounts[0].Time.AddSeconds(-1);
+				testRunStartTime = requestCounterRunData.TestRunCounts[0].Time.AddSeconds(-1);
 				requestCounterRunData.TestRunCounts.ForEach(trc =>
 				{
 					tmpTotalRequests += trc.NoOfRequests;
-					double ElapsedSecs = ((TimeSpan)trc.Time.Subtract(TestRunStartTime)).TotalSeconds;
+					double ElapsedSecs = ((TimeSpan)trc.Time.Subtract(testRunStartTime)).TotalSeconds;
 					double average = 1;
 					if (ElapsedSecs > 0)
 						average = (double)tmpTotalRequests / ElapsedSecs;
@@ -249,13 +248,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			{
 				currentInstantCount = new TestLoadInfoPerUnitOfTime();
 			}
-			mainTimer.Interval = Math.Max(Convert.ToInt32(currentInstantCount.NoOfRequests), 1000);
 			instCount.Time = DateTime.Now;
 			requestCounterRunData.OverallCounts.NoOfRequests += instCount.NoOfRequests;
 			requestCounterRunData.OverallCounts.NoOfErrors += instCount.NoOfErrors;
 			requestCounterRunData.TestRunCounts.Add(instCount);
 
-			double ElapsedSecs = ((TimeSpan)instCount.Time.Subtract(TestRunStartTime)).TotalSeconds;
+			double ElapsedSecs = ((TimeSpan)instCount.Time.Subtract(testRunStartTime)).TotalSeconds;
 			double average = 1;
 			if (ElapsedSecs > 0)
 				average = (double)requestCounterRunData.OverallCounts.NoOfRequests / ElapsedSecs;
@@ -310,7 +308,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 			requestCounterRunData.Reset();
 			currentInstantCount = new TestLoadInfoPerUnitOfTime();
 			CreateChart();
-			xAxis.MinValue = TestRunStartTime = DateTime.Now;
+			xAxis.MinValue = testRunStartTime = DateTime.Now;
 			mainTimer.Start();
 		}
 		public Action OnTestStarted { get{return TestStarted;} }

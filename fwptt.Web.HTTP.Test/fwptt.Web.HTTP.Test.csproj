@@ -36,8 +36,9 @@
     <Reference Include="CsQuery">
       <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.105.0.1\lib\net4\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -75,7 +76,12 @@
     <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).dll"
 copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).pdb"
 copy /Y "$(TargetDir)CsQuery.dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\CsQuery.dll"
-copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\RestSharp.dll"</PostBuildEvent>
+copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\RestSharp.dll"
+
+copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Console.App\bin\Debug\PlugIn\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Console.App\bin\Debug\PlugIn\$(ProjectName).pdb"
+copy /Y "$(TargetDir)CsQuery.dll" "$(SolutionDir)fwptt.Console.App\bin\Debug\PlugIn\CsQuery.dll"
+copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Console.App\bin\Debug\PlugIn\RestSharp.dll"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

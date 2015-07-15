@@ -113,45 +113,26 @@ namespace fwptt.Desktop.App.UI
             base.OnClosed(e);
         }
 
-        private ITestDataSourceReader GetDataSourceReader()
-        {
-            if (!CurrentItem.TestRunDefinition.TestDataSourceId.HasValue)
-                return null;
-
-            var dataSource = TestProject.TestProjectHost.Current.Project.TestDataSources.
-                    SingleOrDefault(ds=>ds.Id == CurrentItem.TestRunDefinition.TestDataSourceId.Value);
-            return dataSource != null ? dataSource.GetDataSourceReader() : null;
-        }
-
         private bool SetupTestRunner()
         {
-            var testDef = TestProjectHost.Current.Project.TestDefinitions.FirstOrDefault(td => td.Id == CurrentItem.TestRunDefinition.TestDefinitionId);
-            if (testDef == null)
-            {
-                MessageBox.Show("The test definition C# code linked this test run def no longer exists, please update the test run definition before trying to run this test", "Error");
-                return false;
-            }
+            timeLineController = CurrentItem.TestRunDefinition.TimeLine.GetNewController();
+
             try
             {
-
-                var testAsmb = TestProjectHost.Current.CreateMemoryAssembly(testDef);
-                var testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t => t.GetInterfaces().Contains(typeof(IBaseTest)));
-                if(testExecuteClass == null){
-                    MessageBox.Show("There is no class that implements the IBaseTest in the test C# code, please review the Test C# code", "Error");
-                    return false;
-                }
-
-                timeLineController = CurrentItem.TestRunDefinition.TimeLine.GetNewController();
-                this.testRunner = new TestRunner(timeLineController, testExecuteClass
-                    , CurrentItem.RunTestDefinitionProperties.ToDictionary(k=>k.Name, v=>v.Value)
-                    , GetDataSourceReader());
+                this.testRunner = TestProjectHost.Current.GetTestRunner(CurrentItem, timeLineController);
                 this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }
             catch (Exception ex)
             {
                 btnAction.Enabled = false;
-                MessageBox.Show("Error occured while compiling the test, this test can't be run, these are the error details: \r\n" + ex.Message, "Error");
+                string errorMessage = string.Empty;
+                while (ex != null)
+                {
+                    errorMessage += ex.Message + "\r\n";
+                    ex = ex.InnerException;
+                }
+                MessageBox.Show(errorMessage, "Error");
                 return false;
             }
         }
