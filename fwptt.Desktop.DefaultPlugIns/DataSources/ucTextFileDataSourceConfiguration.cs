@@ -52,7 +52,7 @@ namespace fwptt.Desktop.DefaultPlugIns.DataSources
             if (string.IsNullOrWhiteSpace(newPath))
                 return;
 
-            var folder = new Uri(new FileInfo(TestProjectHost.Current.ProjectPath).Directory.FullName + Path.DirectorySeparatorChar);
+            var folder = new Uri(new FileInfo(MainProvider.Current.ProjectPath).Directory.FullName + Path.DirectorySeparatorChar);
             txtFilePath.Text = Uri.UnescapeDataString(folder.MakeRelativeUri(new Uri(newPath))
                     .ToString().Replace('/', Path.DirectorySeparatorChar));
         }

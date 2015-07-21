@@ -45,12 +45,12 @@ namespace fwptt.Desktop.App.UI
 
         private void SetTitle()
         {
-            if(string.IsNullOrWhiteSpace(TestProjectHost.Current.ProjectPath))
+            if (string.IsNullOrWhiteSpace(MainApplication.Current.ProjectPath))
                 this.Text = "[New Test Project]";
-            else if(TestProjectHost.Current.ProjectPath.Length < 100)
-                this.Text = TestProjectHost.Current.ProjectPath;
+            else if (MainApplication.Current.ProjectPath.Length < 100)
+                this.Text = MainApplication.Current.ProjectPath;
             else
-                this.Text = TestProjectHost.Current.ProjectPath.Substring(TestProjectHost.Current.ProjectPath.Length - 200);
+                this.Text = MainApplication.Current.ProjectPath.Substring(MainApplication.Current.ProjectPath.Length - 200);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -60,7 +60,7 @@ namespace fwptt.Desktop.App.UI
             SetTitle();
             this.exploreTestProject.RefreshProjectDetails();
             showExploreTestProjectToolStripMenuItem.Checked = true;
-            if (TestProjectHost.Current.ProjectPath != null)
+            if (MainApplication.Current.ProjectPath != null)
             {
                 SetTitle();
                 this.exploreTestProject.RefreshProjectDetails();
@@ -77,7 +77,7 @@ namespace fwptt.Desktop.App.UI
 
         private void newTestProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TestProjectHost.Current.NewProject();
+            MainApplication.Current.NewProject();
             SetTitle();
             this.exploreTestProject.RefreshProjectDetails();
         }
@@ -98,7 +98,7 @@ namespace fwptt.Desktop.App.UI
         {
             try
             {
-                TestProjectHost.Current.LoadProject(projectPath);
+                MainApplication.Current.LoadProject(projectPath);
                 SetTitle();
                 this.exploreTestProject.RefreshProjectDetails();
                 LastAccessedProject = projectPath;
@@ -130,8 +130,8 @@ namespace fwptt.Desktop.App.UI
         {
             foreach (IItemEditor c in this.MdiChildren)
                 c.OnBeforeTestProjectSave();
-             
-            SaveTestProject(string.IsNullOrWhiteSpace(TestProjectHost.Current.ProjectPath));
+
+            SaveTestProject(string.IsNullOrWhiteSpace(MainApplication.Current.ProjectPath));
         }
 
         private void saveTestProjectAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -146,11 +146,11 @@ namespace fwptt.Desktop.App.UI
                 string newProjectPath = UI_Util.PickSaveFile(this, TestProjectDefinition.FileDialogFilter, TestProjectDefinition.DefaultExtension);
                 if (string.IsNullOrWhiteSpace(newProjectPath))
                     return;
-                TestProjectHost.Current.ProjectPath = newProjectPath;
+                MainApplication.Current.ProjectPath = newProjectPath;
             }
             try
             {
-                TestProjectHost.Current.SaveProject();
+                MainApplication.Current.SaveProject();
                 SetTitle();
             }
             catch(Exception ex)

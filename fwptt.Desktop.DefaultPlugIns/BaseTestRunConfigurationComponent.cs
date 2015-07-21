@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using fwptt.TestProject;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
+using fwptt.TestProject.Project;
 
 namespace fwptt.Desktop.DefaultPlugIns
 {
@@ -25,7 +26,7 @@ namespace fwptt.Desktop.DefaultPlugIns
             if (attributes.Length == 0)
                 return;//still in design mode
 
-            configurationDataType = TestProjectHost.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
+            configurationDataType = MainProvider.Current.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
         }
 
         private ExtendableData lCurrentData;

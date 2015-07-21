@@ -56,11 +56,11 @@ namespace fwptt.Desktop.App.UI
             txtTestRunName.Text = trd.Name;
             txtTestRunName.TextChanged += txtTestRunName_TextChanged;
             if (trd.TestDefinitionId == Guid.Empty)
-                trd.TestDefinitionId = TestProjectHost.Current.Project.TestDefinitions[0].Id;
+                trd.TestDefinitionId = MainApplication.Current.Project.TestDefinitions[0].Id;
 
             cboTestDefinition.ValueMember = "Id";
             cboTestDefinition.DisplayMember = "TestDefinitionFile";
-            cboTestDefinition.DataSource = TestProjectHost.Current.Project.TestDefinitions;
+            cboTestDefinition.DataSource = MainApplication.Current.Project.TestDefinitions;
             cboTestDefinition.SelectedValue = trd.TestDefinitionId;
             cboTestDefinition.SelectedValueChanged += (object sender, EventArgs e) =>
             {
@@ -68,7 +68,7 @@ namespace fwptt.Desktop.App.UI
                 CurrentItem.TestDefinitionOverridedPropertyValues.Clear();
                 if (CurrentItem.TestDefinitionId != Guid.Empty)
                 {
-                    ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == CurrentItem.TestDefinitionId).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
+                    ucEditTestDefinitionValues.SetProperties(MainApplication.Current.Project.TestDefinitions.First(td => td.Id == CurrentItem.TestDefinitionId).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
                 }
                 else
                 {
@@ -79,8 +79,8 @@ namespace fwptt.Desktop.App.UI
             CurrentItem = trd;
             SetTitle();
             SetUpDataSources();
-            if (TestProjectHost.Current.Project.TestDefinitions.Any())
-                ucEditTestDefinitionValues.SetProperties(TestProjectHost.Current.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId).Properties, trd.TestDefinitionOverridedPropertyValues);
+            if (MainApplication.Current.Project.TestDefinitions.Any())
+                ucEditTestDefinitionValues.SetProperties(MainApplication.Current.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId).Properties, trd.TestDefinitionOverridedPropertyValues);
         }
 
         private static Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
@@ -109,7 +109,7 @@ namespace fwptt.Desktop.App.UI
         #region Data Sources
         private void SetUpDataSources()
         {
-            var tmpds = TestProjectHost.Current.Project.TestDataSources.Select(ds => new { Id = ds.Id, Name = ds.Name }).ToList();
+            var tmpds = MainApplication.Current.Project.TestDataSources.Select(ds => new { Id = ds.Id, Name = ds.Name }).ToList();
             tmpds.Insert(0, new { Id = Guid.Empty, Name = "No Data Source" });
             cboDataSource.ValueMember = "Id";
             cboDataSource.DisplayMember = "Name";
@@ -127,7 +127,7 @@ namespace fwptt.Desktop.App.UI
         #region TimeLine
         private void SetUpTimeLineConfigurationControl()
         {
-            var selectedTimelineConfiguration = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
+            var selectedTimelineConfiguration = MainApplication.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
                                                 && pl.UniqueName == (string)cboTimeLines.SelectedValue);
             foreach(var ctrl in grpTimeLine.Controls.Cast<Control>().Where(c => c != cboTimeLines))
             {
@@ -141,7 +141,7 @@ namespace fwptt.Desktop.App.UI
 
         private void SetUpTimeLinePlugins(TestRunDefinition trd)
         {
-            var timeLineConfigurationPlugins = (from pl in TestProjectHost.Current.PluginTypes
+            var timeLineConfigurationPlugins = (from pl in MainApplication.Current.PluginTypes
                                                    where pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
                                                    orderby pl.DisplayName
                                                    select pl).ToList();
@@ -182,7 +182,7 @@ namespace fwptt.Desktop.App.UI
         {
             if(trd.RunPlugins == null)
                 trd.RunPlugins = new List<ExtendableData>();
-            var dataSource = (from pl in TestProjectHost.Current.PluginTypes
+            var dataSource = (from pl in MainApplication.Current.PluginTypes
                               where pl.ComponentType == ExpandableComponentType.PluginConfiguration
                               orderby pl.DisplayName
                               select new { pl.DisplayName, isChecked = trd.RunPlugins.Any(pg => pg.UniqueName == pl.UniqueName), Data = pl}).ToList();

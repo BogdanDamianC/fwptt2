@@ -80,7 +80,7 @@ namespace fwptt.Desktop.App.UI
             assembliesBindingList = new BindingList<string>(CurrentItem.Assemblies);
             lstBoxAssemplies.DataSource = assembliesBindingList;
             txtAssembly.DataBindings.Add("Text", assembliesBindingList, null);
-            txtSourceCode.Text = TestProjectHost.Current.GetTestProjectDefinitionCSharpCode(CurrentItem);
+            txtSourceCode.Text = MainApplication.Current.GetTestProjectDefinitionCSharpCode(CurrentItem);
             this.ucTestDefinitionProperties.SetProperties(CurrentItem.Properties);
         }
 
@@ -102,7 +102,7 @@ namespace fwptt.Desktop.App.UI
         {
             try
             {
-                TestProjectHost.Current.SaveTestProjectDefinitionCSharpCode(CurrentItem, txtSourceCode.Text);
+                MainApplication.Current.SaveTestProjectDefinitionCSharpCode(CurrentItem, txtSourceCode.Text);
             }
             catch (Exception ex)
             {
@@ -133,7 +133,7 @@ namespace fwptt.Desktop.App.UI
         {
             try
             {
-                TestProjectHost.Current.CreateMemoryAssembly(txtSourceCode.Text, CurrentItem.Assemblies);
+                MainApplication.Current.CreateMemoryAssembly(txtSourceCode.Text, CurrentItem.Assemblies);
                 txtCompileResults.Text = "Compilation succeeded!";
             }
             catch (Exception ex)

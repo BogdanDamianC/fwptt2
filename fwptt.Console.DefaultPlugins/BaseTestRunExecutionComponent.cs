@@ -41,7 +41,7 @@ namespace fwptt.Console.DefaultPlugins
         public BaseTestRunExecutionComponent(): base()
         {
             var attributes = this.GetType().GetCustomAttributes(typeof(ExpandableSettingsAttribute), true);
-            configurationDataType = TestProjectHost.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
+            configurationDataType = MainProvider.Current.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
         }
 
         private T lCurrentData;

@@ -30,17 +30,23 @@ using fwptt.TestProject;
 
 
 namespace fwptt.Desktop.App.UI {
-	class MainClass {
+    public class MainApplication
+    {
+        internal static TestProjectHost Current;
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
         [STAThread]
         static void Main(string[] args)
         {
-            TestProjectHost.Initialize(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
+            Current = new TestProjectHost(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
+            MainProvider.Current = new MainProvider(Current);
             if (args.Length > 0)
-                TestProjectHost.Current.LoadProject(args[0]);
+                Current.LoadProject(args[0]);
             Application.Run(new frmTestProjectDefinition());
         }
+
+        
 	}
 }

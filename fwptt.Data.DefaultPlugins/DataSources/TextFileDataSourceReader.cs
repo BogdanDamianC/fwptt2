@@ -15,7 +15,7 @@ namespace fwptt.Data.DefaultPlugins.DataSources
         public TextFileDataSourceReader(string FilePath, string DataRowSeparator)
         {
             string content;
-            var filePath = Path.Combine(new FileInfo(TestProjectHost.Current.ProjectPath).Directory.FullName, FilePath);
+            var filePath = Path.Combine(new FileInfo(MainProvider.Current.ProjectPath).Directory.FullName, FilePath);
             using (var sr = new StreamReader(filePath))
             {
                 content = sr.ReadToEnd();

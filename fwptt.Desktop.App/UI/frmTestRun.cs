@@ -119,7 +119,7 @@ namespace fwptt.Desktop.App.UI
 
             try
             {
-                this.testRunner = TestProjectHost.Current.GetTestRunner(CurrentItem, timeLineController);
+                this.testRunner = MainApplication.Current.GetTestRunner(CurrentItem, timeLineController);
                 this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }
@@ -209,14 +209,14 @@ namespace fwptt.Desktop.App.UI
 
         private void SetupPlugins()
         {
-            var tmpPluginInfo = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
+            var tmpPluginInfo = MainApplication.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
                                                 && pl.UniqueName == CurrentItem.TestRunDefinition.TimeLine.UniqueName);
             var timeLine = (ITimeLinePlugIn)CreateAndAddPlugin(tmpPluginInfo, CurrentItem.TestRunDefinition.TimeLine);
             if (timeLine.OnTimelineEvent != null)
                 timeLineController.TimelineEvent += timeLine.OnTimelineEvent;
             foreach(var plugin in CurrentItem.TestRunDefinition.RunPlugins)
             {
-                tmpPluginInfo = TestProjectHost.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
+                tmpPluginInfo = MainApplication.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
                                                 && pl.UniqueName == plugin.UniqueName);
                 AddPlugin(tmpPluginInfo, plugin);
             }

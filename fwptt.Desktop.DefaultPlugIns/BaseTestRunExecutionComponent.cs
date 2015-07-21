@@ -25,7 +25,7 @@ namespace fwptt.Desktop.DefaultPlugIns
             var attributes = this.GetType().GetCustomAttributes(typeof(ExpandableSettingsAttribute), true);
             if (attributes.Length == 0)
                 return;
-            configurationDataType = TestProjectHost.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
+            configurationDataType = MainProvider.Current.GetExpandableType(ExpandableDataType.Configuration, ((ExpandableSettingsAttribute)attributes[0]).UniqueName);
         }
 
         private ExtendableData lCurrentData;

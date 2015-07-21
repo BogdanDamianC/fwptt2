@@ -41,13 +41,6 @@ namespace fwptt.TestProject
 {
     public class TestProjectHost:IDisposable
     {
-        public static TestProjectHost Current { get; private set; }
-
-        public static void Initialize(string ApplicationStartupPath, string PluginsPath)
-        {
-            Current = new TestProjectHost(ApplicationStartupPath, PluginsPath);
-        }
-
         private string ApplicationStartupPath;
         private string PluginsPath;
 
@@ -89,7 +82,7 @@ namespace fwptt.TestProject
             return new KeyValuePair<string, string>[]
             {
                 new KeyValuePair<string,string>(TestProjectDefinition.ApplicationStartupPathIdentifier, ApplicationStartupPath + Path.DirectorySeparatorChar),
-                new KeyValuePair<string,string>(TestProjectDefinition.ApplicationPluginPathIdentifier, Current.PluginsPath + Path.DirectorySeparatorChar),
+                new KeyValuePair<string,string>(TestProjectDefinition.ApplicationPluginPathIdentifier, PluginsPath + Path.DirectorySeparatorChar),
                 new KeyValuePair<string,string>(TestProjectDefinition.ProjectPathIdentifier,GetProjectRelatedFilePath(string.Empty))
             };
         }
@@ -177,13 +170,13 @@ namespace fwptt.TestProject
 
         public TestRunner GetTestRunner(TestRunResults testRunResults, ITimeLineController timeLineController)
         {
-            var testDef = TestProjectHost.Current.Project.TestDefinitions.FirstOrDefault(td => td.Id == testRunResults.TestRunDefinition.TestDefinitionId);
+            var testDef = Project.TestDefinitions.FirstOrDefault(td => td.Id == testRunResults.TestRunDefinition.TestDefinitionId);
             if (testDef == null)
                 throw new ApplicationException("The test definition C# code linked this test run def no longer exists, please update the test run definition before trying to run this test");
             Type testExecuteClass = null;
             try
             {
-                var testAsmb = TestProjectHost.Current.CreateMemoryAssembly(testDef);
+                var testAsmb = CreateMemoryAssembly(testDef);
                 testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t => t.GetInterfaces().Contains(typeof(IBaseTest)));
                 
             }
@@ -202,12 +195,12 @@ namespace fwptt.TestProject
         }
 
 
-        private static ITestDataSourceReader GetDataSourceReader(TestRunResults testRunResults)
+        private ITestDataSourceReader GetDataSourceReader(TestRunResults testRunResults)
         {
             if (!testRunResults.TestRunDefinition.TestDataSourceId.HasValue)
                 return null;
 
-            var dataSource = TestProjectHost.Current.Project.TestDataSources.
+            var dataSource = Project.TestDataSources.
                     SingleOrDefault(ds => ds.Id == testRunResults.TestRunDefinition.TestDataSourceId.Value);
             return dataSource != null ? dataSource.GetDataSourceReader() : null;
         }
@@ -266,15 +259,15 @@ namespace fwptt.TestProject
             return getExpandableDataKey(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
         }
 
-        public static Type GetExpandableType(string dataType, string uniqueName)
+        public Type GetExpandableType(string dataType, string uniqueName)
         {
             Type dataTypeFound;
-            if (!TestProjectHost.Current.expandableData.TryGetValue(getExpandableDataKey(dataType, uniqueName), out dataTypeFound))
+            if (!expandableData.TryGetValue(getExpandableDataKey(dataType, uniqueName), out dataTypeFound))
                 throw new ApplicationException(uniqueName + " - " + dataType + " is not defined inside the application or it's plugins - you probably need to add the extra plugins");
             return dataTypeFound;
         }
 
-        public static Type GetExpandableType(ExpandableDataType dataType, string uniqueName)
+        public Type GetExpandableType(ExpandableDataType dataType, string uniqueName)
         {
             return GetExpandableType(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
         }

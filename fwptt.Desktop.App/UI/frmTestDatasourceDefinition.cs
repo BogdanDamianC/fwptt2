@@ -37,7 +37,7 @@ namespace fwptt.Desktop.App.UI
             : this()
         {
             CurrentItem = datasource;
-            setUpEditControl(TestProjectHost.Current.PluginTypes.
+            setUpEditControl(MainApplication.Current.PluginTypes.
                 Single(pl => pl.ComponentType == ExpandableComponentType.DataSourceConfiguration
                 && pl.UniqueName == datasource.UniqueName));
             configControl.CurrentData = CurrentItem;
