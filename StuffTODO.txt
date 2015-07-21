@@ -1,7 +1,10 @@
-[Finish the Test Run Definition Desktop Implementation]
+
 
 [In Progress] Make the test running even more generic so that it go further than http calls
-update the test definition references to use something similar to how the typescript references are done
-update the plugin updates to use an event driven approach in order to avoid unnecessary calls similar to the one used in the timeline plugins
+[In Progress] Create a console application that allows running the define tests in different mods
+[TODO] Skeleton Code For a console application that can be further enhanced
+[TODO] update the test definition references to use something similar to how the typescript references are done
 
+[DONE] [Finish the Test Run Definition Desktop Implementation]
 [DONE] [Move the Test Definition Generator outside the main desktop project]
+[DONE] update the plugin updates to use an event driven approach in order to avoid unnecessary calls similar to the one used in the timeline plugins
