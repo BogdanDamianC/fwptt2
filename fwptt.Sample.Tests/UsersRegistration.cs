@@ -25,7 +25,7 @@ namespace IETests
     /// 3. Expand the Test Run Definitions click on "Users Registration" click on "New Run"
     /// 4. Click on Start
     /// </summary>
-    public class UsersRegistration : BaseHTTPTest
+    public class UsersRegistration : BaseRestSharpHTTPTest
     {
 
         #region Peristor - 0 http://localhost/testSites/

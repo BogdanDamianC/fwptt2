@@ -14,7 +14,7 @@ using CsQuery;
 
 namespace IETests
 {
-	public class Local_signInand_json_api_calls:BaseHTTPTest
+	public class Local_signInand_json_api_calls:BaseRestSharpHTTPTest
 	{
 		private const string SiteDomainPropName = "Site Domain";
 				string sp___VIEWSTATE,sp___VIEWSTATEGENERATOR,sp___EVENTVALIDATION;

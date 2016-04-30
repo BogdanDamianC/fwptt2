@@ -29,13 +29,12 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Configuration;
-using RestSharp;
-using RestSharp.Extensions;
 using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 using System.Text.RegularExpressions;
 using fwptt.Web.HTTP.Test.Data;
+using System.Net.Http;
 
 
 namespace fwptt.Web.HTTP.Test
@@ -44,7 +43,7 @@ namespace fwptt.Web.HTTP.Test
 	/// Summary description for BaseTemplateExecuteClass.
 	/// </summary>
 	public abstract class BaseHTTPTest:BaseTest<WebRequestInfo>	{
-        private Dictionary<string, RestClient> restClients = new Dictionary<string, RestClient>();
+        private Dictionary<string, HttpClient> restClients = new Dictionary<string, HttpClient>();
 
         private string UserAgent, AcceptedContent;
 
@@ -54,16 +53,18 @@ namespace fwptt.Web.HTTP.Test
             this.AcceptedContent = AcceptedContent;
 		}
 
-        public RestClient GetRestClient(Uri uri)
+        public HttpClient GetRestClient(Uri uri)
         {
             string leftSide = uri.GetLeftPart(UriPartial.Authority);
-            RestClient client;
+            HttpClient client;
             if(this.restClients.TryGetValue(leftSide, out client))
                 return client;
 
-            client = new RestClient(leftSide);
-            client.UserAgent = UserAgent;
-            client.CookieContainer = new System.Net.CookieContainer();
+            client = new HttpClient();
+            if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
+                client.Timeout = new TimeSpan(0, 0, 0, 0, timelineCtrl.MiliSecondsPauseBetweenRequests);
+            else
+                client.Timeout = new TimeSpan(0, 0, 0, 0, 5000);
             restClients[leftSide] = client;
             return client;
         }
@@ -72,44 +73,48 @@ namespace fwptt.Web.HTTP.Test
 		
 				
 		#region Util HTTP request/Respons processing functions
-		protected RestRequest BuildRequest()
+		protected HttpRequestMessage BuildRequest()
 		{
 			UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
 			address.Port = CurrentRequest.Request.Port;
-
-            var requestMethod = (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true);
-			var req = new RestRequest(address.Uri, requestMethod);
-			if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
-				req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
-			else
-				req.ReadWriteTimeout = req.Timeout = 5000;
-
+            
+            var requestMethod = new HttpMethod(CurrentRequest.Request.RequestMethod);
+			
 			foreach (var param in CurrentRequest.Request.QueryParams)
-				req.AddParameter(param.ParamName, param.ParamValue, ParameterType.QueryString);
-			foreach (var param in CurrentRequest.Request.PostParams)
-				req.AddParameter(param.ParamName, param.ParamValue, ParameterType.GetOrPost);
-
-            if (requestMethod != Method.GET && !string.IsNullOrEmpty(CurrentRequest.Request.Payload)
-                && (requestMethod != Method.POST || CurrentRequest.Request.PostParams.Count == 0))
             {
-                req.AddParameter(CurrentRequest.Request.PayloadContentType, CurrentRequest.Request.Payload, ParameterType.RequestBody);
+                if (string.IsNullOrEmpty(address.Query))
+                    address.Query = string.Empty;
+                else
+                    address.Query += "&";
+                address.Query += param.ParamName + "=" + param.ParamValue;
+            }
+
+            var req = new HttpRequestMessage(requestMethod, address.Uri);
+            
+            if(requestMethod == HttpMethod.Post && CurrentRequest.Request.PostParams.Any())
+            {
+                req.Content = new FormUrlEncodedContent(CurrentRequest.Request.PostParams.Select(p=>new KeyValuePair<string, string>(p.ParamName, p.ParamValue)));
+            }
+            else if (requestMethod != HttpMethod.Get && !string.IsNullOrEmpty(CurrentRequest.Request.Payload))
+            {
+                req.Content = new StringContent(CurrentRequest.Request.Payload, Encoding.UTF8, CurrentRequest.Request.PayloadContentType);
             }
 			//                if (Proxy != null)
 			//                    req.Proxy = Proxy;
 			return req;
 		}
 
-		protected async Task ExecuteRequest( RestRequest req, Func<IRestResponse, bool> processResponse = null, Func<Exception, bool> onError = null)
+		protected async Task ExecuteRequest(HttpRequestMessage req, Func<HttpResponseMessage, bool> processResponse = null, Func<Exception, bool> onError = null)
 		{
 			CurrentRequest.StartTime = DateTime.Now;
 			onRequestStarted();
 			try
 			{
                 var client = this.GetRestClient(CurrentRequest.Request.URL);
-				var resp = await client.ExecuteTaskAsync(req);
+                var resp = await client.SendAsync(req);
 				CurrentRequest.EndTime = DateTime.Now;
 				CurrentRequest.ResponseCode = (int)resp.StatusCode;
-				CurrentRequest.Response = resp.Content;
+                CurrentRequest.Response = await resp.Content.ReadAsStringAsync();
 				
 				if (processResponse != null)
 					this.CancelCurrentRunIteration |= !processResponse(resp);
@@ -154,34 +159,11 @@ namespace fwptt.Web.HTTP.Test
 			return PostData.Split('&').Select((qp)=>{
 													var v = qp.Split('=');
 													return new RequestParam(){ 
-														ParamName = v[0].UrlEncode(),
-														ParamValue= v.Length > 0?v[1].UrlDecode():string.Empty
+														ParamName = System.Web.HttpUtility.UrlEncode(v[0]),
+														ParamValue= v.Length > 0? System.Web.HttpUtility.UrlEncode(v[1]):string.Empty
 													};
 										   }).ToList();
 		}
-
-		/// <summary>
-		/// Creates a string from a param collection
-		/// </summary>
-		/// <param name="queryParams">collecton of the params</param>
-		/// <returns>string that contains all params</returns>
-		//public static string GetRequestQuery(List<RequestParam> queryParams)
-		//{
-		//    if(queryParams.Count == 0)
-		//        return string.Empty;
-		//    StringBuilder sb = new StringBuilder(queryParams.Count * 40);
-		//    sb.Append(queryParams[0].ParamName);
-		//    sb.Append("=");
-		//    sb.Append(queryParams[0].ParamValue);
-		//    for(int i = 1; i < queryParams.Count; i++)
-		//    {
-		//        sb.Append("&");
-		//        sb.Append(queryParams[i].ParamName);
-		//        sb.Append("=");
-		//        sb.Append(queryParams[i].ParamValue);
-		//    }
-		//    return sb.ToString();
-		//}
 		#endregion
 
 		
