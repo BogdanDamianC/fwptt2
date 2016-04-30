@@ -38,7 +38,7 @@ namespace fwptt.Web.HTTP.Test.Data
             QueryParams = new List<RequestParam>();
             PostParams = new List<RequestParam>();
         }
-		public string URL {get; set;}
+		public Uri URL {get; set;}
         public int Port {get; set;}
 		public string RequestMethod {get; set;}
         public string PayloadContentType { get; set; }
@@ -72,7 +72,7 @@ namespace fwptt.Web.HTTP.Test.Data
 				{
 					retVal.RequestMethod = httpmethod;					
 					var address = new Uri(lineText.Split(' ')[1]);
-					retVal.URL = address.Scheme + "://" + address.Host + address.AbsolutePath;
+					retVal.URL = new Uri(address.GetLeftPart(UriPartial.Path));
                     retVal.Port = address.Port;
 					if(!string.IsNullOrWhiteSpace(address.Query))
                         retVal.QueryParams.AddRange(BaseHTTPTest.ParseRequestData(address.Query.Substring(1)));

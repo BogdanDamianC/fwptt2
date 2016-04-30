@@ -33,7 +33,7 @@ namespace IETests
         {
             if (!await InitializeCurrentRequest())
                 return;
-            CurrentRequest.Request.URL = @"http://localhost/testSites/";
+            CurrentRequest.Request.URL = new Uri(@"http://localhost/testSites/");
             CurrentRequest.Request.Port = 80;
             CurrentRequest.Request.RequestMethod = @"GET";
 
@@ -51,7 +51,7 @@ namespace IETests
         {
             if (!await InitializeCurrentRequest())
                 return;
-            CurrentRequest.Request.URL = @"http://localhost/testSites/Account/Register";
+            CurrentRequest.Request.URL = new Uri(@"http://localhost/testSites/Account/Register");
             CurrentRequest.Request.Port = 80;
             CurrentRequest.Request.RequestMethod = @"GET";
 
@@ -74,7 +74,7 @@ namespace IETests
         {
             if (!await InitializeCurrentRequest())
                 return;
-            CurrentRequest.Request.URL = @"http://localhost/testSites/Account/Register";
+            CurrentRequest.Request.URL = new Uri(@"http://localhost/testSites/Account/Register");
             CurrentRequest.Request.Port = 80;
             CurrentRequest.Request.RequestMethod = @"POST";
             CurrentRequest.Request.PayloadContentType = @"application/x-www-form-urlencoded";

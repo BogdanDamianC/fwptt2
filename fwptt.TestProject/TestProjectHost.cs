@@ -149,8 +149,9 @@ namespace fwptt.TestProject
             var myCompilerParameters = new CompilerParameters(referenceAssemblies);
             myCompilerParameters.GenerateExecutable = false;
             myCompilerParameters.GenerateInMemory = true;
+            
 
-            var myCodeProvider = new CSharpCodeProvider();
+            var myCodeProvider = new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
             CompilerResults cr = myCodeProvider.CompileAssemblyFromSource(myCompilerParameters, new string[] { sourceCode });
             if (cr.Errors.Count > 0)
             {

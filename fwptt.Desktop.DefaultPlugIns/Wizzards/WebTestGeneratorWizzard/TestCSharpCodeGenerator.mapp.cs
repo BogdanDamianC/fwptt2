@@ -22,8 +22,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             var ret = new StringBuilder();
             ret.Append(req.RequestMethod);
             
-            var uri = new Uri( req.URL);
-            ret.Append(TransformNameToCode(uri.Host)).Append(TransformNameToCode(uri.AbsolutePath));
+            ret.Append(TransformNameToCode(req.URL.Host)).Append(TransformNameToCode(req.URL.AbsolutePath));
             return ret.ToString();
         }
 
@@ -41,14 +40,14 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         public string MainSiteHost{get; private set;}
         
 
-        protected bool useSiteDomainPath(string url)
+        protected bool useSiteDomainPath(Uri url)
         {
-            return url.ToLower().StartsWith(MainSiteHost.ToLower());
+            return url.GetLeftPart(UriPartial.Path).ToString().ToLower().StartsWith(MainSiteHost.ToLower());
         }
 
-        protected string getRelativePath(string url)
+        protected string getRelativePath(Uri url)
         {
-            return url.Substring(MainSiteHost.Length);
+            return url.GetLeftPart(UriPartial.Path).Substring(MainSiteHost.Length);
         }
 
         public static string GenerateCode(RecordedTestDefinition testDefinition, string MainSiteHost, IEnumerable<string> paramsToLookFor)

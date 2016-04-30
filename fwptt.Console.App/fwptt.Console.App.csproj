@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80F93AE4-B52D-44EA-ADE7-4705C9C95BEF}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{C144CC44-ED79-460F-83DD-E430E68499EF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>fwptt.Sample.Tests</RootNamespace>
-    <AssemblyName>fwptt.Sample.Tests</AssemblyName>
+    <RootNamespace>fwptt.Console.App</RootNamespace>
+    <AssemblyName>fwptt.Console.App</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -32,13 +31,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>fwptt.Console.App.MainApplication</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CsQuery, Version=1.3.5.124, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CsQuery.1.3.5-beta5\lib\net40\CsQuery.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -50,28 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Local_signInand_json_api_calls.cs" />
+    <Compile Include="MainApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserRegistration_With_Params.cs" />
-    <Compile Include="UsersRegistration.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="usersDataSource.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
       <Project>{89a430cb-74de-4abe-b026-ac14cab47a02}</Project>
       <Name>fwptt.TestProject</Name>
     </ProjectReference>
-    <ProjectReference Include="..\fwptt.Web.HTTP.Test\fwptt.Web.HTTP.Test.csproj">
-      <Project>{d7b5afd0-5409-4cbc-9ba7-1282deaab097}</Project>
-      <Name>fwptt.Web.HTTP.Test</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Fiddler_Local_signInand_json_api_calls.saz" />
-    <None Include="fwptt2.demo.tests.fwptt" />
-    <None Include="fwptt2.demo2.tests.fwptt" />
+    <Content Include="App.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

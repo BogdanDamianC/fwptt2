@@ -32,7 +32,7 @@ namespace IETests
         {
             if (!await InitializeCurrentRequest())
                 return;
-            CurrentRequest.Request.URL = Properties["Site Domain"] + Properties["Root Path"];
+            CurrentRequest.Request.URL = new Uri(Properties["Site Domain"] + Properties["Root Path"]);
             CurrentRequest.Request.Port = 80;
             CurrentRequest.Request.RequestMethod = @"GET";
 
@@ -50,7 +50,7 @@ namespace IETests
         {
             if (!await InitializeCurrentRequest())
                 return;
-            CurrentRequest.Request.URL = Properties["Site Domain"] + Properties["Root Path"] + "/Account/Register";
+            CurrentRequest.Request.URL = new Uri(Properties["Site Domain"] + Properties["Root Path"] + "/Account/Register");
             CurrentRequest.Request.Port = 80;
             CurrentRequest.Request.RequestMethod = @"GET";
 
@@ -73,7 +73,7 @@ namespace IETests
         {
             if (!await InitializeCurrentRequest())
                 return;
-            CurrentRequest.Request.URL = Properties["Site Domain"] + Properties["Root Path"] + "/Account/Register";
+            CurrentRequest.Request.URL = new Uri(Properties["Site Domain"] + Properties["Root Path"] + "/Account/Register");
             CurrentRequest.Request.Port = 80;
             CurrentRequest.Request.RequestMethod = @"POST";
             CurrentRequest.Request.PayloadContentType = @"application/x-www-form-urlencoded";

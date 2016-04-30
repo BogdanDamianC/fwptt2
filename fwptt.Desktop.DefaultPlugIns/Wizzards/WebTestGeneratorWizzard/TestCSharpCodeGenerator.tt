@@ -27,7 +27,7 @@ namespace IETests
 			var request = TestDefinition.Requests[index];
 		#>
 	
-		#region Request - <#= index #> <#= useSiteDomainPath(request.URL)?getRelativePath(request.URL):request.URL #>
+		#region Request - <#= index #> <#= useSiteDomainPath(request.URL)?getRelativePath(request.URL):request.URL.ToString() #>
 		private async Task <#= GetMethodName(index) #>()
 		{
             if (!await InitializeCurrentRequest())
@@ -35,7 +35,7 @@ namespace IETests
 			<# if(useSiteDomainPath(request.URL)){ #>
 			CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"<#= getRelativePath(request.URL) #>";
 			<# }else  { #>
-			CurrentRequest.Request.URL = @"<#= request.URL #>";
+			CurrentRequest.Request.URL = new Uri(@"<#= request.URL #>");
 			<# }  #>
 			
 			CurrentRequest.Request.Port = <#= request.Port #>;

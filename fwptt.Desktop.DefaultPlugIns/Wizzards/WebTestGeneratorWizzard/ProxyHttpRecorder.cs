@@ -84,10 +84,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
             var newr = new fwptt.Web.HTTP.Test.Data.WebRequest
             {
-                URL = tmpuri.Scheme + "://" + tmpuri.Host + tmpuri.Path,
+                URL = new Uri(tmpuri.Uri.GetLeftPart(UriPartial.Path)),
                 Port = tmpuri.Port
             };
-            
 
 			string qery = tmpuri.Query.Trim();
 			if(qery.Length > 0)

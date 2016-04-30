@@ -25,7 +25,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/Account/Login";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/Account/Login");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"GET";
@@ -47,7 +47,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/Account/Login";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/Account/Login");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"POST";
@@ -78,7 +78,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"GET";
@@ -96,7 +96,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/testwebapicalls";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/testwebapicalls");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"GET";
@@ -114,7 +114,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"GET";
@@ -132,7 +132,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/1144";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/1144");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"GET";
@@ -150,7 +150,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/1144";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/1144");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"POST";
@@ -171,7 +171,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/1144";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/1144");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"PUT";
@@ -192,7 +192,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/1144";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/1144");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"DELETE";
@@ -211,7 +211,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"POST";
@@ -231,7 +231,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"PUT";
@@ -251,7 +251,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/api/me/";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/api/me/");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"DELETE";
@@ -273,7 +273,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/testwebapicalls";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/testwebapicalls");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"POST";
@@ -298,7 +298,7 @@ namespace IETests
 		{
             if (!await InitializeCurrentRequest())
                 return;
-						CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"/testSites/";
+						CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"/testSites/");
 						
 			CurrentRequest.Request.Port = 80;
 			CurrentRequest.Request.RequestMethod = @"GET";

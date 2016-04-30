@@ -30,12 +30,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Configuration;
 using RestSharp;
-using RestSharp.Contrib;
+using RestSharp.Extensions;
 using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 using System.Text.RegularExpressions;
 using fwptt.Web.HTTP.Test.Data;
+
 
 namespace fwptt.Web.HTTP.Test
 {
@@ -43,17 +44,29 @@ namespace fwptt.Web.HTTP.Test
 	/// Summary description for BaseTemplateExecuteClass.
 	/// </summary>
 	public abstract class BaseHTTPTest:BaseTest<WebRequestInfo>	{
-		protected RestClient client {get; private set;}
+        private Dictionary<string, RestClient> restClients = new Dictionary<string, RestClient>();
 
-		private string AcceptedContent;// = "image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*";
+        private string UserAgent, AcceptedContent;
 
 		protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
 		{
-			client = new RestClient(baseUrl);
-			client.UserAgent = UserAgent;
-			client.CookieContainer = new System.Net.CookieContainer();
-			this.AcceptedContent = AcceptedContent;
+            this.UserAgent = UserAgent;
+            this.AcceptedContent = AcceptedContent;
 		}
+
+        public RestClient GetRestClient(Uri uri)
+        {
+            string leftSide = uri.GetLeftPart(UriPartial.Authority);
+            RestClient client;
+            if(this.restClients.TryGetValue(leftSide, out client))
+                return client;
+
+            client = new RestClient(leftSide);
+            client.UserAgent = UserAgent;
+            client.CookieContainer = new System.Net.CookieContainer();
+            restClients[leftSide] = client;
+            return client;
+        }
 
 		public System.Net.WebProxy Proxy {get; set;}
 		
@@ -64,7 +77,8 @@ namespace fwptt.Web.HTTP.Test
 			UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
 			address.Port = CurrentRequest.Request.Port;
 
-			var req = new RestRequest(address.Uri, (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true));
+            var requestMethod = (RestSharp.Method)Enum.Parse(typeof(RestSharp.Method), CurrentRequest.Request.RequestMethod, true);
+			var req = new RestRequest(address.Uri, requestMethod);
 			if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
 				req.ReadWriteTimeout = req.Timeout = timelineCtrl.MiliSecondsPauseBetweenRequests;
 			else
@@ -75,17 +89,23 @@ namespace fwptt.Web.HTTP.Test
 			foreach (var param in CurrentRequest.Request.PostParams)
 				req.AddParameter(param.ParamName, param.ParamValue, ParameterType.GetOrPost);
 
+            if (requestMethod != Method.GET && !string.IsNullOrEmpty(CurrentRequest.Request.Payload)
+                && (requestMethod != Method.POST || CurrentRequest.Request.PostParams.Count == 0))
+            {
+                req.AddParameter(CurrentRequest.Request.PayloadContentType, CurrentRequest.Request.Payload, ParameterType.RequestBody);
+            }
 			//                if (Proxy != null)
 			//                    req.Proxy = Proxy;
 			return req;
 		}
 
-		protected async Task ExecuteRequest(RestRequest req, Func<IRestResponse, bool> processResponse = null, Func<Exception, bool> onError = null)
+		protected async Task ExecuteRequest( RestRequest req, Func<IRestResponse, bool> processResponse = null, Func<Exception, bool> onError = null)
 		{
 			CurrentRequest.StartTime = DateTime.Now;
 			onRequestStarted();
 			try
 			{
+                var client = this.GetRestClient(CurrentRequest.Request.URL);
 				var resp = await client.ExecuteTaskAsync(req);
 				CurrentRequest.EndTime = DateTime.Now;
 				CurrentRequest.ResponseCode = (int)resp.StatusCode;
@@ -134,8 +154,8 @@ namespace fwptt.Web.HTTP.Test
 			return PostData.Split('&').Select((qp)=>{
 													var v = qp.Split('=');
 													return new RequestParam(){ 
-														ParamName = RestSharp.Contrib.HttpUtility.UrlDecode(v[0]),
-														ParamValue= v.Length > 0?RestSharp.Contrib.HttpUtility.UrlDecode(v[1]):string.Empty
+														ParamName = v[0].UrlEncode(),
+														ParamValue= v.Length > 0?v[1].UrlDecode():string.Empty
 													};
 										   }).ToList();
 		}
