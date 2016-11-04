@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Techno
+Description: A three-column, fixed-width design suitable for news sites and blogs.
+Version    : 1.0
+Released   : 20080227
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>FWPTT web load testing framework</title>
+		<meta name="description" content="FWPTT -Fast web Performance test tool - it's a Web application tester program for load testing web applications.
+				It can record normal and ajax requests. I tested it on asp.net applications, but it should work with jsp, php or other.">
+		<meta name="keywords" content="Web application tester program for load testing web applications.Record ajax requests.Tested on asp.net applications, but works with jsp, php or other.Generates a C# class that you can modify, the class has functions for handling the query/post params">
+		<meta name="author" content="Bogdan Constantin Damian">
+		<meta name="reply-to" content="Bogdan Constantin Damian">
+		<meta name="robots" content="all">		
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen" /
+		
+	</head>
+<body>
+<div id="wrapper">
+<!-- start header -->
+<div id="header">
+	<div id="menu">
+		<ul>
+			<li><a href="/index.html">Home</a></li>
+			<li><a href="help.html">HowTo</a></li>
+			<li class="current_page_item"><a href="TheStoryOfMakeingIt.htm">The Story</a></li>
+			<li><a href="http://sourceforge.net/projects/fwptt/files/fwptt_Executable/fwptt2.feature-preview.01.7z/download">Downloads</a></li>
+			<li><a href="help_V1.html">HowTo V1</a></li>
+			<li><a href="OlderNews.htm">Older News</a></li>
+		</ul>
+	</div>
+</div>
+<div id="logo">
+	<h1><a href="#">The story</a></h1>
+	<h2> by Bogdan Damian</h2>
+</div>
+<!-- end header -->
+<hr />
+<!-- start page -->
+<div id="page">
+	<!-- start content -->
+	<div style="width:100%">
+		<div class="post">
+			<h1 class="title"><a href="#">The short story of makeing it</a></h1>
+			<p class="meta"><small>Posted on April 24th, 2008 by <a href="#">Bogdan Damian</a></small></p>
+			<div class="entry">
+				<p>
+					There are a lot of web testing  tools  out there. A lot of which are free. A friend of mine asked me to help with some automatation tasks and because I didn't like none of what I found,  I've decided to make yet another one.
+					My purpose  was and still is to create a web load testing tool that will also allow his creator to check if the testing  flow is working properly by checking the webpages loaded in an easy way. 
+					I splited it in three logical parts: 
+				</p>
+				<h2>1.	Recording the user navigation.</h2>
+				<p>
+					After searching some time on the web I've selected 2 possible ways to do it: using IE automatization, using Mozilla automatization or a web proxy. Because  the mozilla automatization wasn't too suported and there wasn't that much documentation and because the IE automatization is better known and easy to use (you can find a lot of useful articles on this site) I've decided to use IE.  
+					For IE you must add mshtml dll to your project(Visual Studio will create the necessary  tlbimports).  After that, you must code the IE to start and than link the IE with an InternetExplorer class. 
+				</p>
+				<p>
+					The only util event for catching the pages navigation  is Navigation event which is called with the params and the URL for the new page. Unfortunately this works perfectly only for normal/nonajax webpages. The ajax calls are not recorded. 
+					After further studying the problem I've decided to use a proxy and to record the page navigations through that proxy. In order to do this I started to search the net for a proxy that I could control in a prrogramatic way from .net. 
+					I've found the <a href="http://www.mentalis.org/">Mentalis Proxy</a> library that is made in c#. This is a verry nice library and I recommend it to anyone who wants to make a proxy or just wants to know how a proxy works. 
+					The library allready provided me with what I needed and I just had to add it some events that are allowing me to catch the requests info. So after solving the proxy problem there was only one thing to be done in the recording part. 
+					That was to set/unset the proxy automatically for IE. At first it seemd an easy task because I have  found a link that explained how to do it. I had to set some registry keys but it's not working in all the cases .  At the begining I started the IE programatically there wasn't any need to set the proxy settings for the allready running IE clients. 
+					But because IE is not always used for recording user actions and because of the above problems I let the the proxy setting to the user.
+
+					For keeping the data the application uses for data manipulation some <a href="http://dataholder.sourceforge.net/">entities</a> that serialize the data in xml format directly(both ways load/unload). The recorded data can be saved/loaded into/from a file in XML format.
+				</p>
+				<h2>2.Playing/running the user navigation .</h2>
+				<p>			
+					In order to run the test the program generates a c# class that will do all the work. This is done in a very simple way through XSLT because the data is allready persisted as xml. 
+					You can find the xls in the same directory as the executable file, the file name is "RecorderClass.xsl".
+					The good thing about using an xslt file is that if somebody wants to automatically generate a class with some extra features he/she can easily do so by modifying the xsl file.
+					For the person who must do the test the greatest  flexibility comes from the fact that by using the C# language and .net framework  in general it is verry easy to get some data from a database or a local file. The test class is derived 
+					 from basetest class which has some util functions. 
+					For each procesed request the user can see the params got from the content of the previous request.
+				</p>
+				<h2>3. Viewing the results </h2>
+				<p>
+					For the playing results I  made an plugin like functionality in order to in  order to allow other viewing functionality.
+					Right now there are only 2 plugins available one for showing the requests that were made and another that is showing the average and instant number of request/sec and the total number of request.
+				</p>
+			</div>
+	</div>
+	<!-- end content -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end page -->
+<hr />
+<!-- start footer -->
+<div id="footer">
+	<p>&copy; 2008 All Rights Reserved &nbsp;&bull;&nbsp; Site designed by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>
+</div>
+<!-- end footer -->
+</div>
+
+<div style="font-size: 0.8em; text-align: center; margin-top: 1.0em; margin-bottom: 1.0em;">
+Design downloaded from <a href="http://www.freewebtemplates.com/">Free Templates</a> - your source for free web templates
+</div>
+
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	var pageTracker = _gat._getTracker("UA-4747512-3");
+	pageTracker._initData();
+	pageTracker._trackPageview();
+</script>
+</body>
+</html>

@@ -32,6 +32,7 @@ using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.TestProject.Project.Data
 {
+    [AttributeUsage(AttributeTargets.Class)]
     public class ExpandableSettingsAttribute : Attribute
     {
         public ExpandableSettingsAttribute(string uniqueName, string DisplayName, ExpandableComponentType type)

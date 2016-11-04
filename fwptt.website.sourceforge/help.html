@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Techno
+Description: A three-column, fixed-width design suitable for news sites and blogs.
+Version    : 1.0
+Released   : 20080227
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>FWPTT web load testing framework</title>
+		<meta name="description" content="FWPTT -Fast web Performance test tool - it's a Web application tester program for load testing web applications.
+				It can record normal and ajax requests. I tested it on asp.net applications, but it should work with jsp, php or other.">
+		<meta name="keywords" content="Web application tester program for load testing web applications.Record ajax requests.Tested on asp.net applications, but works with jsp, php or other.Generates a C# class that you can modify, the class has functions for handling the query/post params">
+		<meta name="author" content="Bogdan Constantin Damian">
+		<meta name="reply-to" content="Bogdan Constantin Damian">
+		<meta name="robots" content="all">		
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen" /
+	</head>
+<body>
+<div id="wrapper">
+<!-- start header -->
+<div id="header">
+	<div id="menu">
+		<ul>
+			<li><a href="index.html">Home</a></li>
+			<li class="current_page_item"><a href="help.html">HowTo</a></li>
+			<li><a href="TheStoryOfMakeingIt.htm">The Story</a></li>
+			<li><a href="http://sourceforge.net/projects/fwptt/files/fwptt_Executable/fwptt2.feature-preview.01.7z/download">Downloads</a></li>
+			<li><a href="help_V1.html">HowTo V1</a></li>
+			<li><a href="OlderNews.htm">Older News</a></li>
+		</ul>
+	</div>
+</div>
+<div id="logo">
+	<h1><a href="#">fwptt V2 HowTo</a></h1>
+	<h2> by Bogdan Damian</h2>
+</div>
+<!-- end header -->
+<hr />
+<!-- start page -->
+<div id="page">
+	<!-- start content -->
+	<div style="width:100%">
+		<div class="post">		
+			<h1 class="title"><a href="#">How to Record Requests and create a Test Definition</a></h1>
+			<p class="meta"><small>Posted on May 8th, 2015 by <a href="#">Bogdan</a></small></p>
+			<div class="entry">
+				<p>The V2 release switches towards supporting and using <a href="http://www.telerik.com/fiddler">Fiddler</a> as the default tool for recording the requests that are made, Fiddler is a mature tool that supports recording requests made over https</p>
+				<p>To Create a new project with a new test please start <a href="http://www.telerik.com/fiddler">Fiddler</a> and capture the http/https requests. once the requests are recorded you can remove the unnecessary requests and save all the requests using the File->Save->All Sessions menu action</p>	
+                <img alt="Record and Save the requests using Fiddler" src="images/v2.0-feature-preview.1/fiddler_Record_therequests_with_fiddler_removeunwantedrequests_and_saveall_requests.png" />
+				<br />
+                <p>
+                    Create a new project and save it.
+                </p>
+                <img alt="New Test Project" src="images/v2.0-feature-preview.1/1_newtestproject.png" />
+                <p>
+                    Right Click on the Test Definition node and select New Test Definition->Web Test Wizzard
+                </p>
+                <img alt="New Test Definition with Wizzard" src="images/v2.0-feature-preview.1/2_new_test_definition_wizzard.png" />
+                <p>
+                    Using the Import Fiddler Data import the data that was saved earlier. Modify the name of the test and click on Generate Test Definition
+                </p>
+                <img alt="Import Fiddler Data and generate a C# class" src="images/v2.0-feature-preview.1/4_Import_Fiddler_Data_modify_the_class_Name_Generate.png" />
+                <p>
+                    The Test Definition source code editor window will open, there go to the compile tab and click compile code. Once the code compiles succesfully click on the "Save C# Source Code" button. 
+                </p>
+                <img alt="Compile and Save the C# code for the new test" src="images/v2.0-feature-preview.1/5_Compile_the_source_code_and_save.png" />
+			</div>
+			<p class="tags"><strong>Tags:</strong> <a href="#">info</a> </p>
+		</div>
+		<div class="post">
+			<h1 class="title"><a href="#">How to start replaying what you have recorded</a></h1>
+			<p class="meta"><small>Posted on May 8th, 2015  by <a href="#">Bogdan</a></small></p>
+			<div class="entry">
+				<p>
+					After you have defined a test definition you can create a test run definition that will use the previously defined test definition. The test run definition allows you to set how the previously define test will be ran.
+				</p>
+                <p>
+                    To define a new test run right click on the Test Run Definition nodse and select new Test Run Definition.
+                    Than set up all the properties as in the picture below.
+                </p>
+                <img alt="Set the Test Run Definition properties" src="images/v2.0-feature-preview.1/6_1_Set_test_run_Properties.png" />
+			</div>
+			<p class="tags"><strong>Tags:</strong> <a href="#">info</a> </p>
+		</div>
+		<div class="post">
+			<h1 class="title"><a href="#">What do you do with the results</a></h1>
+			<p class="meta"><small>Posted on November 8th, 2008 by <a href="#">Bogdan</a></small></p>
+			<div class="entry">
+				<p> Well not much :).</p>
+				<p> The html content is there just to help you prepare the test script/program. So you will have to
+				check each page and see that all your user actions that you have recorded in the prowser are happening propperly here too. There are a
+				lot of scenarios where due to the way the web application was done load testing it will require a little tinkering with the C# code (ex the developers
+				have put a functionality for protecting against robots)</p>
+				<p>After you have a woking test script/program you will have to decide on the <strong>Pause between requests</strong> and start load testing 
+				the web application for a specific 
+				amount of time lets lay 10 minutes with 1 thread. After those ten minutes you check the results and if everything is ok you should increase the number of threads to 5 and after
+				that to 10 threads, 15 ... and so on until the web application that you are testing stops responding propperly. 
+				You can also check the CPU and memory consumption on the web server, if the CPU stays constant at 100%(or a lower value for real servers) during the test you should proably stop because you probably reached your web application+Web server limit.</p>
+				<p>When you find the number of threads for which the web application doesn't work propperly it means that the number of
+				users that web application will support = <strong>Number of Threads</strong> </p>
+			</div>
+			<p class="tags"><strong>Tags:</strong> <a href="#">info</a> </p>
+		</div>
+	</div>
+	<!-- end content -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end page -->
+<hr />
+<!-- start footer -->
+<div id="footer">
+	<p>&copy; 2008 All Rights Reserved &nbsp;&bull;&nbsp; Site designed by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>
+</div>
+<!-- end footer -->
+</div>
+
+<div style="font-size: 0.8em; text-align: center; margin-top: 1.0em; margin-bottom: 1.0em;">
+Design downloaded from <a href="http://www.freewebtemplates.com/">Free Templates</a> - your source for free web templates
+</div>
+	
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	var pageTracker = _gat._getTracker("UA-4747512-3");
+	pageTracker._initData();
+	pageTracker._trackPageview();
+</script>
+</body>
+</html>

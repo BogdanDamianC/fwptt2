@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Techno
+Description: A three-column, fixed-width design suitable for news sites and blogs.
+Version    : 1.0
+Released   : 20080227
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>FWPTT web load testing framework</title>
+		<meta name="description" content="FWPTT -Fast web Performance test tool - it's a Web application tester program for load testing web applications.
+				It can record normal and ajax requests. I tested it on asp.net applications, but it should work with jsp, php or other.">
+		<meta name="keywords" content="Web application tester program for load testing web applications.Record ajax requests.Tested on asp.net applications, but works with jsp, php or other.Generates a C# class that you can modify, the class has functions for handling the query/post params">
+		<meta name="author" content="Bogdan Constantin Damian">
+		<meta name="reply-to" content="Bogdan Constantin Damian">
+		<meta name="robots" content="all">		
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen" /
+		
+	</head>
+<body>
+    <div id="wrapper">
+        <!-- start header -->
+        <div id="header">
+            <div id="menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="help.html">HowTo</a></li>
+                    <li><a href="TheStoryOfMakeingIt.htm">The Story</a></li>
+                    <li><a href="http://sourceforge.net/projects/fwptt/files/fwptt_Executable/fwptt2.feature-preview.01.7z/download">Downloads</a></li>
+                    <li><a href="help_V1.html">HowTo V1</a></li>
+                    <li class="current_page_item"><a href="OlderNews.htm">Older News</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="logo">
+            <h1><a href="#">Older News</a></h1>
+            <h2> by Bogdan Damian</h2>
+        </div>
+        <!-- end header -->
+        <hr />
+        <!-- start page -->
+        <div id="page">
+            <!-- start content -->
+            <div style="width:100%">
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.7 Released</a></h1>
+                    <p class="meta"><small>Posted on April 12th, 2009 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            Solved a bug that was keeping the running test thread alive indefinitely
+                            now the testing also works on another ports than 80.
+                            Added functionality in results viewer for exporting the data through custom xsl templates.
+                        </p>
+                    </div>
+                </div>
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.6 Released</a></h1>
+                    <p class="meta"><small>Posted on ecember 27th, 2008 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            Solved Column 'Http_ActionIndex' does not belong to table bug <br />
+                            Solved the bug that was making the application keep a thread in the background even if it was closed. <br />
+                            Added new form for viewing/modifying existing the recorded requests and their params.
+                        </p>
+                    </div>
+                </div>
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.5 Released</a></h1>
+                    <p class="meta"><small>Posted on July 21th, 2008 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            This version is a bug solver: Changing the default port or IP proxy address made recording to start working. There were some problems when running multiple threads and when the running test was stopped.
+                        </p>
+                    </div>
+                </div>
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.4 Released</a></h1>
+                    <p class="meta"><small>Posted on May 20th, 2008 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            This version has some bugs solved which were anoying and also contains a waiting time added in order to avoid request blocking by the web servers.
+                            Tested on IIS but probably the other web servers have a similar protection too. Also I've added the port in the recorded data in order to be able to test on servers that use other port than the regular one(80).
+                        </p>
+                    </div>
+                </div>
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.3 Released</a></h1>
+                    <p class="meta"><small>Posted on April 24th, 2008 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            This version solves a problem that the proxy had with the communication on http1.1. The behaviour was that it didn't recorded all the requests.
+                            I've also added a compilation window so that you can have a better view of what is going on there.
+                            There were also some other small bugs solved.
+                        </p>
+                    </div>
+                </div>
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.2 Released</a></h1>
+                    <p class="meta"><small>Posted on October 29th, 2007 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            The application was moved to 2.0 Net framework. The recording functionality was changed now I'm using a proxy. So now also the ajax requests are recorded by the system. Also I've added a sources repository.
+                        </p>
+                    </div>
+                </div>
+                <div class="post">
+                    <h1 class="title"><a href="#">Version 0.1 Released</a></h1>
+                    <p class="meta"><small>Posted on June 06th, 2007 by <a href="#">Bogdan Damian</a></small></p>
+                    <div class="entry">
+                        <p>
+                            This is the first application verison the software is full functionabile(aside the bugs not found yet). You can record your page navigation made in IE, save the data in an XML format or generate a C# class directly. Also you can execute the XML or the class. After I make some order with the sources I will also put the sources here.
+                        </p>
+                    </div>
+                </div>
+                <!-- end content -->
+                <div style="clear: both;">&nbsp;</div>
+            </div>
+            <!-- end page -->
+            <hr />
+            <!-- start footer -->
+            <div id="footer">
+                <p>&copy; 2008 All Rights Reserved &nbsp;&bull;&nbsp; Site designed by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>
+            </div>
+            <!-- end footer -->
+        </div>
+        <div style="font-size: 0.8em; text-align: center; margin-top: 1.0em; margin-bottom: 1.0em;">
+            Design downloaded from <a href="http://www.freewebtemplates.com/">Free Templates</a> - your source for free web templates
+        </div>
+
+        <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+            var pageTracker = _gat._getTracker("UA-4747512-3");
+            pageTracker._initData();
+            pageTracker._trackPageview();
+        </script>
+    </div>
+</body>
+</html>

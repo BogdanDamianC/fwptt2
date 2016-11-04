@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Techno
+Description: A three-column, fixed-width design suitable for news sites and blogs.
+Version    : 1.0
+Released   : 20080227
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>FWPTT web load testing framework</title>
+		<meta name="description" content="FWPTT -Fast web Performance test tool - it's a Web application tester program for load testing web applications.
+				It can record normal and ajax requests. I tested it on asp.net applications, but it should work with jsp, php or other.">
+		<meta name="keywords" content="Web application tester program for load testing web applications.Record ajax requests.Tested on asp.net applications, but works with jsp, php or other.Generates a C# class that you can modify, the class has functions for handling the query/post params">
+		<meta name="author" content="Bogdan Constantin Damian">
+		<meta name="reply-to" content="Bogdan Constantin Damian">
+		<meta name="robots" content="all">		
+		<link href="style.css" rel="stylesheet" type="text/css" media="screen" /
+	</head>
+<body>
+<div id="wrapper">
+<!-- start header -->
+<div id="header">
+	<div id="menu">
+		<ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="help.html">HowTo</a></li>
+            <li><a href="TheStoryOfMakeingIt.htm">The Story</a></li>
+            <li><a href="http://sourceforge.net/projects/fwptt/files/fwptt_Executable/fwptt2.feature-preview.01.7z/download">Downloads</a></li>
+            <li class="current_page_item"><a href="help_V1.html">HowTo V1</a></li>
+            <li><a href="OlderNews.htm">Older News</a></li>
+		</ul>
+	</div>
+</div>
+<div id="logo">
+	<h1><a href="#">fwptt V1 HowTo</a></h1>
+	<h2> by Bogdan Damian</h2>
+</div>
+<!-- end header -->
+<hr />
+<!-- start page -->
+<div id="page">
+	<!-- start content -->
+	<div style="width:100%">
+		<div class="post">
+	        <div style="float:right;margin-right:10px;padding-top:104px;width:200px;">
+				<div>This article is translated to <a href="http://science.webhostinggeeks.com/kako-da-snimite">Serbo-Croatian</a> language by Jovana Milutinovich from <a href="http://webhostinggeeks.com/"> WebHostingGeeks.com</a>.</div>
+	        </div>			
+			<h1 class="title"><a href="#">How to Record Requests</a></h1>
+			<p class="meta"><small>Posted on November 8th, 2008 by <a href="#">Bogdan</a></small></p>
+			<div class="entry">
+				<p>After you start the application you will first see the window below.</p>	
+				<p>Press the Start Recording button which will open the recording window. </p>	
+				<img alt="Startup window" src="images/StartForm.PNG"/>
+				<br />
+				<p>In this window the application will try to autodedect your computer settings 
+				and will choose by default the default proxy port 10123 which you can change if you want to.
+				If the program didn't detected your IP address propperly you can change it.
+				</p> 
+				<img alt="Record Requesting window" src="images/RequestRecordingForm.PNG" />
+
+				<p>After you have finished configuring the IP address and the port number push the <strong>"Start Recording"</strong> button. 
+				When you push the button the internal proxy server will be started. In order to actually record your browsing actions
+				you have to start your browser and set the proxy setting with the IP address and port configured above. If you don't know how to 
+				set the proxy settings there are a few hints for <a href= "ProxyHowTo/IEProxySettings.htm" target="_blank">IE here</a>, 
+				for <a href= "ProxyHowTo/FireFoxProxySettings.htm" target="_blank">Firefox here</a> 
+				and for for <a href= "ProxyHowTo/OperaProxySettings.htm" target="_blank">Opera here</a>.
+				After you have set the proxy settings in your browser you can start browsing and the proxy will record the request that your browser makes.
+				If you receive a message like this <span style="color:Red">Could not connect to proxy server. Access denied</span> than the proxy might not be running
+				try pushing "Start Recording" again and reopen the page or the proxy configuration from your web browser doesn't match the recorder proxy configuration,
+				please check them to see if they match.
+				When you browse your first page you should see something like this in the recorder.
+				</p>
+				<img alt"Record Sample" src="images/RecordingSample.PNG" />
+				<br />
+				<p>After you have finished recording your actions push the stop button and close the window and don't forget to put your old setting in your 
+				web browser proxy setting  because when you stop the recorder the proxy will be shut down and you will not be able to see any web page.</p>
+			</div>
+			<p class="tags"><strong>Tags:</strong> <a href="#">info</a> </p>
+		</div>
+		<div class="post">
+			<h1 class="title"><a href="#">How to start replaying what you have recorded</a></h1>
+			<p class="meta"><small>Posted on November 8th, 2008 by <a href="#">Bogdan</a></small></p>
+			<div class="entry">
+				<p>
+					After you have closed the recording window you'll be back here.
+				</p>
+				<img alt="Startup window" src="images/StartForm.PNG"/>
+				<p>You can save the recorded data for later use in XML format. If you don't want to get into the code that will be used, you can run the test directly
+				by pressing <strong>Run Tests</strong> because anyway you will see the code later or you can modify the recorded requests by pressing 
+				<strong>View/Modify Recorded Data</strong> and run the tests after. The application will open the tests runner. </p>
+				<img src="images/View_modifyrequests.PNG" alt="View/Modify screen" />
+				<p>
+					Here you can view the details of each request modify them, add new requests or modify existing requests.
+				</p>
+				<img src="images/EmptyRunner.PNG" alt="Empty Runner" />
+				<p>Here you can set the number of concurrent threads that will replay what you have recorded in the <strong>Number of Threads</strong> field.
+				If you put there a number like 5 the application will behave like there were 5 browsers. </p>
+				<p><strong>Pause between requests</strong> represents the number of miliseconds that the application will wait between requests(in a real enviroment there will probably be at least 1 second delay between requests or more).</p>
+				<p>In the <strong>Time Line</strong> fields you will set how long the test will run.
+				<ol>
+				    <li>Number of Steps - the number of times the program will play all your recorded requests</li>
+				    <li>Hour and minutes - the time in hours and minutes after which the player will stop</li>
+				    <li>Number of seconds - the time in seconds after which the player will stop</li>
+				</ol>
+				</p>
+				<br />
+				<p>
+				    To start running the tests you have to click <strong>Start</strong>. If you run the tests for the first time it will open a window with 
+				    the C# program generated for running your tests.
+				</p>
+				<img src="images/TestCode.PNG" />
+				<p> If you don't want to get into details just push <strong>Compile Code & Close</strong>. This will Compile the C# code into a temporary assembly and will start running the tests.</p>
+				<p>After a first run you should see some results like this.</p>
+				<img src="images/FullRunner.PNG" />
+				<p>You can save all the results from the grid into an XML file if you click on "Save XML Log File".</p>
+				<p>You can view each request html recorded content by selecting the request and than click on "View page".</p>
+				<p>You can export all the recorded content into html files by clicking the "Export Responses to HTML Files".</p>
+				<p><span style="font-weight:bold;color:Red">(new)</span> You can export the data through a xsl file by clicking on "Export Data". <br />
+				    This will search all the XSL files in the ResultReportsTemplates folder and will show them in the drop down list so that you can use them to export the data.
+				    There is a simple export format right now and as time goes we will add some more.
+				</p>
+			</div>
+			<p class="tags"><strong>Tags:</strong> <a href="#">info</a> </p>
+		</div>
+		<div class="post">
+			<h1 class="title"><a href="#">What do you do with the results</a></h1>
+			<p class="meta"><small>Posted on November 8th, 2008 by <a href="#">Bogdan</a></small></p>
+			<div class="entry">
+                <p> Well not much :).</p>
+                <p> The html content is there just to help you prepare the test script/program. So you will have to
+                check each page and see that all your user actions that you have recorded in the prowser are happening propperly here too. There are a
+                lot of scenarios where due to the way the web application was done load testing it will require a little tinkering with the C# code (ex the developers
+                have put a functionality for protecting against robots)</p>
+                <p>After you have a woking test script/program you will have to decide on the <strong>Pause between requests</strong> and start load testing 
+                the web application for a specific 
+                amount of time lets lay 10 minutes with 1 thread. After those ten minutes you check the results and if everything is ok you should increase the number of threads to 5 and after
+                that to 10 threads, 15 ... and so on until the web application that you are testing stops responding propperly. 
+                You can also check the CPU and memory consumption on the web server, if the CPU stays constant at 100%(or a lower value for real servers) during the test you should proably stop because you probably reached your web application+Web server limit.</p>
+                <p>When you find the number of threads for which the web application doesn't work propperly it means that the number of
+                users that web application will support = <strong>Number of Threads</strong> </p>
+			</div>
+			<p class="tags"><strong>Tags:</strong> <a href="#">info</a> </p>
+		</div>
+	</div>
+	<!-- end content -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end page -->
+<hr />
+<!-- start footer -->
+<div id="footer">
+	<p>&copy; 2008 All Rights Reserved &nbsp;&bull;&nbsp; Site designed by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a></p>
+</div>
+<!-- end footer -->
+</div>
+
+<div style="font-size: 0.8em; text-align: center; margin-top: 1.0em; margin-bottom: 1.0em;">
+Design downloaded from <a href="http://www.freewebtemplates.com/">Free Templates</a> - your source for free web templates
+</div>
+  
+<script type="text/javascript">
+	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+	</script>
+	<script type="text/javascript">
+	var pageTracker = _gat._getTracker("UA-4747512-3");
+	pageTracker._initData();
+	pageTracker._trackPageview();
+</script>
+</body>
+</html>

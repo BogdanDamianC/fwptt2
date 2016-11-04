@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>http://fwptt.sourceforge.net/</loc>
+  <priority>1.00</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/index.html</loc>
+  <priority>0.80</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/help.html</loc>
+  <priority>0.80</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/help_V1.html</loc>
+  <priority>0.20</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/TheStoryOfMakeingIt.html</loc>
+  <priority>0.50</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/OlderNews.html</loc>
+  <priority>0.20</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/ProxyHowTo/IEProxySettings.htm</loc>
+  <priority>0.20</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/ProxyHowTo/FireFoxProxySettings.htm</loc>
+  <priority>0.20</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+<url>
+  <loc>http://fwptt.sourceforge.net/ProxyHowTo/OperaProxySettings.htm</loc>
+  <priority>0.20</priority>
+  <lastmod>2015-05-26T03:32:12+00:00</lastmod>
+  <changefreq>yearly</changefreq>
+</url>
+</urlset>
