@@ -60,12 +60,22 @@ namespace fwptt.Web.HTTP.Test
             if(this.restClients.TryGetValue(leftSide, out client))
                 return client;
 
-            client = new HttpClient();
+            var httpClientHandler = new HttpClientHandler();
+            if (Proxy != null)
+            {
+                httpClientHandler.Proxy = Proxy;
+                httpClientHandler.UseProxy = true;
+            }
+
+            client = new HttpClient(httpClientHandler);
             if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
                 client.Timeout = new TimeSpan(0, 0, 0, 0, timelineCtrl.MiliSecondsPauseBetweenRequests);
             else
-                client.Timeout = new TimeSpan(0, 0, 0, 0, 5000);
+                client.Timeout = new TimeSpan(0, 0, 0, 0, 20000);
             restClients[leftSide] = client;
+
+
+
             return client;
         }
 
@@ -104,20 +114,20 @@ namespace fwptt.Web.HTTP.Test
 			return req;
 		}
 
-		protected async Task ExecuteRequest(HttpRequestMessage req, Func<HttpResponseMessage, bool> processResponse = null, Func<Exception, bool> onError = null)
+        protected async Task ExecuteRequest(HttpRequestMessage req, Func<HttpResponseMessage, bool> processResponse = null, Func<Exception, bool> onError = null)
 		{
 			CurrentRequest.StartTime = DateTime.Now;
 			onRequestStarted();
 			try
 			{
                 var client = this.GetRestClient(CurrentRequest.Request.URL);
-                var resp = await client.SendAsync(req);
+                var resp = await client.SendAsync(req).ConfigureAwait(false);
 				CurrentRequest.EndTime = DateTime.Now;
 				CurrentRequest.ResponseCode = (int)resp.StatusCode;
-                CurrentRequest.Response = await resp.Content.ReadAsStringAsync();
+                CurrentRequest.Response = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
 				
 				if (processResponse != null)
-					this.CancelCurrentRunIteration |= !processResponse(resp);
+					this.CancelCurrentRunIteration |= ! processResponse(resp);
 				onRequestEnded();
 				return;
 			}

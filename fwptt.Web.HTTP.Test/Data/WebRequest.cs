@@ -47,7 +47,7 @@ namespace fwptt.Web.HTTP.Test.Data
         public string Payload { get; set; }
         
         
-        private static readonly string [] httpMethods = new string[]{"GET","POST","PUT","DELETE","HEAD", "CONNECT"};
+        private static readonly string [] httpMethods = new string[]{"GET","POST","PUT", "PATCH", "DELETE","HEAD", "CONNECT", "OPTIONS"};
         
         public static WebRequest FromFiddlerLog(string LogContent)
 		{

@@ -69,15 +69,24 @@ namespace fwptt.Console.DefaultPlugins.RequestsCounter
             SetNumbersOverview(instCount, average);
         }
 
-        private const string overviewSpacer = "         ";
+        private const string overviewSpacer = "     ";
         private void SetNumbersOverview(TestLoadInfoPerUnitOfTime instCount, double average)
         {
+            System.Console.Write(DateTime.Now.ToLongTimeString() + overviewSpacer);
             System.Console.Write("Total Requests: " + requestCounterRunData.OverallCounts.NoOfRequests + overviewSpacer);
-            System.Console.Write("avg req/sec " + average + overviewSpacer);
+            System.Console.Write("Total Errors: " + requestCounterRunData.OverallCounts.NoOfErrors + overviewSpacer);
+            System.Console.Write("avg req/sec " + average.ToString("0.000") + overviewSpacer);
             System.Console.Write("err/sec " + instCount.NoOfErrors + overviewSpacer);
-            
+
             foreach (var oc in instCount.OtherCounts)
                 System.Console.Write(oc.Key + "/sec " + oc.Value + overviewSpacer);
+
+            if (requestCounterRunData.OverallCounts.OtherCounts.Any())
+            {
+                System.Console.Write("Overall OtherCounts: " + overviewSpacer);
+                foreach (var oc in requestCounterRunData.OverallCounts.OtherCounts)
+                    System.Console.Write(oc.Key + " - " + oc.Value + overviewSpacer);
+            }
             System.Console.WriteLine("");
         }
 

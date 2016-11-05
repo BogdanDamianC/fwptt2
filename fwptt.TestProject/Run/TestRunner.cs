@@ -122,7 +122,7 @@ namespace fwptt.TestProject.Run
             //newInstance.Proxy = this.Proxy;
             newInstance.StartTest(timelineCtrl, Properties, runData).ContinueWith(async (Task a) =>
             {
-                await a;
+                await a.ConfigureAwait(false);
                 timelineCtrl.IterationExecutionEnded(currentIteration.Value);
                 inactiveTestInstancesPool.Enqueue(newInstance);//the test can now be reused
                 TestRunner_TestEnded();

@@ -30,10 +30,10 @@ namespace IETests
 		#region Request - <#= index #> <#= useSiteDomainPath(request.URL)?getRelativePath(request.URL):request.URL.ToString() #>
 		private async Task <#= GetMethodName(index) #>()
 		{
-            if (!await InitializeCurrentRequest())
+            if (!await InitializeCurrentRequest().ConfigureAwait(false))
                 return;
 			<# if(useSiteDomainPath(request.URL)){ #>
-			CurrentRequest.Request.URL = Properties[SiteDomainPropName] + @"<#= getRelativePath(request.URL) #>";
+			CurrentRequest.Request.URL = new Uri(Properties[SiteDomainPropName] + @"<#= getRelativePath(request.URL) #>");
 			<# }else  { #>
 			CurrentRequest.Request.URL = new Uri(@"<#= request.URL #>");
 			<# }  #>
@@ -60,7 +60,7 @@ namespace IETests
 				<#=GetCodeNameForParam(paramsToSave[index][psIndex])#> = requestDOM["#<#= paramsToSave[index][psIndex] #>"].Val();
 				<#}} #>
 				return true;//Add response handling stuff here if needed - return true for the current run to continue or false to cancel it
-			});
+			}).ConfigureAwait(false);
 		}
 		#endregion
 		<# } #>
@@ -71,7 +71,7 @@ namespace IETests
 			"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)"
 			,"image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
 			<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 
-			{ #>await <#= GetMethodName(index) #>();
+			{ #>await <#= GetMethodName(index) #>().ConfigureAwait(false);
 			<# } #>		
 		}
 	}

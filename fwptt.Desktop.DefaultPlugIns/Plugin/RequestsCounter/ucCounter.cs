@@ -266,7 +266,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.RequestsCounter
 		private void SetNumbersOverview()
 		{
 			lblNumbersOverview.Text = "Total Requests: " + requestCounterRunData.OverallCounts.NoOfRequests + overviewSpacer;
-			foreach (Simple2DChart.Graphs.LineGraph<DateTime, double> chart in chartRenderer.Graphs)
+            lblNumbersOverview.Text += "Total Errors: " + requestCounterRunData.OverallCounts.NoOfErrors + overviewSpacer;
+            foreach (Simple2DChart.Graphs.LineGraph<DateTime, double> chart in chartRenderer.Graphs)
 				lblNumbersOverview.Text += chart.Legend + ": " + Math.Round(chart.GraphData[chart.GraphData.Count - 1].Y, 2) + overviewSpacer;
 		}
 

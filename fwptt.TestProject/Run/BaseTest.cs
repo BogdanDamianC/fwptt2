@@ -59,7 +59,7 @@ namespace fwptt.TestProject.Run
         protected async Task<bool> InitializeCurrentRequest()
         {
             CurrentRequest = new RI();
-            await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests);
+            await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests).ConfigureAwait(false);
             return !CancelCurrentRunIteration;
         }
 
@@ -84,7 +84,7 @@ namespace fwptt.TestProject.Run
             this.testRunRecord = testRunRecord;
             this.Properties = Properties;
             this.CancelCurrentRunIteration = false;
-			await RunTest();
+			await RunTest().ConfigureAwait(false);
 		}
 
         public virtual void Dispose()
