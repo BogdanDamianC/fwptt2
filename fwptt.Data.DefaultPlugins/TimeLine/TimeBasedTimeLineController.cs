@@ -15,6 +15,7 @@ namespace fwptt.Data.DefaultPlugins.TimeLine
         public TimeBasedTimeLineController(TimeBasedTimeLine timeline)
         {
             MaxExecutionThreads = timeline.NoOfThreads;
+            MiliSecondsPauseBetweenRequests = timeline.PauseBetweenRequests;
             this.timeline = timeline;
             RampUpTimeSlice = (double)(timeline.RampUpMinutes * 60 + timeline.RampUpSeconds) / (double)MaxExecutionThreads;
         }
