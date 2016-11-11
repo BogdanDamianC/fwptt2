@@ -279,10 +279,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).dll"
-copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\$(ProjectName).pdb"
-copy /Y "$(TargetDir)Simple2DChart.dll" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\Simple2DChart.dll"
-copy /Y "$(TargetDir)Simple2DChart.pdb" "$(SolutionDir)fwptt.Desktop.App\bin\Debug\PlugIn\Simple2DChart.pdb"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\$(ProjectName).pdb"
+copy /Y "$(TargetDir)Simple2DChart.dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\Simple2DChart.dll"
+copy /Y "$(TargetDir)Simple2DChart.pdb" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\Simple2DChart.pdb"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
