@@ -21,14 +21,13 @@
  */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("Fast Web Performance Test Tool Application - Feature Preview 1")]
+[assembly: AssemblyTitle("Fast Web Performance Test Tool Application")]
 [assembly: AssemblyDescription("fwptt it's a Web application tester program for load testing web applications. It can record normal and ajax requests. I tested it on asp.net applications, but it should work with jsp, php or other.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -48,7 +47,7 @@ using System.Runtime.CompilerServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyVersion("2.0.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

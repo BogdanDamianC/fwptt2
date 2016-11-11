@@ -8,12 +8,6 @@ March 8, 2012 at 2:37 pm
 Yes, it’s a open license. You can use it.
  * */
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace fwptt.Desktop.Util

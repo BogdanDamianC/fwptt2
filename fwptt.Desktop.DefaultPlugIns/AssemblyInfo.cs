@@ -21,19 +21,18 @@
  */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 //
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("fwptt windows Desktop DefaultPlugIns - Feature Preview 1")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("fwptt windows Desktop DefaultPlugIns")]
+[assembly: AssemblyDescription("Graphical Interface Plugins")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Bogdan Damian Constantin Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -48,7 +47,7 @@ using System.Runtime.CompilerServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyVersion("2.0.0.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 

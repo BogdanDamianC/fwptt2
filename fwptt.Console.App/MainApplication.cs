@@ -1,37 +1,33 @@
-﻿using fwptt.TestProject;
+﻿using System;
+using System.IO;
+using System.Linq;
+using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Run;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace fwptt.Console.App
 {
     public class MainApplication
     {
         private const string samplePath = "fwptt.Console.App.exe [projectfilepath] [newrun/rerun] [testdefinitionname/testrunname]";
-        internal static TestProjectHost Current;
 
         static void Main(string[] args)
         {
-            Current = new TestProjectHost(Directory.GetCurrentDirectory(), Path.Combine(Directory.GetCurrentDirectory(), "PlugIn"));
-            MainProvider.Current = new MainProvider(Current);
+            var tpHost = new TestProjectHost(Directory.GetCurrentDirectory(), Path.Combine(Directory.GetCurrentDirectory(), "PlugIn"));
+            MainProvider.Current = tpHost;
             if (args.Length != 3)
             {
                 System.Console.WriteLine("invalid parameters - " + args.Length + " parameters in command - please use it like this " + samplePath);
                 return;
             }
 
-            Current.LoadProject(args[0]);
+            tpHost.LoadProject(args[0]);
 
             switch(args[1])
             {
-                case "newrun": NewTestRun(args[2]); break;
+                case "newrun": NewTestRun(tpHost, args[2]); break;
                 case "rerun": ReRunTestRunResults(args[2]); break;
                 default: System.Console.WriteLine("invalid command - " + args[1] + " only newrun or rerun are allowed - please use it like this " + samplePath);
                     return;
@@ -39,16 +35,16 @@ namespace fwptt.Console.App
 
         }
 
-        private static void NewTestRun(string testRunDefinitionName)
+        private static void NewTestRun(TestProjectHost tpHost, string testRunDefinitionName)
         {
-            var trd = Current.Project.TestRunDefinitions.FirstOrDefault(td => td.Name == testRunDefinitionName);
+            var trd = tpHost.Project.TestRunDefinitions.FirstOrDefault(td => td.Name == testRunDefinitionName);
             if (trd == null)
             {
                 System.Console.WriteLine(testRunDefinitionName + " is not a valid Test Run Definition");
                 return;
             }
-            var runResults = new TestRunResults(trd, Current.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId));
-            Current.Project.TestRunsResults.Add(runResults);
+            var runResults = new TestRunResults(trd, tpHost.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId));
+            tpHost.Project.TestRunsResults.Add(runResults);
 
             var timeLineController = runResults.TestRunDefinition.TimeLine.GetNewController();
 
@@ -56,12 +52,12 @@ namespace fwptt.Console.App
             {
                 bool testIsDone = false;
 
-                var testRunner = Current.GetTestRunner(runResults, timeLineController);
+                var testRunner = tpHost.GetTestRunner(runResults, timeLineController);
                 testRunner.TestRunEnded += (TestProject.Run.TestRunner obj) =>
                 {
                     testIsDone = true;
                 };
-                LoadPlugins(testRunner, runResults);
+                LoadPlugins(tpHost, testRunner, runResults);
                 testRunner.StartTests();
                 while(!testIsDone)
                 {
@@ -84,11 +80,11 @@ namespace fwptt.Console.App
         }
 
 
-        private static void LoadPlugins(TestRunner testRunner,TestRunResults results)
+        private static void LoadPlugins(TestProjectHost tpHost, TestRunner testRunner,TestRunResults results)
         {
             foreach (var plugin in results.TestRunDefinition.RunPlugins)
             {
-                var tmpPluginInfo = MainApplication.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
+                var tmpPluginInfo = tpHost.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
                                                 && pl.UniqueName == plugin.UniqueName);
                 testRunner.AddPlugIn(CreatePluginInstance(tmpPluginInfo, plugin));
             }

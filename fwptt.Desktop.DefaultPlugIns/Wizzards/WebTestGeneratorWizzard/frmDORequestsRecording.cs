@@ -20,21 +20,15 @@
  *
  */
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 using System.Net;
-using System.Data;
-using fwptt.TestProject.Run.Data;
 
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
-	/// <summary>
-	/// Summary description for frmDORequestsRecording.
-	/// </summary>
-	public class frmDORequestsRecording : System.Windows.Forms.Form
+    /// <summary>
+    /// Summary description for frmDORequestsRecording.
+    /// </summary>
+    public class frmDORequestsRecording : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox txtProxyIP;

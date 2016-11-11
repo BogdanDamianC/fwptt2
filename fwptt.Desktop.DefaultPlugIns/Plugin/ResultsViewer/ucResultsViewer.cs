@@ -21,21 +21,9 @@
  */
 
 using System;
-using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.XPath;
-using System.Xml.Xsl;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using System.IO;
-using System.Linq;
-using System.Data;
-using System.Text;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Data.DefaultPlugins.ResultsViewer;

@@ -21,18 +21,13 @@
  */
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Threading.Tasks;
 
 namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 {
-	/// <summary>
-	/// Summary description for PageViewer.
-	/// </summary>
-	public class PageViewer : System.Windows.Forms.Form
+    /// <summary>
+    /// Summary description for PageViewer.
+    /// </summary>
+    public class PageViewer : System.Windows.Forms.Form
 	{
 		/// <summary>
 		/// Required designer variable.

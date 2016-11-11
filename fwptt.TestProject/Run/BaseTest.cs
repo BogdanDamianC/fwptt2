@@ -22,12 +22,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Run.Data;
-using System.Threading;
 
 namespace fwptt.TestProject.Run
 {

@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Project\Interfaces\ITestProjectHost.cs" />
     <Compile Include="Project\Data\ExpandableSettingsAttribute.cs" />
     <Compile Include="Project\Data\ExtendableData.cs" />
     <Compile Include="Project\Data\ExtendableDataJSONConverter.cs" />

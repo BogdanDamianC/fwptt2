@@ -21,30 +21,18 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.XPath;
-using System.Xml.Xsl;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
-using System.IO;
-using System.Data;
-using System.Text;
-using System.Reflection;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 
 
 namespace fwptt.TestProject.Run
 {
-	/// <summary>
-	/// Summary description for TestRunner.
-	/// </summary>
-	public class TestRunner:IDisposable
+    /// <summary>
+    /// Summary description for TestRunner.
+    /// </summary>
+    public class TestRunner:IDisposable
 	{
 		private List<IRequestPlayerPlugIn> Plugins = new List<IRequestPlayerPlugIn>();
 

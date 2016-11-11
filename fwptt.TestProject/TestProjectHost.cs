@@ -23,15 +23,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-using System.Threading.Tasks;
 using System.Reflection;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
@@ -39,7 +34,7 @@ using fwptt.TestProject.Run;
 
 namespace fwptt.TestProject
 {
-    public class TestProjectHost:IDisposable
+    public class TestProjectHost:IDisposable, ITestProjectHost
     {
         private string ApplicationStartupPath;
         private string PluginsPath;
@@ -271,6 +266,11 @@ namespace fwptt.TestProject
         public Type GetExpandableType(ExpandableDataType dataType, string uniqueName)
         {
             return GetExpandableType(Enum.GetName(typeof(ExpandableDataType), dataType), uniqueName);
+        }
+
+        public ExtendableData CreateExpandableTypeInstance(string dataType, string uniqueName)
+        {
+            return (ExtendableData)Activator.CreateInstance(GetExpandableType(dataType, uniqueName));
         }
 
         private void SearchAndAddPlugIns(Type possiblePluginType, List<ExpandableSetting> pluginTypes, List<Type> testDefinitionGeneratorWizzardTypes)

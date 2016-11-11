@@ -20,17 +20,9 @@
  *
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace fwptt.TestProject.Project.Interfaces
-{    
+{
     public enum ExpandableDataType { Configuration, TestRun };
     public enum ExpandableComponentType { DataSourceConfiguration, TimeLineConfiguration, TimeLineViewer, PluginConfiguration, Plugin };
 }

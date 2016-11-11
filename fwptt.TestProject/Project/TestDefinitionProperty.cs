@@ -21,11 +21,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace fwptt.TestProject.Project
 {
@@ -50,16 +45,13 @@ namespace fwptt.TestProject.Project
         public TestDefinitionPropertyValue() { }
         public TestDefinitionPropertyValue(Guid id, string value) 
         {
-            this.TestDefinitionPropertyId = id;
-            this.Value = value;
+            TestDefinitionPropertyId = id;
+            Value = value;
         }
         public Guid TestDefinitionPropertyId { get; set; }
         public string Value {get; set;}
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+        public object Clone() => MemberwiseClone();
     }
 
     public class TestDefinitionRunPropertyValue : TestDefinitionPropertyValue

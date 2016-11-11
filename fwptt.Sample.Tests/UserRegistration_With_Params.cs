@@ -1,16 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Data;
-using System.Net;
-using System.IO;
-using System.Linq;
-using System.Text;
-using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
 using fwptt.Web.HTTP.Test;
-using fwptt.Web.HTTP.Test.Data;
 using CsQuery;
 
 namespace IETests

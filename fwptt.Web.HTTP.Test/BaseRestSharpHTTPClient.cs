@@ -21,20 +21,13 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using System.IO;
-using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Configuration;
 using RestSharp;
 using RestSharp.Extensions;
 using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
-using fwptt.TestProject.Project.Interfaces;
-using System.Text.RegularExpressions;
 using fwptt.Web.HTTP.Test.Data;
 
 

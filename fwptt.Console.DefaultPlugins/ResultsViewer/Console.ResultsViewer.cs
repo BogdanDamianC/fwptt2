@@ -22,16 +22,10 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using fwptt.Console.DefaultPlugins;
+using System.Timers;
 using fwptt.Data.DefaultPlugins.ResultsViewer;
-using fwptt.TestProject;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
-using System.Timers;
 using fwptt.TestProject.Run.Data;
 
 

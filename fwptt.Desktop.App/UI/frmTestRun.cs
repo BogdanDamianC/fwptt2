@@ -21,16 +21,10 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using fwptt.Desktop.Util;
-using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Run;
@@ -119,7 +113,7 @@ namespace fwptt.Desktop.App.UI
 
             try
             {
-                this.testRunner = MainApplication.Current.GetTestRunner(CurrentItem, timeLineController);
+                this.testRunner = MainApplication.CurrentTestProjectHost.GetTestRunner(CurrentItem, timeLineController);
                 this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }
@@ -209,14 +203,14 @@ namespace fwptt.Desktop.App.UI
 
         private void SetupPlugins()
         {
-            var tmpPluginInfo = MainApplication.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
+            var tmpPluginInfo = MainApplication.CurrentTestProjectHost.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
                                                 && pl.UniqueName == CurrentItem.TestRunDefinition.TimeLine.UniqueName);
             var timeLine = (ITimeLinePlugIn)CreateAndAddPlugin(tmpPluginInfo, CurrentItem.TestRunDefinition.TimeLine);
             if (timeLine.OnTimelineEvent != null)
                 timeLineController.TimelineEvent += timeLine.OnTimelineEvent;
             foreach(var plugin in CurrentItem.TestRunDefinition.RunPlugins)
             {
-                tmpPluginInfo = MainApplication.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
+                tmpPluginInfo = MainApplication.CurrentTestProjectHost.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
                                                 && pl.UniqueName == plugin.UniqueName);
                 AddPlugin(tmpPluginInfo, plugin);
             }

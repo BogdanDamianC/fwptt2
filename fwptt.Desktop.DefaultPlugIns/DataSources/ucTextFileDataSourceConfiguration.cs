@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.IO;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Desktop.Util;
 using fwptt.TestProject;
-using System.IO;
 
 
 namespace fwptt.Desktop.DefaultPlugIns.DataSources

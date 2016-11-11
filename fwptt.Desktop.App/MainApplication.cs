@@ -21,18 +21,16 @@
  */
 
 using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
 using fwptt.TestProject;
 
 
-namespace fwptt.Desktop.App.UI {
+namespace fwptt.Desktop.App.UI
+{
     public class MainApplication
     {
-        internal static TestProjectHost Current;
+        internal static TestProjectHost CurrentTestProjectHost;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -40,13 +38,11 @@ namespace fwptt.Desktop.App.UI {
         [STAThread]
         static void Main(string[] args)
         {
-            Current = new TestProjectHost(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
-            MainProvider.Current = new MainProvider(Current);
+            CurrentTestProjectHost = new TestProjectHost(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
+            MainProvider.Current = CurrentTestProjectHost;
             if (args.Length > 0)
-                Current.LoadProject(args[0]);
+                CurrentTestProjectHost.LoadProject(args[0]);
             Application.Run(new frmTestProjectDefinition());
         }
-
-        
 	}
 }

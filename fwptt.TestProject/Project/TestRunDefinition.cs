@@ -23,7 +23,6 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.TimeLine;
 using fwptt.TestProject.Project.Data;
 

@@ -1,13 +1,11 @@
 using System;
-using fwptt.TestProject;
 using fwptt.TestProject.Project.Interfaces;
-using System.Threading;
 
 namespace fwptt.TestProject.Project.TimeLine
 {
-	/// <summary>
-	/// Summary description for NormalTimeLine.
-	/// </summary>
+    /// <summary>
+    /// Summary description for NormalTimeLine.
+    /// </summary>
     public abstract class BaseTimeLineController : ITimeLineController
 	{
         public uint MaxExecutionThreads { get; protected set; }

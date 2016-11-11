@@ -21,23 +21,17 @@
  */
 
 using System;
-using System.Collections;
-using System.Diagnostics;
-using System.Threading;
-using System.Text;
 using System.Net;
-using fwptt.TestProject.Run.Data;
-using fwptt.TestProject.Run;
 using fwptt.Web.HTTP.Test.Data;
 using fwptt.Web.HTTP.Test;
 
 
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
-	/// <summary>
-	/// Summary description for ProxyHttpRecorder.
-	/// </summary>
-	public class ProxyHttpRecorder :IDisposable
+    /// <summary>
+    /// Summary description for ProxyHttpRecorder.
+    /// </summary>
+    public class ProxyHttpRecorder :IDisposable
 	{		
 		Org.Mentalis.Proxy.Http.HttpListener httpListener;
 

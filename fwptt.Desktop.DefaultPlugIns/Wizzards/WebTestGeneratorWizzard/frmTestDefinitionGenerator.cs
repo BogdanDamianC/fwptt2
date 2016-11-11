@@ -21,38 +21,24 @@
  */
 
 using System;
-using System.Drawing;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Linq;
-using System.Xml;
-using System.Xml.XPath;
-using System.Xml.Xsl;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using System.IO;
-using System.Data;
-using System.Text;
-using System.Reflection;
-using fwptt.TestProject.Run.Data;
 using fwptt.Desktop.Util;
 using Ionic.Zip;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Web.HTTP.Test.Data;
 using fwptt.TestProject.Project;
 
 
-
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
-	/// <summary>
-	/// Summary description for RecordIERequests.
-	/// </summary>
+    /// <summary>
+    /// Summary description for RecordIERequests.
+    /// </summary>
     [Description("Web Test Wizzard")]
     public class frmTestDefinitionGenerator : System.Windows.Forms.Form, ITestDefinitionGeneratorWizzard
 	{
@@ -75,7 +61,8 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         private Button btnViewModifyRequests;
 		private ProxyHttpRecorder recorder = new ProxyHttpRecorder();
         private TextBox txtParamsToLookFor;
-		private System.Windows.Forms.Button btnLoadFiddlerData;
+        private LinkLabel linkLblHowTo;
+        private System.Windows.Forms.Button btnLoadFiddlerData;
 
 		public frmTestDefinitionGenerator()
 		{
@@ -83,7 +70,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
-
 		}
 
 		/// <summary>
@@ -126,6 +112,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.btnStartRecording = new System.Windows.Forms.Button();
             this.btnLoadFiddlerData = new System.Windows.Forms.Button();
             this.txtParamsToLookFor = new System.Windows.Forms.TextBox();
+            this.linkLblHowTo = new System.Windows.Forms.LinkLabel();
             label1 = new System.Windows.Forms.Label();
             label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -133,26 +120,36 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(12, 209);
+            label1.Location = new System.Drawing.Point(12, 205);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(202, 13);
             label1.TabIndex = 6;
             label1.Text = "Test Name (use only alphanumeric chars)";
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(15, 256);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(387, 13);
+            label8.TabIndex = 18;
+            label8.Text = "Dynamic params to look for  - the wizzard will try to generate code that uses the" +
+    "m";
+            // 
             // txtClassName
             // 
-            this.txtClassName.Location = new System.Drawing.Point(12, 225);
+            this.txtClassName.Location = new System.Drawing.Point(12, 221);
             this.txtClassName.Name = "txtClassName";
-            this.txtClassName.Size = new System.Drawing.Size(496, 20);
+            this.txtClassName.Size = new System.Drawing.Size(560, 20);
             this.txtClassName.TabIndex = 7;
             this.txtClassName.Text = "tmp_test";
             // 
             // label2
             // 
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(8, 72);
+            this.label2.Location = new System.Drawing.Point(8, 68);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(144, 56);
+            this.label2.Size = new System.Drawing.Size(156, 56);
             this.label2.TabIndex = 9;
             this.label2.Text = "It will open the recording window where you can record the http requests made fro" +
     "m any browser.";
@@ -161,9 +158,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label3
             // 
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label3.Location = new System.Drawing.Point(368, 8);
+            this.label3.Location = new System.Drawing.Point(408, 5);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(144, 56);
+            this.label3.Size = new System.Drawing.Size(167, 56);
             this.label3.TabIndex = 10;
             this.label3.Text = "Clears any requests data that you have recorded or loaded.";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -171,9 +168,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label4
             // 
             this.label4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label4.Location = new System.Drawing.Point(368, 72);
+            this.label4.Location = new System.Drawing.Point(408, 69);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(144, 56);
+            this.label4.Size = new System.Drawing.Size(167, 56);
             this.label4.TabIndex = 11;
             this.label4.Text = "Loads the requests that you have previously saved in an json file with \'Save Reco" +
     "rded Data\'.";
@@ -182,9 +179,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label5
             // 
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label5.Location = new System.Drawing.Point(8, 136);
+            this.label5.Location = new System.Drawing.Point(8, 132);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(144, 56);
+            this.label5.Size = new System.Drawing.Size(156, 56);
             this.label5.TabIndex = 12;
             this.label5.Text = "Saves all the http requests that you have recorded in an Json file.";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -192,19 +189,19 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // label6
             // 
             this.label6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label6.Location = new System.Drawing.Point(8, 8);
+            this.label6.Location = new System.Drawing.Point(8, 4);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(144, 54);
+            this.label6.Size = new System.Drawing.Size(112, 54);
             this.label6.TabIndex = 13;
             this.label6.Text = "Imports the requests recorded using Fiddler";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // label7
             // 
             this.label7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label7.Location = new System.Drawing.Point(368, 136);
+            this.label7.Location = new System.Drawing.Point(408, 133);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(144, 54);
+            this.label7.Size = new System.Drawing.Size(167, 54);
             this.label7.TabIndex = 14;
             this.label7.Text = "View/Modify the Data";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -212,34 +209,31 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // btnViewModifyRequests
             // 
             this.btnViewModifyRequests.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnViewModifyRequests.Location = new System.Drawing.Point(264, 8);
+            this.btnViewModifyRequests.Location = new System.Drawing.Point(290, 4);
             this.btnViewModifyRequests.Name = "btnViewModifyRequests";
-            this.btnViewModifyRequests.Size = new System.Drawing.Size(96, 56);
+            this.btnViewModifyRequests.Size = new System.Drawing.Size(112, 56);
             this.btnViewModifyRequests.TabIndex = 16;
             this.btnViewModifyRequests.Text = "View / Modify Recorded Data";
-            this.btnViewModifyRequests.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnViewModifyRequests.Click += new System.EventHandler(this.btnViewModifyRequests_Click);
             // 
             // btnLoadAllreadyRecordedData
             // 
             this.btnLoadAllreadyRecordedData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnLoadAllreadyRecordedData.Location = new System.Drawing.Point(264, 136);
+            this.btnLoadAllreadyRecordedData.Location = new System.Drawing.Point(290, 132);
             this.btnLoadAllreadyRecordedData.Name = "btnLoadAllreadyRecordedData";
-            this.btnLoadAllreadyRecordedData.Size = new System.Drawing.Size(96, 56);
+            this.btnLoadAllreadyRecordedData.Size = new System.Drawing.Size(112, 56);
             this.btnLoadAllreadyRecordedData.TabIndex = 5;
             this.btnLoadAllreadyRecordedData.Text = "Load Allready Recorded Data";
-            this.btnLoadAllreadyRecordedData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnLoadAllreadyRecordedData.Click += new System.EventHandler(this.btnLoadAllreadyRecordedData_Click);
             // 
             // btnClearRecordedData
             // 
             this.btnClearRecordedData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnClearRecordedData.Location = new System.Drawing.Point(264, 72);
+            this.btnClearRecordedData.Location = new System.Drawing.Point(290, 68);
             this.btnClearRecordedData.Name = "btnClearRecordedData";
-            this.btnClearRecordedData.Size = new System.Drawing.Size(96, 56);
+            this.btnClearRecordedData.Size = new System.Drawing.Size(112, 56);
             this.btnClearRecordedData.TabIndex = 4;
             this.btnClearRecordedData.Text = "Clear Recorded Data";
-            this.btnClearRecordedData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnClearRecordedData.Click += new System.EventHandler(this.btnClearRecordedData_Click);
             // 
             // btnGenerateTestProgramCode
@@ -247,9 +241,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.btnGenerateTestProgramCode.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGenerateTestProgramCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerateTestProgramCode.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnGenerateTestProgramCode.Location = new System.Drawing.Point(8, 318);
+            this.btnGenerateTestProgramCode.Location = new System.Drawing.Point(8, 314);
             this.btnGenerateTestProgramCode.Name = "btnGenerateTestProgramCode";
-            this.btnGenerateTestProgramCode.Size = new System.Drawing.Size(504, 56);
+            this.btnGenerateTestProgramCode.Size = new System.Drawing.Size(568, 56);
             this.btnGenerateTestProgramCode.TabIndex = 3;
             this.btnGenerateTestProgramCode.Text = "Generate Test Definition (C# class)";
             this.btnGenerateTestProgramCode.Click += new System.EventHandler(this.btnGenerateTestProgramCode_Click);
@@ -257,58 +251,59 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // btnSaveRecordingData
             // 
             this.btnSaveRecordingData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnSaveRecordingData.Location = new System.Drawing.Point(162, 136);
+            this.btnSaveRecordingData.Location = new System.Drawing.Point(170, 132);
             this.btnSaveRecordingData.Name = "btnSaveRecordingData";
-            this.btnSaveRecordingData.Size = new System.Drawing.Size(96, 56);
+            this.btnSaveRecordingData.Size = new System.Drawing.Size(114, 56);
             this.btnSaveRecordingData.TabIndex = 2;
             this.btnSaveRecordingData.Text = "Save Recorded Data";
-            this.btnSaveRecordingData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnSaveRecordingData.Click += new System.EventHandler(this.btnSaveRecordingData_Click);
             // 
             // btnStartRecording
             // 
             this.btnStartRecording.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnStartRecording.Location = new System.Drawing.Point(162, 72);
+            this.btnStartRecording.Location = new System.Drawing.Point(170, 68);
             this.btnStartRecording.Name = "btnStartRecording";
-            this.btnStartRecording.Size = new System.Drawing.Size(96, 56);
+            this.btnStartRecording.Size = new System.Drawing.Size(114, 56);
             this.btnStartRecording.TabIndex = 0;
             this.btnStartRecording.Text = "Start Recording (http only - no https support)";
-            this.btnStartRecording.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnStartRecording.Click += new System.EventHandler(this.btnStartRecording_Click);
             // 
             // btnLoadFiddlerData
             // 
             this.btnLoadFiddlerData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnLoadFiddlerData.Location = new System.Drawing.Point(162, 8);
+            this.btnLoadFiddlerData.Location = new System.Drawing.Point(170, 4);
             this.btnLoadFiddlerData.Name = "btnLoadFiddlerData";
-            this.btnLoadFiddlerData.Size = new System.Drawing.Size(96, 56);
+            this.btnLoadFiddlerData.Size = new System.Drawing.Size(114, 56);
             this.btnLoadFiddlerData.TabIndex = 17;
-            this.btnLoadFiddlerData.Text = "Import Fiddler Data [Recomended!]";
-            this.btnLoadFiddlerData.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnLoadFiddlerData.Text = "Import Fiddler Data [RECOMMENDED!]";
             this.btnLoadFiddlerData.Click += new System.EventHandler(this.BtnLoadFiddlerDataClick);
             // 
             // txtParamsToLookFor
             // 
-            this.txtParamsToLookFor.Location = new System.Drawing.Point(15, 276);
+            this.txtParamsToLookFor.Location = new System.Drawing.Point(15, 272);
             this.txtParamsToLookFor.Name = "txtParamsToLookFor";
-            this.txtParamsToLookFor.Size = new System.Drawing.Size(496, 20);
+            this.txtParamsToLookFor.Size = new System.Drawing.Size(560, 20);
             this.txtParamsToLookFor.TabIndex = 19;
             this.txtParamsToLookFor.Text = "__VIEWSTATE;__VIEWSTATEGENERATOR;__EVENTVALIDATION;javax.faces.ViewState";
             // 
-            // label8
+            // linkLblHowTo
             // 
-            label8.AutoSize = true;
-            label8.Location = new System.Drawing.Point(15, 260);
-            label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(387, 13);
-            label8.TabIndex = 18;
-            label8.Text = "Dynamic params to look for  - the wizzard will try to generate code that uses the" +
-    "m";
+            this.linkLblHowTo.AutoSize = true;
+            this.linkLblHowTo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLblHowTo.Location = new System.Drawing.Point(126, 18);
+            this.linkLblHowTo.Name = "linkLblHowTo";
+            this.linkLblHowTo.Size = new System.Drawing.Size(37, 26);
+            this.linkLblHowTo.TabIndex = 20;
+            this.linkLblHowTo.TabStop = true;
+            this.linkLblHowTo.Text = "HOW\r\nTO";
+            this.linkLblHowTo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.linkLblHowTo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLblHowTo_LinkClicked);
             // 
             // frmTestDefinitionGenerator
             // 
             this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(520, 386);
+            this.ClientSize = new System.Drawing.Size(582, 378);
+            this.Controls.Add(this.linkLblHowTo);
             this.Controls.Add(this.txtParamsToLookFor);
             this.Controls.Add(label8);
             this.Controls.Add(this.btnLoadFiddlerData);
@@ -495,5 +490,10 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 				MessageBox.Show(ex.Message + ex.StackTrace);
 			}
 		}
-	}
+
+        private void linkLblHowTo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://fwptt.sourceforge.net/help.html");
+        }
+    }
 }

@@ -21,28 +21,22 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Net;
-using System.IO;
 using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Configuration;
 using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
-using fwptt.TestProject.Project.Interfaces;
-using System.Text.RegularExpressions;
 using fwptt.Web.HTTP.Test.Data;
 using System.Net.Http;
 
 
 namespace fwptt.Web.HTTP.Test
 {
-	/// <summary>
-	/// Summary description for BaseTemplateExecuteClass.
-	/// </summary>
-	public abstract class BaseHTTPTest:BaseTest<WebRequestInfo>	{
+    /// <summary>
+    /// Summary description for BaseTemplateExecuteClass.
+    /// </summary>
+    public abstract class BaseHTTPTest:BaseTest<WebRequestInfo>	{
         private Dictionary<string, HttpClient> restClients = new Dictionary<string, HttpClient>();
 
         private string UserAgent, AcceptedContent;

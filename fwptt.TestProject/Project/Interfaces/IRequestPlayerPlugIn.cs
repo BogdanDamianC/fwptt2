@@ -21,9 +21,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using fwptt.TestProject.Run.Data;
-using fwptt.TestProject;
 using fwptt.TestProject.Project.TimeLine;
 using fwptt.TestProject.Project.Data;
 

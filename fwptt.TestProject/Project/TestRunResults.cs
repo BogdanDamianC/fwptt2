@@ -24,7 +24,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using fwptt.TestProject.Project.Data;
-using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.TestProject.Project
 {
@@ -50,7 +49,7 @@ namespace fwptt.TestProject.Project
         public string Name { get; set; }
         /// <summary>
         /// this is a copy down of the test run definition that was used initially
-        /// the purpose of the copy down is to preserve the test definition detais unchanged after the run is donw the first time 
+        /// the purpose of the copy down is to preserve the test definition details unchanged after the run is done the first time 
         /// </summary>
         public TestRunDefinition TestRunDefinition { get; set; }
         public List<TestDefinitionRunPropertyValue> RunTestDefinitionProperties { get; set; }
