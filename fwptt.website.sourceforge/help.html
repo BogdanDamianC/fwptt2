@@ -20,7 +20,7 @@ Released   : 20080227
 		<meta name="keywords" content="Web application tester program for load testing web applications.Record ajax requests.Tested on asp.net applications, but works with jsp, php or other.Generates a C# class that you can modify, the class has functions for handling the query/post params">
 		<meta name="author" content="Bogdan Constantin Damian">
 		<meta name="reply-to" content="Bogdan Constantin Damian">
-		<meta name="robots" content="all">		
+		<meta name="robots" content="all">
 		<link href="style.css" rel="stylesheet" type="text/css" media="screen" /
 	</head>
 <body>
@@ -32,7 +32,7 @@ Released   : 20080227
 			<li><a href="index.html">Home</a></li>
 			<li class="current_page_item"><a href="help.html">HowTo</a></li>
 			<li><a href="TheStoryOfMakeingIt.htm">The Story</a></li>
-			<li><a href="http://sourceforge.net/projects/fwptt/files/fwptt_Executable/fwptt2.feature-preview.01.7z/download">Downloads</a></li>
+			<li><a href="https://sourceforge.net/projects/fwptt/files/fwptt_V2.0.0_Graphical_And_Console_Apps.zip/download">Downloads</a></li>
 			<li><a href="help_V1.html">HowTo V1</a></li>
 			<li><a href="OlderNews.htm">Older News</a></li>
 		</ul>
@@ -48,12 +48,12 @@ Released   : 20080227
 <div id="page">
 	<!-- start content -->
 	<div style="width:100%">
-		<div class="post">		
+		<div class="post">
 			<h1 class="title"><a href="#">How to Record Requests and create a Test Definition</a></h1>
 			<p class="meta"><small>Posted on May 8th, 2015 by <a href="#">Bogdan</a></small></p>
 			<div class="entry">
 				<p>The V2 release switches towards supporting and using <a href="http://www.telerik.com/fiddler">Fiddler</a> as the default tool for recording the requests that are made, Fiddler is a mature tool that supports recording requests made over https</p>
-				<p>To Create a new project with a new test please start <a href="http://www.telerik.com/fiddler">Fiddler</a> and capture the http/https requests. once the requests are recorded you can remove the unnecessary requests and save all the requests using the File->Save->All Sessions menu action</p>	
+				<p>To Create a new project with a new test please start <a href="http://www.telerik.com/fiddler">Fiddler</a> and capture the http/https requests. once the requests are recorded you can remove the unnecessary requests and save all the requests using the File->Save->All Sessions menu action</p>
                 <img alt="Record and Save the requests using Fiddler" src="images/v2.0-feature-preview.1/fiddler_Record_therequests_with_fiddler_removeunwantedrequests_and_saveall_requests.png" />
 				<br />
                 <p>
@@ -69,7 +69,7 @@ Released   : 20080227
                 </p>
                 <img alt="Import Fiddler Data and generate a C# class" src="images/v2.0-feature-preview.1/4_Import_Fiddler_Data_modify_the_class_Name_Generate.png" />
                 <p>
-                    The Test Definition source code editor window will open, there go to the compile tab and click compile code. Once the code compiles succesfully click on the "Save C# Source Code" button. 
+                    The Test Definition source code editor window will open, there go to the compile tab and click compile code. Once the code compiles succesfully click on the "Save C# Source Code" button.
                 </p>
                 <img alt="Compile and Save the C# code for the new test" src="images/v2.0-feature-preview.1/5_Compile_the_source_code_and_save.png" />
 			</div>
@@ -99,10 +99,10 @@ Released   : 20080227
 				check each page and see that all your user actions that you have recorded in the prowser are happening propperly here too. There are a
 				lot of scenarios where due to the way the web application was done load testing it will require a little tinkering with the C# code (ex the developers
 				have put a functionality for protecting against robots)</p>
-				<p>After you have a woking test script/program you will have to decide on the <strong>Pause between requests</strong> and start load testing 
-				the web application for a specific 
+				<p>After you have a woking test script/program you will have to decide on the <strong>Pause between requests</strong> and start load testing
+				the web application for a specific
 				amount of time lets lay 10 minutes with 1 thread. After those ten minutes you check the results and if everything is ok you should increase the number of threads to 5 and after
-				that to 10 threads, 15 ... and so on until the web application that you are testing stops responding propperly. 
+				that to 10 threads, 15 ... and so on until the web application that you are testing stops responding propperly.
 				You can also check the CPU and memory consumption on the web server, if the CPU stays constant at 100%(or a lower value for real servers) during the test you should proably stop because you probably reached your web application+Web server limit.</p>
 				<p>When you find the number of threads for which the web application doesn't work propperly it means that the number of
 				users that web application will support = <strong>Number of Threads</strong> </p>
@@ -125,7 +125,7 @@ Released   : 20080227
 <div style="font-size: 0.8em; text-align: center; margin-top: 1.0em; margin-bottom: 1.0em;">
 Design downloaded from <a href="http://www.freewebtemplates.com/">Free Templates</a> - your source for free web templates
 </div>
-	
+
 <script type="text/javascript">
 	var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 	document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
