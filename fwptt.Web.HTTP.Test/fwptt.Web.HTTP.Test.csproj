@@ -80,15 +80,13 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\$(ProjectName).dll"
-copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\$(ProjectName).pdb"
-copy /Y "$(TargetDir)CsQuery.dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\CsQuery.dll"
-copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\RestSharp.dll"
+    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).*" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"
+copy /Y "$(TargetDir)CsQuery.dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"
+copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"
 
-copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\$(ProjectName).dll"
-copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\$(ProjectName).pdb"
-copy /Y "$(TargetDir)CsQuery.dll" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\CsQuery.dll"
-copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\RestSharp.dll"</PostBuildEvent>
+copy /Y "$(TargetDir)$(ProjectName).*" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn"
+copy /Y "$(TargetDir)CsQuery.dll" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn"
+copy /Y "$(TargetDir)RestSharp.dll" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

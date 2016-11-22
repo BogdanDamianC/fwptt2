@@ -64,11 +64,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\$(TargetFileName)"
-copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\$(ProjectName).pdb"
-copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\$(TargetFileName)"
-copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\$(ProjectName).pdb"
-
+    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"
+copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
