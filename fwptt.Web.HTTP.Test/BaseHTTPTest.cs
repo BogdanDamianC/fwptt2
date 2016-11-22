@@ -103,8 +103,6 @@ namespace fwptt.Web.HTTP.Test
             {
                 req.Content = new StringContent(CurrentRequest.Request.Payload, Encoding.UTF8, CurrentRequest.Request.PayloadContentType);
             }
-			//                if (Proxy != null)
-			//                    req.Proxy = Proxy;
 			return req;
 		}
 

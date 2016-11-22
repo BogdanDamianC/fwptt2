@@ -62,34 +62,33 @@ namespace fwptt.TestProject.Run
 		public void StartTests()
 		{
             inactiveTestInstancesPool = new System.Collections.Concurrent.ConcurrentQueue<IBaseTest>();
-			if (TestRunStarted != null)
-				TestRunStarted(this);
+            TestRunStarted?.Invoke(this);
             onRequestStarted = new List<Action<IRequestInfo>>();
             onRequestEnded = new List<Action<IRequestInfo>>();
 			timelineCtrl.StartTimeLine();
             foreach (var plugin in Plugins)
             {
-                if (plugin.OnTestStarted != null)
-                    plugin.OnTestStarted();
+                plugin.OnTestStarted?.Invoke();
                 if (plugin.OnRequestStarted != null)
                     onRequestStarted.Add(plugin.OnRequestStarted);
                 if (plugin.OnRequestEnded != null)
                     onRequestEnded.Add(plugin.OnRequestEnded);
             }
 
-			new Task(() =>
-			{
-				int delayInBetweenChecks = 20;
-				do
-				{
-                    
-                    TryStartNewExecutionThread();
-                    if (timelineCtrl.CurrentExecutionThreads == timelineCtrl.MaxExecutionThreads)
-                        delayInBetweenChecks = 2000; //no need use the CPU too much the test ended should deal with most of the restarts
-					Task.Delay(delayInBetweenChecks);
-				} while (timelineCtrl.IsRunning);
-			}).Start();
+            Task.Run(TriggerTests);
 		}
+
+        private async Task TriggerTests()
+        {
+            int delayInBetweenChecks = 20;
+            do
+            {
+                TryStartNewExecutionThread();
+                if (timelineCtrl.CurrentExecutionThreads == timelineCtrl.MaxExecutionThreads)
+                    delayInBetweenChecks = 2000; //no need use the CPU too much the test ended should deal with most of the restarts
+                await Task.Delay(delayInBetweenChecks).ConfigureAwait(false);
+            } while (timelineCtrl.IsRunning);
+        }
 
         private bool TryStartNewExecutionThread()
         {
@@ -156,12 +155,10 @@ namespace fwptt.TestProject.Run
                 return;
 
             inactiveTestInstancesPool = null;
-			if (TestRunEnded != null)
-				TestRunEnded(this);
+            TestRunEnded?.Invoke(this);
 
-			foreach (var plugin in Plugins)
-                if(plugin.OnTestStopped != null)
-                    plugin.OnTestStopped();
+            foreach (var plugin in Plugins)
+                plugin.OnTestStopped?.Invoke();
             onRequestStarted = null;
             onRequestEnded = null;
 		}
@@ -176,7 +173,7 @@ namespace fwptt.TestProject.Run
 
 		private void TestRunner_RequestEnded(IRequestInfo currentRequest)
 		{
-			if (Plugins == null)
+			if(Plugins == null)
 				return;
 			foreach (var requestEnded in onRequestEnded)
                 requestEnded(currentRequest);

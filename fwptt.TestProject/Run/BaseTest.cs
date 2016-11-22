@@ -56,20 +56,22 @@ namespace fwptt.TestProject.Run
         protected async Task<bool> InitializeCurrentRequest()
         {
             CurrentRequest = new RI();
+            if (CancelCurrentRunIteration)
+                return false;
             await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests).ConfigureAwait(false);
             return !CancelCurrentRunIteration;
         }
 
         protected void onRequestStarted()
         {
-            if (RequestStarted != null && timelineCtrl.IsRunning)
-                RequestStarted(CurrentRequest);
+            if (timelineCtrl.IsRunning)
+                RequestStarted?.Invoke(CurrentRequest);
         }
 
         protected void onRequestEnded()
         {
-            if (RequestEnded != null && timelineCtrl.IsRunning)
-                RequestEnded(CurrentRequest);
+            if (timelineCtrl.IsRunning)
+                RequestEnded?.Invoke(CurrentRequest);
         }
 
 		protected abstract Task RunTest();

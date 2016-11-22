@@ -39,6 +39,8 @@ namespace fwptt.TestProject.Project
             Assemblies.Add("System.Data.dll");
             Assemblies.Add("System.Xml.dll");
             Assemblies.Add("System.Core.dll");
+            Assemblies.Add("System.Net.dll");
+            Assemblies.Add("System.Net.Http.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationStartupPathIdentifier + "fwptt.TestProject.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationPluginPathIdentifier + "RestSharp.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationPluginPathIdentifier + "CsQuery.dll");
