@@ -71,9 +71,10 @@ namespace fwptt.Desktop.App.UI
             // label2
             // 
             this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Location = new System.Drawing.Point(3, 284);
+            this.label2.Location = new System.Drawing.Point(4, 350);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(621, 23);
+            this.label2.Size = new System.Drawing.Size(831, 28);
             this.label2.TabIndex = 9;
             this.label2.Text = "Compile Results";
             // 
@@ -84,9 +85,10 @@ namespace fwptt.Desktop.App.UI
             this.tabControl1.Controls.Add(this.tabPageProperties);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(635, 459);
+            this.tabControl1.Size = new System.Drawing.Size(847, 565);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageCode
@@ -94,10 +96,11 @@ namespace fwptt.Desktop.App.UI
             this.tabPageCode.Controls.Add(this.txtSourceCode);
             this.tabPageCode.Controls.Add(this.statusStrip1);
             this.tabPageCode.Controls.Add(this.pnlSourceCodePath);
-            this.tabPageCode.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCode.Location = new System.Drawing.Point(4, 25);
+            this.tabPageCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageCode.Name = "tabPageCode";
-            this.tabPageCode.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCode.Size = new System.Drawing.Size(627, 433);
+            this.tabPageCode.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCode.Size = new System.Drawing.Size(839, 536);
             this.tabPageCode.TabIndex = 1;
             this.tabPageCode.Text = "Source Code";
             this.tabPageCode.UseVisualStyleBackColor = true;
@@ -108,30 +111,32 @@ namespace fwptt.Desktop.App.UI
             this.txtSourceCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtSourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtSourceCode.HideSelection = false;
-            this.txtSourceCode.Location = new System.Drawing.Point(3, 28);
-            this.txtSourceCode.Margin = new System.Windows.Forms.Padding(3, 3, 3, 25);
+            this.txtSourceCode.Location = new System.Drawing.Point(4, 35);
+            this.txtSourceCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 31);
             this.txtSourceCode.Name = "txtSourceCode";
             this.txtSourceCode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
             this.txtSourceCode.ShowSelectionMargin = true;
-            this.txtSourceCode.Size = new System.Drawing.Size(621, 380);
+            this.txtSourceCode.Size = new System.Drawing.Size(831, 472);
             this.txtSourceCode.TabIndex = 1;
             this.txtSourceCode.Text = "";
             this.txtSourceCode.SelectionChanged += new System.EventHandler(this.txtSourceCode_SelectionChanged);
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Statuslabel});
-            this.statusStrip1.Location = new System.Drawing.Point(3, 408);
+            this.statusStrip1.Location = new System.Drawing.Point(4, 507);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(621, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(831, 25);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // Statuslabel
             // 
             this.Statuslabel.Name = "Statuslabel";
-            this.Statuslabel.Size = new System.Drawing.Size(87, 17);
+            this.Statuslabel.Size = new System.Drawing.Size(110, 20);
             this.Statuslabel.Text = "The Statuslabel";
             // 
             // pnlSourceCodePath
@@ -139,16 +144,18 @@ namespace fwptt.Desktop.App.UI
             this.pnlSourceCodePath.BackColor = System.Drawing.Color.Transparent;
             this.pnlSourceCodePath.Controls.Add(this.btnSaveSourceCode);
             this.pnlSourceCodePath.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSourceCodePath.Location = new System.Drawing.Point(3, 3);
+            this.pnlSourceCodePath.Location = new System.Drawing.Point(4, 4);
+            this.pnlSourceCodePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnlSourceCodePath.Name = "pnlSourceCodePath";
-            this.pnlSourceCodePath.Size = new System.Drawing.Size(621, 25);
+            this.pnlSourceCodePath.Size = new System.Drawing.Size(831, 31);
             this.pnlSourceCodePath.TabIndex = 0;
             // 
             // btnSaveSourceCode
             // 
-            this.btnSaveSourceCode.Location = new System.Drawing.Point(3, 1);
+            this.btnSaveSourceCode.Location = new System.Drawing.Point(4, 1);
+            this.btnSaveSourceCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSaveSourceCode.Name = "btnSaveSourceCode";
-            this.btnSaveSourceCode.Size = new System.Drawing.Size(209, 23);
+            this.btnSaveSourceCode.Size = new System.Drawing.Size(279, 28);
             this.btnSaveSourceCode.TabIndex = 2;
             this.btnSaveSourceCode.Text = "Save C# Source Code ";
             this.btnSaveSourceCode.UseVisualStyleBackColor = true;
@@ -160,10 +167,11 @@ namespace fwptt.Desktop.App.UI
             this.tabPageCompile.Controls.Add(this.label2);
             this.tabPageCompile.Controls.Add(this.pnlActionButtons);
             this.tabPageCompile.Controls.Add(this.grpAssemblies);
-            this.tabPageCompile.Location = new System.Drawing.Point(4, 22);
+            this.tabPageCompile.Location = new System.Drawing.Point(4, 25);
+            this.tabPageCompile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageCompile.Name = "tabPageCompile";
-            this.tabPageCompile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCompile.Size = new System.Drawing.Size(627, 433);
+            this.tabPageCompile.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCompile.Size = new System.Drawing.Size(839, 536);
             this.tabPageCompile.TabIndex = 0;
             this.tabPageCompile.Text = "Compile";
             this.tabPageCompile.UseVisualStyleBackColor = true;
@@ -171,10 +179,11 @@ namespace fwptt.Desktop.App.UI
             // txtCompileResults
             // 
             this.txtCompileResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCompileResults.Location = new System.Drawing.Point(3, 307);
+            this.txtCompileResults.Location = new System.Drawing.Point(4, 378);
+            this.txtCompileResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtCompileResults.Multiline = true;
             this.txtCompileResults.Name = "txtCompileResults";
-            this.txtCompileResults.Size = new System.Drawing.Size(621, 123);
+            this.txtCompileResults.Size = new System.Drawing.Size(831, 154);
             this.txtCompileResults.TabIndex = 7;
             // 
             // pnlActionButtons
@@ -182,16 +191,18 @@ namespace fwptt.Desktop.App.UI
             this.pnlActionButtons.Controls.Add(this.btnSaveSourceCode2);
             this.pnlActionButtons.Controls.Add(this.btnCompileCode);
             this.pnlActionButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlActionButtons.Location = new System.Drawing.Point(3, 255);
+            this.pnlActionButtons.Location = new System.Drawing.Point(4, 314);
+            this.pnlActionButtons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnlActionButtons.Name = "pnlActionButtons";
-            this.pnlActionButtons.Size = new System.Drawing.Size(621, 29);
+            this.pnlActionButtons.Size = new System.Drawing.Size(831, 36);
             this.pnlActionButtons.TabIndex = 8;
             // 
             // btnSaveSourceCode2
             // 
-            this.btnSaveSourceCode2.Location = new System.Drawing.Point(135, 3);
+            this.btnSaveSourceCode2.Location = new System.Drawing.Point(180, 4);
+            this.btnSaveSourceCode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSaveSourceCode2.Name = "btnSaveSourceCode2";
-            this.btnSaveSourceCode2.Size = new System.Drawing.Size(209, 23);
+            this.btnSaveSourceCode2.Size = new System.Drawing.Size(279, 28);
             this.btnSaveSourceCode2.TabIndex = 7;
             this.btnSaveSourceCode2.Text = "Save C# Source Code ";
             this.btnSaveSourceCode2.UseVisualStyleBackColor = true;
@@ -199,9 +210,10 @@ namespace fwptt.Desktop.App.UI
             // 
             // btnCompileCode
             // 
-            this.btnCompileCode.Location = new System.Drawing.Point(3, 3);
+            this.btnCompileCode.Location = new System.Drawing.Point(4, 4);
+            this.btnCompileCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnCompileCode.Name = "btnCompileCode";
-            this.btnCompileCode.Size = new System.Drawing.Size(122, 23);
+            this.btnCompileCode.Size = new System.Drawing.Size(163, 28);
             this.btnCompileCode.TabIndex = 6;
             this.btnCompileCode.Text = "Compile Code";
             this.btnCompileCode.UseVisualStyleBackColor = true;
@@ -213,9 +225,11 @@ namespace fwptt.Desktop.App.UI
             this.grpAssemblies.Controls.Add(this.txtAssembly);
             this.grpAssemblies.Controls.Add(this.tableLayoutPanel1);
             this.grpAssemblies.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grpAssemblies.Location = new System.Drawing.Point(3, 3);
+            this.grpAssemblies.Location = new System.Drawing.Point(4, 4);
+            this.grpAssemblies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.grpAssemblies.Name = "grpAssemblies";
-            this.grpAssemblies.Size = new System.Drawing.Size(621, 252);
+            this.grpAssemblies.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpAssemblies.Size = new System.Drawing.Size(831, 310);
             this.grpAssemblies.TabIndex = 5;
             this.grpAssemblies.TabStop = false;
             this.grpAssemblies.Text = "Assemblies";
@@ -224,17 +238,20 @@ namespace fwptt.Desktop.App.UI
             // 
             this.lstBoxAssemplies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstBoxAssemplies.FormattingEnabled = true;
-            this.lstBoxAssemplies.Location = new System.Drawing.Point(3, 65);
+            this.lstBoxAssemplies.ItemHeight = 16;
+            this.lstBoxAssemplies.Location = new System.Drawing.Point(4, 77);
+            this.lstBoxAssemplies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lstBoxAssemplies.Name = "lstBoxAssemplies";
-            this.lstBoxAssemplies.Size = new System.Drawing.Size(615, 184);
+            this.lstBoxAssemplies.Size = new System.Drawing.Size(823, 229);
             this.lstBoxAssemplies.TabIndex = 0;
             // 
             // txtAssembly
             // 
             this.txtAssembly.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtAssembly.Location = new System.Drawing.Point(3, 45);
+            this.txtAssembly.Location = new System.Drawing.Point(4, 55);
+            this.txtAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtAssembly.Name = "txtAssembly";
-            this.txtAssembly.Size = new System.Drawing.Size(615, 20);
+            this.txtAssembly.Size = new System.Drawing.Size(823, 22);
             this.txtAssembly.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -245,18 +262,20 @@ namespace fwptt.Desktop.App.UI
             this.tableLayoutPanel1.Controls.Add(this.btnAddAssembly, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnDeleteAssembly, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 19);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(615, 29);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(823, 36);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // btnAddAssembly
             // 
-            this.btnAddAssembly.Location = new System.Drawing.Point(3, 3);
+            this.btnAddAssembly.Location = new System.Drawing.Point(4, 4);
+            this.btnAddAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnAddAssembly.Name = "btnAddAssembly";
-            this.btnAddAssembly.Size = new System.Drawing.Size(123, 23);
+            this.btnAddAssembly.Size = new System.Drawing.Size(164, 28);
             this.btnAddAssembly.TabIndex = 2;
             this.btnAddAssembly.Text = "Add";
             this.btnAddAssembly.UseVisualStyleBackColor = true;
@@ -264,9 +283,10 @@ namespace fwptt.Desktop.App.UI
             // 
             // btnDeleteAssembly
             // 
-            this.btnDeleteAssembly.Location = new System.Drawing.Point(132, 3);
+            this.btnDeleteAssembly.Location = new System.Drawing.Point(176, 4);
+            this.btnDeleteAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDeleteAssembly.Name = "btnDeleteAssembly";
-            this.btnDeleteAssembly.Size = new System.Drawing.Size(123, 23);
+            this.btnDeleteAssembly.Size = new System.Drawing.Size(164, 28);
             this.btnDeleteAssembly.TabIndex = 3;
             this.btnDeleteAssembly.Text = "Delete";
             this.btnDeleteAssembly.UseVisualStyleBackColor = true;
@@ -275,9 +295,10 @@ namespace fwptt.Desktop.App.UI
             // tabPageProperties
             // 
             this.tabPageProperties.Controls.Add(this.ucTestDefinitionProperties);
-            this.tabPageProperties.Location = new System.Drawing.Point(4, 22);
+            this.tabPageProperties.Location = new System.Drawing.Point(4, 25);
+            this.tabPageProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabPageProperties.Name = "tabPageProperties";
-            this.tabPageProperties.Size = new System.Drawing.Size(627, 433);
+            this.tabPageProperties.Size = new System.Drawing.Size(839, 536);
             this.tabPageProperties.TabIndex = 2;
             this.tabPageProperties.Text = "Properties";
             this.tabPageProperties.UseVisualStyleBackColor = true;
@@ -286,16 +307,18 @@ namespace fwptt.Desktop.App.UI
             // 
             this.ucTestDefinitionProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucTestDefinitionProperties.Location = new System.Drawing.Point(0, 0);
+            this.ucTestDefinitionProperties.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.ucTestDefinitionProperties.Name = "ucTestDefinitionProperties";
-            this.ucTestDefinitionProperties.Size = new System.Drawing.Size(627, 433);
+            this.ucTestDefinitionProperties.Size = new System.Drawing.Size(839, 536);
             this.ucTestDefinitionProperties.TabIndex = 0;
             // 
             // frmTestDefinitionSourceCodeEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(635, 459);
+            this.ClientSize = new System.Drawing.Size(847, 565);
             this.Controls.Add(this.tabControl1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "frmTestDefinitionSourceCodeEditor";
             this.Text = "Compile Assembly";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

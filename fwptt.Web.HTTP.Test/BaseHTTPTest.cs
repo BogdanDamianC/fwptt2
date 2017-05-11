@@ -43,6 +43,7 @@ namespace fwptt.Web.HTTP.Test
 
 		protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
 		{
+            restClients.Clear();
             this.UserAgent = UserAgent;
             this.AcceptedContent = AcceptedContent;
 		}
@@ -51,7 +52,7 @@ namespace fwptt.Web.HTTP.Test
         {
             string leftSide = uri.GetLeftPart(UriPartial.Authority);
             HttpClient client;
-            if(this.restClients.TryGetValue(leftSide, out client))
+            if(restClients.TryGetValue(leftSide, out client))
                 return client;
 
             var httpClientHandler = new HttpClientHandler();
@@ -68,30 +69,28 @@ namespace fwptt.Web.HTTP.Test
                 client.Timeout = new TimeSpan(0, 0, 0, 0, 20000);
             restClients[leftSide] = client;
 
-
-
             return client;
         }
 
 		public System.Net.WebProxy Proxy {get; set;}
 		
 				
-		#region Util HTTP request/Respons processing functions
+		#region Util HTTP request/Response processing functions
 		protected HttpRequestMessage BuildRequest()
 		{
 			UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
 			address.Port = CurrentRequest.Request.Port;
             
             var requestMethod = new HttpMethod(CurrentRequest.Request.RequestMethod);
-			
+
+            var sbQueryString = new StringBuilder(CurrentRequest.Request.QueryParams.Count * 20);
 			foreach (var param in CurrentRequest.Request.QueryParams)
             {
-                if (string.IsNullOrEmpty(address.Query))
-                    address.Query = string.Empty;
-                else
-                    address.Query += "&";
-                address.Query += param.ParamName + "=" + param.ParamValue;
+                if (sbQueryString.Length > 0)
+                    sbQueryString.Append('&');
+                sbQueryString.Append(param.ParamName).Append('=').Append(param.ParamValue);
             }
+            address.Query = sbQueryString.ToString();
 
             var req = new HttpRequestMessage(requestMethod, address.Uri);
             

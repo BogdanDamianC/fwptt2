@@ -21,24 +21,17 @@
  */
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.CodeDom.Compiler;
-using System.Reflection;
-using System.IO;
 using System.Linq;
 using System.ComponentModel;
-using Microsoft.CSharp;
 using fwptt.Desktop.Util;
 using fwptt.TestProject.Project;
-using fwptt.TestProject;
 
 namespace fwptt.Desktop.App.UI
 {
-	/// <summary>
-	/// Description of frmCompileAssembly.
-	/// </summary>
+    /// <summary>
+    /// Description of frmCompileAssembly.
+    /// </summary>
     public partial class frmTestDefinitionSourceCodeEditor : Form, IItemEditor<TestDefinition>
 	{
         private BindingList<string> assembliesBindingList;
@@ -141,8 +134,8 @@ namespace fwptt.Desktop.App.UI
                 txtCompileResults.Text = ex.Message;
             }
         }
+
         #endregion
 
-
-	}
+    }
 }

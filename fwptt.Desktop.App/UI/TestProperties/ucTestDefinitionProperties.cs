@@ -23,11 +23,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using fwptt.TestProject.Project;
 
@@ -63,6 +59,41 @@ namespace fwptt.Desktop.App.UI
                 bindingList.RemoveAt(lstBoxProperties.SelectedIndex);
             if (lstBoxProperties.Items.Count < 0)
                 txtPropertyName.Text = txtPropertyDefaultValue.Text = string.Empty;
+        }
+
+        private bool IsCurrentRecordEditable { get { return properties.Any() && lstBoxProperties.SelectedIndex >= 0; } }
+
+        private void lstBoxProperties_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(!IsCurrentRecordEditable)
+            {
+                txtPropertyName.Text = txtPropertyDefaultValue.Text = string.Empty;
+            }
+            else
+            {
+                var selectedItem = this.properties[lstBoxProperties.SelectedIndex];
+                txtPropertyName.Text = selectedItem.Name;
+                txtPropertyDefaultValue.Text = selectedItem.DefaultValue;
+            }
+
+        }
+
+        private void txtPropertyName_TextChanged(object sender, EventArgs e)
+        {
+            if (IsCurrentRecordEditable && txtPropertyName.Focused)
+            {
+                this.properties[lstBoxProperties.SelectedIndex].Name = txtPropertyName.Text;
+                lstBoxProperties.Refresh();
+            }
+        }
+
+        private void txtPropertyDefaultValue_TextChanged(object sender, EventArgs e)
+        {
+            if (IsCurrentRecordEditable && txtPropertyDefaultValue.Focused)
+            {
+                this.properties[lstBoxProperties.SelectedIndex].DefaultValue = txtPropertyDefaultValue.Text;
+                lstBoxProperties.Refresh(); 
+            }
         }
     }
 }
