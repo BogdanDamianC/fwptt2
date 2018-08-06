@@ -29,7 +29,7 @@ using fwptt.TestProject.Run;
 using fwptt.TestProject.Run.Data;
 using fwptt.Web.HTTP.Test.Data;
 using System.Net.Http;
-
+using System.Net;
 
 namespace fwptt.Web.HTTP.Test
 {
@@ -43,6 +43,7 @@ namespace fwptt.Web.HTTP.Test
 
 		protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
 		{
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             restClients.Clear();
             this.UserAgent = UserAgent;
             this.AcceptedContent = AcceptedContent;

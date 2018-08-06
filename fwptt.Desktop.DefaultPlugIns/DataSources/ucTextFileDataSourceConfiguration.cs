@@ -22,7 +22,7 @@ namespace fwptt.Desktop.DefaultPlugIns.DataSources
         protected override void SetCurrentData(ExtendableData data)
         {
             base.SetCurrentData(data);
-            tfDataSource = (fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource)data;
+            tfDataSource = (fwptt.Data.DefaultPlugins.DataSources.TextFileDataSource)CurrentData;
             txtFilePath.Text = tfDataSource.FilePath;
             cboDataSeparator.Items.Add(NewLineSeparator);
             cboDataSeparator.Items.Add(TabSeparator);
