@@ -40,10 +40,8 @@ namespace fwptt.Desktop.App.UI
         {
             if (string.IsNullOrWhiteSpace(MainApplication.CurrentTestProjectHost.ProjectPath))
                 this.Text = "[New Test Project]";
-            else if (MainApplication.CurrentTestProjectHost.ProjectPath.Length < 100)
+            else 
                 this.Text = MainApplication.CurrentTestProjectHost.ProjectPath;
-            else
-                this.Text = MainApplication.CurrentTestProjectHost.ProjectPath.Substring(MainApplication.CurrentTestProjectHost.ProjectPath.Length - 200);
         }
 
         protected override void OnLoad(EventArgs e)
