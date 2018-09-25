@@ -40,8 +40,10 @@ namespace fwptt.Web.HTTP.Test
         private Dictionary<string, HttpClient> restClients = new Dictionary<string, HttpClient>();
 
         private string UserAgent, AcceptedContent;
+        protected TimeSpan requestsTimeout = new TimeSpan(0, 0, 0, 0, 20000);
 
-		protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
+
+        protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
 		{
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             restClients.Clear();
@@ -64,10 +66,7 @@ namespace fwptt.Web.HTTP.Test
             }
 
             client = new HttpClient(httpClientHandler);
-            if (timelineCtrl.MiliSecondsPauseBetweenRequests > 5000)
-                client.Timeout = new TimeSpan(0, 0, 0, 0, timelineCtrl.MiliSecondsPauseBetweenRequests);
-            else
-                client.Timeout = new TimeSpan(0, 0, 0, 0, 20000);
+            client.Timeout = requestsTimeout;
             restClients[leftSide] = client;
 
             return client;
