@@ -37,39 +37,52 @@ namespace fwptt.Web.HTTP.Test
     /// Summary description for BaseTemplateExecuteClass.
     /// </summary>
     public abstract class BaseHTTPTest:BaseTest<WebRequestInfo>	{
-        private Dictionary<string, HttpClient> restClients = new Dictionary<string, HttpClient>();
+        private Dictionary<string, Tuple<HttpClientHandler, HttpClient>> restClients = new Dictionary<string, Tuple<HttpClientHandler, HttpClient>>();
 
         private string UserAgent, AcceptedContent;
-        protected TimeSpan requestsTimeout = new TimeSpan(0, 0, 0, 0, 20000);
+        protected TimeSpan requestsTimeout = new TimeSpan(0, 0, 0, 0, 120000);
 
 
         protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
 		{
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; }; //disable https checking - all certificates are accepted
             restClients.Clear();
             this.UserAgent = UserAgent;
             this.AcceptedContent = AcceptedContent;
 		}
 
-        public HttpClient GetRestClient(Uri uri)
+        private Tuple<HttpClientHandler, HttpClient> GetRestClientAndHandler(Uri uri)
         {
             string leftSide = uri.GetLeftPart(UriPartial.Authority);
-            HttpClient client;
-            if(restClients.TryGetValue(leftSide, out client))
-                return client;
+            Tuple<HttpClientHandler, HttpClient> httpClientAndHandler;
+            if (restClients.TryGetValue(leftSide, out httpClientAndHandler))
+                return httpClientAndHandler;
 
             var httpClientHandler = new HttpClientHandler();
+
             if (Proxy != null)
             {
                 httpClientHandler.Proxy = Proxy;
                 httpClientHandler.UseProxy = true;
             }
 
-            client = new HttpClient(httpClientHandler);
+            var client = new HttpClient(httpClientHandler);
             client.Timeout = requestsTimeout;
-            restClients[leftSide] = client;
+            httpClientAndHandler = new Tuple<HttpClientHandler, HttpClient>(httpClientHandler, client);
+            restClients[leftSide] = httpClientAndHandler;
 
-            return client;
+            return httpClientAndHandler;
+        }
+
+        public HttpClientHandler GetRestClientHandler(Uri uri)
+        {
+            return GetRestClientAndHandler(uri).Item1;
+        }
+
+
+        public HttpClient GetRestClient(Uri uri)
+        {
+            return GetRestClientAndHandler(uri).Item2;
         }
 
 		public System.Net.WebProxy Proxy {get; set;}
@@ -93,6 +106,7 @@ namespace fwptt.Web.HTTP.Test
             address.Query = sbQueryString.ToString();
 
             var req = new HttpRequestMessage(requestMethod, address.Uri);
+            req.Headers.Add("User-Agent", UserAgent);
             
             if(requestMethod == HttpMethod.Post && CurrentRequest.Request.PostParams.Any())
             {
@@ -107,7 +121,7 @@ namespace fwptt.Web.HTTP.Test
 
         protected async Task ExecuteRequest(HttpRequestMessage req, Func<HttpResponseMessage, bool> processResponse = null, Func<Exception, bool> onError = null)
 		{
-			CurrentRequest.StartTime = DateTime.Now;
+            CurrentRequest.StartTime = DateTime.Now;
 			onRequestStarted();
 			try
 			{
