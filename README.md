@@ -9,7 +9,7 @@ Reloading the test results after the tests have were run is still something I ha
 
 There are 2 applications that you can use
 
-1. fwptt.Desktop.App - desktop app that has a few wizzards for generating the tests and a fancyer test runner
+1. fwptt.Desktop.App - desktop app that has a few wizzards for generating the tests and a fancier test runner
 
 2. fwptt.Console.App - this is a console application that can be used to run & rerun the test runs defined with the desktop application.
 
