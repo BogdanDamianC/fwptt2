@@ -10,5 +10,6 @@ namespace fwptt.TestProject.Project.Interfaces
         ExtendableData CreateExpandableTypeInstance(string dataType, string uniqueName);
         Type GetExpandableType(string dataType, string uniqueName);
         Type GetExpandableType(ExpandableDataType dataType, string uniqueName);
+        string GetProjectRelatedFilePath(string fileName);
     }
 }

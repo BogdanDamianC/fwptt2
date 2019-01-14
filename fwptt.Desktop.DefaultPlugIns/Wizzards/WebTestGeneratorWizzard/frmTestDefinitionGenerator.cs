@@ -42,7 +42,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
     [Description("Web Test Wizzard")]
     public class frmTestDefinitionGenerator : System.Windows.Forms.Form, ITestDefinitionGeneratorWizzard
 	{
-		private System.Windows.Forms.Button btnStartRecording;
 		private System.Windows.Forms.Button btnSaveRecordingData;
 		private System.Windows.Forms.Button btnGenerateTestProgramCode;
 		private System.Windows.Forms.Button btnClearRecordedData;
@@ -52,14 +51,13 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 		private System.ComponentModel.Container components = null;
         private System.Windows.Forms.Button btnLoadAllreadyRecordedData;
         private System.Windows.Forms.TextBox txtClassName;
-		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private Button btnViewModifyRequests;
-		private ProxyHttpRecorder recorder = new ProxyHttpRecorder();
+        private RecordedTestDefinition RequestsMade = new RecordedTestDefinition();
         private TextBox txtParamsToLookFor;
         private LinkLabel linkLblHowTo;
         private System.Windows.Forms.Button btnLoadFiddlerData;
@@ -85,7 +83,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 				}
 			}
 			base.Dispose( disposing );
-			recorder.Dispose();
 		}
 
 		#region Windows Form Designer generated code
@@ -98,7 +95,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label8;
             this.txtClassName = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -109,7 +105,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.btnClearRecordedData = new System.Windows.Forms.Button();
             this.btnGenerateTestProgramCode = new System.Windows.Forms.Button();
             this.btnSaveRecordingData = new System.Windows.Forms.Button();
-            this.btnStartRecording = new System.Windows.Forms.Button();
             this.btnLoadFiddlerData = new System.Windows.Forms.Button();
             this.txtParamsToLookFor = new System.Windows.Forms.TextBox();
             this.linkLblHowTo = new System.Windows.Forms.LinkLabel();
@@ -143,17 +138,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.txtClassName.Size = new System.Drawing.Size(560, 20);
             this.txtClassName.TabIndex = 7;
             this.txtClassName.Text = "tmp_test";
-            // 
-            // label2
-            // 
-            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label2.Location = new System.Drawing.Point(8, 68);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(156, 56);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "It will open the recording window where you can record the http requests made fro" +
-    "m any browser.";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
@@ -229,7 +213,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             // btnClearRecordedData
             // 
             this.btnClearRecordedData.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnClearRecordedData.Location = new System.Drawing.Point(290, 68);
+            this.btnClearRecordedData.Location = new System.Drawing.Point(226, 66);
             this.btnClearRecordedData.Name = "btnClearRecordedData";
             this.btnClearRecordedData.Size = new System.Drawing.Size(112, 56);
             this.btnClearRecordedData.TabIndex = 4;
@@ -257,16 +241,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.btnSaveRecordingData.TabIndex = 2;
             this.btnSaveRecordingData.Text = "Save Recorded Data";
             this.btnSaveRecordingData.Click += new System.EventHandler(this.btnSaveRecordingData_Click);
-            // 
-            // btnStartRecording
-            // 
-            this.btnStartRecording.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnStartRecording.Location = new System.Drawing.Point(170, 68);
-            this.btnStartRecording.Name = "btnStartRecording";
-            this.btnStartRecording.Size = new System.Drawing.Size(114, 56);
-            this.btnStartRecording.TabIndex = 0;
-            this.btnStartRecording.Text = "Start Recording (http only - no https support)";
-            this.btnStartRecording.Click += new System.EventHandler(this.btnStartRecording_Click);
             // 
             // btnLoadFiddlerData
             // 
@@ -313,14 +287,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.txtClassName);
             this.Controls.Add(label1);
             this.Controls.Add(this.btnLoadAllreadyRecordedData);
             this.Controls.Add(this.btnClearRecordedData);
             this.Controls.Add(this.btnGenerateTestProgramCode);
             this.Controls.Add(this.btnSaveRecordingData);
-            this.Controls.Add(this.btnStartRecording);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -333,13 +305,6 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
 		}
 		#endregion
-
-		private void btnStartRecording_Click(object sender, System.EventArgs e)
-		{
-			frmDORequestsRecording tmp = new frmDORequestsRecording(recorder);
-			tmp.ShowDialog(this);
-			tmp.Dispose();
-		}
 		
 		private void btnLoadAllreadyRecordedData_Click(object sender, System.EventArgs e)
 		{
@@ -350,9 +315,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 			{
                 using (StreamReader file = File.OpenText(fileName))
                 {
-                    recorder.RequestsMade = JsonConvert.DeserializeObject<RecordedTestDefinition>(file.ReadToEnd());
+                    RequestsMade = JsonConvert.DeserializeObject<RecordedTestDefinition>(file.ReadToEnd());
                 }
-                txtClassName.Text = recorder.RequestsMade.ClassName;
+                txtClassName.Text = RequestsMade.ClassName;
 			}
 			catch(Exception ex)
 			{
@@ -363,18 +328,18 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
 		private void btnClearRecordedData_Click(object sender, System.EventArgs e)
 		{
-			recorder.RequestsMade.Requests.Clear();
+			RequestsMade.Requests.Clear();
 		}
 
         private void btnSaveRecordingData_Click(object sender, System.EventArgs e)
         {
-            recorder.RequestsMade.ClassName = txtClassName.Text;
+            RequestsMade.ClassName = txtClassName.Text;
             var destination = UI_Util.PickSaveFile(this, "JSON files (*.json)|*.json|All files (*.*)|*.*", "json");
             if (string.IsNullOrWhiteSpace(destination))
                 return;
             try
             {
-                File.WriteAllText(destination, JsonConvert.SerializeObject(recorder.RequestsMade, Newtonsoft.Json.Formatting.Indented));
+                File.WriteAllText(destination, JsonConvert.SerializeObject(RequestsMade, Newtonsoft.Json.Formatting.Indented));
             }
             catch (Exception ex)
             {
@@ -384,7 +349,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
         private void btnViewModifyRequests_Click(object sender, EventArgs e)
         {
-            using (var frm = new frmModifyRequests(recorder))
+            using (var frm = new frmModifyRequests(RequestsMade))
                 frm.ShowDialog(this);
         }
 
@@ -396,12 +361,12 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         {
             try
             {
-                recorder.RequestsMade.ClassName = txtClassName.Text.Trim();
+                RequestsMade.ClassName = txtClassName.Text.Trim();
                 string mainSiteHost = getMainSiteHost();
                 Properties = new List<TestDefinitionProperty>();
                 Properties.Add(new TestDefinitionProperty() { Name = "Site Domain", DefaultValue = mainSiteHost });
-                GeneratedTestDefinitionClassCode = TestCSharpCodeGenerator.GenerateCode(recorder.RequestsMade, mainSiteHost, GetParamsToLookFor());
-                GeneratedTestDefinitionClassName = recorder.RequestsMade.ClassName;
+                GeneratedTestDefinitionClassCode = TestCSharpCodeGenerator.GenerateCode(RequestsMade, mainSiteHost, GetParamsToLookFor());
+                GeneratedTestDefinitionClassName = RequestsMade.ClassName;
                 this.Close();
             }
             catch (Exception ex)
@@ -419,7 +384,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         private string getMainSiteHost()
         {
             var urls = (from uri in
-                            (from req in recorder.RequestsMade.Requests
+                            (from req in RequestsMade.Requests
                              select new Uri(req.URL.ToString()))
                         select uri).ToArray();
             if (urls.Length == 0)
@@ -476,7 +441,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                         }
 					}
 				}
-				recorder.RequestsMade.Requests.AddRange(from ir in importedRecords orderby ir.Item1 select ir.Item2);
+				RequestsMade.Requests.AddRange(from ir in importedRecords orderby ir.Item1 select ir.Item2);
                 if(unImportedRequests.Any())
                     throw new ApplicationException(string.Format("Errors ocurred while importing {0} records {1} Details: {1} {2}", 
                         unImportedRequests.Count, Environment.NewLine, string.Join(Environment.NewLine, unImportedRequests)));

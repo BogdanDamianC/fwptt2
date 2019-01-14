@@ -134,51 +134,6 @@ namespace fwptt.Web.HTTP.Test
             CurrentRequest.Errors.Add(ex.Message + "   -   Stack   - " + ex.StackTrace);
         }
 
-        #region Params
-        /// <summary>
-        /// Parse the string params and returns a collection wit all the params
-        /// </summary>
-        /// <param name="PostData">params in string format</param>
-        /// <returns>collection of params</returns>
-        public static List<RequestParam> ParseRequestData(string PostData)
-        {
-            if (string.IsNullOrWhiteSpace(PostData))
-                return new List<RequestParam>();
-
-            return PostData.Split('&').Select((qp) => {
-                var v = qp.Split('=');
-                return new RequestParam()
-                {
-                    ParamName = v[0].UrlEncode(),
-                    ParamValue = v.Length > 0 ? v[1].UrlDecode() : string.Empty
-                };
-            }).ToList();
-        }
-
-        /// <summary>
-        /// Creates a string from a param collection
-        /// </summary>
-        /// <param name="queryParams">collecton of the params</param>
-        /// <returns>string that contains all params</returns>
-        //public static string GetRequestQuery(List<RequestParam> queryParams)
-        //{
-        //    if(queryParams.Count == 0)
-        //        return string.Empty;
-        //    StringBuilder sb = new StringBuilder(queryParams.Count * 40);
-        //    sb.Append(queryParams[0].ParamName);
-        //    sb.Append("=");
-        //    sb.Append(queryParams[0].ParamValue);
-        //    for(int i = 1; i < queryParams.Count; i++)
-        //    {
-        //        sb.Append("&");
-        //        sb.Append(queryParams[i].ParamName);
-        //        sb.Append("=");
-        //        sb.Append(queryParams[i].ParamValue);
-        //    }
-        //    return sb.ToString();
-        //}
-        #endregion
-
 
         public override void Dispose()
         {

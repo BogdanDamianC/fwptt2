@@ -22,28 +22,21 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 using fwptt.TestProject.Run.Data;
 
 namespace fwptt.Web.HTTP.Test.Data
 {
-	[Serializable]	
+    [Serializable]	
 	public class WebRequest
 	{
-        public WebRequest()
-        {
-            QueryParams = new List<RequestParam>();
-            PostParams = new List<RequestParam>();
-        }
 		public Uri URL {get; set;}
         public int Port {get; set;}
 		public string RequestMethod {get; set;}
         public string PayloadContentType { get; set; }
-		public List<RequestParam> QueryParams {get; set;}
-        public List<RequestParam> PostParams { get; set; }
+		public List<RequestParam> QueryParams {get; set;} = new List<RequestParam>();
+        public List<RequestParam> PostParams { get; set; } = new List<RequestParam>();
         public string Payload { get; set; }
         
         
@@ -75,7 +68,7 @@ namespace fwptt.Web.HTTP.Test.Data
 					retVal.URL = new Uri(address.GetLeftPart(UriPartial.Path));
                     retVal.Port = address.Port;
 					if(!string.IsNullOrWhiteSpace(address.Query))
-                        retVal.QueryParams.AddRange(BaseHTTPTest.ParseRequestData(address.Query.Substring(1)));
+                        retVal.QueryParams.AddRange(ParseRequestData(address.Query.Substring(1)));
 					continue;
 				}
 				var httpproperty = GetHttpProperty(lineText);
@@ -90,7 +83,7 @@ namespace fwptt.Web.HTTP.Test.Data
 					retVal.Payload = lineText;
 					if(retVal.PayloadContentType == "application/x-www-form-urlencoded")
 					{
-                        retVal.PostParams.AddRange(BaseHTTPTest.ParseRequestData(retVal.Payload));
+                        retVal.PostParams.AddRange(ParseRequestData(retVal.Payload));
 					}
 					break;
 				}
@@ -112,8 +105,23 @@ namespace fwptt.Web.HTTP.Test.Data
                 return new Tuple<string, string>(httpproperty, lineText.Substring(httpproperty.Length + 1).Trim());
         	else 
         		return new Tuple<string, string>(httpproperty, lineText.Substring(httpproperty.Length + 1, endmarker - httpproperty.Length - 1).Trim());
-        }        
-        
-	}
+        }
+
+        private static List<RequestParam> ParseRequestData(string PostData)
+        {
+            if (string.IsNullOrWhiteSpace(PostData))
+                return new List<RequestParam>();
+
+            return PostData.Split('&').Select((qp) => {
+                var v = qp.Split('=');
+                return new RequestParam()
+                {
+                    ParamName = System.Web.HttpUtility.UrlDecode(v[0]),
+                    ParamValue = v.Length > 0 ? System.Web.HttpUtility.UrlDecode(v[1]) : string.Empty
+                };
+            }).ToList();
+        }
+
+    }
 }
 

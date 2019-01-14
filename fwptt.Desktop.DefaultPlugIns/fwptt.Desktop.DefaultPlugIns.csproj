@@ -74,9 +74,6 @@
     <Reference Include="DotNetZip, Version=1.13.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.13.0\lib\net40\DotNetZip.dll</HintPath>
     </Reference>
-    <Reference Include="MentalisProxy">
-      <HintPath>..\DLLs\MentalisProxy.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -153,9 +150,6 @@
     <Compile Include="TimeLine\ucTimeBasedTimeLineViewer.Designer.cs">
       <DependentUpon>ucTimeBasedTimeLineViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmDORequestsRecording.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Wizzards\WebTestGeneratorWizzard\frmModifyRequests.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,7 +159,6 @@
     <Compile Include="Wizzards\WebTestGeneratorWizzard\frmTestDefinitionGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\ProxyHttpRecorder.cs" />
     <Compile Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.cs">
       <DependentUpon>TestCSharpCodeGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -256,9 +249,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLineViewer.resx">
       <DependentUpon>ucTimeBasedTimeLineViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizzards\WebTestGeneratorWizzard\frmDORequestsRecording.resx">
-      <DependentUpon>frmDORequestsRecording.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizzards\WebTestGeneratorWizzard\frmTestDefinitionGenerator.resx">
       <DependentUpon>frmTestDefinitionGenerator.cs</DependentUpon>

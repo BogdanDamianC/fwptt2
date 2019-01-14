@@ -26,6 +26,7 @@ using System.Linq;
 using System.ComponentModel;
 using fwptt.Desktop.Util;
 using fwptt.TestProject.Project;
+using System.IO;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -37,13 +38,13 @@ namespace fwptt.Desktop.App.UI
         private BindingList<string> assembliesBindingList;
 		public frmTestDefinitionSourceCodeEditor()
 		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
 			InitializeComponent();
-			
-
-		}
+            txtCompileResults.Text = @"=======================================================================
+Open the C# File and edit it in your favorite editor or IDE.
+While this window is open it will watch and compile the file every
+time you save it.
+=======================================================================";
+        }
 
         public frmTestDefinitionSourceCodeEditor(TestDefinition testDefinition ):this()
         {
@@ -54,7 +55,6 @@ namespace fwptt.Desktop.App.UI
 
         public void OnBeforeTestProjectSave()
         {
-            btnSaveSourceCode_Click(this, EventArgs.Empty);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -73,39 +73,22 @@ namespace fwptt.Desktop.App.UI
             assembliesBindingList = new BindingList<string>(CurrentItem.Assemblies);
             lstBoxAssemplies.DataSource = assembliesBindingList;
             txtAssembly.DataBindings.Add("Text", assembliesBindingList, null);
-            txtSourceCode.Text = MainApplication.CurrentTestProjectHost.GetTestProjectDefinitionCSharpCode(CurrentItem);
+            txtFullFilePath.Text = MainApplication.CurrentTestProjectHost.GetProjectRelatedFilePath(CurrentItem.TestDefinitionFile);
             this.ucTestDefinitionProperties.SetProperties(CurrentItem.Properties);
+            timerRecompilationTrigger.Enabled = true;
         }
 
         #region Source Code Events
         private void ShowEditorCursorPosition()
         {
-            int CurrentLineStartCharindex = txtSourceCode.GetFirstCharIndexOfCurrentLine();
-            int CurrentLine = txtSourceCode.GetLineFromCharIndex(CurrentLineStartCharindex);
-            Statuslabel.Text = string.Format("Line : {0}    Column : {1}", new object[] { CurrentLine, txtSourceCode.SelectionStart - CurrentLineStartCharindex });
-        }
-
-        private void txtSourceCode_SelectionChanged(object sender, EventArgs e)
-        {
-            ShowEditorCursorPosition();
-        }
-
-
-        private void btnSaveSourceCode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                MainApplication.CurrentTestProjectHost.SaveTestProjectDefinitionCSharpCode(CurrentItem, txtSourceCode.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-            }
+            int CurrentLineStartCharindex = txtCompileResults.GetFirstCharIndexOfCurrentLine();
+            int CurrentLine = txtCompileResults.GetLineFromCharIndex(CurrentLineStartCharindex);
+            Statuslabel.Text = string.Format("Line : {0}    Column : {1}", new object[] { CurrentLine, txtCompileResults.SelectionStart - CurrentLineStartCharindex });
         }
         #endregion
 
         #region Assemblies & Code build
-		void BtnAddAssemblyClick(object sender, EventArgs e)
+        void BtnAddAssemblyClick(object sender, EventArgs e)
 		{
             if (assembliesBindingList.Any())
                 assembliesBindingList.Add("");
@@ -122,20 +105,45 @@ namespace fwptt.Desktop.App.UI
 				txtAssembly.Text = string.Empty;
         }
 
-        void BtnCompileCodeClick(object sender, EventArgs e)
+        #endregion
+
+
+        private void btnCompileCode_Click(object sender, EventArgs e)
         {
+            CompileCode();
+        }
+
+        private void CompileCode()
+        {
+            string newMsg = "=======================================================================\r\n";
+            newMsg += $"Compilation Start Time {DateTime.Now} \r\n";
             try
             {
-                MainApplication.CurrentTestProjectHost.CreateMemoryAssembly(txtSourceCode.Text, CurrentItem.Assemblies);
-                txtCompileResults.Text = "Compilation succeeded!";
+                string sourceCode = MainApplication.CurrentTestProjectHost.GetTestProjectDefinitionCSharpCode(CurrentItem);
+                MainApplication.CurrentTestProjectHost.CreateMemoryAssembly(sourceCode, CurrentItem.Assemblies);
+                newMsg += "Succeeded! \r\n";
             }
             catch (Exception ex)
             {
-                txtCompileResults.Text = ex.Message;
+                newMsg += "Failed ! \r\n" + ex.Message;
+            }
+            txtCompileResults.Text = newMsg + txtCompileResults.Text;
+        }
+
+        private DateTime lastModifiedFileTime = DateTime.MinValue;
+        private void timerRecompilationTrigger_Tick(object sender, EventArgs e)
+        {
+            var fInfo = new FileInfo(txtFullFilePath.Text);
+            if(fInfo.LastWriteTimeUtc != lastModifiedFileTime)
+            {
+                lastModifiedFileTime = fInfo.LastWriteTimeUtc;
+                CompileCode();
             }
         }
 
-        #endregion
-
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(txtFullFilePath.Text);
+        }
     }
 }

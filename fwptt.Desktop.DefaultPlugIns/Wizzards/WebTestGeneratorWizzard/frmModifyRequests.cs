@@ -22,24 +22,25 @@
 
 using System;
 using System.Windows.Forms;
+using fwptt.Web.HTTP.Test.Data;
 
 namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 {
     public partial class frmModifyRequests : Form
     {
-        private ProxyHttpRecorder recorder;
+        private RecordedTestDefinition RequestsMade;
 
-        public frmModifyRequests(ProxyHttpRecorder recorder)
+        public frmModifyRequests(RecordedTestDefinition RequestsMade)
         {
             InitializeComponent();
-            this.recorder = recorder;
+            this.RequestsMade = RequestsMade;
         }
 
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             requestBindingSource.PositionChanged += new EventHandler(SelectedRequest_Changed);
-            requestBindingSource.DataSource = recorder.RequestsMade.Requests;
+            requestBindingSource.DataSource = RequestsMade.Requests;
         }
 
         private void SelectedRequest_Changed(object sender, EventArgs e)

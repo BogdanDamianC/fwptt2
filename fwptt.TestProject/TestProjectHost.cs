@@ -82,7 +82,7 @@ namespace fwptt.TestProject
             };
         }
 
-        private string GetProjectRelatedFilePath(string fileName)
+        public string GetProjectRelatedFilePath(string fileName)
         {
             var projectFileInfo = new FileInfo(ProjectPath);
             return projectFileInfo.DirectoryName + Path.DirectorySeparatorChar + fileName;

@@ -48,18 +48,13 @@ namespace fwptt.TestProject.Run
         public event Action<IRequestInfo> RequestEnded;
 
         public RI CurrentRequest { get; protected set; }
-        public IRequestInfo GetCurrentRequest()
-        {
-            return CurrentRequest;
-        }
+        public IRequestInfo GetCurrentRequest() => CurrentRequest;
 
         protected async Task<bool> InitializeCurrentRequest()
         {
             CurrentRequest = new RI();
-            if (CancelCurrentRunIteration)
-                return false;
             await Task.Delay(timelineCtrl.MiliSecondsPauseBetweenRequests).ConfigureAwait(false);
-            return !CancelCurrentRunIteration;
+            return !CancelCurrentRunIteration && timelineCtrl.IsRunning;
         }
 
         protected void onRequestStarted()

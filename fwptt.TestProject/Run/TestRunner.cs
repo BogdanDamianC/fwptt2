@@ -59,13 +59,23 @@ namespace fwptt.TestProject.Run
 			runnerRequestEndedEventhandler = new Action<IRequestInfo>(TestRunner_RequestEnded);
 		}
 
+        private void SetThreadPoolMinThreads()
+        {
+            int minWorker, minIOC;
+            System.Threading.ThreadPool.GetMinThreads(out minWorker, out minIOC);
+            minWorker = Math.Max(minWorker, (int)timelineCtrl.MaxExecutionThreads);
+            minIOC = Math.Max(minIOC, (int)timelineCtrl.MaxExecutionThreads);
+            System.Threading.ThreadPool.SetMinThreads(minWorker, minIOC);
+        }
+
 		public void StartTests()
 		{
             inactiveTestInstancesPool = new System.Collections.Concurrent.ConcurrentQueue<IBaseTest>();
             TestRunStarted?.Invoke(this);
             onRequestStarted = new List<Action<IRequestInfo>>();
             onRequestEnded = new List<Action<IRequestInfo>>();
-			timelineCtrl.StartTimeLine();
+            SetThreadPoolMinThreads();
+            timelineCtrl.StartTimeLine();
             foreach (var plugin in Plugins)
             {
                 plugin.OnTestStarted?.Invoke();
@@ -85,7 +95,7 @@ namespace fwptt.TestProject.Run
             {
                 TryStartNewExecutionThread();
                 if (timelineCtrl.CurrentExecutionThreads == timelineCtrl.MaxExecutionThreads)
-                    delayInBetweenChecks = 2000; //no need use the CPU too much the test ended should deal with most of the restarts
+                    delayInBetweenChecks = 1000; //no need use the CPU too much the test ended should deal with most of the restarts
                 await Task.Delay(delayInBetweenChecks).ConfigureAwait(false);
             } while (timelineCtrl.IsRunning);
         }

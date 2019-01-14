@@ -42,6 +42,7 @@ namespace fwptt.TestProject.Project
             Assemblies.Add("System.Net.dll");
             Assemblies.Add("System.Net.Http.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationStartupPathIdentifier + "fwptt.TestProject.dll");
+            Assemblies.Add(TestProjectDefinition.ApplicationStartupPathIdentifier + "Newtonsoft.Json.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationPluginPathIdentifier + "RestSharp.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationPluginPathIdentifier + "CsQuery.dll");
             Assemblies.Add(TestProjectDefinition.ApplicationPluginPathIdentifier + "fwptt.Web.HTTP.Test.dll");

@@ -1,14 +1,17 @@
 {
   "TestDefinitions": [
     {
-      "Id": "e835d1a2-3437-4470-b4bb-6d8e8a0c112e",
+      "Id": "c540fe26-464c-4c59-9077-d15b0f1b54a4",
       "TestDefinitionFile": "Fiddler_Local_signInand_json_api_calls.cs",
       "Assemblies": [
         "System.dll",
         "System.Data.dll",
         "System.Xml.dll",
         "System.Core.dll",
+        "System.Net.dll",
+        "System.Net.Http.dll",
         "[fwptt_application_startuppath]fwptt.TestProject.dll",
+        "[fwptt_application_startuppath]Newtonsoft.Json.dll",
         "[fwptt_application_pluginpath]RestSharp.dll",
         "[fwptt_application_pluginpath]CsQuery.dll",
         "[fwptt_application_pluginpath]fwptt.Web.HTTP.Test.dll"
@@ -25,9 +28,9 @@
   "TestDataSources": [],
   "TestRunDefinitions": [
     {
-      "Id": "f2507a6b-e86b-41de-a316-f4a23aa6a921",
-      "Name": "my first test",
-      "TestDefinitionId": "e835d1a2-3437-4470-b4bb-6d8e8a0c112e",
+      "Id": "9251b88f-84d9-4edd-8999-430292e7729a",
+      "Name": "simple test",
+      "TestDefinitionId": "c540fe26-464c-4c59-9077-d15b0f1b54a4",
       "TestDefinitionOverridedPropertyValues": [],
       "TestDataSourceId": null,
       "TimeLine": {
@@ -50,54 +53,5 @@
       ]
     }
   ],
-  "TestRunsResults": [
-    {
-      "Name": "my first test5/19/2015 7:26:59 PM",
-      "TestRunDefinition": {
-        "Id": "f2507a6b-e86b-41de-a316-f4a23aa6a921",
-        "Name": "my first test",
-        "TestDefinitionId": "e835d1a2-3437-4470-b4bb-6d8e8a0c112e",
-        "TestDefinitionOverridedPropertyValues": [],
-        "TestDataSourceId": null,
-        "TimeLine": {
-          "MaxSteps": 1,
-          "UniqueName": "fwptt -> Default -> Stepping TimeLine",
-          "DataType": "Configuration"
-        },
-        "RunPlugins": [
-          {
-            "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
-            "DataType": "Configuration"
-          },
-          {
-            "UniqueName": "fwptt -> Default -> Plugins -> ResultsViewer",
-            "DataType": "Configuration",
-            "MaxResponseSizeRecorded": 2000,
-            "MaxNumberOfRequestsRecorded": 100,
-            "RefreshInterval": 5
-          }
-        ]
-      },
-      "RunTestDefinitionProperties": [
-        {
-          "Name": "Site Domain",
-          "TestDefinitionPropertyId": "00000000-0000-0000-0000-000000000000",
-          "Value": "http://localhost"
-        }
-      ],
-      "StartTime": "0001-01-01T00:00:00",
-      "EndTime": "0001-01-01T00:00:00",
-      "PluginsResults": [
-        {
-          "UniqueName": "fwptt -> Default -> Plugins -> RequestCounter",
-          "DataType": "TestRun",
-          "TestRunCounts": [],
-          "OverallCounts": {
-            "NoOfRequests": 0,
-            "NoOfErrors": 0
-          }
-        }
-      ]
-    }
-  ]
+  "TestRunsResults": []
 }

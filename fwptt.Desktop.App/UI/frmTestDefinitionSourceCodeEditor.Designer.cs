@@ -36,19 +36,18 @@ namespace fwptt.Desktop.App.UI
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.label2 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.components = new System.ComponentModel.Container();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageCode = new System.Windows.Forms.TabPage();
-            this.txtSourceCode = new System.Windows.Forms.RichTextBox();
+            this.btnOpenFile = new System.Windows.Forms.Button();
+            this.txtFullFilePath = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnCompileCode = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtCompileResults = new System.Windows.Forms.RichTextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.Statuslabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pnlSourceCodePath = new System.Windows.Forms.Panel();
-            this.btnSaveSourceCode = new System.Windows.Forms.Button();
             this.tabPageCompile = new System.Windows.Forms.TabPage();
-            this.txtCompileResults = new System.Windows.Forms.TextBox();
-            this.pnlActionButtons = new System.Windows.Forms.Panel();
-            this.btnSaveSourceCode2 = new System.Windows.Forms.Button();
-            this.btnCompileCode = new System.Windows.Forms.Button();
             this.grpAssemblies = new System.Windows.Forms.GroupBox();
             this.lstBoxAssemplies = new System.Windows.Forms.ListBox();
             this.txtAssembly = new System.Windows.Forms.TextBox();
@@ -56,180 +55,151 @@ namespace fwptt.Desktop.App.UI
             this.btnAddAssembly = new System.Windows.Forms.Button();
             this.btnDeleteAssembly = new System.Windows.Forms.Button();
             this.tabPageProperties = new System.Windows.Forms.TabPage();
+            this.timerRecompilationTrigger = new System.Windows.Forms.Timer(this.components);
             this.ucTestDefinitionProperties = new fwptt.Desktop.App.UI.ucTestDefinitionProperties();
-            this.tabControl1.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.tabPageCode.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.pnlSourceCodePath.SuspendLayout();
             this.tabPageCompile.SuspendLayout();
-            this.pnlActionButtons.SuspendLayout();
             this.grpAssemblies.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabPageProperties.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label2
+            // tabControl
             // 
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Location = new System.Drawing.Point(4, 350);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(831, 28);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Compile Results";
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPageCode);
-            this.tabControl1.Controls.Add(this.tabPageCompile);
-            this.tabControl1.Controls.Add(this.tabPageProperties);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(847, 565);
-            this.tabControl1.TabIndex = 0;
+            this.tabControl.Controls.Add(this.tabPageCode);
+            this.tabControl.Controls.Add(this.tabPageCompile);
+            this.tabControl.Controls.Add(this.tabPageProperties);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(635, 459);
+            this.tabControl.TabIndex = 0;
             // 
             // tabPageCode
             // 
-            this.tabPageCode.Controls.Add(this.txtSourceCode);
+            this.tabPageCode.Controls.Add(this.btnOpenFile);
+            this.tabPageCode.Controls.Add(this.txtFullFilePath);
+            this.tabPageCode.Controls.Add(this.label1);
+            this.tabPageCode.Controls.Add(this.btnCompileCode);
+            this.tabPageCode.Controls.Add(this.label2);
+            this.tabPageCode.Controls.Add(this.txtCompileResults);
             this.tabPageCode.Controls.Add(this.statusStrip1);
-            this.tabPageCode.Controls.Add(this.pnlSourceCodePath);
-            this.tabPageCode.Location = new System.Drawing.Point(4, 25);
-            this.tabPageCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCode.Location = new System.Drawing.Point(4, 22);
             this.tabPageCode.Name = "tabPageCode";
-            this.tabPageCode.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPageCode.Size = new System.Drawing.Size(839, 536);
+            this.tabPageCode.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCode.Size = new System.Drawing.Size(627, 433);
             this.tabPageCode.TabIndex = 1;
             this.tabPageCode.Text = "Source Code";
             this.tabPageCode.UseVisualStyleBackColor = true;
             // 
-            // txtSourceCode
+            // btnOpenFile
             // 
-            this.txtSourceCode.AcceptsTab = true;
-            this.txtSourceCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtSourceCode.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSourceCode.HideSelection = false;
-            this.txtSourceCode.Location = new System.Drawing.Point(4, 35);
-            this.txtSourceCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 31);
-            this.txtSourceCode.Name = "txtSourceCode";
-            this.txtSourceCode.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.txtSourceCode.ShowSelectionMargin = true;
-            this.txtSourceCode.Size = new System.Drawing.Size(831, 472);
-            this.txtSourceCode.TabIndex = 1;
-            this.txtSourceCode.Text = "";
-            this.txtSourceCode.SelectionChanged += new System.EventHandler(this.txtSourceCode_SelectionChanged);
+            this.btnOpenFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenFile.Location = new System.Drawing.Point(3, 54);
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(616, 23);
+            this.btnOpenFile.TabIndex = 13;
+            this.btnOpenFile.Text = "Open  Code File";
+            this.btnOpenFile.UseVisualStyleBackColor = true;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            // 
+            // txtFullFilePath
+            // 
+            this.txtFullFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFullFilePath.Location = new System.Drawing.Point(116, 28);
+            this.txtFullFilePath.Name = "txtFullFilePath";
+            this.txtFullFilePath.ReadOnly = true;
+            this.txtFullFilePath.Size = new System.Drawing.Size(503, 20);
+            this.txtFullFilePath.TabIndex = 12;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(0, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(107, 23);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Code File Path";
+            // 
+            // btnCompileCode
+            // 
+            this.btnCompileCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCompileCode.Location = new System.Drawing.Point(116, 3);
+            this.btnCompileCode.Name = "btnCompileCode";
+            this.btnCompileCode.Size = new System.Drawing.Size(503, 23);
+            this.btnCompileCode.TabIndex = 6;
+            this.btnCompileCode.Text = "Compile Code";
+            this.btnCompileCode.UseVisualStyleBackColor = true;
+            this.btnCompileCode.Click += new System.EventHandler(this.btnCompileCode_Click);
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(0, 3);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(107, 23);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Compile Results";
+            // 
+            // txtCompileResults
+            // 
+            this.txtCompileResults.AcceptsTab = true;
+            this.txtCompileResults.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCompileResults.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCompileResults.HideSelection = false;
+            this.txtCompileResults.Location = new System.Drawing.Point(0, 83);
+            this.txtCompileResults.Margin = new System.Windows.Forms.Padding(3, 3, 3, 25);
+            this.txtCompileResults.Name = "txtCompileResults";
+            this.txtCompileResults.ReadOnly = true;
+            this.txtCompileResults.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
+            this.txtCompileResults.ShowSelectionMargin = true;
+            this.txtCompileResults.Size = new System.Drawing.Size(624, 322);
+            this.txtCompileResults.TabIndex = 1;
+            this.txtCompileResults.Text = "";
             // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Statuslabel});
-            this.statusStrip1.Location = new System.Drawing.Point(4, 507);
+            this.statusStrip1.Location = new System.Drawing.Point(3, 408);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(831, 25);
+            this.statusStrip1.Size = new System.Drawing.Size(621, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // Statuslabel
             // 
             this.Statuslabel.Name = "Statuslabel";
-            this.Statuslabel.Size = new System.Drawing.Size(110, 20);
+            this.Statuslabel.Size = new System.Drawing.Size(87, 17);
             this.Statuslabel.Text = "The Statuslabel";
-            // 
-            // pnlSourceCodePath
-            // 
-            this.pnlSourceCodePath.BackColor = System.Drawing.Color.Transparent;
-            this.pnlSourceCodePath.Controls.Add(this.btnSaveSourceCode);
-            this.pnlSourceCodePath.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSourceCodePath.Location = new System.Drawing.Point(4, 4);
-            this.pnlSourceCodePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pnlSourceCodePath.Name = "pnlSourceCodePath";
-            this.pnlSourceCodePath.Size = new System.Drawing.Size(831, 31);
-            this.pnlSourceCodePath.TabIndex = 0;
-            // 
-            // btnSaveSourceCode
-            // 
-            this.btnSaveSourceCode.Location = new System.Drawing.Point(4, 1);
-            this.btnSaveSourceCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSaveSourceCode.Name = "btnSaveSourceCode";
-            this.btnSaveSourceCode.Size = new System.Drawing.Size(279, 28);
-            this.btnSaveSourceCode.TabIndex = 2;
-            this.btnSaveSourceCode.Text = "Save C# Source Code ";
-            this.btnSaveSourceCode.UseVisualStyleBackColor = true;
-            this.btnSaveSourceCode.Click += new System.EventHandler(this.btnSaveSourceCode_Click);
             // 
             // tabPageCompile
             // 
-            this.tabPageCompile.Controls.Add(this.txtCompileResults);
-            this.tabPageCompile.Controls.Add(this.label2);
-            this.tabPageCompile.Controls.Add(this.pnlActionButtons);
             this.tabPageCompile.Controls.Add(this.grpAssemblies);
-            this.tabPageCompile.Location = new System.Drawing.Point(4, 25);
-            this.tabPageCompile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageCompile.Location = new System.Drawing.Point(4, 22);
             this.tabPageCompile.Name = "tabPageCompile";
-            this.tabPageCompile.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPageCompile.Size = new System.Drawing.Size(839, 536);
+            this.tabPageCompile.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageCompile.Size = new System.Drawing.Size(627, 433);
             this.tabPageCompile.TabIndex = 0;
-            this.tabPageCompile.Text = "Compile";
+            this.tabPageCompile.Text = "Compile Configuration";
             this.tabPageCompile.UseVisualStyleBackColor = true;
-            // 
-            // txtCompileResults
-            // 
-            this.txtCompileResults.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtCompileResults.Location = new System.Drawing.Point(4, 378);
-            this.txtCompileResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtCompileResults.Multiline = true;
-            this.txtCompileResults.Name = "txtCompileResults";
-            this.txtCompileResults.Size = new System.Drawing.Size(831, 154);
-            this.txtCompileResults.TabIndex = 7;
-            // 
-            // pnlActionButtons
-            // 
-            this.pnlActionButtons.Controls.Add(this.btnSaveSourceCode2);
-            this.pnlActionButtons.Controls.Add(this.btnCompileCode);
-            this.pnlActionButtons.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlActionButtons.Location = new System.Drawing.Point(4, 314);
-            this.pnlActionButtons.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pnlActionButtons.Name = "pnlActionButtons";
-            this.pnlActionButtons.Size = new System.Drawing.Size(831, 36);
-            this.pnlActionButtons.TabIndex = 8;
-            // 
-            // btnSaveSourceCode2
-            // 
-            this.btnSaveSourceCode2.Location = new System.Drawing.Point(180, 4);
-            this.btnSaveSourceCode2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSaveSourceCode2.Name = "btnSaveSourceCode2";
-            this.btnSaveSourceCode2.Size = new System.Drawing.Size(279, 28);
-            this.btnSaveSourceCode2.TabIndex = 7;
-            this.btnSaveSourceCode2.Text = "Save C# Source Code ";
-            this.btnSaveSourceCode2.UseVisualStyleBackColor = true;
-            this.btnSaveSourceCode2.Click += new System.EventHandler(this.btnSaveSourceCode_Click);
-            // 
-            // btnCompileCode
-            // 
-            this.btnCompileCode.Location = new System.Drawing.Point(4, 4);
-            this.btnCompileCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnCompileCode.Name = "btnCompileCode";
-            this.btnCompileCode.Size = new System.Drawing.Size(163, 28);
-            this.btnCompileCode.TabIndex = 6;
-            this.btnCompileCode.Text = "Compile Code";
-            this.btnCompileCode.UseVisualStyleBackColor = true;
-            this.btnCompileCode.Click += new System.EventHandler(this.BtnCompileCodeClick);
             // 
             // grpAssemblies
             // 
             this.grpAssemblies.Controls.Add(this.lstBoxAssemplies);
             this.grpAssemblies.Controls.Add(this.txtAssembly);
             this.grpAssemblies.Controls.Add(this.tableLayoutPanel1);
-            this.grpAssemblies.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grpAssemblies.Location = new System.Drawing.Point(4, 4);
-            this.grpAssemblies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpAssemblies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpAssemblies.Location = new System.Drawing.Point(3, 3);
             this.grpAssemblies.Name = "grpAssemblies";
-            this.grpAssemblies.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpAssemblies.Size = new System.Drawing.Size(831, 310);
+            this.grpAssemblies.Size = new System.Drawing.Size(621, 427);
             this.grpAssemblies.TabIndex = 5;
             this.grpAssemblies.TabStop = false;
             this.grpAssemblies.Text = "Assemblies";
@@ -238,20 +208,17 @@ namespace fwptt.Desktop.App.UI
             // 
             this.lstBoxAssemplies.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstBoxAssemplies.FormattingEnabled = true;
-            this.lstBoxAssemplies.ItemHeight = 16;
-            this.lstBoxAssemplies.Location = new System.Drawing.Point(4, 77);
-            this.lstBoxAssemplies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lstBoxAssemplies.Location = new System.Drawing.Point(3, 65);
             this.lstBoxAssemplies.Name = "lstBoxAssemplies";
-            this.lstBoxAssemplies.Size = new System.Drawing.Size(823, 229);
+            this.lstBoxAssemplies.Size = new System.Drawing.Size(615, 359);
             this.lstBoxAssemplies.TabIndex = 0;
             // 
             // txtAssembly
             // 
             this.txtAssembly.Dock = System.Windows.Forms.DockStyle.Top;
-            this.txtAssembly.Location = new System.Drawing.Point(4, 55);
-            this.txtAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAssembly.Location = new System.Drawing.Point(3, 45);
             this.txtAssembly.Name = "txtAssembly";
-            this.txtAssembly.Size = new System.Drawing.Size(823, 22);
+            this.txtAssembly.Size = new System.Drawing.Size(615, 20);
             this.txtAssembly.TabIndex = 1;
             // 
             // tableLayoutPanel1
@@ -262,20 +229,18 @@ namespace fwptt.Desktop.App.UI
             this.tableLayoutPanel1.Controls.Add(this.btnAddAssembly, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnDeleteAssembly, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 19);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(823, 36);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(615, 29);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // btnAddAssembly
             // 
-            this.btnAddAssembly.Location = new System.Drawing.Point(4, 4);
-            this.btnAddAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddAssembly.Location = new System.Drawing.Point(3, 3);
             this.btnAddAssembly.Name = "btnAddAssembly";
-            this.btnAddAssembly.Size = new System.Drawing.Size(164, 28);
+            this.btnAddAssembly.Size = new System.Drawing.Size(123, 23);
             this.btnAddAssembly.TabIndex = 2;
             this.btnAddAssembly.Text = "Add";
             this.btnAddAssembly.UseVisualStyleBackColor = true;
@@ -283,10 +248,9 @@ namespace fwptt.Desktop.App.UI
             // 
             // btnDeleteAssembly
             // 
-            this.btnDeleteAssembly.Location = new System.Drawing.Point(176, 4);
-            this.btnDeleteAssembly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDeleteAssembly.Location = new System.Drawing.Point(132, 3);
             this.btnDeleteAssembly.Name = "btnDeleteAssembly";
-            this.btnDeleteAssembly.Size = new System.Drawing.Size(164, 28);
+            this.btnDeleteAssembly.Size = new System.Drawing.Size(123, 23);
             this.btnDeleteAssembly.TabIndex = 3;
             this.btnDeleteAssembly.Text = "Delete";
             this.btnDeleteAssembly.UseVisualStyleBackColor = true;
@@ -295,42 +259,42 @@ namespace fwptt.Desktop.App.UI
             // tabPageProperties
             // 
             this.tabPageProperties.Controls.Add(this.ucTestDefinitionProperties);
-            this.tabPageProperties.Location = new System.Drawing.Point(4, 25);
-            this.tabPageProperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageProperties.Location = new System.Drawing.Point(4, 22);
             this.tabPageProperties.Name = "tabPageProperties";
-            this.tabPageProperties.Size = new System.Drawing.Size(839, 536);
+            this.tabPageProperties.Size = new System.Drawing.Size(627, 433);
             this.tabPageProperties.TabIndex = 2;
             this.tabPageProperties.Text = "Properties";
             this.tabPageProperties.UseVisualStyleBackColor = true;
+            // 
+            // timerRecompilationTrigger
+            // 
+            this.timerRecompilationTrigger.Interval = 500;
+            this.timerRecompilationTrigger.Tick += new System.EventHandler(this.timerRecompilationTrigger_Tick);
             // 
             // ucTestDefinitionProperties
             // 
             this.ucTestDefinitionProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ucTestDefinitionProperties.Location = new System.Drawing.Point(0, 0);
-            this.ucTestDefinitionProperties.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ucTestDefinitionProperties.Margin = new System.Windows.Forms.Padding(4);
             this.ucTestDefinitionProperties.Name = "ucTestDefinitionProperties";
-            this.ucTestDefinitionProperties.Size = new System.Drawing.Size(839, 536);
+            this.ucTestDefinitionProperties.Size = new System.Drawing.Size(627, 433);
             this.ucTestDefinitionProperties.TabIndex = 0;
             // 
             // frmTestDefinitionSourceCodeEditor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(847, 565);
-            this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ClientSize = new System.Drawing.Size(635, 459);
+            this.Controls.Add(this.tabControl);
             this.Name = "frmTestDefinitionSourceCodeEditor";
             this.Text = "Compile Assembly";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.tabPageCode.ResumeLayout(false);
             this.tabPageCode.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.pnlSourceCodePath.ResumeLayout(false);
             this.tabPageCompile.ResumeLayout(false);
-            this.tabPageCompile.PerformLayout();
-            this.pnlActionButtons.ResumeLayout(false);
             this.grpAssemblies.ResumeLayout(false);
             this.grpAssemblies.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -338,26 +302,25 @@ namespace fwptt.Desktop.App.UI
             this.ResumeLayout(false);
 
         }
-		private System.Windows.Forms.Button btnCompileCode;
-		private System.Windows.Forms.Panel pnlActionButtons;
-		private System.Windows.Forms.TextBox txtCompileResults;
 		private System.Windows.Forms.Button btnDeleteAssembly;
 		private System.Windows.Forms.Button btnAddAssembly;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private System.Windows.Forms.TextBox txtAssembly;
 		private System.Windows.Forms.ListBox lstBoxAssemplies;
         private System.Windows.Forms.GroupBox grpAssemblies;
-		private System.Windows.Forms.Panel pnlSourceCodePath;
 		private System.Windows.Forms.TabPage tabPageCode;
 		private System.Windows.Forms.TabPage tabPageCompile;
-		private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.RichTextBox txtSourceCode;
-        private System.Windows.Forms.Button btnSaveSourceCode;
-        private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.RichTextBox txtCompileResults;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel Statuslabel;
-        private System.Windows.Forms.Button btnSaveSourceCode2;
         private System.Windows.Forms.TabPage tabPageProperties;
         private ucTestDefinitionProperties ucTestDefinitionProperties;
-	}
+        private System.Windows.Forms.Button btnCompileCode;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtFullFilePath;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer timerRecompilationTrigger;
+        private System.Windows.Forms.Button btnOpenFile;
+    }
 }

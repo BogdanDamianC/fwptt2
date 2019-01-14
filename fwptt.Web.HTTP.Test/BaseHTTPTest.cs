@@ -160,27 +160,6 @@ namespace fwptt.Web.HTTP.Test
 			CurrentRequest.Errors.Add(ex.Message + "   -   Stack   - " + ex.StackTrace);
 		}
 
-		#region Params
-		/// <summary>
-		/// Parse the string params and returns a collection wit all the params
-		/// </summary>
-		/// <param name="PostData">params in string format</param>
-		/// <returns>collection of params</returns>
-		public static List<RequestParam> ParseRequestData(string PostData)
-		{
-			if(string.IsNullOrWhiteSpace(PostData))
-				return new List<RequestParam>();
-			
-			return PostData.Split('&').Select((qp)=>{
-													var v = qp.Split('=');
-													return new RequestParam(){ 
-														ParamName = System.Web.HttpUtility.UrlEncode(v[0]),
-														ParamValue= v.Length > 0? System.Web.HttpUtility.UrlEncode(v[1]):string.Empty
-													};
-										   }).ToList();
-		}
-		#endregion
-
 		
 		public override void Dispose()
 		{
