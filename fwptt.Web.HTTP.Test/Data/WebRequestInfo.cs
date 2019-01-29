@@ -24,7 +24,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using fwptt.TestProject.Run.Data;
 
 namespace fwptt.Web.HTTP.Test.Data
@@ -35,10 +34,29 @@ namespace fwptt.Web.HTTP.Test.Data
         {
             this.Request = new WebRequest();
         }
-        public Int32 ResponseCode { get; set; }
-        public override string ResponseToString()
+        public int ResponseCode { get; set; }
+        public override string ResponseToString() => Response;
+
+        public override void RecordException(Exception ex, string testRunRecordInfo)
         {
-            return Response;
+            StringBuilder errorMessage = new StringBuilder();
+            errorMessage.Append('[').Append(Request.RequestMethod).Append("] - ").Append(Request.URL);
+            errorMessage.Append("[testRunRecordInfo: ").Append(testRunRecordInfo ?? "nothing").Append(']');
+            RecordRequestParams(errorMessage, nameof(Request.QueryParams), Request.QueryParams);
+            RecordRequestParams(errorMessage, nameof(Request.PostParams), Request.PostParams);
+            errorMessage.Append(Environment.NewLine).Append(" Error Message: ").Append(ex.Message);
+            errorMessage.Append(Environment.NewLine).Append(" Error Stack Trace: ").Append(ex.StackTrace);
+            Errors.Add(errorMessage.ToString());
+        }
+        
+        private void RecordRequestParams(StringBuilder sb, string ParamsType, IEnumerable<RequestParam> rParams)
+        {
+            if (rParams == null || !rParams.Any())
+                return;
+            sb.Append("[BEGIN - ").Append(ParamsType).Append("----------------").Append(Environment.NewLine);
+            foreach (var param in rParams)
+                sb.Append(param.ParamName).Append("    -   ").Append(param.ParamValue).Append(';').Append(Environment.NewLine);
+            sb.Append(ParamsType).Append("----END]").Append(Environment.NewLine);
         }
 
         public override string ToString()

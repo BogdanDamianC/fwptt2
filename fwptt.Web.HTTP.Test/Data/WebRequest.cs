@@ -38,8 +38,8 @@ namespace fwptt.Web.HTTP.Test.Data
 		public List<RequestParam> QueryParams {get; set;} = new List<RequestParam>();
         public List<RequestParam> PostParams { get; set; } = new List<RequestParam>();
         public string Payload { get; set; }
-        
-        
+
+        #region Fiddler Log Parsing
         private static readonly string [] httpMethods = new string[]{"GET","POST","PUT", "PATCH", "DELETE","HEAD", "CONNECT", "OPTIONS"};
         
         public static WebRequest FromFiddlerLog(string LogContent)
@@ -106,6 +106,7 @@ namespace fwptt.Web.HTTP.Test.Data
         	else 
         		return new Tuple<string, string>(httpproperty, lineText.Substring(httpproperty.Length + 1, endmarker - httpproperty.Length - 1).Trim());
         }
+        #endregion
 
         private static List<RequestParam> ParseRequestData(string PostData)
         {

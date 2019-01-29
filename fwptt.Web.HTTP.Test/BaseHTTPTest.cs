@@ -24,12 +24,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using fwptt.TestProject.Run;
-using fwptt.TestProject.Run.Data;
 using fwptt.Web.HTTP.Test.Data;
-using System.Net.Http;
-using System.Net;
 
 namespace fwptt.Web.HTTP.Test
 {
@@ -41,6 +40,7 @@ namespace fwptt.Web.HTTP.Test
 
         private string UserAgent, AcceptedContent;
         protected TimeSpan requestsTimeout = new TimeSpan(0, 0, 0, 0, 120000);
+        protected string MultipartBoundary = "__fwptt__mpb__load-test____" + new Guid().ToString();
 
 
         protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
@@ -74,53 +74,70 @@ namespace fwptt.Web.HTTP.Test
             return httpClientAndHandler;
         }
 
-        public HttpClientHandler GetRestClientHandler(Uri uri)
-        {
-            return GetRestClientAndHandler(uri).Item1;
-        }
+        public HttpClientHandler GetRestClientHandler(Uri uri) => GetRestClientAndHandler(uri).Item1;
 
 
-        public HttpClient GetRestClient(Uri uri)
-        {
-            return GetRestClientAndHandler(uri).Item2;
-        }
+        public HttpClient GetRestClient(Uri uri) => GetRestClientAndHandler(uri).Item2;
 
 		public System.Net.WebProxy Proxy {get; set;}
-		
-				
-		#region Util HTTP request/Response processing functions
-		protected HttpRequestMessage BuildRequest()
-		{
-			UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
-			address.Port = CurrentRequest.Request.Port;
-            
-            var requestMethod = new HttpMethod(CurrentRequest.Request.RequestMethod);
 
-            var sbQueryString = new StringBuilder(CurrentRequest.Request.QueryParams.Count * 20);
-			foreach (var param in CurrentRequest.Request.QueryParams)
-            {
-                if (sbQueryString.Length > 0)
-                    sbQueryString.Append('&');
-                sbQueryString.Append(param.ParamName).Append('=').Append(param.ParamValue);
-            }
-            address.Query = sbQueryString.ToString();
 
-            var req = new HttpRequestMessage(requestMethod, address.Uri);
-            req.Headers.Add("User-Agent", UserAgent);
-            
-            if(requestMethod == HttpMethod.Post && CurrentRequest.Request.PostParams.Any())
+        #region Util HTTP request/Response processing functions
+        protected HttpRequestMessage BuildRequest()
+        {
+            try
             {
-                req.Content = new FormUrlEncodedContent(CurrentRequest.Request.PostParams.Select(p=>new KeyValuePair<string, string>(p.ParamName, p.ParamValue)));
+                UriBuilder address = new UriBuilder(CurrentRequest.Request.URL);
+                address.Port = CurrentRequest.Request.Port;
+
+                var requestMethod = new HttpMethod(CurrentRequest.Request.RequestMethod);
+
+                var sbQueryString = new StringBuilder(CurrentRequest.Request.QueryParams.Count * 20);
+                foreach (var param in CurrentRequest.Request.QueryParams)
+                {
+                    if (sbQueryString.Length > 0)
+                        sbQueryString.Append('&');
+                    sbQueryString.Append(param.ParamName).Append('=').Append(param.ParamValue);
+                }
+                address.Query = sbQueryString.ToString();
+
+                var req = new HttpRequestMessage(requestMethod, address.Uri);
+                req.Headers.Add("User-Agent", UserAgent);
+
+                if (requestMethod == HttpMethod.Post && CurrentRequest.Request.PostParams.Any())
+                {
+                    if (CurrentRequest.Request.PayloadContentType == "application/x-www-form-urlencoded")
+                        req.Content = new FormUrlEncodedContent(CurrentRequest.Request.PostParams.Select(p => new KeyValuePair<string, string>(p.ParamName, p.ParamValue)));
+                    else
+                    {
+                        var content = new MultipartFormDataContent(MultipartBoundary);
+                        foreach (var postParam in CurrentRequest.Request.PostParams)
+                            if(postParam.ParamName != null)
+                                content.Add(new StringContent(postParam.ParamValue ?? string.Empty), postParam.ParamName);
+                        req.Content = content;
+                    }
+                }
+                else if (requestMethod != HttpMethod.Get && !string.IsNullOrEmpty(CurrentRequest.Request.Payload))
+                {
+                    req.Content = new StringContent(CurrentRequest.Request.Payload, Encoding.UTF8, CurrentRequest.Request.PayloadContentType);
+                }
+                return req;
             }
-            else if (requestMethod != HttpMethod.Get && !string.IsNullOrEmpty(CurrentRequest.Request.Payload))
+            catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
             {
-                req.Content = new StringContent(CurrentRequest.Request.Payload, Encoding.UTF8, CurrentRequest.Request.PayloadContentType);
+                throw;
             }
-			return req;
-		}
+            catch (Exception ex)
+            {
+                handleRequestError(ex, null);
+                return null;
+            }
+        }
 
         protected async Task ExecuteRequest(HttpRequestMessage req, Func<HttpResponseMessage, bool> processResponse = null, Func<Exception, bool> onError = null)
 		{
+            if (req == null)
+                return;
             CurrentRequest.StartTime = DateTime.Now;
 			onRequestStarted();
 			try
@@ -141,29 +158,23 @@ namespace fwptt.Web.HTTP.Test
 				throw;
 			}
 			catch (Exception ex)
-			{
-				CurrentRequest.EndTime = DateTime.Now;
-				SetException(ex);
-				onRequestEnded();
-				if(onError != null)
-					this.CancelCurrentRunIteration |= onError(ex);
-				else
-					this.CancelCurrentRunIteration = true;
-				return;
-			}
-		}
+            {
+                handleRequestError(ex, onError);
+                return;
+            }
+        }
 
-		#endregion
+        private void handleRequestError(Exception ex, Func<Exception, bool> onError)
+        {
+            CurrentRequest.EndTime = DateTime.Now;
+            CurrentRequest.RecordException(ex, testRunRecord.ToString());
+            onRequestEnded();
+            if (onError != null)
+                this.CancelCurrentRunIteration |= onError(ex);
+            else
+                this.CancelCurrentRunIteration = true;
+        }
 
-		protected void SetException(Exception ex)
-		{
-			CurrentRequest.Errors.Add(ex.Message + "   -   Stack   - " + ex.StackTrace);
-		}
-
-		
-		public override void Dispose()
-		{
-			base.Dispose();
-		}
-	}
+        #endregion
+    }
 }

@@ -34,6 +34,7 @@
             this.txtRefreshTime = new System.Windows.Forms.NumericUpDown();
             this.txtMaxNumberOfRequests = new System.Windows.Forms.TextBox();
             this.txtMaxResponseSize = new System.Windows.Forms.TextBox();
+            this.chkRecordErrorsOnly = new System.Windows.Forms.CheckBox();
             label2 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             lblNumberOfThreads = new System.Windows.Forms.Label();
@@ -102,10 +103,21 @@
             this.txtMaxResponseSize.TabIndex = 24;
             this.txtMaxResponseSize.Text = "1000";
             // 
+            // chkRecordErrorsOnly
+            // 
+            this.chkRecordErrorsOnly.AutoSize = true;
+            this.chkRecordErrorsOnly.Location = new System.Drawing.Point(464, 26);
+            this.chkRecordErrorsOnly.Name = "chkRecordErrorsOnly";
+            this.chkRecordErrorsOnly.Size = new System.Drawing.Size(115, 17);
+            this.chkRecordErrorsOnly.TabIndex = 30;
+            this.chkRecordErrorsOnly.Text = "Record Errors Only";
+            this.chkRecordErrorsOnly.UseVisualStyleBackColor = true;
+            // 
             // ucRequestViewerConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkRecordErrorsOnly);
             this.Controls.Add(this.txtRefreshTime);
             this.Controls.Add(label2);
             this.Controls.Add(this.txtMaxNumberOfRequests);
@@ -125,5 +137,6 @@
         private System.Windows.Forms.NumericUpDown txtRefreshTime;
         private System.Windows.Forms.TextBox txtMaxNumberOfRequests;
         private System.Windows.Forms.TextBox txtMaxResponseSize;
+        private System.Windows.Forms.CheckBox chkRecordErrorsOnly;
     }
 }

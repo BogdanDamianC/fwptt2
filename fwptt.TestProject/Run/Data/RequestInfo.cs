@@ -21,9 +21,7 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 
 namespace fwptt.TestProject.Run.Data
@@ -40,6 +38,7 @@ namespace fwptt.TestProject.Run.Data
         IRequestInfo Clone();
         string ResponseToString();
         Dictionary<string, ulong> Counts { get; }
+        void RecordException(Exception ex, string testRunRecordInfo);
     }
 
 	[Serializable]	
@@ -67,10 +66,9 @@ namespace fwptt.TestProject.Run.Data
                 Counts.Add(key, value);
         }
 
-        public IRequestInfo Clone()
-        {
-            return (IRequestInfo)this.MemberwiseClone();
-        }
+        public IRequestInfo Clone() => (IRequestInfo)this.MemberwiseClone();
+
+        public abstract void RecordException(Exception ex, string testRunRecordInfo);
     }
 }
 

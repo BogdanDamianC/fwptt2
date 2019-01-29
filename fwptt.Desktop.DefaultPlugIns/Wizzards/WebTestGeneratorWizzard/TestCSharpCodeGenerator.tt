@@ -23,6 +23,17 @@ namespace IETests
 		string <#= string.Join(",", usedParams) #>;
 		<#}#>
 
+		private string getValue(string content, string start, string end)
+        {
+            var psStartIndex = content.IndexOf(start);
+            if (psStartIndex < 0)
+                throw new ApplicationException("could not find" + start);
+            var psEndIndex = content.IndexOf(end, psStartIndex);
+            if (psEndIndex < 0)
+                throw new ApplicationException("could not find end" + end + " for start " + start);
+            return content.Substring(psStartIndex + start.Length, psEndIndex - psStartIndex - start.Length);
+        }
+
 		<# for(int index = 0; index < TestDefinition.Requests.Count; index++) 
 		{
 			var request = TestDefinition.Requests[index];

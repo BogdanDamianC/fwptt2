@@ -29,6 +29,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             if (((ResultsViewerConfiguration)CurrentData).RefreshInterval < 1)
                 ((ResultsViewerConfiguration)CurrentData).RefreshInterval = 1;
             txtRefreshTime.DataBindings.Add("Value", CurrentData, "RefreshInterval");
+            this.chkRecordErrorsOnly.DataBindings.Add("Checked", CurrentData, "RecordErrorsOnly");
         }
     }
 }

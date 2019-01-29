@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 using fwptt.TestProject.Run.Data;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Data.DefaultPlugins.ResultsViewer;
@@ -273,9 +274,14 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         private void RefreshData()
         {
-            var currentQueuedRequests = queuedRequests;
+            List<IRequestInfo> currentQueuedRequests = queuedRequests;
             lock (this)
             {
+                currentQueuedRequests = queuedRequests;
+                if(Configuration.RecordErrorsOnly)
+                    currentQueuedRequests = queuedRequests.Where(r => r.Errors != null && r.Errors.Any()).ToList();
+                else
+                    currentQueuedRequests = queuedRequests;
                 queuedRequests = new List<IRequestInfo>();
             }
             int StartRecord = 0;

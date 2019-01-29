@@ -20,11 +20,7 @@
  *
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using fwptt.TestProject.Project.Interfaces;
+using   fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
 
 namespace fwptt.Data.DefaultPlugins.ResultsViewer
@@ -37,18 +33,14 @@ namespace fwptt.Data.DefaultPlugins.ResultsViewer
         }
 
         public const string PublicName = "fwptt -> Default -> Plugins -> ResultsViewer";
-        public override string UniqueName
-        {
-            get { return PublicName; }
-        }
+        public override string UniqueName => PublicName;
 
-        public override ExpandableDataType DataType
-        {
-            get { return ExpandableDataType.Configuration; }
-        }
+        public override ExpandableDataType DataType => ExpandableDataType.Configuration;
 
         public int MaxResponseSizeRecorded { get; set; }
         public int MaxNumberOfRequestsRecorded { get; set; }
         public int RefreshInterval { get; set; }
+
+        public bool RecordErrorsOnly { get; set; }
     }
 }
