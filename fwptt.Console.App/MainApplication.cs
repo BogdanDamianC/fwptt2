@@ -43,7 +43,8 @@ namespace fwptt.Console.App
                 System.Console.WriteLine(testRunDefinitionName + " is not a valid Test Run Definition");
                 return;
             }
-            var runResults = new TestRunResults(trd, tpHost.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId));
+            var testDefinition = tpHost.Project.TestDefinitions.First(td => td.Id == trd.TestDefinitionId);
+            var runResults = new TestRunResults(trd, testDefinition);
             tpHost.Project.TestRunsResults.Add(runResults);
 
             var timeLineController = runResults.TestRunDefinition.TimeLine.GetNewController();
@@ -53,6 +54,7 @@ namespace fwptt.Console.App
                 bool testIsDone = false;
 
                 var testRunner = tpHost.GetTestRunner(runResults, timeLineController);
+                testRunner.RunningTestType = tpHost.GetRunningTestType(testDefinition);
                 testRunner.TestRunEnded += (TestProject.Run.TestRunner obj) =>
                 {
                     testIsDone = true;

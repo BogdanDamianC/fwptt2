@@ -165,29 +165,34 @@ namespace fwptt.TestProject
         }
 
         public TestRunner GetTestRunner(TestRunResults testRunResults, ITimeLineController timeLineController)
+            => new TestRunner(timeLineController
+                , testRunResults.RunTestDefinitionProperties.ToDictionary(k => k.Name, v => v.Value)
+                , GetDataSourceReader(testRunResults));
+
+        public Type GetRunningTestType(TestRunResults testRunResults) 
+            => GetRunningTestType(Project.TestDefinitions.FirstOrDefault(td => td.Id == testRunResults.TestRunDefinition.TestDefinitionId));
+
+        public Type GetRunningTestType(TestDefinition testDef)
         {
-            var testDef = Project.TestDefinitions.FirstOrDefault(td => td.Id == testRunResults.TestRunDefinition.TestDefinitionId);
             if (testDef == null)
                 throw new ApplicationException("The test definition C# code linked this test run def no longer exists, please update the test run definition before trying to run this test");
+
             Type testExecuteClass = null;
             try
             {
                 var testAsmb = CreateMemoryAssembly(testDef);
                 testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t => t.GetInterfaces().Contains(typeof(IBaseTest)));
-                
+
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Error occured while compiling the test, this test can't be run" , ex);
+                throw new ApplicationException("Error occured while compiling the test, this test can't be run", ex);
             }
             if (testExecuteClass == null)
             {
                 throw new ApplicationException("There is no class that implements the IBaseTest in the test C# code, please review the Test C# code");
             }
-
-            return new TestRunner(timeLineController, testExecuteClass
-                , testRunResults.RunTestDefinitionProperties.ToDictionary(k => k.Name, v => v.Value)
-                , GetDataSourceReader(testRunResults));
+            return testExecuteClass;
         }
 
 

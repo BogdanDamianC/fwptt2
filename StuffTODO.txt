@@ -1,6 +1,6 @@
 
 
-[In Progress] Make the test running even more generic so that it go further than http calls
+[DONE] Make the test running even more generic so that it go further than http calls
 [Partially Done] Create a console application that allows running the define tests in different mods
 [Partially Done] Skeleton Code For a console application that can be further enhanced
 [TODO] update the test definition references to use something similar to how the typescript references are done

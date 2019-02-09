@@ -40,12 +40,10 @@ namespace fwptt.Web.HTTP.Test
 
         private string UserAgent, AcceptedContent;
         protected TimeSpan requestsTimeout = new TimeSpan(0, 0, 0, 0, 120000);
-        protected string MultipartBoundary = "__fwptt__mpb__load-test____" + new Guid().ToString();
-
+        protected string MultipartBoundary = "__fwptt__mpb__load-test____" + Guid.NewGuid().ToString();
 
         protected void InitializeHttpClient(string baseUrl, string UserAgent, string AcceptedContent)
 		{
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; }; //disable https checking - all certificates are accepted
             restClients.Clear();
             this.UserAgent = UserAgent;
             this.AcceptedContent = AcceptedContent;
@@ -59,17 +57,23 @@ namespace fwptt.Web.HTTP.Test
                 return httpClientAndHandler;
 
             var httpClientHandler = new HttpClientHandler();
+            httpClientHandler.CheckCertificateRevocationList = false;
+            httpClientHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;  //disable https checking - all certificates are accepted
+            httpClientHandler.MaxRequestContentBufferSize = 10000000;
 
             if (Proxy != null)
             {
                 httpClientHandler.Proxy = Proxy;
-                httpClientHandler.UseProxy = true;
+                httpClientHandler.UseProxy = true;                
             }
 
             var client = new HttpClient(httpClientHandler);
+
+            client.DefaultRequestHeaders.ExpectContinue = false;
             client.Timeout = requestsTimeout;
             httpClientAndHandler = new Tuple<HttpClientHandler, HttpClient>(httpClientHandler, client);
             restClients[leftSide] = httpClientAndHandler;
+            client.MaxResponseContentBufferSize = 10000000;
 
             return httpClientAndHandler;
         }
@@ -114,7 +118,7 @@ namespace fwptt.Web.HTTP.Test
                         foreach (var postParam in CurrentRequest.Request.PostParams)
                             if(postParam.ParamName != null)
                                 content.Add(new StringContent(postParam.ParamValue ?? string.Empty), postParam.ParamName);
-                        req.Content = content;
+                        req.Content = content;                        
                     }
                 }
                 else if (requestMethod != HttpMethod.Get && !string.IsNullOrEmpty(CurrentRequest.Request.Payload))
@@ -135,44 +139,33 @@ namespace fwptt.Web.HTTP.Test
         }
 
         protected async Task ExecuteRequest(HttpRequestMessage req, Func<HttpResponseMessage, bool> processResponse = null, Func<Exception, bool> onError = null)
-		{
+        {
             if (req == null)
                 return;
             CurrentRequest.StartTime = DateTime.Now;
-			onRequestStarted();
-			try
-			{
+            onRequestStarted();
+            try
+            {
                 var client = this.GetRestClient(CurrentRequest.Request.URL);
                 var resp = await client.SendAsync(req).ConfigureAwait(false);
-				CurrentRequest.EndTime = DateTime.Now;
-				CurrentRequest.ResponseCode = (int)resp.StatusCode;
+                CurrentRequest.EndTime = DateTime.Now;
+                CurrentRequest.ResponseCode = (int)resp.StatusCode;
                 CurrentRequest.Response = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
-				
-				if (processResponse != null)
-					this.CancelCurrentRunIteration |= ! processResponse(resp);
-				onRequestEnded();
-				return;
-			}
-			catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
-			{
-				throw;
-			}
-			catch (Exception ex)
+
+                if (processResponse != null)
+                    this.CancelCurrentRunIteration |= !processResponse(resp);
+                onRequestEnded();
+                return;
+            }
+            catch (System.Threading.ThreadAbortException) //make sure that the exception stops the current thread
+            {
+                throw;
+            }
+            catch (Exception ex)
             {
                 handleRequestError(ex, onError);
                 return;
             }
-        }
-
-        private void handleRequestError(Exception ex, Func<Exception, bool> onError)
-        {
-            CurrentRequest.EndTime = DateTime.Now;
-            CurrentRequest.RecordException(ex, testRunRecord.ToString());
-            onRequestEnded();
-            if (onError != null)
-                this.CancelCurrentRunIteration |= onError(ex);
-            else
-                this.CancelCurrentRunIteration = true;
         }
 
         #endregion

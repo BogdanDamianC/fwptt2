@@ -39,7 +39,7 @@ namespace fwptt.TestProject.Run
 		public event Action<TestRunner> TestRunEnded;
 		public event Action<TestRunner> TestRunStarted;
 
-		private Type runningTestType;
+		public Type RunningTestType { get; set; }
 		private Action<IRequestInfo> runnerRequestStartedEventhandler;
 		private Action<IRequestInfo> runnerRequestEndedEventhandler;
         private System.Collections.Concurrent.ConcurrentQueue<IBaseTest> inactiveTestInstancesPool;
@@ -49,15 +49,15 @@ namespace fwptt.TestProject.Run
         private ITestDataSourceReader testDataSource;
         private List<Action<IRequestInfo>> onRequestStarted, onRequestEnded;
 
-		public TestRunner(ITimeLineController timeline, Type runningTestType, Dictionary<string, string> Properties, ITestDataSourceReader testDataSource)
+		public TestRunner(ITimeLineController timeline, Dictionary<string, string> Properties, ITestDataSourceReader testDataSource)
 		{
 			timelineCtrl = timeline;
             this.Properties = Properties;
             this.testDataSource = testDataSource;
-			this.runningTestType = runningTestType;
 			runnerRequestStartedEventhandler = new Action<IRequestInfo>(TestRunner_RequestStarted);
 			runnerRequestEndedEventhandler = new Action<IRequestInfo>(TestRunner_RequestEnded);
 		}
+
 
         private void SetThreadPoolMinThreads()
         {
@@ -111,7 +111,7 @@ namespace fwptt.TestProject.Run
             IBaseTest newInstance;
             if (!inactiveTestInstancesPool.TryDequeue(out newInstance))
             {
-                newInstance = (IBaseTest)Activator.CreateInstance(runningTestType, new object[] { });
+                newInstance = (IBaseTest)Activator.CreateInstance(RunningTestType, new object[] { });
                 newInstance.RequestStarted += runnerRequestStartedEventhandler;
                 newInstance.RequestEnded += runnerRequestEndedEventhandler;
             }

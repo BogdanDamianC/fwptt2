@@ -135,15 +135,16 @@ namespace fwptt.Desktop.App.UI
         {
             if (timeLineController == null || !timeLineController.IsRunning)
             {
-                btnAction.Text = "Stop";
+                testRunner.RunningTestType = MainApplication.CurrentTestProjectHost.GetRunningTestType(CurrentItem);
                 testRunner.StartTests();
-                this.CurrentItem.StartTime = DateTime.Now;
+                CurrentItem.StartTime = DateTime.Now;
+                btnAction.Text = "Stop";
             }
             else
             {
+                testRunner.StopTests();
                 btnAction.Enabled = false;
                 btnAction.Text = "Stoping";
-                testRunner.StopTests();
             }
         }
 

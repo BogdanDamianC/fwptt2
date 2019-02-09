@@ -82,6 +82,17 @@ namespace fwptt.TestProject.Run
 			await RunTest().ConfigureAwait(false);
 		}
 
+        protected void handleRequestError(Exception ex, Func<Exception, bool> onError = null)
+        {
+            CurrentRequest.EndTime = DateTime.Now;
+            CurrentRequest.RecordException(ex, testRunRecord!= null ?testRunRecord.ToString() : string.Empty);
+            onRequestEnded();
+            if (onError != null)
+                this.CancelCurrentRunIteration |= onError(ex);
+            else
+                this.CancelCurrentRunIteration = true;
+        }
+
         public virtual void Dispose()
         {
             this.timelineCtrl = null;

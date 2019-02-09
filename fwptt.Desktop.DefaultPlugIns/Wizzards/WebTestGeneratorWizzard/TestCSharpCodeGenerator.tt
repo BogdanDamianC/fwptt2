@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data;
 using System.Net;
+using System.Net.Http;
 using System.IO;
 using System.Text;
 using fwptt.TestProject.Run;
@@ -66,8 +67,8 @@ namespace IETests
 			{ #>CurrentRequest.Request.PostParams.Add(new RequestParam(@"<#=pp.ParamName #>",<#=GetPostParamValue(index, pp) #>));
 			<# }  #>
 
-			var req = BuildRequest();		
-			await ExecuteRequest(req,(resp)=>{
+			HttpRequestMessage req = BuildRequest();		
+			await ExecuteRequest(req,(HttpResponseMessage resp)=>{
 				<# if(paramsToSave[index].Length > 0) { #>
 				CQ requestDOM = CQ.Create(CurrentRequest.Response);
 				<#for(int psIndex = 0; psIndex < paramsToSave[index].Length; psIndex++){#>
