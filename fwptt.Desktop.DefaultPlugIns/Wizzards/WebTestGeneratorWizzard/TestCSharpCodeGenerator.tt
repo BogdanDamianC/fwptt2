@@ -51,9 +51,9 @@ namespace IETests
 			CurrentRequest.Request.URL = new Uri(@"<#= request.URL #>");
 			<# }  #>
 			
-			CurrentRequest.Request.Port = <#= request.Port #>;
+			CurrentRequest.Request.Port = CurrentRequest.Request.URL.Port;
 			CurrentRequest.Request.RequestMethod = @"<#= request.RequestMethod??"GET" #>";
-			<#if(request.RequestMethod == "POST" || request.RequestMethod == "PUT") { #>
+			<#if(request.RequestMethod == "POST" || request.RequestMethod == "PUT"|| request.RequestMethod == "PATCH") { #>
 			CurrentRequest.Request.PayloadContentType = @"<#= request.PayloadContentType??"application/x-www-form-urlencoded" #>";
 			<# if(request.PostParams == null || request.PostParams.Count == 0){ #>
 			CurrentRequest.Request.Payload = <#= GetQuotedValue(request.Payload) #>;
