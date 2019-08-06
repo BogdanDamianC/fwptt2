@@ -46,7 +46,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         private System.Windows.Forms.Button btnViewPage;
 
 
-        private List<IRequestInfo> queuedRequests = new List<IRequestInfo>();
+        private volatile LinkedList<IRequestInfo> queuedRequests = new LinkedList<IRequestInfo>();
         private DataGridView dgViewRequests;
         private DataGridViewTextBoxColumn Column1;
         private Button btnViewContent;
@@ -227,7 +227,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         private void TestStarted()
         {
-            queuedRequests = new List<IRequestInfo>();
+            queuedRequests = new LinkedList<IRequestInfo>();
             dgViewRequests.Rows.Clear();
             btnExportResponses.Enabled = false;
             mainTimer.Interval = Configuration.RefreshInterval * 1000;
@@ -262,7 +262,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
         {
             lock (this)
             {
-                queuedRequests.Add(rinfo);
+                queuedRequests.AddFirst(rinfo);    
             }
         }
         public Action<IRequestInfo> OnRequestEnded { get{return RequestEnded;} }
@@ -274,48 +274,60 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 
         private void RefreshData()
         {
-            List<IRequestInfo> currentQueuedRequests = queuedRequests;
+            LinkedList<IRequestInfo> currentQueuedRequests = queuedRequests;
             lock (this)
             {
-                currentQueuedRequests = queuedRequests;
-                if(Configuration.RecordErrorsOnly)
-                    currentQueuedRequests = queuedRequests.Where(r => r.Errors != null && r.Errors.Any()).ToList();
-                else
-                    currentQueuedRequests = queuedRequests;
-                queuedRequests = new List<IRequestInfo>();
+                queuedRequests = new LinkedList<IRequestInfo>();
             }
-            int StartRecord = 0;
-            if (currentQueuedRequests.Count >= Configuration.MaxNumberOfRequestsRecorded)
-            {
-                requestResultsRunData.Requests.Clear();
-                dgViewRequests.Rows.Clear();
-                StartRecord = currentQueuedRequests.Count - Configuration.MaxNumberOfRequestsRecorded;
 
-            }
-            else
-            {
-                int rowsToKeep = Configuration.MaxNumberOfRequestsRecorded - currentQueuedRequests.Count;
-                while (dgViewRequests.Rows.Count > 0 && dgViewRequests.Rows.Count > rowsToKeep)
+            if (Configuration.RecordErrorsOnly) {
+                var x = currentQueuedRequests.First;
+                while (x != null)
                 {
-                    requestResultsRunData.Requests.RemoveAt(0);
-                    dgViewRequests.Rows.RemoveAt(0);
+                    var next = x.Next;
+                    if (x.Value.Errors == null || !x.Value.Errors.Any())
+                        currentQueuedRequests.Remove(x);
+                    x = next;
                 }
             }
-            for (int i = StartRecord; i < currentQueuedRequests.Count; i++)
-            {
-                var item = new RequestInfoRunData(currentQueuedRequests[i] );;
-                requestResultsRunData.Requests.Add(item);
-                AddRequest(item);
-            }
+            UpdateDisplayedRequestData(currentQueuedRequests);
+        }
 
-            dgViewRequests.Refresh();
-            dgViewRequests.Update();
+        private void UpdateDisplayedRequestData(LinkedList<IRequestInfo> currentQueuedRequests)
+        {
+            lock (dgViewRequests)
+            {
+                int rowsToKeep = Configuration.MaxNumberOfRequestsRecorded - currentQueuedRequests.Count;
+                if (rowsToKeep <= 0)
+                {
+                    dgViewRequests.Rows.Clear();
+                    requestResultsRunData.Requests.Clear();
+                    for (int i = 0; i > rowsToKeep; i--)
+                        currentQueuedRequests.RemoveLast();
+                }
+                else
+                {
+                    if(requestResultsRunData.Requests.Count >= rowsToKeep)
+                        requestResultsRunData.Requests.RemoveRange(rowsToKeep, requestResultsRunData.Requests.Count - rowsToKeep);
+                    while (dgViewRequests.Rows.Count > rowsToKeep)
+                        dgViewRequests.Rows.RemoveAt(dgViewRequests.Rows.Count - 1);
+                }
+                foreach (var node in currentQueuedRequests)
+                {
+                    var item = new RequestInfoRunData(node); ;
+                    requestResultsRunData.Requests.Insert(0, item);
+                    AddRequest(item);
+                }
+
+                dgViewRequests.Refresh();
+                dgViewRequests.Update();
+            }
         }
 
         private void AddRequest(RequestInfoRunData item)
         {
-            var index = dgViewRequests.Rows.Add(item.Info, item.Duration);
-            dgViewRequests.Rows[index].Tag = item.RecordedResponse;
+            dgViewRequests.Rows.Insert(0, item.Info, item.Duration);
+            dgViewRequests.Rows[0].Tag = item.RecordedResponse;
         }
 
 		private void btnExportResponses_Click(object sender, System.EventArgs e)
