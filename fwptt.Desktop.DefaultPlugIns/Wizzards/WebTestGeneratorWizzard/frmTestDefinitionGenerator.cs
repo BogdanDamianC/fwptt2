@@ -26,8 +26,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Linq;
 using System.IO;
-using fwptt.Desktop.Util;
-using Ionic.Zip;
+using System.IO.Compression;
 using Newtonsoft.Json;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.Web.HTTP.Test.Data;
@@ -304,11 +303,13 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
             this.PerformLayout();
 
 		}
-		#endregion
-		
-		private void btnLoadAllreadyRecordedData_Click(object sender, System.EventArgs e)
+        #endregion
+
+
+        private void btnLoadAllreadyRecordedData_Click(object sender, System.EventArgs e)
 		{
-            var fileName = UI_Util.PickOpenFile(this, "JSON files (*.json)|*.json|All files (*.*)|*.*");
+
+            var fileName = Util.PickOpenFile(this, "JSON files (*.json)|*.json|All files (*.*)|*.*");
             if(string.IsNullOrWhiteSpace(fileName))
                 return;
 			try
@@ -334,7 +335,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
         private void btnSaveRecordingData_Click(object sender, System.EventArgs e)
         {
             RequestsMade.ClassName = txtClassName.Text;
-            var destination = UI_Util.PickSaveFile(this, "JSON files (*.json)|*.json|All files (*.*)|*.*", "json");
+            var destination = Util.PickSaveFile(this, "JSON files (*.json)|*.json|All files (*.*)|*.*", "json");
             if (string.IsNullOrWhiteSpace(destination))
                 return;
             try
@@ -349,8 +350,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
 
         private void btnViewModifyRequests_Click(object sender, EventArgs e)
         {
-            using (var frm = new frmModifyRequests(RequestsMade))
-                frm.ShowDialog(this);
+            
         }
 
         public string GeneratedTestDefinitionClassName { get; set; }
@@ -395,22 +395,18 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                     select new { ug.Key, cnt = ug.Count() }).OrderByDescending(ug => ug.cnt).First().Key;
         }
 
-        private static string GetZipRequestFileContent(ZipEntry ze)
+        private static string GetZipRequestFileContent(ZipArchiveEntry ze)
         {
-            using (var ms = new MemoryStream())
+            using (var ms = ze.Open())
+            using (var sr = new StreamReader(ms))
             {
-                ze.Extract(ms);
-                ms.Position = 0;
-                using (var sr = new StreamReader(ms))
-                {
-                    return sr.ReadToEnd();
-                }
+                return sr.ReadToEnd();
             }
         }
 
 		void BtnLoadFiddlerDataClick(object sender, EventArgs e)
 		{
-            string fileToOpen = UI_Util.PickOpenFile(this, "Fiddler files (*.saz)|*.saz|All files (*.*)|*.*");
+            string fileToOpen = Util.PickOpenFile(this, "Fiddler files (*.saz)|*.saz|All files (*.*)|*.*");
             if (string.IsNullOrWhiteSpace(fileToOpen))
                 return;
 			try
@@ -418,13 +414,13 @@ namespace fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard
                 var importedRecords = new List<Tuple<int, fwptt.Web.HTTP.Test.Data.WebRequest>>();
                 var unImportedRequests = new List<string>();
                 txtClassName.Text = TestCSharpCodeGenerator.TransformNameToCode(Path.GetFileNameWithoutExtension(fileToOpen));
-                using (ZipFile zipFile = ZipFile.Read(fileToOpen))
+                using (var zipFile = ZipFile.OpenRead(fileToOpen))
 				{
-					foreach (ZipEntry ze in zipFile)
+                    foreach (ZipArchiveEntry ze in zipFile.Entries)
 					{
 						int requestIndex;
-						if(!ze.FileName.StartsWith("raw/") || !ze.FileName.EndsWith("_c.txt")
-							   || !int.TryParse(ze.FileName.Replace("raw/","").Replace("_c.txt",""), out requestIndex))
+						if(!ze.FullName.StartsWith("raw/") || !ze.FullName.EndsWith("_c.txt")
+							   || !int.TryParse(ze.FullName.Replace("raw/","").Replace("_c.txt",""), out requestIndex))
 							continue;
                         string RequestMessage = string.Empty;
                         try

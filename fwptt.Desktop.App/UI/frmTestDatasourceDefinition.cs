@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using fwptt.Desktop.Util;
+using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
-using fwptt.TestProject;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -37,7 +32,7 @@ namespace fwptt.Desktop.App.UI
             : this()
         {
             CurrentItem = datasource;
-            setUpEditControl(MainApplication.CurrentTestProjectHost.PluginTypes.
+            setUpEditControl(MainProvider.Current.PluginTypes.
                 Single(pl => pl.ComponentType == ExpandableComponentType.DataSourceConfiguration
                 && pl.UniqueName == datasource.UniqueName));
             configControl.CurrentData = CurrentItem;
@@ -91,9 +86,7 @@ namespace fwptt.Desktop.App.UI
         {
             CurrentItem.Name = txtName.Text;
             this.Text = CurrentItem.Name;
-            var eventToCall = onNameChanged;
-            if (eventToCall != null)
-                eventToCall(this, CurrentItem);
+            onNameChanged?.Invoke(this, CurrentItem);
         }
     }
 }

@@ -143,7 +143,7 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.mainMenu;
             this.Name = "frmTestProjectDefinition";
-            this.WindowState = global::fwptt.Desktop.App.Properties.Settings.Default.DefaultStartupMode;
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.ResumeLayout(false);

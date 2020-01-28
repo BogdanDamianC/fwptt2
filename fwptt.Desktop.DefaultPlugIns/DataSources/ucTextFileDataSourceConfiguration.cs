@@ -2,7 +2,6 @@
 using System.IO;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
-using fwptt.Desktop.Util;
 using fwptt.TestProject;
 
 
@@ -40,7 +39,7 @@ namespace fwptt.Desktop.DefaultPlugIns.DataSources
 
         private void btnSelectFilePath_Click(object sender, EventArgs e)
         {
-            var newPath = UI_Util.PickOpenFile(this, "All files (*.*)|*.*");
+            var newPath = Util.PickOpenFile(this, "All files (*.*)|*.*");
             if (string.IsNullOrWhiteSpace(newPath))
                 return;
 

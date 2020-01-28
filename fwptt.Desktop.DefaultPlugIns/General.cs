@@ -20,17 +20,43 @@
  *
  */
 
-using System;
+using System.Windows.Forms;
 
 namespace fwptt.Desktop.DefaultPlugIns
 {
-	public enum TestStatuses {NotRunning = 0, Running = 1, Stopped = 2};
+    public enum TestStatuses {NotRunning = 0, Running = 1, Stopped = 2};
     public static class Util
     {
         public const string BaseUniqueName = "fwptt.Desktop.DefaultPlugIns";
         public static string GetUniqueName(string pluginName)
         {
             return BaseUniqueName + "  -   " + pluginName;
+        }
+
+        internal static string PickOpenFile(IWin32Window owner, string filter)
+        {
+            using (var sf = new OpenFileDialog())
+            {
+                sf.Filter = filter;
+                if (sf.ShowDialog(owner) == DialogResult.OK)
+                    return sf.FileName;
+                else
+                    return null;
+            }
+        }
+
+        internal static string PickSaveFile(IWin32Window owner, string filter, string DefaultExt)
+        {
+            using (var sf = new SaveFileDialog())
+            {
+                sf.Filter = filter;
+                sf.DefaultExt = DefaultExt;
+                sf.CheckPathExists = true;
+                if (sf.ShowDialog(owner) == DialogResult.OK)
+                    return sf.FileName;
+                else
+                    return null;
+            }
         }
     }
 }

@@ -101,10 +101,7 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn3;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn4;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn7;
-            System.Windows.Forms.DataGridTextBoxColumn dataGridTextBoxColumn6;
+
             this.btnExportResponses = new System.Windows.Forms.Button();
             this.btnViewPage = new System.Windows.Forms.Button();
             this.mainTimer = new System.Timers.Timer();
@@ -112,37 +109,9 @@ namespace fwptt.Desktop.DefaultPlugIns.Plugin.ResultsViewer
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnViewContent = new System.Windows.Forms.Button();
-            dataGridTextBoxColumn3 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn4 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn7 = new System.Windows.Forms.DataGridTextBoxColumn();
-            dataGridTextBoxColumn6 = new System.Windows.Forms.DataGridTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.mainTimer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewRequests)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dataGridTextBoxColumn3
-            // 
-            dataGridTextBoxColumn3.Format = "";
-            dataGridTextBoxColumn3.FormatInfo = null;
-            dataGridTextBoxColumn3.Width = -1;
-            // 
-            // dataGridTextBoxColumn4
-            // 
-            dataGridTextBoxColumn4.Format = "";
-            dataGridTextBoxColumn4.FormatInfo = null;
-            dataGridTextBoxColumn4.Width = -1;
-            // 
-            // dataGridTextBoxColumn7
-            // 
-            dataGridTextBoxColumn7.Format = "";
-            dataGridTextBoxColumn7.FormatInfo = null;
-            dataGridTextBoxColumn7.Width = -1;
-            // 
-            // dataGridTextBoxColumn6
-            // 
-            dataGridTextBoxColumn6.Format = "";
-            dataGridTextBoxColumn6.FormatInfo = null;
-            dataGridTextBoxColumn6.Width = -1;
             // 
             // btnExportResponses
             // 

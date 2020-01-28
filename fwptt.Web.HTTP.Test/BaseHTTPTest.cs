@@ -47,7 +47,9 @@ namespace fwptt.Web.HTTP.Test
             restClients.Clear();
             this.UserAgent = UserAgent;
             this.AcceptedContent = AcceptedContent;
-		}
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.MaxServicePointIdleTime = 2000;
+        }
 
         private Tuple<HttpClientHandler, HttpClient> GetRestClientAndHandler(Uri uri)
         {
@@ -106,7 +108,7 @@ namespace fwptt.Web.HTTP.Test
                 address.Query = sbQueryString.ToString();
 
                 var req = new HttpRequestMessage(requestMethod, address.Uri);
-                req.Headers.Add("User-Agent", UserAgent);
+                req.Headers.Add("User-Agent", UserAgent);                
 
                 if (requestMethod == HttpMethod.Post && CurrentRequest.Request.PostParams.Any())
                 {

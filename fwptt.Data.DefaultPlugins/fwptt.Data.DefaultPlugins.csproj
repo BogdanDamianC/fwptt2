@@ -1,77 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DF4F6FA5-5F7C-493A-A0BB-32E449A7EC39}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>fwptt.Data.DefaultPlugins</RootNamespace>
-    <AssemblyName>fwptt.Data.DefaultPlugins</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DataSources\JSONDataSourceConfiguration.cs" />
-    <Compile Include="DataSources\TextFileDataSource.cs" />
-    <Compile Include="DataSources\TextFileDataSourceReader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestsCounter\RequestCounterConfiguration.cs" />
-    <Compile Include="RequestsCounter\RequestCounterRunData.cs" />
-    <Compile Include="RequestsCounter\TestLoadInfo.cs" />
-    <Compile Include="ResultsViewer\RequestResultsRunData.cs" />
-    <Compile Include="ResultsViewer\ResultsViewerConfiguration.cs" />
-    <Compile Include="TimeLine\SteppingTimeLine.cs" />
-    <Compile Include="TimeLine\SteppingTimeLineController.cs" />
-    <Compile Include="TimeLine\TimeBasedTimeLine.cs" />
-    <Compile Include="TimeLine\TimeBasedTimeLineController.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
-      <Project>{89a430cb-74de-4abe-b026-ac14cab47a02}</Project>
-      <Name>fwptt.TestProject</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"
-copy /Y "$(TargetDir)$(TargetFileName)" "$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn"
-</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\&quot;&#xD;&#xA;xcopy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(SolutionDir)fwptt.Console.App\$(OutDir)PlugIn\&quot;" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

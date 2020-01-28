@@ -30,7 +30,7 @@ using fwptt.TestProject.Project.Interfaces;
 using fwptt.Desktop.Util;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.TimeLine;
-
+using fwptt.TestProject;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -51,11 +51,11 @@ namespace fwptt.Desktop.App.UI
             txtTestRunName.Text = testRunDefinition.Name;
             txtTestRunName.TextChanged += txtTestRunName_TextChanged;
             if (testRunDefinition.TestDefinitionId == Guid.Empty)
-                testRunDefinition.TestDefinitionId = MainApplication.CurrentTestProjectHost.Project.TestDefinitions[0].Id;
+                testRunDefinition.TestDefinitionId = MainProvider.Current.Project.TestDefinitions[0].Id;
 
             cboTestDefinition.ValueMember = "Id";
             cboTestDefinition.DisplayMember = "TestDefinitionFile";
-            cboTestDefinition.DataSource = MainApplication.CurrentTestProjectHost.Project.TestDefinitions;
+            cboTestDefinition.DataSource = MainProvider.Current.Project.TestDefinitions;
             cboTestDefinition.SelectedValue = testRunDefinition.TestDefinitionId;
             cboTestDefinition.SelectedValueChanged += (object sender, EventArgs e) =>
             {
@@ -63,7 +63,7 @@ namespace fwptt.Desktop.App.UI
                 CurrentItem.TestDefinitionOverridedPropertyValues.Clear();
                 if (CurrentItem.TestDefinitionId != Guid.Empty)
                 {
-                    ucEditTestDefinitionValues.SetProperties(MainApplication.CurrentTestProjectHost.Project.TestDefinitions.First(td => td.Id == CurrentItem.TestDefinitionId).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
+                    ucEditTestDefinitionValues.SetProperties( MainProvider.Current.Project.TestDefinitions.First(td => td.Id == CurrentItem.TestDefinitionId).Properties, CurrentItem.TestDefinitionOverridedPropertyValues);
                 }
                 else
                 {
@@ -74,8 +74,8 @@ namespace fwptt.Desktop.App.UI
             CurrentItem = testRunDefinition;
             SetTitle();
             SetUpDataSources();
-            if (MainApplication.CurrentTestProjectHost.Project.TestDefinitions.Any())
-                ucEditTestDefinitionValues.SetProperties(MainApplication.CurrentTestProjectHost.Project.TestDefinitions.First(td => td.Id == testRunDefinition.TestDefinitionId).Properties, testRunDefinition.TestDefinitionOverridedPropertyValues);
+            if ( MainProvider.Current.Project.TestDefinitions.Any())
+                ucEditTestDefinitionValues.SetProperties( MainProvider.Current.Project.TestDefinitions.First(td => td.Id == testRunDefinition.TestDefinitionId).Properties, testRunDefinition.TestDefinitionOverridedPropertyValues);
         }
 
         private static Control CreateNewControlAndData(ExpandableSetting setting, ExtendableData data)
@@ -104,7 +104,7 @@ namespace fwptt.Desktop.App.UI
         #region Data Sources
         private void SetUpDataSources()
         {
-            var tmpds = MainApplication.CurrentTestProjectHost.Project.TestDataSources.Select(ds => new { Id = ds.Id, Name = ds.Name }).ToList();
+            var tmpds = MainProvider.Current.Project.TestDataSources.Select(ds => new { Id = ds.Id, Name = ds.Name }).ToList();
             tmpds.Insert(0, new { Id = Guid.Empty, Name = "No Data Source" });
             cboDataSource.ValueMember = "Id";
             cboDataSource.DisplayMember = "Name";
@@ -122,7 +122,7 @@ namespace fwptt.Desktop.App.UI
         #region TimeLine
         private void SetUpTimeLineConfigurationControl()
         {
-            var selectedTimelineConfiguration = MainApplication.CurrentTestProjectHost.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
+            var selectedTimelineConfiguration = MainProvider.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
                                                 && pl.UniqueName == (string)cboTimeLines.SelectedValue);
             foreach(var ctrl in grpTimeLine.Controls.Cast<Control>().Where(c => c != cboTimeLines))
             {
@@ -136,7 +136,7 @@ namespace fwptt.Desktop.App.UI
 
         private void SetUpTimeLinePlugins(TestRunDefinition trd)
         {
-            var timeLineConfigurationPlugins = (from pl in MainApplication.CurrentTestProjectHost.PluginTypes
+            var timeLineConfigurationPlugins = (from pl in MainProvider.Current.PluginTypes
                                                    where pl.ComponentType == ExpandableComponentType.TimeLineConfiguration
                                                    orderby pl.DisplayName
                                                    select pl).ToList();
@@ -177,7 +177,7 @@ namespace fwptt.Desktop.App.UI
         {
             if(trd.RunPlugins == null)
                 trd.RunPlugins = new List<ExtendableData>();
-            var dataSource = (from pl in MainApplication.CurrentTestProjectHost.PluginTypes
+            var dataSource = (from pl in MainProvider.Current.PluginTypes
                               where pl.ComponentType == ExpandableComponentType.PluginConfiguration
                               orderby pl.DisplayName
                               select new { pl.DisplayName, isChecked = trd.RunPlugins.Any(pg => pg.UniqueName == pl.UniqueName), Data = pl}).ToList();

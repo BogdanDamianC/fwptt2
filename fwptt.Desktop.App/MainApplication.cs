@@ -24,25 +24,32 @@ using System;
 using System.Windows.Forms;
 using System.IO;
 using fwptt.TestProject;
-
+using fwptt.TestProject.Project.Interfaces;
+using fwptt.TestProjectHost;
 
 namespace fwptt.Desktop.App.UI
 {
     public class MainApplication
     {
-        internal static TestProjectHost CurrentTestProjectHost;
+        internal static CurrentUserContextData CurrentUserContextData;
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
-            CurrentTestProjectHost = new TestProjectHost(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
-            MainProvider.Current = CurrentTestProjectHost;
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            CurrentUserContextData = new CurrentUserContextData();
+            CurrentUserContextData.Load();
+           MainProvider.Current = new DefaultHost(Application.StartupPath, Path.Combine(Application.StartupPath, "PlugIn"));
             if (args.Length > 0)
-                CurrentTestProjectHost.LoadProject(args[0]);
+               MainProvider.Current.LoadProject(args[0]);
             Application.Run(new frmTestProjectDefinition());
+            CurrentUserContextData.Save();
         }
 	}
 }

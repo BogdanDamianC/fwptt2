@@ -21,22 +21,13 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using fwptt.TestProject.Project.Interfaces;
 
 namespace fwptt.TestProject.Project.Data
 {
     public class ExtendableDataJSONConverter : JsonCreationConverter<ExtendableData>
     {
         protected override ExtendableData Create(Type objectType, JObject jObject)
-        {
-            return MainProvider.Current.CreateExpandableTypeInstance(jObject.Value<string>("DataType"), jObject.Value<string>("UniqueName"));
-        }
+            => MainProvider.Current.CreateExpandableTypeInstance(jObject.Value<string>("DataType"), jObject.Value<string>("UniqueName"));
     }
 }

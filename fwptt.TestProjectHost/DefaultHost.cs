@@ -25,25 +25,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Reflection;
-using System.CodeDom.Compiler;
-using Microsoft.CSharp;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Run;
+using fwptt.TestProject.NET_Plumbing;
+using fwptt.TestProject;
 
-namespace fwptt.TestProject
+namespace fwptt.TestProjectHost
 {
-    public class TestProjectHost:IDisposable, ITestProjectHost
+    public class DefaultHost : IDisposable, ITestProjectHost
     {
         private string ApplicationStartupPath;
         private string PluginsPath;
 
         public Type[] TestDefinitionGeneratorWizzardTypes { get; private set; }
-        public ExpandableSetting[] PluginTypes { get; private set; }
-        private Dictionary<string, Type> expandableData = new Dictionary<string, Type>();
+        public IEnumerable<ExpandableSetting> PluginTypes { get; private set; }
+        private readonly Dictionary<string, Type> expandableData = new Dictionary<string, Type>();
 
-        public TestProjectHost(string ApplicationStartupPath, string PluginsPath)
+        public DefaultHost(string ApplicationStartupPath, string PluginsPath)
         {
             this.ApplicationStartupPath = ApplicationStartupPath;
             this.PluginsPath = PluginsPath;
@@ -51,7 +51,7 @@ namespace fwptt.TestProject
             NewProject();
         }
 
-        public TestProjectDefinition Project { get; set; }
+        public TestProjectDefinition Project { get; private set; }
         public string ProjectPath { get; set; }
 
         public void NewProject()
@@ -85,25 +85,25 @@ namespace fwptt.TestProject
         public string GetProjectRelatedFilePath(string fileName)
         {
             var projectFileInfo = new FileInfo(ProjectPath);
-            return projectFileInfo.DirectoryName + Path.DirectorySeparatorChar + fileName;
+            return Path.Combine(projectFileInfo.DirectoryName ,fileName);
         }
 
-        public TestDefinition AddTestProjectDefinitionCSharpCode(string fileName, string GeneratedTestDefinitionClassCode)
+        public TestDefinition AddTestProjectDefinitionCSharpCode(string fileName, string CSharpCode)
         {
-            SaveTestProjectDefinitionCSharpCode(fileName, GeneratedTestDefinitionClassCode);
+            SaveTestProjectDefinitionCSharpCode(fileName, CSharpCode);
             var newTD = new TestDefinition(fileName);
             Project.TestDefinitions.Add(newTD);
             return newTD;
         }
 
-        public void SaveTestProjectDefinitionCSharpCode(string fileName, string GeneratedTestDefinitionClassCode)
+        public void SaveTestProjectDefinitionCSharpCode(string fileName, string CSharpCode)
         {
-            File.WriteAllText(GetProjectRelatedFilePath(fileName), GeneratedTestDefinitionClassCode);
+            File.WriteAllText(GetProjectRelatedFilePath(fileName), CSharpCode);
         }
 
-        public void SaveTestProjectDefinitionCSharpCode(TestDefinition testDef, string GeneratedTestDefinitionClassCode)
+        public void SaveTestProjectDefinitionCSharpCode(TestDefinition testDef, string CSharpCode)
         {
-            SaveTestProjectDefinitionCSharpCode(testDef.TestDefinitionFile, GeneratedTestDefinitionClassCode);
+            SaveTestProjectDefinitionCSharpCode(testDef.TestDefinitionFile, CSharpCode);
         }
 
         public string GetTestProjectDefinitionCSharpCode(TestDefinition testDef)
@@ -121,47 +121,27 @@ namespace fwptt.TestProject
             return newTR;
         }
 
-        public System.Reflection.Assembly CreateMemoryAssembly(TestDefinition td)
+        public MemoryStream CreateMemoryAssembly(TestDefinition td)
         {
             return CreateMemoryAssembly(GetTestProjectDefinitionCSharpCode(td), td.Assemblies);
         }
 
-        public System.Reflection.Assembly CreateMemoryAssembly(string sourceCode, List<string> Assemblies)
+        public MemoryStream CreateMemoryAssembly(string sourceCode, IEnumerable<string> Assemblies)
         {
             if (sourceCode.Trim().Length == 0)
                 throw new ApplicationException("There is no C# code for this test!");
 
-            KeyValuePair<string, string>[] referencePaths = GetReferencePaths();
+            throw new ApplicationException("TODO-CreateMemoryAssembly");
+            /*
+             * KeyValuePair<string, string>[] referencePaths = GetReferencePaths();
             string[] referenceAssemblies = new string[Assemblies.Count];
             for (int i = 0; i < referenceAssemblies.Length; i++)
             {
                 referenceAssemblies[i] = Assemblies[i];
                 foreach (var refPath in referencePaths)
                     referenceAssemblies[i] = referenceAssemblies[i].Replace(refPath.Key, refPath.Value);
-            }
-
-            // disable once SuggestUseVarKeywordEvident
-            var myCompilerParameters = new CompilerParameters(referenceAssemblies);
-            myCompilerParameters.GenerateExecutable = false;
-            myCompilerParameters.GenerateInMemory = true;
-            
-
-            var myCodeProvider = new CSharpCodeProvider(new Dictionary<string, string> { { "CompilerVersion", "v4.0" } });
-            CompilerResults cr = myCodeProvider.CompileAssemblyFromSource(myCompilerParameters, new string[] { sourceCode });
-            if (cr.Errors.Count > 0)
-            {
-                System.Text.StringBuilder sb = new System.Text.StringBuilder();
-                foreach (CompilerError err in cr.Errors)
-                {
-                    sb.Append(err);
-                    sb.Append(Environment.NewLine);
-                }
-                throw new ApplicationException("CompilationError => " + Environment.NewLine + sb.ToString());
-            }
-            else
-            {
-                return cr.CompiledAssembly;
-            }
+            }*/
+            return CSharpCodeCompiler.CreateMemoryAssembly(sourceCode, Assemblies);
         }
 
         public TestRunner GetTestRunner(TestRunResults testRunResults, ITimeLineController timeLineController)
@@ -180,9 +160,12 @@ namespace fwptt.TestProject
             Type testExecuteClass = null;
             try
             {
-                var testAsmb = CreateMemoryAssembly(testDef);
-                testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t => t.GetInterfaces().Contains(typeof(IBaseTest)));
-
+                var execContext = new LoadRunnerAssemblyLoadContext();
+                using (var memAsmStream = CreateMemoryAssembly(testDef))
+                {
+                    var testAsmb = execContext.LoadFromStream(memAsmStream);
+                    testExecuteClass = testAsmb.GetTypes().FirstOrDefault(t => t.GetInterfaces().Contains(typeof(IBaseTest)));
+                }
             }
             catch (Exception ex)
             {
@@ -293,10 +276,20 @@ namespace fwptt.TestProject
                 testDefinitionGeneratorWizzardTypes.Add(possiblePluginType);
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                PluginTypes = null;
+                loadedAssemblies = null;
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            }
+        }
+
         public void Dispose()
         {
-            loadedAssemblies = null;
-            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
    

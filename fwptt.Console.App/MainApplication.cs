@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using fwptt.TestProject;
+using fwptt.TestProjectHost;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
@@ -15,8 +16,8 @@ namespace fwptt.Console.App
 
         static void Main(string[] args)
         {
-            var tpHost = new TestProjectHost(Directory.GetCurrentDirectory(), Path.Combine(Directory.GetCurrentDirectory(), "PlugIn"));
-            MainProvider.Current = tpHost;
+            var tpHost = new DefaultHost(Directory.GetCurrentDirectory(), Path.Combine(Directory.GetCurrentDirectory(), "PlugIn"));
+           MainProvider.Current = tpHost;
             if (args.Length != 3)
             {
                 System.Console.WriteLine("invalid parameters - " + args.Length + " parameters in command - please use it like this " + samplePath);
@@ -35,7 +36,7 @@ namespace fwptt.Console.App
 
         }
 
-        private static void NewTestRun(TestProjectHost tpHost, string testRunDefinitionName)
+        private static void NewTestRun(ITestProjectHost tpHost, string testRunDefinitionName)
         {
             var trd = tpHost.Project.TestRunDefinitions.FirstOrDefault(td => td.Name == testRunDefinitionName);
             if (trd == null)
@@ -82,7 +83,7 @@ namespace fwptt.Console.App
         }
 
 
-        private static void LoadPlugins(TestProjectHost tpHost, TestRunner testRunner,TestRunResults results)
+        private static void LoadPlugins(ITestProjectHost tpHost, TestRunner testRunner,TestRunResults results)
         {
             foreach (var plugin in results.TestRunDefinition.RunPlugins)
             {

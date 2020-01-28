@@ -27,6 +27,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using fwptt.Desktop.Util;
+using fwptt.TestProject;
 using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Data;
 using fwptt.TestProject.Project.Interfaces;
@@ -55,7 +56,7 @@ namespace fwptt.Desktop.App.UI
         /// </summary>
         private void LoadTestDefinitionGenerationWizzards()
         {
-            foreach (var wizzType in MainApplication.CurrentTestProjectHost.TestDefinitionGeneratorWizzardTypes)
+            foreach (var wizzType in MainProvider.Current.TestDefinitionGeneratorWizzardTypes)
             {
                 var descriptionAttr = wizzType.GetCustomAttributes(typeof(DescriptionAttribute), true);
                 string description = descriptionAttr.Length > 0 ? ((DescriptionAttribute)descriptionAttr[0]).Description : wizzType.ToString();
@@ -67,7 +68,7 @@ namespace fwptt.Desktop.App.UI
 
         private void LoadSupportedDataSourceTypes()
         {
-            foreach (var dst in MainApplication.CurrentTestProjectHost.PluginTypes.Where(pl => pl.ComponentType == ExpandableComponentType.DataSourceConfiguration))
+            foreach (var dst in MainProvider.Current.PluginTypes.Where(pl => pl.ComponentType == ExpandableComponentType.DataSourceConfiguration))
             {
                 var menuItem = new ToolStripMenuItem(dst.DisplayName) { Tag = dst };
                 menuItem.Click += tStripMenuItemNewTestDataSource_Click;
@@ -117,21 +118,21 @@ namespace fwptt.Desktop.App.UI
             tvProject.Nodes.Clear();
             testDefinitions = new TreeNode("Test Definitions");
             testDefinitions.ContextMenuStrip = ctxTestDefinition;
-            foreach (var testDefinition in MainApplication.CurrentTestProjectHost.Project.TestDefinitions)
+            foreach (var testDefinition in MainProvider.Current.Project.TestDefinitions)
                 AddTestDefinition(testDefinition);
 
             testDataSources = new TreeNode("Test Data Sources");
             testDataSources.ContextMenuStrip = ctxTestDataSource;
-            foreach (var testDataSource in MainApplication.CurrentTestProjectHost.Project.TestDataSources)
+            foreach (var testDataSource in MainProvider.Current.Project.TestDataSources)
                 AddTestDataSource(testDataSource);
 
             testRunDefinitions = new TreeNode("Test Run Definitions");
             testRunDefinitions.ContextMenuStrip = ctxTestRunDefinition;
-            foreach (var testRunDefinition in MainApplication.CurrentTestProjectHost.Project.TestRunDefinitions)
+            foreach (var testRunDefinition in MainProvider.Current.Project.TestRunDefinitions)
                 AddTestRunDefinition(testRunDefinition);
 
             testRunResults = new TreeNode("Test Run Results");
-            foreach (var testRunResult in MainApplication.CurrentTestProjectHost.Project.TestRunsResults)
+            foreach (var testRunResult in MainProvider.Current.Project.TestRunsResults)
                 AddTestRunResult(testRunResult);
 
             tvProject.Nodes.Add(testDefinitions);
@@ -217,7 +218,7 @@ namespace fwptt.Desktop.App.UI
 
         private static bool CanCreateNewItem()
         {
-            var canCreateNewItem = !string.IsNullOrWhiteSpace(MainApplication.CurrentTestProjectHost.ProjectPath);
+            var canCreateNewItem = !string.IsNullOrWhiteSpace( MainProvider.Current.ProjectPath);
             if (!canCreateNewItem)
                 MessageBox.Show("Please save the Test Project first!", "Can't create a Test Definition");
             return canCreateNewItem;
@@ -262,7 +263,7 @@ namespace fwptt.Desktop.App.UI
                     || string.IsNullOrWhiteSpace(ret.GeneratedTestDefinitionClassName))
                     return;
                 string codeFileName = ret.GeneratedTestDefinitionClassName + ".cs";
-                newTD = MainApplication.CurrentTestProjectHost.AddTestProjectDefinitionCSharpCode(codeFileName, ret.GeneratedTestDefinitionClassCode);
+                newTD = MainProvider.Current.AddTestProjectDefinitionCSharpCode(codeFileName, ret.GeneratedTestDefinitionClassCode);
                 if (ret.Properties != null && ret.Properties.Any())
                     newTD.Properties.AddRange(ret.Properties);
             }
@@ -278,7 +279,7 @@ namespace fwptt.Desktop.App.UI
             if (UI_Util.InputBox("New Test Definition", "Please enter the class name (.cs extension will be addded at the end)", ref className) != DialogResult.OK
                 || string.IsNullOrWhiteSpace(className))
                 return;
-            var newTD = MainApplication.CurrentTestProjectHost.AddTestProjectDefinitionCSharpCode(className + ".cs", string.Empty);
+            var newTD = MainProvider.Current.AddTestProjectDefinitionCSharpCode(className + ".cs", string.Empty);
             AddTestDefinition(newTD);
             TryOpenCreateItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(newTD, (td) => new frmTestDefinitionSourceCodeEditor(td));
         }
@@ -286,10 +287,10 @@ namespace fwptt.Desktop.App.UI
         private void deleteTestDefinitionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveItem<frmTestDefinitionSourceCodeEditor, TestDefinition>(sender, testRunDefinitions,
-                MainApplication.CurrentTestProjectHost.Project.TestDefinitions, TestDefininitionTreeviewSelectError,
+                MainProvider.Current.Project.TestDefinitions, TestDefininitionTreeviewSelectError,
                 (TestDefinition td) =>
                 {
-                    if (MainApplication.CurrentTestProjectHost.Project.TestRunDefinitions.Any(tr => tr.TestDefinitionId == td.Id))
+                    if ( MainProvider.Current.Project.TestRunDefinitions.Any(tr => tr.TestDefinitionId == td.Id))
                     {
                         MessageBox.Show("Can't delete the current test definition it is being used by some test runs. Please connect the existing test runs to other test definitions or delete them before trying to delete this test definition.", "Alert");
                         return false;
@@ -316,7 +317,7 @@ namespace fwptt.Desktop.App.UI
             var dst = (ExpandableSetting)((ToolStripMenuItem)sender).Tag;
             var newForm = new frmTestDatasourceDefinition(dst);
             var tnDS = this.AddTestDataSource(newForm.CurrentItem);
-            MainApplication.CurrentTestProjectHost.Project.TestDataSources.Add(newForm.CurrentItem);
+            MainProvider.Current.Project.TestDataSources.Add(newForm.CurrentItem);
             SetupAndDisplayForm<frmTestDatasourceDefinition, BaseTestDataSource>(newForm, (object tmpSnd, BaseTestDataSource eds) =>
             {
                 tnDS.Text = newForm.CurrentItem.Name;
@@ -346,10 +347,10 @@ namespace fwptt.Desktop.App.UI
         private void tStripMenuItemDeleteTestDataSource_Click(object sender, EventArgs e)
         {
             RemoveItem<frmTestDatasourceDefinition, BaseTestDataSource>(sender, testDataSources,
-                MainApplication.CurrentTestProjectHost.Project.TestDataSources, "Ooops something went wrong, could notfind the datasource anymore",
+                MainProvider.Current.Project.TestDataSources, "Ooops something went wrong, could notfind the datasource anymore",
                 (BaseTestDataSource ds) =>
                 {
-                    bool isInUse = MainApplication.CurrentTestProjectHost.Project.TestRunDefinitions.Any(trd => trd.TestDataSourceId.HasValue && trd.TestDataSourceId.Value == ds.Id);
+                    bool isInUse = MainProvider.Current.Project.TestRunDefinitions.Any(trd => trd.TestDataSourceId.HasValue && trd.TestDataSourceId.Value == ds.Id);
                     if (isInUse)
                         MessageBox.Show("Datasource is in use, please update the test Run definitions first before deleting it");
                     return !isInUse;
@@ -381,12 +382,12 @@ namespace fwptt.Desktop.App.UI
         {
             if (!CanCreateNewItem())
                 return;
-            if (!MainApplication.CurrentTestProjectHost.Project.TestDefinitions.Any())
+            if (! MainProvider.Current.Project.TestDefinitions.Any())
             {
                 MessageBox.Show(this, "Please create a Test Definition before creating a Test Run - the Test Run will be linked to a Test Definition", "Can't create a new Test Run");
                 return;
             }
-            var newTR = MainApplication.CurrentTestProjectHost.NewTestProjectDefinitionTestRun();
+            var newTR = MainProvider.Current.NewTestProjectDefinitionTestRun();
             AddTestRunDefinition(newTR);
             tryOpenCreateItemTestRunDefinition(newTR);
         }
@@ -402,13 +403,13 @@ namespace fwptt.Desktop.App.UI
         private void deleteTestRunDefinitionStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveItem<frmTestRunDefinition, TestRunDefinition>(sender, testRunDefinitions, 
-                MainApplication.CurrentTestProjectHost.Project.TestRunDefinitions, TestRunDefininitionTreeviewSelectError);
+                MainProvider.Current.Project.TestRunDefinitions, TestRunDefininitionTreeviewSelectError);
         }
 
         private void newTestRun(TestRunDefinition trd)
         {
-            var runResults = new TestRunResults(trd, MainApplication.CurrentTestProjectHost.Project.TestDefinitions.First(td=>td.Id == trd.TestDefinitionId));
-            MainApplication.CurrentTestProjectHost.Project.TestRunsResults.Add(runResults);
+            var runResults = new TestRunResults(trd, MainProvider.Current.Project.TestDefinitions.First(td=>td.Id == trd.TestDefinitionId));
+            MainProvider.Current.Project.TestRunsResults.Add(runResults);
             var treeNode = AddTestRunResult(runResults);
             TryOpenCreateItem<frmTestRun, TestRunResults>(runResults, (td) => new frmTestRun(td),
                 (object sender, TestRunResults trr) => { treeNode.Text = trr.Name; });
@@ -437,7 +438,7 @@ namespace fwptt.Desktop.App.UI
         private void tStripMenuItemDeleteTestResults_Click(object sender, EventArgs e)
         {
             RemoveItem<frmTestRun, TestRunResults>(sender, testRunResults,
-                MainApplication.CurrentTestProjectHost.Project.TestRunsResults, TestRunDefininitionTreeviewSelectError);
+                MainProvider.Current.Project.TestRunsResults, TestRunDefininitionTreeviewSelectError);
         }
     }
 }

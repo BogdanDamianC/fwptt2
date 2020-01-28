@@ -1,280 +1,42 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" xmlns:Conversion="urn:Conversion" ToolsVersion="4.0">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DAE8C2F7-FB86-41C8-B500-3662F961D987}</ProjectGuid>
-    <RootNamespace>fwptt.Desktop.DefaultPlugIns</RootNamespace>
-    <AssemblyName>fwptt.Desktop.DefaultPlugIns</AssemblyName>
-    <OutputType>Library</OutputType>
-    <ApplicationIcon>
-    </ApplicationIcon>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <NoConfig>false</NoConfig>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NoWin32Manifest>False</NoWin32Manifest>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <NoStdLib>false</NoStdLib>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>bin\Debug\</OutputPath>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <DebugType>Full</DebugType>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <NoStdLib>false</NoStdLib>
-    <WarningLevel>4</WarningLevel>
-    <DebugSymbols>false</DebugSymbols>
-    <Optimize>true</Optimize>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE</DefineConstants>
-    <OutputPath>bin\Release\</OutputPath>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-    <BaseAddress>4194304</BaseAddress>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <FileAlignment>4096</FileAlignment>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="DotNetZip, Version=1.13.3.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetZip.1.13.3\lib\net40\DotNetZip.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Simple2DChart">
-      <HintPath>..\DLLs\Simple2DChart.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
-      <Private />
-    </Reference>
-    <Reference Include="System.Data">
-      <Private />
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml">
-      <Private />
-    </Reference>
-    <Reference Include="System.Drawing">
-      <Private />
-    </Reference>
+    <PackageReference Include="Simple2DChart" Version="2.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="BaseTestRunConfigurationComponent.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DataSources\ucTextFileDataSourceConfiguration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DataSources\ucTextFileDataSourceConfiguration.Designer.cs">
-      <DependentUpon>ucTextFileDataSourceConfiguration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.Designer.cs">
-      <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Plugin\ResultsViewer\ContentViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Plugin\ResultsViewer\ContentViewer.Designer.cs">
-      <DependentUpon>ContentViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.Designer.cs">
-      <DependentUpon>ucRequestViewerConfiguration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BaseTestRunExecutionComponent.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeLine\ucSetppingTimeLineViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeLine\ucSetppingTimeLineViewer.Designer.cs">
-      <DependentUpon>ucSetppingTimeLineViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeLine\ucStepTimeLineConfiguration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeLine\ucStepTimeLineConfiguration.Designer.cs">
-      <DependentUpon>ucStepTimeLineConfiguration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeLine\ucTimeBasedTimeLineConfiguration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeLine\ucTimeBasedTimeLineConfiguration.Designer.cs">
-      <DependentUpon>ucTimeBasedTimeLineConfiguration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TimeLine\ucTimeBasedTimeLineViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TimeLine\ucTimeBasedTimeLineViewer.Designer.cs">
-      <DependentUpon>ucTimeBasedTimeLineViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmModifyRequests.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmModifyRequests.Designer.cs">
-      <DependentUpon>frmModifyRequests.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\frmTestDefinitionGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.cs">
-      <DependentUpon>TestCSharpCodeGenerator.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.mapp.cs" />
-    <Content Include="Plugin\ResultsViewer\Simple.xsl" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="General.cs" />
-    <Compile Include="Plugin\RequestsCounter\ucCounter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plugin\ResultsViewer\ucResultsViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Plugin\ResultsViewer\PageViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <ProjectReference Include="..\fwptt.Data.DefaultPlugins\fwptt.Data.DefaultPlugins.csproj" />
+    <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj" />
+    <ProjectReference Include="..\fwptt.Web.HTTP.Test\fwptt.Web.HTTP.Test.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\fwptt.Data.DefaultPlugins\fwptt.Data.DefaultPlugins.csproj">
-      <Project>{df4f6fa5-5f7c-493a-a0bb-32e449a7ec39}</Project>
-      <Name>fwptt.Data.DefaultPlugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\fwptt.Desktop.Util\fwptt.Desktop.Util.csproj">
-      <Project>{df4c994c-a662-4e6f-a1bd-282d0bcc7dc6}</Project>
-      <Name>fwptt.Desktop.Util</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\fwptt.TestProject\fwptt.TestProject.csproj">
-      <Project>{89A430CB-74DE-4ABE-B026-AC14CAB47A02}</Project>
-      <Name>fwptt.TestProject</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\fwptt.Web.HTTP.Test\fwptt.Web.HTTP.Test.csproj">
-      <Project>{d7b5afd0-5409-4cbc-9ba7-1282deaab097}</Project>
-      <Name>fwptt.Web.HTTP.Test</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="DataSources\ucTextFileDataSourceConfiguration.resx">
-      <DependentUpon>ucTextFileDataSourceConfiguration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\RequestsCounter\ucCounter.resx">
-      <DependentUpon>ucCounter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\RequestsCounter\ucRequestCounterConfiguration.resx">
-      <DependentUpon>ucRequestCounterConfiguration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\ResultsViewer\ContentViewer.resx">
-      <DependentUpon>ContentViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\ResultsViewer\PageViewer.resx">
-      <DependentUpon>PageViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\ResultsViewer\ucResultsViewer.resx">
-      <DependentUpon>ucResultsViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Plugin\ResultsViewer\ucRequestViewerConfiguration.resx">
-      <DependentUpon>ucRequestViewerConfiguration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeLine\ucSetppingTimeLineViewer.resx">
-      <DependentUpon>ucSetppingTimeLineViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeLine\ucStepTimeLineConfiguration.resx">
-      <DependentUpon>ucStepTimeLineConfiguration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLineConfiguration.resx">
-      <DependentUpon>ucTimeBasedTimeLineConfiguration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TimeLine\ucTimeBasedTimeLineViewer.resx">
-      <DependentUpon>ucTimeBasedTimeLineViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizzards\WebTestGeneratorWizzard\frmTestDefinitionGenerator.resx">
-      <DependentUpon>frmTestDefinitionGenerator.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt">
+    <None Update="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>TestCSharpCodeGenerator.cs</LastGenOutput>
       <CustomToolNamespace>fwptt.Desktop.DefaultPlugIns.Wizzards.WebTestGeneratorWizzard</CustomToolNamespace>
     </None>
   </ItemGroup>
+
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).*" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"
-copy /Y "$(TargetDir)Simple2DChart.*" "$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn"</PostBuildEvent>
-  </PropertyGroup>
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+
+  <ItemGroup>
+    <Compile Update="Wizzards\WebTestGeneratorWizzard\TestCSharpCodeGenerator.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestCSharpCodeGenerator.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /Y  &quot;$(TargetDir)$(TargetName).dll&quot; &quot;$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\&quot;&#xD;&#xA;xcopy /Y  &quot;$(TargetDir)$(TargetName).pdb&quot; &quot;$(SolutionDir)fwptt.Desktop.App\$(OutDir)PlugIn\&quot;" />
   </Target>
+
 </Project>

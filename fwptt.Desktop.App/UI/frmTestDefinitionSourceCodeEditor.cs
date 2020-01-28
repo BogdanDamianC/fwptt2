@@ -27,6 +27,7 @@ using System.ComponentModel;
 using fwptt.Desktop.Util;
 using fwptt.TestProject.Project;
 using System.IO;
+using fwptt.TestProject;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -73,7 +74,7 @@ time you save it.
             assembliesBindingList = new BindingList<string>(CurrentItem.Assemblies);
             lstBoxAssemplies.DataSource = assembliesBindingList;
             txtAssembly.DataBindings.Add("Text", assembliesBindingList, null);
-            txtFullFilePath.Text = MainApplication.CurrentTestProjectHost.GetProjectRelatedFilePath(CurrentItem.TestDefinitionFile);
+            txtFullFilePath.Text = MainProvider.Current.GetProjectRelatedFilePath(CurrentItem.TestDefinitionFile);
             this.ucTestDefinitionProperties.SetProperties(CurrentItem.Properties);
             timerRecompilationTrigger.Enabled = true;
         }
@@ -119,8 +120,8 @@ time you save it.
             newMsg += $"Compilation Start Time {DateTime.Now} \r\n";
             try
             {
-                string sourceCode = MainApplication.CurrentTestProjectHost.GetTestProjectDefinitionCSharpCode(CurrentItem);
-                MainApplication.CurrentTestProjectHost.CreateMemoryAssembly(sourceCode, CurrentItem.Assemblies);
+                string sourceCode = MainProvider.Current.GetTestProjectDefinitionCSharpCode(CurrentItem);
+                MainProvider.Current.CreateMemoryAssembly(sourceCode, CurrentItem.Assemblies);
                 newMsg += "Succeeded! \r\n";
             }
             catch (Exception ex)

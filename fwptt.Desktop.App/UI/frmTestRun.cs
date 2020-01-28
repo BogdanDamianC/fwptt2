@@ -29,6 +29,7 @@ using fwptt.TestProject.Project;
 using fwptt.TestProject.Project.Interfaces;
 using fwptt.TestProject.Run;
 using fwptt.TestProject.Project.Data;
+using fwptt.TestProject;
 
 namespace fwptt.Desktop.App.UI
 {
@@ -113,7 +114,7 @@ namespace fwptt.Desktop.App.UI
 
             try
             {
-                this.testRunner = MainApplication.CurrentTestProjectHost.GetTestRunner(CurrentItem, timeLineController);
+                this.testRunner = MainProvider.Current.GetTestRunner(CurrentItem, timeLineController);
                 this.testRunner.TestRunEnded += testRunner_TestsHaveFinished;
                 return true;
             }
@@ -135,7 +136,7 @@ namespace fwptt.Desktop.App.UI
         {
             if (timeLineController == null || !timeLineController.IsRunning)
             {
-                testRunner.RunningTestType = MainApplication.CurrentTestProjectHost.GetRunningTestType(CurrentItem);
+                testRunner.RunningTestType = MainProvider.Current.GetRunningTestType(CurrentItem);
                 testRunner.StartTests();
                 CurrentItem.StartTime = DateTime.Now;
                 btnAction.Text = "Stop";
@@ -204,14 +205,14 @@ namespace fwptt.Desktop.App.UI
 
         private void SetupPlugins()
         {
-            var tmpPluginInfo = MainApplication.CurrentTestProjectHost.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
+            var tmpPluginInfo = MainProvider.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.TimeLineViewer
                                                 && pl.UniqueName == CurrentItem.TestRunDefinition.TimeLine.UniqueName);
             var timeLine = (ITimeLinePlugIn)CreateAndAddPlugin(tmpPluginInfo, CurrentItem.TestRunDefinition.TimeLine);
             if (timeLine.OnTimelineEvent != null)
                 timeLineController.TimelineEvent += timeLine.OnTimelineEvent;
             foreach(var plugin in CurrentItem.TestRunDefinition.RunPlugins)
             {
-                tmpPluginInfo = MainApplication.CurrentTestProjectHost.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
+                tmpPluginInfo = MainProvider.Current.PluginTypes.FirstOrDefault(pl => pl.ComponentType == ExpandableComponentType.Plugin
                                                 && pl.UniqueName == plugin.UniqueName);
                 AddPlugin(tmpPluginInfo, plugin);
             }
